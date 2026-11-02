@@ -1,0 +1,11 @@
+AI-compiler
+Copyright 2026 がっちむち♂ (gatchimuchio)
+
+本リポジトリは成果物の種類ごとにライセンスを分離します。
+
+- ソースコード、コンパイラ、Runtime、ライブラリ、テスト、ツール、スクリプト、ビルド／CI／パッケージ設定その他のソフトウェア構成物：Apache License 2.0（Apache-2.0）
+- 仕様、設計、理論、技術文書、解説、図表、観測・評価・監査文書、READMEその他の説明資料：Creative Commons Attribution 4.0 International（CC-BY-4.0）
+
+これは各ファイルについてどちらでも自由に選択可能なデュアルライセンスではありません。適用範囲は`LICENSE`、正式な条件は`LICENSE-APACHE-2.0`および`LICENSE-CC-BY-4.0`を参照してください。
+
+MINIDORA、BLUE-TANUKI、D4Pocket、LLVM、GCC、CompCert等は参照先です。初期設定時点で、それらの実装コードを本リポジトリに移植したものではありません。後日第三者ソース等を取り込む際は、出典、版、ライセンス、改変内容、責任範囲を個別に明記してください。

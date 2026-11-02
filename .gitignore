@@ -1,0 +1,45 @@
+# ローカル設定・資格情報
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.secret
+*.credentials
+*.log
+
+# 開発環境・エディタ
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# 言語・ツール固有の生成物（採用言語は未決定）
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+node_modules/
+.npm/
+.pnpm-store/
+.dart_tool/
+
+# ビルド・計測・実験用の一時生成物
+/build/
+/dist/
+/out/
+/target/
+/coverage/
+/tmp/
+/temp/
+/artifacts/generated/
+/artifacts/tmp/
+/.codex-tmp/
+
+# 正本となる仕様、証拠、固定テストfixtureは必要なものだけ明示的に追跡する
