@@ -67,10 +67,14 @@ fn compile_object_with_assembler(
             Diagnostic::global("E_TOOL", format!("could not start GNU assembler: {error}"))
         })?;
     if !result.status.success() {
-        return Err(Diagnostic::global(
-            "E_TOOL",
-            format!("GNU assembler exited with {}", result.status),
-        ));
+        let stderr = String::from_utf8_lossy(&result.stderr);
+        let stderr = stderr.trim();
+        let detail = if stderr.is_empty() {
+            format!("GNU assembler exited with {}", result.status)
+        } else {
+            format!("GNU assembler exited with {}: {stderr}", result.status)
+        };
+        return Err(Diagnostic::global("E_TOOL", detail));
     }
     verify_elf64_rel_x86_64(&object_path)?;
     fs::rename(&object_path, output).map_err(|error| {
@@ -291,7 +295,11 @@ mod tests {
         let output = directory.0.join("preserved.o");
         fs::write(&output, b"previous artifact").unwrap();
         let assembler = directory.0.join("failing-as");
-        fs::write(&assembler, b"#!/bin/sh\nexit 17\n").unwrap();
+        fs::write(
+            &assembler,
+            b"#!/bin/sh\nif [ \"$1\" = \"--version\" ]; then\nprintf 'GNU assembler fixture\\n'\nexit 0\nfi\nprintf 'fixture assembler failure\\n' >&2\nexit 17\n",
+        )
+        .unwrap();
         let mut permissions = fs::metadata(&assembler).unwrap().permissions();
         permissions.set_mode(0o755);
         fs::set_permissions(&assembler, permissions).unwrap();
@@ -306,6 +314,7 @@ mod tests {
         .unwrap_err();
 
         assert_eq!(error.code, "E_TOOL");
+        assert!(error.detail.contains("fixture assembler failure"));
         assert_eq!(fs::read(&output).unwrap(), b"previous artifact");
         assert_eq!(fs::read_dir(&directory.0).unwrap().count(), 2);
     }

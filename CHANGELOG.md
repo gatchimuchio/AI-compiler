@@ -6,6 +6,7 @@
 
 - Compiler now queries `as --version` with `LC_ALL=C` and rejects tools whose first banner line does not identify GNU assembler. Exact version and absolute path remain unpinned.
 - Added a non-GNU tool rejection test that confirms an existing output stays intact. Debug/release suiteは各25 Rust unit、3 CLI、5 E2E testsで通過。
+- Failed assembler invocations now retain captured stderr in the `E_TOOL` diagnostic; the failing-tool fixture checks the reported detail and output preservation.
 
 ## 2026-11-09 — R3 temporary-output isolation
 
