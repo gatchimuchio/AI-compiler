@@ -353,3 +353,37 @@ fn loop_header_phi_with_two_backedges_matches_reference() {
     assert_eq!(actual, expected);
     assert_eq!(actual, inputs);
 }
+
+#[test]
+fn abi_probe_rejects_callee_saved_rbp_violation() {
+    let dir = TestDir::new();
+    let assembly_path = dir.path("bad-abi.s");
+    let object = dir.path("bad-abi.o");
+    fs::write(
+        &assembly_path,
+        ".text\n.globl aic_main\n.type aic_main, @function\naic_main:\n  movq $0, %rbp\n  xorq %rax, %rax\n  ret\n.size aic_main, .-aic_main\n.section .note.GNU-stack,\"\",@progbits\n",
+    )
+    .unwrap();
+    let assembled = Command::new("as")
+        .arg("--64")
+        .arg("-o")
+        .arg(&object)
+        .arg(&assembly_path)
+        .output()
+        .unwrap();
+    assert!(
+        assembled.status.success(),
+        "assembler failed: {}",
+        String::from_utf8_lossy(&assembled.stderr)
+    );
+    let executable = link_harness(&dir, &object);
+    let input_path = dir.path("input.txt");
+    fs::write(&input_path, "0\n").unwrap();
+    let result = Command::new(executable)
+        .stdin(Stdio::from(File::open(input_path).unwrap()))
+        .output()
+        .unwrap();
+
+    assert_eq!(result.status.code(), Some(2));
+    assert!(result.stdout.is_empty());
+}

@@ -9,7 +9,7 @@ aic_probe:
     pushq %r13
     pushq %r14
     pushq %r15
-    subq $24, %rsp
+    subq $40, %rsp
 
     movq %rdi, -48(%rbp)
     movq %rsi, -56(%rbp)
@@ -18,16 +18,21 @@ aic_probe:
     movq $0x3344, %r13
     movq $0x4455, %r14
     movq $0x5566, %r15
-    movq %rsp, -64(%rbp)
+    movq %rsp, (%rsp)
+    movq %rbp, 8(%rsp)
+    testq $15, %rsp
+    jne .Laic_probe_failed
 
     movq -48(%rbp), %rdi
     call aic_main
+    cmpq %rsp, (%rsp)
+    jne .Laic_probe_failed
+    cmpq 8(%rsp), %rbp
+    jne .Laic_probe_rbp_failed
     movq -56(%rbp), %r10
     movq %rax, (%r10)
 
     movl $1, %eax
-    cmpq -64(%rbp), %rsp
-    jne .Laic_probe_failed
     cmpq $0x1122, %rbx
     jne .Laic_probe_failed
     cmpq $0x2233, %r12
@@ -41,6 +46,11 @@ aic_probe:
     jmp .Laic_probe_done
 
 .Laic_probe_failed:
+    xorl %eax, %eax
+    jmp .Laic_probe_done
+
+.Laic_probe_rbp_failed:
+    movq 8(%rsp), %rbp
     xorl %eax, %eax
 .Laic_probe_done:
     leaq -40(%rbp), %rsp

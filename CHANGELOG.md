@@ -2,6 +2,11 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-09 — ABI probe edge checks
+
+- ABI probe now explicitly checks call-site 16-byte stack alignment, RSP restoration, RBP preservation, and RBX/R12–R15 preservation.
+- Added a deliberately invalid `aic_main` fixture that clobbers RBP; the probe rejects it and recovers to its caller. Debug/release suiteは各25 Rust unit、3 CLI、7 E2E testsを通過。
+
 ## 2026-11-09 — R4 multi-backedge Phi coverage
 
 - Added an object/interpreter differential test for a loop header Phi with one entry edge and two backedges. The fixture exercises both latches and compares 258 terminating inputs: `0`, `1`, and even values through `512`.
