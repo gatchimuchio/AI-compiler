@@ -39,6 +39,7 @@ fn compile_object_with_assembler(
             "supported target is x86_64-linux-gnu",
         ));
     }
+    verify_gnu_assembler(assembler)?;
     let assembly = emit_assembly(&module, &validated)?;
 
     let parent = output
@@ -78,6 +79,37 @@ fn compile_object_with_assembler(
             format!("could not atomically install output object: {error}"),
         )
     })?;
+    Ok(())
+}
+
+fn verify_gnu_assembler(assembler: &OsStr) -> Result<()> {
+    let output = Command::new(assembler)
+        .env("LC_ALL", "C")
+        .arg("--version")
+        .output()
+        .map_err(|error| {
+            Diagnostic::global(
+                "E_TOOL",
+                format!("could not query GNU assembler version: {error}"),
+            )
+        })?;
+    if !output.status.success() {
+        return Err(Diagnostic::global(
+            "E_TOOL",
+            format!("GNU assembler version query exited with {}", output.status),
+        ));
+    }
+    let banner = String::from_utf8_lossy(&output.stdout);
+    if !banner
+        .lines()
+        .next()
+        .is_some_and(|line| line.starts_with("GNU assembler"))
+    {
+        return Err(Diagnostic::global(
+            "E_TOOL",
+            "selected assembler does not identify itself as GNU assembler",
+        ));
+    }
     Ok(())
 }
 
@@ -203,6 +235,47 @@ mod tests {
         drop(temporary);
         assert!(!path.exists());
         fs::remove_dir(parent).unwrap();
+    }
+
+    #[test]
+    fn rejects_non_gnu_assembler_and_preserves_existing_output() {
+        use std::os::unix::fs::PermissionsExt;
+
+        let directory = TemporaryDirectory(std::env::temp_dir().join(format!(
+            "aic-non-gnu-as-{}-{}",
+            std::process::id(),
+            TEMP_SEQUENCE.fetch_add(1, Ordering::Relaxed)
+        )));
+        fs::create_dir(&directory.0).unwrap();
+        let output = directory.0.join("preserved.o");
+        fs::write(&output, b"previous artifact").unwrap();
+        let assembler = directory.0.join("portable-as");
+        fs::write(
+            &assembler,
+            b"#!/bin/sh\nprintf 'Portable assembler 1.0\\n'\n",
+        )
+        .unwrap();
+        let mut permissions = fs::metadata(&assembler).unwrap().permissions();
+        permissions.set_mode(0o755);
+        fs::set_permissions(&assembler, permissions).unwrap();
+        let source = b"AIC 0.2\nfn aic_main(%x: u64) -> u64 {\n^entry:\n ret.u64 %x\n}\n";
+
+        let error = compile_object_with_assembler(
+            source,
+            "x86_64-linux-gnu",
+            &output,
+            assembler.as_os_str(),
+        )
+        .unwrap_err();
+
+        assert_eq!(error.code, "E_TOOL");
+        assert!(
+            error
+                .detail
+                .contains("does not identify itself as GNU assembler")
+        );
+        assert_eq!(fs::read(&output).unwrap(), b"previous artifact");
+        assert_eq!(fs::read_dir(&directory.0).unwrap().count(), 2);
     }
 
     #[test]

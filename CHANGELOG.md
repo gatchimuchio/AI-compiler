@@ -2,6 +2,11 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-09 — GNU assembler identity check
+
+- Compiler now queries `as --version` with `LC_ALL=C` and rejects tools whose first banner line does not identify GNU assembler. Exact version and absolute path remain unpinned.
+- Added a non-GNU tool rejection test that confirms an existing output stays intact. Debug/release suiteは各25 Rust unit、3 CLI、5 E2E testsで通過。
+
 ## 2026-11-09 — R3 temporary-output isolation
 
 - Predictable temporary filenames in a shared output directory could be replaced between reservation and use. Assembly/object staging now runs in a private `0700` temporary directory, with exclusive source creation, RAII cleanup, object inspection before rename, and the previous destination preserved on failure.
