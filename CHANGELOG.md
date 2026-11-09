@@ -2,6 +2,15 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-09 — R3初期compiler slice
+
+- Owner採用済み初期範囲に沿ってRust 2024 + Cargoのcompilerを実装。AIC/0.2 parser、stable diagnostics、CFG/type/SSA/Phi validation、u64 reference interpreter、Linux x86-64/System V assembly generation、GNU asによるELF64 ET_REL作成を接続。
+- Phi edge copyはsourceをscratch slotにstage後、destinationへcommitし、loopのswap cycleを保持する。target mismatch、malformed input、unsupported operationは拒否。object検査後にoutputをinstallする。
+- C++20 test harnessとassembly ABI probeを追加。22 Rust unit、3 CLI、3 E2E testsでbranch fixtureの全u16入力とu64境界、loop/Phi-cycle fixtureの0..255、ELF header/symbol/relocation/disassembly、RBX/R12-R15とRSP、byte determinismを検査。
+- parser検査でASCII control byte、identifierの63-byte上限、malformed operation tokenとunsupported operationの区別を厳密化。CLIのunknown/duplicate optionと入力上書きも検査。
+- Rust 1.99.1、g++ 14.2.0、GNU binutils 2.44を環境で観測。debug/release各profileで22 Rust unit、3 CLI、3 E2E testsが通過。Clippy `-D warnings`、rustfmt checkも通過。ISA一次資料とELF gABI照合、形式証明、cross-target QA、β公開は未成立。
+- 統合仕様・工程表・proposal・research・施工指示書・READMEをOwner採用と現行実装状況に同期。過去のB1/B2項目はその時点では未採用だった履歴として残す。
+
 ## 2026-11-09 — B1/B2 review revision
 
 - 添付の0.3-review施工指示に沿って、既存調査へMicrosoft x64 ABIとCOFF/PE資料（固定commit・参照位置・取得hash）を追記。ISA一次資料とSystem V ELF gABIは適正な別配布の同一原典を確認できず、R1を進行中のまま記録。

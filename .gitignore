@@ -18,7 +18,7 @@ Thumbs.db
 *.swp
 *.swo
 
-# 言語・ツール固有の生成物（採用言語は未決定）
+# 言語・ツール固有の生成物（Rust compiler / C++20 test harness）
 __pycache__/
 *.pyc
 .pytest_cache/
@@ -34,6 +34,9 @@ node_modules/
 /build/
 /dist/
 /out/
+*.o
+*.obj
+*.exe
 /target/
 /coverage/
 /tmp/

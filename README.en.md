@@ -2,7 +2,7 @@
 
 **A new compiler project that translates AI-native, machine-operable text into machine instructions compatible with existing computing standards.**
 
-> **Status (2026-11-09): repository baseline complete; R1 research in progress; R2 design candidates under revision.** The ISA primary manuals and ELF gABI remain unverified, and the input and target candidates have not been adopted by the owner. No compiler implementation, build, execution, target conformance, performance gain, or product release has been demonstrated.
+> **Status (2026-11-09): the owner adopted the initial R2 scope; the R3 vertical slice is wired and local R4 QC has been observed.** R1 remains in progress because the Intel/AMD ISA primary manuals and ELF gABI have not been reviewed. Target QA and beta publication are incomplete and unapproved.
 
 [日本語正本](README.md) · [Specification (Japanese)](docs/01_統合仕様書.md) · [Roadmap (Japanese)](docs/02_工程表.md) · [Codex instructions (Japanese)](docs/03_Codex施工指示書.md) · [Agent rules](AGENTS.md)
 
@@ -12,7 +12,16 @@ AI should be able to generate and manipulate a purpose-designed textual represen
 
 **Human readability is not a mandatory property of the AI-native input representation.** The semantics must nevertheless remain unambiguous and mechanically checkable.
 
-Conventional high-level programming languages are not required as **intermediate representations of the programs being compiled**. The language used to implement the compiler itself has not yet been selected.
+Conventional high-level programming languages are not required as **intermediate representations of the programs being compiled**. The owner selected Rust 2024 + Cargo for the compiler and C++20 for the independent test harness.
+
+## Adopted initial implementation scope
+
+- Input: AIC/0.2, one `u64` argument, one `u64` result from `aic_main`. The initial operations are wrapping `u64` add/subtract, equality, CFG branches, Phi, and return.
+- Target: Linux x86-64 / System V AMD64 ABI / ELF64 ET_REL only. GNU as creates relocatable objects; linking happens only in the test harness.
+- Unsupported: memory, pointers, I/O, syscalls, globals, multiple functions, calls, exceptions, atomics/threads, floating point/vectors, and nondeterminism.
+- The initial backend uses stack slots and does not optimize for performance. Unsupported targets and operations are rejected.
+
+This adoption establishes the initial implementation scope. It does not declare standards conformance complete or approve beta publication. The ISA primary references and ELF gABI remain unverified, and test results are not generalized to every CPU or environment.
 
 ## Scope and boundaries
 
@@ -25,13 +34,29 @@ Conventional high-level programming languages are not required as **intermediate
 
 ## Evidence and release status
 
-The specification, implementation, source-code presence, verified behavior, real-hardware behavior, and product release are separate states. This repository currently contains an initial documentation baseline only. Supported platforms, exact input syntax, implementation technology, and release acceptance criteria require explicit selection.
+The specification, implementation, source-code presence, verified behavior, real-hardware behavior, and product release are separate states. The initial platform, input contract, and implementation technologies have been selected. Formal conformance evidence, QA thresholds, and release acceptance criteria remain open.
 
-## Codex kickoff
+## Current implementation and checks
 
-Codex is advancing **B1: research on existing compilers and official target standards** and **B2: a concrete, explicitly unapproved compilation-contract proposal**, as defined in [the Japanese Codex instructions, section 0](docs/03_Codex施工指示書.md). Windows x64 ABI and COFF/PE sources have been added to the comparison. The ISA primary manuals and ELF gABI remain unverified, so R1 is still in progress. The initial target, AI-native input semantics, implementation language and output-production strategy remain **undecided**; implementation that commits to them requires owner adoption. No placeholder build or CI is presented as a working compiler.
+The Rust compiler connects AIC/0.2 parsing, type/CFG/SSA/Phi validation, a reference interpreter, x86-64 assembly generation, and GNU as object creation. A C++20 harness links and executes the object. Tests compare every `u16` input and `u64` boundary cases for a branch fixture, inputs 0..255 for a loop/Phi-cycle fixture, and inspect ELF headers, symbols, relocations, disassembly, ABI register/stack state, and byte-for-byte repeat output. These are local host QC results, not full ISA/gABI review or a formal semantic-preservation proof.
 
-Work products: [compiler and standards research (Japanese)](docs/research/01_既存技術・規格調査.md) · [unadopted initial compilation contract (Japanese)](docs/proposals/01_初期変換契約案.md)
+The debug suite currently has 22 Rust unit tests, 3 CLI tests, and 3 end-to-end tests. Local checks:
+
+~~~sh
+export PATH="${HOME}/.cargo/bin:${PATH}"
+cargo test
+cargo test --release
+cargo clippy --all-targets -- -D warnings
+cargo fmt --all --check
+~~~
+
+End-to-end tests require GNU as/binutils and g++ 14 or later. The Rust toolchain is pinned in [`rust-toolchain.toml`](rust-toolchain.toml). To compile an object:
+
+~~~sh
+cargo run -- compile --target x86_64-linux-gnu examples/branch_phi.aic -o branch_phi.o
+~~~
+
+Work products: [compiler and standards research (Japanese)](docs/research/01_既存技術・規格調査.md) · [adopted initial compilation contract and open questions (Japanese)](docs/proposals/01_初期変換契約案.md)
 
 ## License
 

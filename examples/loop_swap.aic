@@ -1,0 +1,18 @@
+AIC 0.2
+fn aic_main(%n: u64) -> u64 {
+^entry:
+  %zero = const.u64 0
+  %one = const.u64 1
+  br ^head
+^head:
+  %i = phi.u64 [^entry, %zero] [^step, %next]
+  %a = phi.u64 [^entry, %zero] [^step, %b]
+  %b = phi.u64 [^entry, %one] [^step, %a]
+  %done = eq.u64 %i, %n
+  br.if %done, ^exit, ^step
+^step:
+  %next = add.wrap.u64 %i, %one
+  br ^head
+^exit:
+  ret.u64 %a
+}

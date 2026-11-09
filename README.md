@@ -2,7 +2,7 @@
 
 **AIが直接生成・操作できる専用文字列表現を、既存の計算機規格に適合する機械命令へ変換する、新規コンパイラの研究開発プロジェクト。**
 
-> **現在の状態（2026-11-09）：R0初期整備完了、R1調査進行中、R2設計候補を改訂中。** ISA一次資料とELF gABIは未確認で、入力・target候補はOwner未採用です。コンパイラの実装、ビルド・実行、対象環境への適合、性能向上、製品リリースはまだ成立・実証されていません。
+> **現在の状態（2026-11-09）：初期R2範囲はOwner採用済み、R3一気通貫実装はWIRED、R4の局所QCを観測済み。** R1はIntel/AMD ISA一次資料とELF gABIの照合が未完了で、対象別QA・β版公開は未完了・未承認です。
 
 [English](README.en.md) · [統合仕様書](docs/01_統合仕様書.md) · [工程表](docs/02_工程表.md) · [Codex施工指示書](docs/03_Codex施工指示書.md) · [参照と継承範囲](docs/REFERENCES.md) · [開発規則](AGENTS.md)
 
@@ -15,7 +15,7 @@
 - **出力：** 対象CPU・OS・ABIなどの明示した条件に適合する機械命令および必要な実行形式。
 - **品質：** 対応を宣言した範囲での意味保存、規格適合性、決定性、証拠と責任境界を成立条件にします。
 
-従来の高級プログラミング言語を、**コンパイル対象の必須の中間表現にはしません**。一方、コンパイラ本体を実装するための開発言語・ツールチェーンは別問題であり、現時点で未選定です。
+従来の高級プログラミング言語を、**コンパイル対象の必須の中間表現にはしません**。Owner採用により、compiler本体はRust 2024 + Cargo、独立試験harnessはC++20を使います。
 
 ## 構成原則
 
@@ -26,6 +26,15 @@
 3. 入力形式は既存言語・既存IRの模倣を前提とせず、AIの操作効率と意味の一意性から設計します。
 4. 対応環境・命令・操作の範囲は明示し、非対応対象を黙って成功扱いしません。
 5. コンパイラが保証する事項と、CPU・OS等の外部実行環境が保証する事項を区別します。
+
+## 採用済みの初期実装範囲
+
+- 入力はAIC/0.2の単一関数`aic_main(u64) -> u64`。`u64` wrap add/sub、equality、CFG branch、Phi、returnを扱います。
+- targetはLinux x86-64 / System V AMD64 ABI / ELF64 ET_RELのみ。compilerはGNU asでrelocatable objectを作り、linkerは試験harness側だけで使います。
+- memory、pointer、I/O、syscall、global、複数function、call、exception、atomic/thread、float/vector、nondeterminismは未対応です。
+- 初期backendはstack-slot方式で、性能最適化を目的にしません。非対応target・operationは拒否します。
+
+この採用は初期実装を進める範囲を定めたもので、規格適合完了やβ公開の承認ではありません。ISA命令の一次資料とELF gABIは未確認で、テスト結果を全CPU・全環境へ一般化しません。
 
 ## 対象外
 
@@ -38,15 +47,29 @@
 
 技術的な成立判定は、**対象・条件を明示した範囲**について行います。コンパイラ側は入力意味の定義、変換の正当性、出力の規格適合性を担い、外部環境側は自らの仕様に従った実行を担います。テストや解析は適合性の証拠であり、局所的な結果を全環境へ一般化しません。
 
-最初のβ版は対応範囲を限定できますが、**対応範囲内の品質要求を緩和しません**。具体的な初期ターゲット、文字列形式、実装技術、受入条件は[統合仕様書](docs/01_統合仕様書.md)で管理し、未決定事項を確定済みとして扱いません。
+最初のβ版は対応範囲を限定できますが、**対応範囲内の品質要求を緩和しません**。初期範囲と未決定項目は[統合仕様書](docs/01_統合仕様書.md)で管理します。
 
-## Codexの開発着手
+## 現在の実装と検査
 
-Codexは、Ownerの最新指示と[AGENTS.md](AGENTS.md)、3点正本を確認し、[施工指示書 §0](docs/03_Codex施工指示書.md)のB1（既存コンパイラ・規格の実査）とB2（初期変換契約候補の作成・監査）を進めています。Windows x64 ABI／COFF・PE資料を追加確認し、入力意味と対象比較を改訂候補へ反映しました。ISA一次資料・ELF gABIは未確認のためR1継続中です。最初のtarget、入力意味、実装言語・出力経路は**未選定**で、Owner採用前の正式実装対象にはしません。
+Rust compilerはAIC/0.2のparse、型/CFG/SSA/Phi検査、参照interpreter、x86-64 assembly生成からGNU as objectまでを接続しています。C++20 harnessから生成objectをlink・実行し、branch fixtureの全u16入力とu64境界値、loop/Phi-cycle fixtureの0..255、ELF header/symbol/relocation/disassembly、ABI register/stack状態、同一環境でのbyte determinismを確認します。これらはhost上の局所QCで、ISA/gABIの完全照合や形式的意味保存証明ではありません。
 
-作業成果：[既存技術・規格調査](docs/research/01_既存技術・規格調査.md) · [未採用の初期変換契約候補](docs/proposals/01_初期変換契約案.md)
+2026-11-09時点のdebug suiteは22 Rust unit tests、3 CLI tests、3 E2E testsです。検査手順：
 
-この段階では言語別の空ビルド、仮のCI、動作しないコンパイラ雛形を作成しません。実装方式を採用した後に、実際の入出力経路と検証対象に沿って開発環境を整えます。
+~~~sh
+export PATH="${HOME}/.cargo/bin:${PATH}"
+cargo test
+cargo test --release
+cargo clippy --all-targets -- -D warnings
+cargo fmt --all --check
+~~~
+
+E2E testsにはGNU as/binutils、g++ 14以降が必要です。Pinned toolchainは[`rust-toolchain.toml`](rust-toolchain.toml)を参照してください。objectを作成する例：
+
+~~~sh
+cargo run -- compile --target x86_64-linux-gnu examples/branch_phi.aic -o branch_phi.o
+~~~
+
+作業成果：[既存技術・規格調査](docs/research/01_既存技術・規格調査.md) · [採用済み初期変換契約と未決事項](docs/proposals/01_初期変換契約案.md)
 
 ## リポジトリの正本
 

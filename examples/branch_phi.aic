@@ -1,0 +1,18 @@
+AIC 0.2
+fn aic_main(%x: u64) -> u64 {
+^entry:
+  %zero = const.u64 0
+  %one = const.u64 1
+  %maximum = const.u64 18446744073709551615
+  %decrement = sub.wrap.u64 %x, %one
+  %increment = add.wrap.u64 %x, %one
+  %is_zero = eq.u64 %x, %zero
+  br.if %is_zero, ^zero_case, ^other_case
+^zero_case:
+  br ^join
+^other_case:
+  br ^join
+^join:
+  %result = phi.u64 [^zero_case, %decrement] [^other_case, %increment]
+  ret.u64 %result
+}
