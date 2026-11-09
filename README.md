@@ -2,7 +2,7 @@
 
 **AIが直接生成・操作できる専用文字列表現を、既存の計算機規格に適合する機械命令へ変換する、新規コンパイラの研究開発プロジェクト。**
 
-> **現在の状態（2026-11-09）：初期R2範囲はOwner採用済み、R3一気通貫実装はWIRED、R4の局所QCを観測済み。** 現行命令formsとgABI 4.2共通条項は一次資料で照合済みです。最低CPU ISA feature baselineと契約gABI版が未決定のためR1は継続中で、対象別QA・β版公開は未完了・未承認です。
+> **現在の状態（2026-11-09）：初期R2範囲はOwner採用済み、R3一気通貫実装はWIRED、R4の局所QCを観測済み。** 現行命令formsとELF Object File Format 4.2のgABI共通object条項は一次資料で照合済みです。最低CPU ISA feature baselineと参照版が未決定のためR1は継続中で、対象別QA・β版公開は未完了・未承認です。
 
 [English](README.en.md) · [統合仕様書](docs/01_統合仕様書.md) · [工程表](docs/02_工程表.md) · [Codex施工指示書](docs/03_Codex施工指示書.md) · [参照と継承範囲](docs/REFERENCES.md) · [開発規則](AGENTS.md)
 

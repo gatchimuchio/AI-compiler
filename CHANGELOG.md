@@ -2,10 +2,10 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
-## 2026-11-09 — R1 primary-source review
+## 2026-11-09 — R1 source review and target-profile candidates
 
-- Checked the current x86-64 codegen instruction forms against Intel SDM Combined Volumes and AMD APM Vol. 3 Rev. 3.37; reviewed ELF header, section, symbol, and relocation common clauses in gABI 4.2 and identified the current 4.3 draft separately.
-- Updated the research record, specification, roadmap, implementation instructions, proposal, and READMEs. The minimum CPU ISA feature baseline and contractual gABI edition remain undecided; no general conformance claim is made.
+- Checked current x86-64 output forms and object metadata with `objdump`/`readelf`; compared the AMD64 psABI baseline and the stable ELF Object File Format 4.2 against the 4.3 DRAFT.
+- Recorded unadopted recommendations for the baseline CPU profile and gABI-common ELF object-format reference. The Owner decision remains open; no conformance claim is made.
 
 ## 2026-11-09 — Independent test oracles
 

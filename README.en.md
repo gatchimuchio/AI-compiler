@@ -2,7 +2,7 @@
 
 **A new compiler project that translates AI-native, machine-operable text into machine instructions compatible with existing computing standards.**
 
-> **Status (2026-11-09): the owner adopted the initial R2 scope; the R3 vertical slice is wired and local R4 QC has been observed.** The current instruction forms and gABI 4.2 common clauses have been checked against primary sources. R1 remains in progress because the minimum CPU ISA feature baseline and contractual gABI edition are undecided. Target QA and beta publication are incomplete and unapproved.
+> **Status (2026-11-09): the owner adopted the initial R2 scope; the R3 vertical slice is wired and local R4 QC has been observed.** The current instruction forms and the gABI-common clauses in ELF Object File Format 4.2 have been checked against primary sources. R1 remains in progress because the minimum CPU ISA feature baseline and ELF object-format reference edition are undecided. Target QA and beta publication are incomplete and unapproved.
 
 [日本語正本](README.md) · [Specification (Japanese)](docs/01_統合仕様書.md) · [Roadmap (Japanese)](docs/02_工程表.md) · [Codex instructions (Japanese)](docs/03_Codex施工指示書.md) · [Agent rules](AGENTS.md)
 
