@@ -9,6 +9,13 @@
 - Kept the broader language and representation map open, with resource-based deferrals and reopening conditions for unreviewed data/schema families.
 - Updated the research map, roadmap, and Japanese/English README work-product links.
 
+## 2026-11-09 — Control flow, effects, and state semantics review
+
+- Compared the adopted pure AIC/0.2 subset with selected primary references for C11, Rust, Haskell 2010, ECMAScript 2025, SWI-Prolog, LLVM IR, and WebAssembly 3.0.
+- Recorded differences in evaluation order, side effects, exception/search transfer, CFG versus structured control, and state rollback; source/version/implementation limits remain explicit.
+- Kept all language families and unreviewed versions in the open map; resource-based deferrals include reopening conditions.
+- Made no extension to the adopted input contract and ran no code tests because this batch changes documentation only.
+
 ## 2026-11-09 — Open language and representation reference map
 
 - Added an open map of existing programming-language and representation families, separating language specifications, implementations, IRs/bytecode, data/schema/IDL formats, and DSLs.
