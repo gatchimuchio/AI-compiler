@@ -2,6 +2,13 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-09 — Open language and representation reference map
+
+- Added an open map of existing programming-language and representation families, separating language specifications, implementations, IRs/bytecode, data/schema/IDL formats, and DSLs.
+- Recorded resource-based deep-review deferrals with reasons and reopening conditions. Deferred or unreviewed branches remain candidates; they are not treated as excluded or rejected.
+- Added a bounded primary-source comparison of syntax, validation, specification status, and text/internal/binary representation boundaries across selected language families, compiler IRs, VM formats, and a schema language.
+- Updated the canonical specification, research workflow, roadmap, README, and proposal context. The map is an initial index, not an exhaustive survey or adoption decision.
+
 ## 2026-11-09 — R1 source review and target-profile candidates
 
 - Checked current x86-64 output forms and object metadata with `objdump`/`readelf`; compared the AMD64 psABI baseline and the stable ELF Object File Format 4.2 against the 4.3 DRAFT.

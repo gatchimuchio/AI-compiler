@@ -10,11 +10,11 @@
 
 **対象：** `gatchimuchio/AI-compiler`。Ownerは2026-11-09に初期R3範囲を採用した。採用範囲はAIC/0.2の`aic_main(u64) -> u64`、Linux x86-64/System V ABI/ELF64 ET_REL、Rust 2024 + Cargoのcompiler、C++20のindependent test harness、GNU asでのobject作成、harness外部link、memory/I/O/callなし。Ownerの「どっちも採用」はRust compilerとC++ test harnessの両方を役割分担して採用する意味に記録する。
 
-**工程現況：** Intel SDM ID `671200`、AMD APM Vol. 3 Rev. 3.37の命令参照、およびELF Object File Format 4.2のheader/section/symbol/relocationを現行codegen/objectと照合した。4.3はDRAFTと表示される。AMD64 psABI baselineとstable 4.2を推奨候補として記録したが、Owner未採用のためR1継続中。R2の上記実装範囲は採用済み。Rust parser→validation→reference interpreter/assembly generation→GNU as→ELF object→C++20 harnessの初期vertical sliceが接続され、local QCを再観測した。対象別QA、形式証明、β公開は未成立・未承認。
+**工程現況：** 既存言語・IR・DSL・データ/仕様形式を広く参照する枝地図と、深掘り保留を採用判断から分離する方針を追加した。初期索引は全言語・全版の調査完了を意味しない。LLVM/GCC/CompCert等の既存compiler、Intel SDM ID `671200`、AMD APM Vol. 3 Rev. 3.37の命令参照、およびELF Object File Format 4.2のheader/section/symbol/relocationは既存記録の範囲で照合済み。4.3はDRAFTと表示される。AMD64 psABI baselineとstable 4.2を推奨候補として記録したが、Owner未採用のためR1継続中。R2の上記実装範囲は採用済み。Rust parser→validation→reference interpreter/assembly generation→GNU as→ELF object→C++20 harnessの初期vertical sliceが接続され、local QCを再観測した。対象別QA、形式証明、β公開は未成立・未承認。
 
 ### B1／R1の継続
 
-既存compilerとABI資料の調査結果は`docs/research/01_既存技術・規格調査.md`に記録済み。現行出力命令をIntel SDM/AMD APMの一般命令条項と照合し、ELF Object File Format 4.2のgABI共通object規則を確認済み。推奨候補は契約案にあるが未採用である。次はOwner採用後の最低CPU feature floorと参照版に合わせて条項を再照合する。未確認事項は明示し、host executionを公式適合の証明に置き換えない。
+既存compiler・ABI資料の限定調査は`docs/research/01_既存技術・規格調査.md`、言語・表現の開放型枝地図と深度方針は`docs/research/02_既存言語・表現参照地図.md`、Python/Rust/Haskell/ECMAScriptとLLVM/MLIR/WebAssembly/Protobufの構文・検証・表現境界の初回比較は`docs/research/03_入力表現・構文・検証境界比較.md`に記録する。LLVM/GCC/CompCertは既存compiler調査の候補群であり、言語・表現全体の代替ではない。深掘り保留は理由・現在深度・再開条件付きで残し、「未調査」「保留」「不採用」を分ける。現行出力命令をIntel SDM/AMD APMの一般命令条項と照合し、ELF Object File Format 4.2のgABI共通object規則を確認済み。baselineと参照版の推奨候補はOwner未採用である。次は対象familyを除外せず、AI入力の編集・意味・診断・版進化等の設計問いを横断し、優先枝の一次資料調査を広げる。CPU floor/ELF版がOwner採用された時は条項をその条件で再照合する。未確認を明示し、host executionを公式適合の証明に置き換えない。
 
 ### B2／R2の採用記録
 
@@ -40,7 +40,10 @@
 ## 2. 参照調査の指示
 
 - [参照一覧](REFERENCES.md)の3リポジトリは作業規律の参照に限定する。機能、HDS内部規則、既存テスト実績、製品statusを移植しない。
-- 既存コンパイラについては、まず必要な命令生成・規格制約・意味保存機能を調べる。
+- [既存言語・表現参照地図](research/02_既存言語・表現参照地図.md)を使い、プログラミング言語、IR/bytecode、query/constraint/DSL、文法、data/schema/IDL、形式仕様等の参照枝を開いておく。候補の例示は完全一覧ではなく、各枝の登録を網羅調査完了と表現しない。
+- LLVM/GCC/CompCertはcompiler implementationの一部として調べる。言語・表現の全参照母集団をこの3件に置き換えない。
+- 資源制約で枝を深掘り保留にする時は、保留する対象・深度、資源上の理由、再開条件を台帳に記録する。未調査・保留・不採用・採用は別の状態である。
+- 既存言語・表現は、構文、意味、type/effect、control/dataflow、validation、diagnostics、incremental editing/versioning、lowering、runtime/ABI等、今回の設計問いに照らして調べる。要点を機械的に新規設計へ継承しない。
 - 根拠の優先順位は、公式規格・当該版の現行コード・検証済み動作・明記された推論とする。
 - 規格上の要求と、既存コンパイラ固有の言語体系・最適化・実装都合を分ける。
 - 同じ機能の再実装や無駄な資料の重複を避け、抽出した知識を新規コンパイラの設計に使う。

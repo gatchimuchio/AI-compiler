@@ -2,7 +2,7 @@
 
 **A new compiler project that translates AI-native, machine-operable text into machine instructions compatible with existing computing standards.**
 
-> **Status (2026-11-09): the owner adopted the initial R2 scope; the R3 vertical slice is wired and local R4 QC has been observed.** The current instruction forms and the gABI-common clauses in ELF Object File Format 4.2 have been checked against primary sources. R1 remains in progress because the minimum CPU ISA feature baseline and ELF object-format reference edition are undecided. Target QA and beta publication are incomplete and unapproved.
+> **Status (2026-11-09): the owner adopted the initial R2 scope; the R3 vertical slice is wired and local R4 QC has been observed.** The current instruction forms and the gABI-common clauses in ELF Object File Format 4.2 have been checked against primary sources. The minimum CPU ISA feature baseline and ELF object-format reference edition remain undecided. An open map of language and representation families is seeded, while individual comparisons remain in progress. R1, target QA, and beta publication are incomplete and unapproved.
 
 [日本語正本](README.md) · [Specification (Japanese)](docs/01_統合仕様書.md) · [Roadmap (Japanese)](docs/02_工程表.md) · [Codex instructions (Japanese)](docs/03_Codex施工指示書.md) · [Agent rules](AGENTS.md)
 
@@ -25,7 +25,8 @@ This adoption establishes the initial implementation scope. It does not declare 
 
 ## Scope and boundaries
 
-- Study existing compilers and official standards as implementation evidence and reference material.
+- Keep a broad, open reference map of existing languages, IRs, DSLs, data/schema formats, and formal descriptions. Resource limits determine review depth and order; deferred branches retain their reason and reopening conditions, and remain distinct from rejected or unadopted candidates.
+- Existing compiler implementations are one part of this reference space; LLVM/GCC/CompCert do not stand in for all existing languages or representations. A seed list does not claim every language or version has been reviewed.
 - Design a new AI-native input contract; do not assume an existing programming language or compiler IR is canonical.
 - Implement correct translation for explicitly supported targets and operations; reject unsupported cases.
 - Preserve deterministic translation, semantic meaning, traceable conformance evidence, and defined responsibility boundaries.
@@ -56,7 +57,7 @@ End-to-end tests require GNU as/binutils and g++ 14 or later. The Rust toolchain
 cargo run -- compile --target x86_64-linux-gnu examples/branch_phi.aic -o branch_phi.o
 ~~~
 
-Work products: [compiler and standards research (Japanese)](docs/research/01_既存技術・規格調査.md) · [adopted initial compilation contract and open questions (Japanese)](docs/proposals/01_初期変換契約案.md)
+Work products: [compiler and standards research (Japanese)](docs/research/01_既存技術・規格調査.md) · [open language and representation map (Japanese)](docs/research/02_既存言語・表現参照地図.md) · [first syntax and validation comparison (Japanese)](docs/research/03_入力表現・構文・検証境界比較.md) · [adopted initial compilation contract and open questions (Japanese)](docs/proposals/01_初期変換契約案.md)
 
 ## License
 
