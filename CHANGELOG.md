@@ -16,6 +16,13 @@
 - Kept all language families and unreviewed versions in the open map; resource-based deferrals include reopening conditions.
 - Made no extension to the adopted input contract and ran no code tests because this batch changes documentation only.
 
+## 2026-11-09 — Integer types and numeric boundary semantics review
+
+- Compared AIC/0.2 integer wrap semantics with selected primary references for C11, Rust, Haskell 2010, Python 3.15.2, ECMAScript 2025, LLVM IR, and WebAssembly 3.0.
+- Recorded distinctions among fixed-width bitvectors, signed overflow, arbitrary-precision integers, binary64/BigInt, LLVM poison flags, conversions, and implementation/build-specific conditions.
+- Kept unreviewed language families, versions, numeric types, and wire/ABI representations in the open reference map with resource-based deferrals and reopening conditions.
+- Made no input-contract or code changes; code tests were not run for this documentation-only batch.
+
 ## 2026-11-09 — Open language and representation reference map
 
 - Added an open map of existing programming-language and representation families, separating language specifications, implementations, IRs/bytecode, data/schema/IDL formats, and DSLs.
