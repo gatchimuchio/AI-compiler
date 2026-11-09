@@ -258,3 +258,82 @@ fn long_stack_frame_with_disp32_operands_matches_reference() {
         "expected stack accesses beyond the disp8 range"
     );
 }
+
+#[test]
+fn generated_multiway_phi_control_flow_matches_reference() {
+    const STAGES: usize = 24;
+    let mut source = String::from("AIC 0.2\nfn aic_main(%x: u64) -> u64 {\n^entry:\n");
+    let mut thresholds = Vec::with_capacity(STAGES * 2);
+    let mut random = 0x91d4_2ac7_6e3b_580f_u64;
+
+    for stage in 0..STAGES {
+        let threshold_a = (stage as u64) * 4 + 1;
+        let threshold_b = threshold_a + 1;
+        thresholds.extend([threshold_a, threshold_b]);
+
+        random = random
+            .wrapping_mul(6_364_136_223_846_793_005)
+            .wrapping_add(1_442_695_040_888_963_407);
+        let delta_a = if stage % 3 == 0 { u64::MAX } else { random };
+        let delta_b = if stage % 3 == 1 {
+            u64::MAX
+        } else {
+            random.rotate_left(17)
+        };
+        let delta_default = if stage % 2 == 0 { 1 } else { u64::MAX };
+
+        source.push_str(&format!(
+            " %ta{stage} = const.u64 {threshold_a}\n %tb{stage} = const.u64 {threshold_b}\n %da{stage} = const.u64 {delta_a}\n %db{stage} = const.u64 {delta_b}\n %dc{stage} = const.u64 {delta_default}\n"
+        ));
+    }
+    source.push_str(" br ^test0\n");
+
+    for stage in 0..STAGES {
+        let current = if stage == 0 {
+            String::from("x")
+        } else {
+            format!("v{}", stage - 1)
+        };
+        source.push_str(&format!(
+            "^test{stage}:\n %ca{stage} = eq.u64 %x, %ta{stage}\n br.if %ca{stage}, ^arma{stage}, ^split{stage}\n"
+        ));
+        source.push_str(&format!(
+            "^split{stage}:\n %cb{stage} = eq.u64 %x, %tb{stage}\n br.if %cb{stage}, ^armb{stage}, ^armc{stage}\n"
+        ));
+        source.push_str(&format!(
+            "^arma{stage}:\n %va{stage} = add.wrap.u64 %{current}, %da{stage}\n br ^join{stage}\n"
+        ));
+        source.push_str(&format!(
+            "^armb{stage}:\n %vb{stage} = sub.wrap.u64 %{current}, %db{stage}\n br ^join{stage}\n"
+        ));
+        source.push_str(&format!(
+            "^armc{stage}:\n %vc{stage} = add.wrap.u64 %{current}, %dc{stage}\n br ^join{stage}\n"
+        ));
+        source.push_str(&format!(
+            "^join{stage}:\n %v{stage} = phi.u64 [^arma{stage}, %va{stage}] [^armb{stage}, %vb{stage}] [^armc{stage}, %vc{stage}]\n"
+        ));
+        if stage + 1 == STAGES {
+            source.push_str(&format!(" ret.u64 %v{stage}\n"));
+        } else {
+            source.push_str(&format!(" br ^test{}\n", stage + 1));
+        }
+    }
+    source.push_str("}\n");
+
+    let module = parse(source.as_bytes()).unwrap();
+    let dir = TestDir::new();
+    let object = compile_source(&dir, &source);
+    let executable = link_harness(&dir, &object);
+    let mut inputs = vec![0, 1, 2, u64::MAX, u64::MAX - 1, 1 << 63, (1 << 63) - 1];
+    inputs.extend(thresholds);
+    for _ in 0..512 {
+        random = random
+            .wrapping_mul(6_364_136_223_846_793_005)
+            .wrapping_add(1_442_695_040_888_963_407);
+        inputs.push(random);
+    }
+
+    let actual = run_harness(&dir, &executable, &inputs);
+    let expected = evaluate_many(&module, &inputs, 10_000).unwrap();
+    assert_eq!(actual, expected);
+}

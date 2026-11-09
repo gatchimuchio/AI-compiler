@@ -38,9 +38,9 @@ The specification, implementation, source-code presence, verified behavior, real
 
 ## Current implementation and checks
 
-The Rust compiler connects AIC/0.2 parsing, type/CFG/SSA/Phi validation, a reference interpreter, x86-64 assembly generation, and GNU as object creation. A C++20 harness links and executes the object. Tests compare every `u16` input and `u64` boundary cases for a branch fixture, inputs 0..255 for a loop/Phi-cycle fixture, and inspect ELF headers, symbols, relocations, disassembly, ABI register/stack state, and byte-for-byte repeat output. These are local host QC results, not full ISA/gABI review or a formal semantic-preservation proof.
+The Rust compiler connects AIC/0.2 parsing, type/CFG/SSA/Phi validation, a reference interpreter, x86-64 assembly generation, and GNU as object creation. A C++20 harness links and executes the object. Tests compare every `u16` input and `u64` boundary cases for a branch fixture, inputs 0..255 for a loop/Phi-cycle fixture, a generated 24-stage CFG with three-predecessor Phi merges, and a long stack frame. They also inspect ELF headers, symbols, relocations, disassembly, ABI register/stack state, and byte-for-byte repeat output. Parser mutation/truncation cases are checked for panics. These are local host QC results, not full ISA/gABI review or a formal semantic-preservation proof.
 
-The debug suite currently has 23 Rust unit tests, 3 CLI tests, and 4 end-to-end tests. Local checks:
+The debug suite currently has 23 Rust unit tests, 3 CLI tests, and 5 end-to-end tests. Local checks:
 
 ~~~sh
 export PATH="${HOME}/.cargo/bin:${PATH}"
