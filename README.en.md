@@ -57,7 +57,7 @@ End-to-end tests require GNU as/binutils and g++ 14 or later. The Rust toolchain
 cargo run -- compile --target x86_64-linux-gnu examples/branch_phi.aic -o branch_phi.o
 ~~~
 
-Work products: [compiler and standards research (Japanese)](docs/research/01_既存技術・規格調査.md) · [open language and representation map (Japanese)](docs/research/02_既存言語・表現参照地図.md) · [first syntax and validation comparison (Japanese)](docs/research/03_入力表現・構文・検証境界比較.md) · [adopted initial compilation contract and open questions (Japanese)](docs/proposals/01_初期変換契約案.md)
+Work products: [compiler and standards research (Japanese)](docs/research/01_既存技術・規格調査.md) · [open language and representation map (Japanese)](docs/research/02_既存言語・表現参照地図.md) · [first syntax and validation comparison (Japanese)](docs/research/03_入力表現・構文・検証境界比較.md) · [structured editing and schema evolution comparison (Japanese)](docs/research/04_構造化編集・版進化比較.md) · [adopted initial compilation contract and open questions (Japanese)](docs/proposals/01_初期変換契約案.md)
 
 ## License
 

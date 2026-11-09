@@ -2,6 +2,13 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-09 — Structured editing and version evolution review
+
+- Compared the adopted AIC/0.2 input with JSON/RFC 8259, JSON Schema 2020-12, YAML 1.2.2, and Protocol Buffers on local edit identity, ordering, source fidelity, unknown elements, and schema evolution.
+- Recorded specification-backed differences and separate design inferences; no AI editing benchmark or format adoption decision was made.
+- Kept the broader language and representation map open, with resource-based deferrals and reopening conditions for unreviewed data/schema families.
+- Updated the research map, roadmap, and Japanese/English README work-product links.
+
 ## 2026-11-09 — Open language and representation reference map
 
 - Added an open map of existing programming-language and representation families, separating language specifications, implementations, IRs/bytecode, data/schema/IDL formats, and DSLs.
