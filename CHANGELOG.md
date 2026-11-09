@@ -2,6 +2,12 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-09 — R3 temporary-output isolation
+
+- Predictable temporary filenames in a shared output directory could be replaced between reservation and use. Assembly/object staging now runs in a private `0700` temporary directory, with exclusive source creation, RAII cleanup, object inspection before rename, and the previous destination preserved on failure.
+- Added a permission/cleanup check for temporary directories. Debug/release suiteは各24 Rust unit、3 CLI、5 E2E testsで通過。
+- Crash durability and adversarial replacement of the final output path remain untested; this change does not claim them.
+
 ## 2026-11-09 — R3/QC coverage follow-up
 
 - Accepted AIC fixturesを1 byteごとに置換・削除・切断し、成功parse後のvalidatorまで含めてpanicしないことを検査。
