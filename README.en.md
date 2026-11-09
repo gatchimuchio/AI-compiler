@@ -2,7 +2,7 @@
 
 **A new compiler project that translates AI-native, machine-operable text into machine instructions compatible with existing computing standards.**
 
-> **Status (2026-11-02): repository initialization / design only.** No compiler implementation, runtime compatibility, performance gain, or product release has yet been demonstrated.
+> **Status (2026-11-09): initial repository baseline complete; R1 research ready to start.** No compiler build, execution, target conformance, performance gain, or product release has yet been demonstrated.
 
 [日本語正本](README.md) · [Specification (Japanese)](docs/01_統合仕様書.md) · [Roadmap (Japanese)](docs/02_工程表.md) · [Codex instructions (Japanese)](docs/03_Codex施工指示書.md) · [Agent rules](AGENTS.md)
 
@@ -26,6 +26,10 @@ Conventional high-level programming languages are not required as **intermediate
 ## Evidence and release status
 
 The specification, implementation, source-code presence, verified behavior, real-hardware behavior, and product release are separate states. This repository currently contains an initial documentation baseline only. Supported platforms, exact input syntax, implementation technology, and release acceptance criteria require explicit selection.
+
+## Codex kickoff
+
+Codex can begin **B1: verified research on existing compilers and official target standards**, followed by **B2: a concrete, explicitly unapproved initial compilation-contract proposal**, as defined in [the Japanese Codex instructions, section 0](docs/03_Codex施工指示書.md). The initial target combination, AI-native input semantics, implementation language and output-production strategy remain **undecided**. Research and candidate design can proceed; implementation that commits to these choices requires owner adoption. No placeholder build or CI is presented as a working compiler.
 
 ## License
 
