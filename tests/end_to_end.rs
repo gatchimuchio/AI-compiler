@@ -385,8 +385,8 @@ fn generated_multiway_phi_control_flow_matches_reference() {
 }
 
 #[test]
-fn loop_header_phi_with_two_backedges_matches_reference() {
-    let source = "AIC 0.2\nfn aic_main(%n: u64) -> u64 {\n^entry:\n %zero = const.u64 0\n %one = const.u64 1\n %two = const.u64 2\n br ^head\n^head:\n %i = phi.u64 [^entry, %zero] [^step_one, %next_one] [^step_two, %next_two]\n %done = eq.u64 %i, %n\n br.if %done, ^exit, ^select\n^select:\n %use_one = eq.u64 %n, %one\n br.if %use_one, ^step_one, ^step_two\n^step_one:\n %next_one = add.wrap.u64 %i, %one\n br ^head\n^step_two:\n %next_two = add.wrap.u64 %i, %two\n br ^head\n^exit:\n ret.u64 %i\n}\n";
+fn loop_header_parallel_phi_with_two_backedges_matches_reference() {
+    let source = "AIC 0.2\nfn aic_main(%n: u64) -> u64 {\n^entry:\n %zero = const.u64 0\n %one = const.u64 1\n %two = const.u64 2\n %a0 = const.u64 17\n %b0 = const.u64 29\n br ^head\n^head:\n %i = phi.u64 [^entry, %zero] [^step_one, %next_one] [^step_two, %next_two]\n %a = phi.u64 [^entry, %a0] [^step_one, %b] [^step_two, %a]\n %b = phi.u64 [^entry, %b0] [^step_one, %a] [^step_two, %b]\n %done = eq.u64 %i, %n\n br.if %done, ^exit, ^select\n^select:\n %use_one = eq.u64 %n, %one\n br.if %use_one, ^step_one, ^step_two\n^step_one:\n %next_one = add.wrap.u64 %i, %one\n br ^head\n^step_two:\n %next_two = add.wrap.u64 %i, %two\n br ^head\n^exit:\n ret.u64 %a\n}\n";
     let module = parse(source.as_bytes()).unwrap();
     let dir = TestDir::new();
     let object = compile_source(&dir, source);
@@ -397,7 +397,11 @@ fn loop_header_phi_with_two_backedges_matches_reference() {
     let actual = run_harness(&dir, &executable, &inputs);
     let expected = evaluate_many(&module, &inputs, 5_000).unwrap();
     assert_eq!(actual, expected);
-    assert_eq!(actual, inputs);
+    let independent: Vec<u64> = inputs
+        .iter()
+        .map(|input| if *input == 1 { 29 } else { 17 })
+        .collect();
+    assert_eq!(actual, independent);
 }
 
 #[test]

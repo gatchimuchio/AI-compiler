@@ -14,7 +14,7 @@
 
 ## 2026-11-09 — R4 multi-backedge Phi coverage
 
-- Added an object/interpreter differential test for a loop header Phi with one entry edge and two backedges. The fixture exercises both latches and compares 258 terminating inputs: `0`, `1`, and even values through `512`.
+- Added an object/interpreter and independent-model test for three loop-header Phis with one entry edge and two backedges. One latch swaps a Phi pair in parallel; the other preserves it. The fixture compares 258 terminating inputs: `0`, `1`, and even values through `512`.
 - Debug/release suiteは各25 Rust unit、3 CLI、6 E2E testsを通過。
 
 ## 2026-11-09 — GNU assembler identity check
