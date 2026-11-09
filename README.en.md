@@ -2,7 +2,7 @@
 
 **A new compiler project that translates AI-native, machine-operable text into machine instructions compatible with existing computing standards.**
 
-> **Status (2026-11-09): initial repository baseline complete; R1 research ready to start.** No compiler build, execution, target conformance, performance gain, or product release has yet been demonstrated.
+> **Status (2026-11-09): repository baseline complete; R1 research in progress; R2 design candidates under revision.** The ISA primary manuals and ELF gABI remain unverified, and the input and target candidates have not been adopted by the owner. No compiler implementation, build, execution, target conformance, performance gain, or product release has been demonstrated.
 
 [日本語正本](README.md) · [Specification (Japanese)](docs/01_統合仕様書.md) · [Roadmap (Japanese)](docs/02_工程表.md) · [Codex instructions (Japanese)](docs/03_Codex施工指示書.md) · [Agent rules](AGENTS.md)
 
@@ -29,7 +29,9 @@ The specification, implementation, source-code presence, verified behavior, real
 
 ## Codex kickoff
 
-Codex can begin **B1: verified research on existing compilers and official target standards**, followed by **B2: a concrete, explicitly unapproved initial compilation-contract proposal**, as defined in [the Japanese Codex instructions, section 0](docs/03_Codex施工指示書.md). The initial target combination, AI-native input semantics, implementation language and output-production strategy remain **undecided**. Research and candidate design can proceed; implementation that commits to these choices requires owner adoption. No placeholder build or CI is presented as a working compiler.
+Codex is advancing **B1: research on existing compilers and official target standards** and **B2: a concrete, explicitly unapproved compilation-contract proposal**, as defined in [the Japanese Codex instructions, section 0](docs/03_Codex施工指示書.md). Windows x64 ABI and COFF/PE sources have been added to the comparison. The ISA primary manuals and ELF gABI remain unverified, so R1 is still in progress. The initial target, AI-native input semantics, implementation language and output-production strategy remain **undecided**; implementation that commits to them requires owner adoption. No placeholder build or CI is presented as a working compiler.
+
+Work products: [compiler and standards research (Japanese)](docs/research/01_既存技術・規格調査.md) · [unadopted initial compilation contract (Japanese)](docs/proposals/01_初期変換契約案.md)
 
 ## License
 
