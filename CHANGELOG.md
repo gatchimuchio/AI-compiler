@@ -2,6 +2,11 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-09 — R1 primary-source review
+
+- Checked the current x86-64 codegen instruction forms against Intel SDM Combined Volumes and AMD APM Vol. 3 Rev. 3.37; reviewed ELF header, section, symbol, and relocation common clauses in gABI 4.2 and identified the current 4.3 draft separately.
+- Updated the research record, specification, roadmap, implementation instructions, proposal, and READMEs. The minimum CPU ISA feature baseline and contractual gABI edition remain undecided; no general conformance claim is made.
+
 ## 2026-11-09 — Independent test oracles
 
 - Branch, loop-swap, multi-backedge loop, long arithmetic, and generated multiway Phi E2E fixtures now compare object output with both the reference interpreter and separate known-result models.

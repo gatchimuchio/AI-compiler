@@ -2,7 +2,7 @@
 
 **AIが直接生成・操作できる専用文字列表現を、既存の計算機規格に適合する機械命令へ変換する、新規コンパイラの研究開発プロジェクト。**
 
-> **現在の状態（2026-11-09）：初期R2範囲はOwner採用済み、R3一気通貫実装はWIRED、R4の局所QCを観測済み。** R1はIntel/AMD ISA一次資料とELF gABIの照合が未完了で、対象別QA・β版公開は未完了・未承認です。
+> **現在の状態（2026-11-09）：初期R2範囲はOwner採用済み、R3一気通貫実装はWIRED、R4の局所QCを観測済み。** 現行命令formsとgABI 4.2共通条項は一次資料で照合済みです。最低CPU ISA feature baselineと契約gABI版が未決定のためR1は継続中で、対象別QA・β版公開は未完了・未承認です。
 
 [English](README.en.md) · [統合仕様書](docs/01_統合仕様書.md) · [工程表](docs/02_工程表.md) · [Codex施工指示書](docs/03_Codex施工指示書.md) · [参照と継承範囲](docs/REFERENCES.md) · [開発規則](AGENTS.md)
 
@@ -34,7 +34,7 @@
 - memory、pointer、I/O、syscall、global、複数function、call、exception、atomic/thread、float/vector、nondeterminismは未対応です。
 - 初期backendはstack-slot方式で、性能最適化を目的にしません。非対応target・operationは拒否します。
 
-この採用は初期実装を進める範囲を定めたもので、規格適合完了やβ公開の承認ではありません。ISA命令の一次資料とELF gABIは未確認で、テスト結果を全CPU・全環境へ一般化しません。
+この採用は初期実装を進める範囲を定めたもので、規格適合完了やβ公開の承認ではありません。現行命令formsとgABI共通条項の限定照合は行いましたが、契約条件の確定や全条項の適合確認は残っています。テスト結果を全CPU・全環境へ一般化しません。
 
 ## 対象外
 

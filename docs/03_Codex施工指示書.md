@@ -10,11 +10,11 @@
 
 **対象：** `gatchimuchio/AI-compiler`。Ownerは2026-11-09に初期R3範囲を採用した。採用範囲はAIC/0.2の`aic_main(u64) -> u64`、Linux x86-64/System V ABI/ELF64 ET_REL、Rust 2024 + Cargoのcompiler、C++20のindependent test harness、GNU asでのobject作成、harness外部link、memory/I/O/callなし。Ownerの「どっちも採用」はRust compilerとC++ test harnessの両方を役割分担して採用する意味に記録する。
 
-**工程現況：** R1はISA一次資料・ELF gABI未確認で継続中。R2の上記実装範囲は採用済み。Rust parser→validation→reference interpreter/assembly generation→GNU as→ELF object→C++20 harnessの初期vertical sliceが接続され、local QCを観測した。規格QA、形式証明、β公開は未成立・未承認。
+**工程現況：** Intel SDM ID `671200`、AMD APM Vol. 3 Rev. 3.37の命令参照、およびgABI 4.2のheader/section/symbol/relocationを現行codegen/objectと照合した。4.3はDRAFTと表示される。Linux x86-64のminimum CPU ISA feature baselineと契約に採用するgABI版が未決定のためR1継続中。R2の上記実装範囲は採用済み。Rust parser→validation→reference interpreter/assembly generation→GNU as→ELF object→C++20 harnessの初期vertical sliceが接続され、local QCを再観測した。対象別QA、形式証明、β公開は未成立・未承認。
 
 ### B1／R1の継続
 
-既存compilerとABI資料の調査結果は`docs/research/01_既存技術・規格調査.md`に記録済み。Intel SDMまたはAMD APMで出力命令を照合し、System V ELF gABIの共通規則を確認する。未確認事項は明示し、host executionを公式適合の証明に置き換えない。
+既存compilerとABI資料の調査結果は`docs/research/01_既存技術・規格調査.md`に記録済み。現行出力命令をIntel SDM/AMD APMの一般命令条項と照合し、gABI 4.2のELF共通規則を確認済み。次は最低CPU ISA feature baselineと契約へ採用するgABI版を正本上で固定し、その具体条件を再照合する。未確認事項は明示し、host executionを公式適合の証明に置き換えない。
 
 ### B2／R2の採用記録
 
