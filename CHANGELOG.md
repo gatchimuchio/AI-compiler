@@ -17,6 +17,14 @@
 - Kept AIC/0.2 unchanged with no memory/pointer operations; updated the AGENTS research-path index, map, roadmap, Codex instructions, and README links.
 - Documentation-only change; code tests were not run.
 
+## 2026-11-09 — Diagnostic obligations, locations, and recovery review
+
+- Compared C11 diagnostic obligations, Java SE 25 compile-time error classification, Python 3.15.2 `SyntaxError` location fields, the current rustc JSON Output manual (with the pinned compiler build identity recorded separately), and JSON Schema 2020-12 validation output.
+- Kept standards-level error detection, implementation/API diagnostic data, validator output, and parser recovery as separate claims; recorded versioned or retrieval-identified source hashes and applicability gaps.
+- Recorded broad M0 branches with resource reasons and reopening conditions; no language, family, or format was rejected or removed from the open reference map.
+- Compared the adopted AIC/0.2 diagnostic contract with current source at the prior HEAD; no diagnostic policy or compiler behavior was changed.
+- Documentation-only change; code tests were not run.
+
 ## 2026-11-09 — Structured editing and version evolution review
 
 - Compared the adopted AIC/0.2 input with JSON/RFC 8259, JSON Schema 2020-12, YAML 1.2.2, and Protocol Buffers on local edit identity, ordering, source fidelity, unknown elements, and schema evolution.
