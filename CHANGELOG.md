@@ -2,6 +2,13 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-09 — R3/QC coverage follow-up
+
+- Accepted AIC fixturesを1 byteごとに置換・削除・切断し、成功parse後のvalidatorまで含めてpanicしないことを検査。
+- 48-round arithmetic/equality functionを生成し、disp8 rangeを超えるstack slotと144 instructionsを含むobjectを519 inputsでreference interpreterと照合。
+- Debug/release suiteは各23 Rust unit、3 CLI、4 E2E tests。Clippy `-D warnings`、rustfmt checkも再実行して通過。
+- 有限のmutation/property testとhost実行は規格適合・形式証明を代替しない。ISA/gABI照合とbeta判断は引き続き未完了。
+
 ## 2026-11-09 — R3初期compiler slice
 
 - Owner採用済み初期範囲に沿ってRust 2024 + Cargoのcompilerを実装。AIC/0.2 parser、stable diagnostics、CFG/type/SSA/Phi validation、u64 reference interpreter、Linux x86-64/System V assembly generation、GNU asによるELF64 ET_REL作成を接続。

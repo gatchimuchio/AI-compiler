@@ -204,3 +204,57 @@ fn repeated_compilation_is_byte_for_byte_deterministic() {
     }
     assert_eq!(fs::read(first).unwrap(), fs::read(second).unwrap());
 }
+
+#[test]
+fn long_stack_frame_with_disp32_operands_matches_reference() {
+    let mut source = String::from("AIC 0.2\nfn aic_main(%x: u64) -> u64 {\n^entry:\n");
+    let mut accumulator = String::from("x");
+    let mut state = 0x7c31_8ad4_52e6_b90f_u64;
+    for index in 0..48 {
+        state = state
+            .wrapping_mul(6_364_136_223_846_793_005)
+            .wrapping_add(1_442_695_040_888_963_407);
+        source.push_str(&format!(" %k{index} = const.u64 {state}\n"));
+        let operation = if index % 2 == 0 {
+            "add.wrap.u64"
+        } else {
+            "sub.wrap.u64"
+        };
+        source.push_str(&format!(
+            " %v{index} = {operation} %{accumulator}, %k{index}\n"
+        ));
+        source.push_str(&format!(" %equal{index} = eq.u64 %v{index}, %x\n"));
+        accumulator = format!("v{index}");
+    }
+    source.push_str(&format!(" ret.u64 %{accumulator}\n}}\n"));
+
+    let module = parse(source.as_bytes()).unwrap();
+    let dir = TestDir::new();
+    let object = compile_source(&dir, &source);
+    let executable = link_harness(&dir, &object);
+    let mut inputs = vec![0, 1, 2, u64::MAX, u64::MAX - 1, 1 << 63, (1 << 63) - 1];
+    for _ in 0..512 {
+        state = state
+            .wrapping_mul(6_364_136_223_846_793_005)
+            .wrapping_add(1_442_695_040_888_963_407);
+        inputs.push(state);
+    }
+
+    let actual = run_harness(&dir, &executable, &inputs);
+    let expected = evaluate_many(&module, &inputs, 1_000).unwrap();
+    assert_eq!(actual, expected);
+
+    let disassembly = Command::new("objdump")
+        .env("LC_ALL", "C")
+        .arg("-dr")
+        .arg(&object)
+        .output()
+        .unwrap();
+    assert!(disassembly.status.success());
+    assert!(
+        String::from_utf8(disassembly.stdout)
+            .unwrap()
+            .contains("-0x100(%rbp)"),
+        "expected stack accesses beyond the disp8 range"
+    );
+}

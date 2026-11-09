@@ -600,6 +600,7 @@ fn is_operation_name(value: &str) -> bool {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::validate::validate;
 
     const SIMPLE: &[u8] = b"AIC 0.2\nfn aic_main(%x: u64) -> u64 {\n^entry:\n  %one = const.u64 1\n  %y = add.wrap.u64 %x, %one\n  ret.u64 %y\n}\n";
 
@@ -758,6 +759,55 @@ mod tests {
             }
             let result = std::panic::catch_unwind(|| parse(&bytes));
             assert!(result.is_ok(), "parser panicked for {bytes:?}");
+        }
+    }
+
+    #[test]
+    fn single_byte_mutations_and_truncations_do_not_panic_parse_or_validate() {
+        const REPLACEMENTS: &[u8] = &[
+            0, b'\t', b'\n', b'\r', b' ', b'%', b'^', b'_', b'0', b'9', b'a', b'Z', b';', b'=',
+            b':', b',', b'[', b']', b'{', b'}', b'-', b'>', b'.', 0x7f,
+        ];
+        let fixtures: &[&[u8]] = &[
+            include_bytes!("../examples/branch_phi.aic"),
+            include_bytes!("../examples/loop_swap.aic"),
+        ];
+
+        for fixture in fixtures {
+            for index in 0..fixture.len() {
+                for replacement in REPLACEMENTS {
+                    let mut mutated = fixture.to_vec();
+                    mutated[index] = *replacement;
+                    let checked = std::panic::catch_unwind(|| {
+                        if let Ok(module) = parse(&mutated) {
+                            let _ = validate(&module);
+                        }
+                    });
+                    assert!(
+                        checked.is_ok(),
+                        "panic after replacing byte {index} with {replacement:#x}"
+                    );
+                }
+
+                let mut deleted = fixture.to_vec();
+                deleted.remove(index);
+                let checked = std::panic::catch_unwind(|| {
+                    if let Ok(module) = parse(&deleted) {
+                        let _ = validate(&module);
+                    }
+                });
+                assert!(checked.is_ok(), "panic after deleting byte {index}");
+            }
+
+            for end in 0..=fixture.len() {
+                let truncated = &fixture[..end];
+                let checked = std::panic::catch_unwind(|| {
+                    if let Ok(module) = parse(truncated) {
+                        let _ = validate(&module);
+                    }
+                });
+                assert!(checked.is_ok(), "panic after truncating at byte {end}");
+            }
         }
     }
 }
