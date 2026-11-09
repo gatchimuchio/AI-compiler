@@ -112,6 +112,17 @@ fn branch_phi_object_matches_reference_for_exhaustive_u16_inputs_and_boundaries(
     inputs.extend([0, 1, 2, u64::MAX - 1, u64::MAX, 1 << 63, (1 << 63) - 1]);
     let actual = run_harness(&dir, &executable, &inputs);
     let expected = evaluate_many(&module, &inputs, 100).unwrap();
+    let independent: Vec<u64> = inputs
+        .iter()
+        .map(|value| {
+            if *value == 0 {
+                value.wrapping_sub(1)
+            } else {
+                value.wrapping_add(1)
+            }
+        })
+        .collect();
+    assert_eq!(actual, independent);
     assert_eq!(actual, expected);
 }
 
@@ -126,6 +137,8 @@ fn loop_phi_cycle_object_matches_reference_and_exposes_valid_elf() {
     let inputs: Vec<u64> = (0..=255).collect();
     let actual = run_harness(&dir, &executable, &inputs);
     let expected = evaluate_many(&module, &inputs, 10_000).unwrap();
+    let independent: Vec<u64> = inputs.iter().map(|value| value & 1).collect();
+    assert_eq!(actual, independent);
     assert_eq!(actual, expected);
 
     let header = Command::new("readelf")
@@ -210,6 +223,7 @@ fn long_stack_frame_with_disp32_operands_matches_reference() {
     let mut source = String::from("AIC 0.2\nfn aic_main(%x: u64) -> u64 {\n^entry:\n");
     let mut accumulator = String::from("x");
     let mut state = 0x7c31_8ad4_52e6_b90f_u64;
+    let mut operations = Vec::with_capacity(48);
     for index in 0..48 {
         state = state
             .wrapping_mul(6_364_136_223_846_793_005)
@@ -220,6 +234,7 @@ fn long_stack_frame_with_disp32_operands_matches_reference() {
         } else {
             "sub.wrap.u64"
         };
+        operations.push((operation == "add.wrap.u64", state));
         source.push_str(&format!(
             " %v{index} = {operation} %{accumulator}, %k{index}\n"
         ));
@@ -242,6 +257,19 @@ fn long_stack_frame_with_disp32_operands_matches_reference() {
 
     let actual = run_harness(&dir, &executable, &inputs);
     let expected = evaluate_many(&module, &inputs, 1_000).unwrap();
+    let independent: Vec<u64> = inputs
+        .iter()
+        .map(|input| {
+            operations.iter().fold(*input, |value, (is_add, constant)| {
+                if *is_add {
+                    value.wrapping_add(*constant)
+                } else {
+                    value.wrapping_sub(*constant)
+                }
+            })
+        })
+        .collect();
+    assert_eq!(actual, independent);
     assert_eq!(actual, expected);
 
     let disassembly = Command::new("objdump")
@@ -264,6 +292,7 @@ fn generated_multiway_phi_control_flow_matches_reference() {
     const STAGES: usize = 24;
     let mut source = String::from("AIC 0.2\nfn aic_main(%x: u64) -> u64 {\n^entry:\n");
     let mut thresholds = Vec::with_capacity(STAGES * 2);
+    let mut stages = Vec::with_capacity(STAGES);
     let mut random = 0x91d4_2ac7_6e3b_580f_u64;
 
     for stage in 0..STAGES {
@@ -281,6 +310,7 @@ fn generated_multiway_phi_control_flow_matches_reference() {
             random.rotate_left(17)
         };
         let delta_default = if stage % 2 == 0 { 1 } else { u64::MAX };
+        stages.push((threshold_a, threshold_b, delta_a, delta_b, delta_default));
 
         source.push_str(&format!(
             " %ta{stage} = const.u64 {threshold_a}\n %tb{stage} = const.u64 {threshold_b}\n %da{stage} = const.u64 {delta_a}\n %db{stage} = const.u64 {delta_b}\n %dc{stage} = const.u64 {delta_default}\n"
@@ -335,6 +365,22 @@ fn generated_multiway_phi_control_flow_matches_reference() {
 
     let actual = run_harness(&dir, &executable, &inputs);
     let expected = evaluate_many(&module, &inputs, 10_000).unwrap();
+    let independent: Vec<u64> = inputs
+        .iter()
+        .map(|input| {
+            stages.iter().fold(*input, |value, stage| {
+                let (threshold_a, threshold_b, delta_a, delta_b, delta_default) = stage;
+                if *input == *threshold_a {
+                    value.wrapping_add(*delta_a)
+                } else if *input == *threshold_b {
+                    value.wrapping_sub(*delta_b)
+                } else {
+                    value.wrapping_add(*delta_default)
+                }
+            })
+        })
+        .collect();
+    assert_eq!(actual, independent);
     assert_eq!(actual, expected);
 }
 

@@ -2,6 +2,11 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-09 — Independent test oracles
+
+- Branch, loop-swap, multi-backedge loop, long arithmetic, and generated multiway Phi E2E fixtures now compare object output with both the reference interpreter and separate known-result models.
+- Debug/release suiteは各25 Rust unit、3 CLI、7 E2E testsを通過。
+
 ## 2026-11-09 — ABI probe edge checks
 
 - ABI probe now explicitly checks call-site 16-byte stack alignment, RSP restoration, RBP preservation, and RBX/R12–R15 preservation.

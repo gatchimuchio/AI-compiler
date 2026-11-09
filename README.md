@@ -51,7 +51,7 @@
 
 ## 現在の実装と検査
 
-Rust compilerはAIC/0.2のparse、型/CFG/SSA/Phi検査、参照interpreter、x86-64 assembly生成からGNU as objectまでを接続しています。実行時に`as --version`のGNU assembler識別名を確認し、C++20 harnessから生成objectをlink・実行します。branch fixtureの全u16入力とu64境界値、loop/Phi-cycle fixtureの0..255、2つのbackedgeを持つloop-header Phi、24段・各3 predecessorのPhi合流を持つ生成CFG、長いstack frame、ELF header/symbol/relocation/disassembly、ABIのRSP/RBP/callee-saved状態、同一環境でのbyte determinismを確認します。ABI probeにはRBP破壊を拒否するnegative testもあります。parserのfixture変異・切り詰め耐性も検査しています。objectはprivate一時directory内で生成・検査し、その後に出力先へinstallします。これらはhost上の局所QCで、ISA/gABIの完全照合や形式的意味保存証明ではありません。
+Rust compilerはAIC/0.2のparse、型/CFG/SSA/Phi検査、参照interpreter、x86-64 assembly生成からGNU as objectまでを接続しています。実行時に`as --version`のGNU assembler識別名を確認し、C++20 harnessから生成objectをlink・実行します。branch fixtureの全u16入力とu64境界値、loop/Phi-cycle fixtureの0..255、2つのbackedgeを持つloop-header Phi、24段・各3 predecessorのPhi合流を持つ生成CFG、長いstack frameの結果を、参照interpreterと独立した期待値計算の両方に照合します。ELF header/symbol/relocation/disassembly、ABIのRSP/RBP/callee-saved状態、同一環境でのbyte determinismも確認します。ABI probeにはRBP破壊を拒否するnegative testがあります。parserのfixture変異・切り詰め耐性も検査しています。objectはprivate一時directory内で生成・検査し、その後に出力先へinstallします。これらはhost上の局所QCで、ISA/gABIの完全照合や形式的意味保存証明ではありません。
 
 2026-11-09時点のdebug suiteは25 Rust unit tests、3 CLI tests、7 E2E testsです。検査手順：
 
