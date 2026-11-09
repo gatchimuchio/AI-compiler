@@ -2,6 +2,13 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-10 — Cloud Codex単独運用向けAGENTS.mdの統合改訂
+
+- AI-compilerのリポジトリ局所`AGENTS.md`を、日本語基底かつグローバル/カスタム指示に依存しない施工・監査規律へ再構成。Owner原文、主語/目的/設計者/施工者/使用者/指示者/責任者、正当性・整合性・一貫性・妥当性、観測・根因帰還・Git責任境界を明示。
+- AIC/0.2の採用済み意味、pure `aic_main(u64)->u64`、u64 wrap/CFG/SSA/Phi並列意味、Linux x86-64/System V/ELF64 ET_REL、Rust compiler＋C++20 harness＋GNU asという現行分担を保持し、compiler実装言語とAI入力の意味を区別。未採用のCPU ISA feature floor/ELF規範版/QA閾値/形式証明/β公開は未決定のまま保持。
+- MINIDORA-BETA、konjac-Translation、BLUE-TANUKI、D4-POCKET、MARS、既存MINIDORAの局所AGENTS・履歴から共通運用規律のみ抽出。原文参照HEADとAGENTS blob、採用／非継承の境界を`docs/REFERENCES.md`に追記し、2026-11-02の既存参照記録を保持。
+- 一気通貫BUILD→実物QC→対象別QA、正本→source→object→consumerのtrace、versioned provenance、負例、未実施検査・未公開を区別する手順を統合。既存3点セット・採用/未採用状態・コード・テスト・依存・生成物を変更せず、β承認も行っていない。文書-onlyの改訂のためコンパイラ試験は`NOT_RUN`。今回の検査は文書構造・正本整合・Git差分・遠隔内容同一性に限定。
+
 ## 2026-11-09 — Structured editing and version evolution review
 
 - Compared the adopted AIC/0.2 input with JSON/RFC 8259, JSON Schema 2020-12, YAML 1.2.2, and Protocol Buffers on local edit identity, ordering, source fidelity, unknown elements, and schema evolution.
