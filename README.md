@@ -70,7 +70,7 @@ E2E testsにはGNU as/binutils、g++ 14以降が必要です。Pinned toolchain�
 cargo run -- compile --target x86_64-linux-gnu examples/branch_phi.aic -o branch_phi.o
 ~~~
 
-作業成果：[既存技術・規格調査](docs/research/01_既存技術・規格調査.md) · [既存言語・表現参照地図](docs/research/02_既存言語・表現参照地図.md) · [入力表現・構文・検証境界の初回比較](docs/research/03_入力表現・構文・検証境界比較.md) · [構造化編集・版進化の限定比較](docs/research/04_構造化編集・版進化比較.md) · [制御フロー・効果・状態モデルの限定比較](docs/research/05_制御フロー・効果・状態モデル比較.md) · [整数型・数値境界の限定比較](docs/research/06_整数型・数値境界意味比較.md) · [採用済み初期変換契約と未決事項](docs/proposals/01_初期変換契約案.md)
+作業成果：[既存技術・規格調査](docs/research/01_既存技術・規格調査.md) · [既存言語・表現参照地図](docs/research/02_既存言語・表現参照地図.md) · [入力表現・構文・検証境界の初回比較](docs/research/03_入力表現・構文・検証境界比較.md) · [構造化編集・版進化の限定比較](docs/research/04_構造化編集・版進化比較.md) · [制御フロー・効果・状態モデルの限定比較](docs/research/05_制御フロー・効果・状態モデル比較.md) · [整数型・数値境界の限定比較](docs/research/06_整数型・数値境界意味比較.md) · [メモリ参照・寿命・アクセス境界の限定比較](docs/research/07_メモリ参照・寿命・アクセス境界比較.md) · [採用済み初期変換契約と未決事項](docs/proposals/01_初期変換契約案.md)
 
 ## リポジトリの正本
 

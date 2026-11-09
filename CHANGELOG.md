@@ -9,6 +9,14 @@
 - MINIDORA-BETA、konjac-Translation、BLUE-TANUKI、D4-POCKET、MARS、既存MINIDORAの局所AGENTS・履歴から共通運用規律のみ抽出。原文参照HEADとAGENTS blob、採用／非継承の境界を`docs/REFERENCES.md`に追記し、2026-11-02の既存参照記録を保持。
 - 一気通貫BUILD→実物QC→対象別QA、正本→source→object→consumerのtrace、versioned provenance、負例、未実施検査・未公開を区別する手順を統合。既存3点セット・採用/未採用状態・コード・テスト・依存・生成物を変更せず、β承認も行っていない。文書-onlyの改訂のためコンパイラ試験は`NOT_RUN`。今回の検査は文書構造・正本整合・Git差分・遠隔内容同一性に限定。
 
+## 2026-11-09 — Memory references, lifetime, and access boundaries review
+
+- Compared bounded primary-source questions for C11, Rust, Java SE 25, Python 3.15.2, WebAssembly Core 3.0 linear memory, and LLVM IR.
+- Distinguished object lifetime, alias/access validity, bounds checks, exceptions/traps, undefined behavior, poison, and implementation-managed reclamation; no single pointer model is inferred.
+- Recorded resource-based deferrals and reopening conditions for C++20, other language families and editions, managed runtimes, Wasm GC/host integration, and additional IRs.
+- Kept AIC/0.2 unchanged with no memory/pointer operations; updated the AGENTS research-path index, map, roadmap, Codex instructions, and README links.
+- Documentation-only change; code tests were not run.
+
 ## 2026-11-09 — Structured editing and version evolution review
 
 - Compared the adopted AIC/0.2 input with JSON/RFC 8259, JSON Schema 2020-12, YAML 1.2.2, and Protocol Buffers on local edit identity, ordering, source fidelity, unknown elements, and schema evolution.
