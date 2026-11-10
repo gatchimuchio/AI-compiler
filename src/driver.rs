@@ -166,10 +166,15 @@ fn verify_elf64_rel_x86_64(path: &Path) -> Result<()> {
             format!("could not read assembler output: {error}"),
         )
     })?;
+    verify_elf64_rel_x86_64_bytes(&bytes)
+}
+
+fn verify_elf64_rel_x86_64_bytes(bytes: &[u8]) -> Result<()> {
     if bytes.len() < 64
         || bytes.get(0..4) != Some(b"\x7fELF")
         || bytes[4] != 2
         || bytes[5] != 1
+        || bytes[6] != 1
         || u16::from_le_bytes([bytes[16], bytes[17]]) != 1
         || u16::from_le_bytes([bytes[18], bytes[19]]) != 62
         || u32::from_le_bytes([bytes[20], bytes[21], bytes[22], bytes[23]]) != 1
@@ -193,6 +198,26 @@ mod tests {
         fn drop(&mut self) {
             let _ = fs::remove_dir_all(&self.0);
         }
+    }
+
+    #[test]
+    fn rejects_noncurrent_elf_identification_version() {
+        let mut header = [0u8; 64];
+        header[0..4].copy_from_slice(b"\x7fELF");
+        header[4] = 2;
+        header[5] = 1;
+        header[6] = 1;
+        header[16..18].copy_from_slice(&1u16.to_le_bytes());
+        header[18..20].copy_from_slice(&62u16.to_le_bytes());
+        header[20..24].copy_from_slice(&1u32.to_le_bytes());
+        header[52..54].copy_from_slice(&64u16.to_le_bytes());
+        assert!(verify_elf64_rel_x86_64_bytes(&header).is_ok());
+
+        header[6] = 0;
+        assert_eq!(
+            verify_elf64_rel_x86_64_bytes(&header).unwrap_err().code,
+            "E_OUTPUT"
+        );
     }
 
     #[test]
