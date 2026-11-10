@@ -200,8 +200,7 @@ mod tests {
         }
     }
 
-    #[test]
-    fn rejects_noncurrent_elf_identification_version() {
+    fn elf64_rel_header() -> [u8; 64] {
         let mut header = [0u8; 64];
         header[0..4].copy_from_slice(b"\x7fELF");
         header[4] = 2;
@@ -211,6 +210,12 @@ mod tests {
         header[18..20].copy_from_slice(&62u16.to_le_bytes());
         header[20..24].copy_from_slice(&1u32.to_le_bytes());
         header[52..54].copy_from_slice(&64u16.to_le_bytes());
+        header
+    }
+
+    #[test]
+    fn rejects_noncurrent_elf_identification_version() {
+        let mut header = elf64_rel_header();
         assert!(verify_elf64_rel_x86_64_bytes(&header).is_ok());
 
         header[6] = 0;
@@ -342,5 +347,47 @@ mod tests {
         assert!(error.detail.contains("fixture assembler failure"));
         assert_eq!(fs::read(&output).unwrap(), b"previous artifact");
         assert_eq!(fs::read_dir(&directory.0).unwrap().count(), 2);
+    }
+
+    #[test]
+    fn invalid_elf_output_preserves_destination_and_cleans_temporary_files() {
+        use std::os::unix::fs::PermissionsExt;
+
+        let directory = TemporaryDirectory(std::env::temp_dir().join(format!(
+            "aic-invalid-elf-{}-{}",
+            std::process::id(),
+            TEMP_SEQUENCE.fetch_add(1, Ordering::Relaxed)
+        )));
+        fs::create_dir(&directory.0).unwrap();
+        let output = directory.0.join("preserved.o");
+        fs::write(&output, b"previous artifact").unwrap();
+
+        let mut invalid_header = elf64_rel_header();
+        invalid_header[6] = 0;
+        fs::write(directory.0.join("invalid-elf.o"), invalid_header).unwrap();
+
+        let assembler = directory.0.join("invalid-elf-as");
+        fs::write(
+            &assembler,
+            b"#!/bin/sh\nif [ \"$1\" = \"--version\" ]; then\nprintf 'GNU assembler fixture\\n'\nexit 0\nfi\ncp \"${0%/*}/invalid-elf.o\" \"$3\"\n",
+        )
+        .unwrap();
+        let mut permissions = fs::metadata(&assembler).unwrap().permissions();
+        permissions.set_mode(0o755);
+        fs::set_permissions(&assembler, permissions).unwrap();
+        let source = b"AIC 0.2\nfn aic_main(%x: u64) -> u64 {\n^entry:\n ret.u64 %x\n}\n";
+
+        let error = compile_object_with_assembler(
+            source,
+            "x86_64-linux-gnu",
+            &output,
+            assembler.as_os_str(),
+        )
+        .unwrap_err();
+
+        assert_eq!(error.code, "E_OUTPUT");
+        assert!(error.detail.contains("not an ELF64"));
+        assert_eq!(fs::read(&output).unwrap(), b"previous artifact");
+        assert_eq!(fs::read_dir(&directory.0).unwrap().count(), 3);
     }
 }
