@@ -416,12 +416,16 @@ mod tests {
         fs::create_dir(&directory.0).unwrap();
         let output = directory.0.join("preserved.o");
         fs::write(&output, b"previous artifact").unwrap();
-        fs::write(directory.0.join("valid-elf.o"), elf64_rel_header()).unwrap();
+        fs::write(
+            directory.0.join("matching-elf-header.o"),
+            elf64_rel_header(),
+        )
+        .unwrap();
 
         let assembler = directory.0.join("symlink-elf-as");
         fs::write(
             &assembler,
-            b"#!/bin/sh\nif [ \"$1\" = \"--version\" ]; then\nprintf 'GNU assembler fixture\\n'\nexit 0\nfi\nln -s \"${0%/*}/valid-elf.o\" \"$3\"\n",
+            b"#!/bin/sh\nif [ \"$1\" = \"--version\" ]; then\nprintf 'GNU assembler fixture\\n'\nexit 0\nfi\nln -s \"${0%/*}/matching-elf-header.o\" \"$3\"\n",
         )
         .unwrap();
         let mut permissions = fs::metadata(&assembler).unwrap().permissions();
