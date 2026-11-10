@@ -160,6 +160,18 @@ fn write_file(path: &Path, bytes: &[u8]) -> Result<()> {
 }
 
 fn verify_elf64_rel_x86_64(path: &Path) -> Result<()> {
+    let metadata = fs::symlink_metadata(path).map_err(|error| {
+        Diagnostic::global(
+            "E_OUTPUT",
+            format!("could not inspect assembler output: {error}"),
+        )
+    })?;
+    if !metadata.file_type().is_file() {
+        return Err(Diagnostic::global(
+            "E_OUTPUT",
+            "assembler output is not a regular file",
+        ));
+    }
     let bytes = fs::read(path).map_err(|error| {
         Diagnostic::global(
             "E_OUTPUT",
@@ -306,7 +318,8 @@ mod tests {
         assert!(
             error
                 .detail
-                .contains("does not identify itself as GNU assembler")
+                .contains("does not identify itself as GNU assembler"),
+            "unexpected diagnostic: {error}"
         );
         assert_eq!(fs::read(&output).unwrap(), b"previous artifact");
         assert_eq!(fs::read_dir(&directory.0).unwrap().count(), 2);
@@ -387,6 +400,45 @@ mod tests {
 
         assert_eq!(error.code, "E_OUTPUT");
         assert!(error.detail.contains("not an ELF64"));
+        assert_eq!(fs::read(&output).unwrap(), b"previous artifact");
+        assert_eq!(fs::read_dir(&directory.0).unwrap().count(), 3);
+    }
+
+    #[test]
+    fn rejects_symlink_assembler_output_and_preserves_destination() {
+        use std::os::unix::fs::PermissionsExt;
+
+        let directory = TemporaryDirectory(std::env::temp_dir().join(format!(
+            "aic-symlink-elf-{}-{}",
+            std::process::id(),
+            TEMP_SEQUENCE.fetch_add(1, Ordering::Relaxed)
+        )));
+        fs::create_dir(&directory.0).unwrap();
+        let output = directory.0.join("preserved.o");
+        fs::write(&output, b"previous artifact").unwrap();
+        fs::write(directory.0.join("valid-elf.o"), elf64_rel_header()).unwrap();
+
+        let assembler = directory.0.join("symlink-elf-as");
+        fs::write(
+            &assembler,
+            b"#!/bin/sh\nif [ \"$1\" = \"--version\" ]; then\nprintf 'GNU assembler fixture\\n'\nexit 0\nfi\nln -s \"${0%/*}/valid-elf.o\" \"$3\"\n",
+        )
+        .unwrap();
+        let mut permissions = fs::metadata(&assembler).unwrap().permissions();
+        permissions.set_mode(0o755);
+        fs::set_permissions(&assembler, permissions).unwrap();
+        let source = b"AIC 0.2\nfn aic_main(%x: u64) -> u64 {\n^entry:\n ret.u64 %x\n}\n";
+
+        let error = compile_object_with_assembler(
+            source,
+            "x86_64-linux-gnu",
+            &output,
+            assembler.as_os_str(),
+        )
+        .unwrap_err();
+
+        assert_eq!(error.code, "E_OUTPUT");
+        assert!(error.detail.contains("regular file"));
         assert_eq!(fs::read(&output).unwrap(), b"previous artifact");
         assert_eq!(fs::read_dir(&directory.0).unwrap().count(), 3);
     }
