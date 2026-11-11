@@ -909,6 +909,92 @@ mod tests {
     }
 
     #[test]
+    fn unsupported_entry_and_program_headers_preserve_output_and_clean_staging() {
+        use std::os::unix::fs::PermissionsExt;
+
+        let _guard = ASSEMBLER_FIXTURE.lock().unwrap();
+        let directory = TemporaryDirectory(std::env::temp_dir().join(format!(
+            "aic-object-profile-{}-{}",
+            std::process::id(),
+            TEMP_SEQUENCE.fetch_add(1, Ordering::Relaxed)
+        )));
+        fs::create_dir(&directory.0).unwrap();
+        let fixture = directory.0.join("fixture.o");
+        let source = b"AIC 0.2\nfn aic_main(%x: u64) -> u64 {\n^entry:\n ret.u64 %x\n}\n";
+        compile_object(source, "x86_64-linux-gnu", &fixture).unwrap();
+        let original = fs::read(&fixture).unwrap();
+        let assembler = directory.0.join("substituting-as");
+        fs::write(
+            &assembler,
+            b"#!/bin/sh\nif [ \"$1\" = \"--version\" ]; then\nprintf 'GNU assembler fixture\\n'\nexit 0\nfi\ncp \"${0%/*}/fixture.o\" \"$4\"\n",
+        )
+        .unwrap();
+        let mut permissions = fs::metadata(&assembler).unwrap().permissions();
+        permissions.set_mode(0o755);
+        fs::set_permissions(&assembler, permissions).unwrap();
+        let output = directory.0.join("preserved.o");
+        let mut accepted = Vec::new();
+
+        for (name, program_table, expected_detail) in [
+            ("entry address", false, "entry points"),
+            ("bounded PT_NULL table", true, "program headers"),
+        ] {
+            let mut bytes = original.clone();
+            if program_table {
+                let table_offset = bytes.len().next_multiple_of(8);
+                bytes[32..40].copy_from_slice(&(table_offset as u64).to_le_bytes());
+                bytes[54..56].copy_from_slice(&56u16.to_le_bytes());
+                bytes[56..58].copy_from_slice(&1u16.to_le_bytes());
+                bytes.resize(table_offset + 56, 0); // One bounded PT_NULL entry.
+            } else {
+                bytes[24..32].copy_from_slice(&1u64.to_le_bytes());
+            }
+            fs::write(&fixture, &bytes).unwrap();
+            let inspection = Command::new("readelf")
+                .env("LC_ALL", "C")
+                .args(["--wide", "--file-header", "--program-headers"])
+                .arg(&fixture)
+                .output()
+                .unwrap();
+            assert!(inspection.status.success(), "{name}: {inspection:?}");
+            let inspected = String::from_utf8(inspection.stdout).unwrap();
+            if program_table {
+                assert!(
+                    inspected
+                        .lines()
+                        .any(|line| line.trim_start().starts_with("NULL")),
+                    "{name}: {inspected}"
+                );
+            } else {
+                assert!(
+                    inspected.lines().any(|line| line
+                        .trim_start()
+                        .strip_prefix("Entry point address:")
+                        .is_some_and(|value| value.trim() == "0x1")),
+                    "{name}: {inspected}"
+                );
+            }
+            fs::write(&output, b"previous artifact").unwrap();
+            match compile_object_with_assembler(
+                source,
+                "x86_64-linux-gnu",
+                &output,
+                assembler.as_os_str(),
+            ) {
+                Ok(()) => accepted.push(name),
+                Err(error) => {
+                    assert_eq!(error.code, "E_OUTPUT", "{name}: {error}");
+                    assert!(error.detail.starts_with("unsupported assembler output:"));
+                    assert!(error.detail.contains(expected_detail), "{name}: {error}");
+                    assert_eq!(fs::read(&output).unwrap(), b"previous artifact", "{name}");
+                }
+            }
+            assert_eq!(fs::read_dir(&directory.0).unwrap().count(), 3, "{name}");
+        }
+        assert!(accepted.is_empty(), "unexpectedly installed: {accepted:?}");
+    }
+
+    #[test]
     fn object_byte_budget_preserves_destination_and_cleans_staging() {
         use std::os::unix::fs::PermissionsExt;
 

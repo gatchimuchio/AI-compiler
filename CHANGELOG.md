@@ -2,6 +2,12 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-11 — R1/R3/R4 ELF entryとprogram headerの出力境界
+
+- ELF 4.2 §2.1と固定AMD64 psABIのheader節を照合し、現producerが出さないprocess entry addressとprogram header offset/countの非zeroをinstall前に`E_OUTPUT`で拒否。一般ELFの不正判定とは区別する。
+- 修正前に実GNU as objectの2変種がinstallされることを再現し、修正後は両方の拒否、既存destination保持、staging cleanupを確認。ELF paddingの無視と、table不在時のentry sizeの扱いも確認した。
+- format/check/Clippyとdebug/release各53 unit + 5 CLI + 10 E2EがPASS。根拠・反例・hash・未監査範囲は規格調査§3.18。
+
 ## 2026-11-11 — R4 assembler timeout経路のcompile-level QC
 
 - GNU asのversion queryとassembly invocationが短いtest deadlineを超えた時、`E_TOOL`となり、既存destinationを保持し、stagingをcleanupするcompile-level testを追加した。

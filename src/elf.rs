@@ -106,6 +106,15 @@ pub(crate) fn verify_elf64_rel_x86_64_bytes(bytes: &[u8]) -> Result<()> {
         ));
     }
 
+    // The producer emits linkable functions without process entry points or
+    // program headers. These are output-profile limits, not general ELF rules.
+    if u64_at(bytes, 24) != 0 {
+        return Err(unsupported("entry points are unsupported"));
+    }
+    if u64_at(bytes, 32) != 0 || u16_at(bytes, 56) != 0 {
+        return Err(unsupported("program headers are unsupported"));
+    }
+
     let section_offset = u64_at(bytes, 40);
     let section_count = u16_at(bytes, 60) as usize;
     let names_index = u16_at(bytes, 62) as usize;
@@ -335,6 +344,50 @@ mod tests {
                 .map(|error| error.code),
             Some("E_LIMIT")
         );
+    }
+
+    #[test]
+    fn entry_and_program_headers_follow_current_object_profile() {
+        let mut bytes = object();
+        // ELF readers ignore EI_PAD. An absent program table has no entries
+        // whose size needs interpreting, even when e_phentsize is nonzero.
+        bytes[9..16].fill(0xff);
+        put16(&mut bytes, 54, 56);
+        verify_elf64_rel_x86_64_bytes(&bytes).unwrap();
+
+        for (name, offset, mutation, detail) in [
+            (
+                "entry point",
+                24,
+                1u64.to_le_bytes().to_vec(),
+                "entry points",
+            ),
+            (
+                "program table offset",
+                32,
+                64u64.to_le_bytes().to_vec(),
+                "program headers",
+            ),
+            (
+                "program table count",
+                56,
+                1u16.to_le_bytes().to_vec(),
+                "program headers",
+            ),
+            (
+                "extended program table count",
+                56,
+                0xffffu16.to_le_bytes().to_vec(),
+                "program headers",
+            ),
+        ] {
+            let mut bytes = object();
+            bytes[offset..offset + mutation.len()].copy_from_slice(&mutation);
+            let error = verify_elf64_rel_x86_64_bytes(&bytes).unwrap_err();
+            assert_eq!(error.code, "E_OUTPUT", "{name}: {error}");
+            assert!(error.detail.starts_with("unsupported assembler output:"));
+            assert!(error.detail.contains(detail), "{name}: {error}");
+        }
     }
 
     #[test]
