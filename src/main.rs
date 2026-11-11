@@ -1,9 +1,11 @@
 use std::env;
 use std::fs;
+use std::io::Read;
 use std::path::{Path, PathBuf};
 
 use ai_compiler::Diagnostic;
 use ai_compiler::driver::compile_object;
+use ai_compiler::limits::MAX_SOURCE_BYTES;
 
 fn main() {
     std::process::exit(run());
@@ -108,7 +110,14 @@ fn run() -> i32 {
         );
         return 2;
     }
-    let source = match fs::read(&input_path) {
+    // Read one byte beyond the parser budget to distinguish exact-limit input.
+    // Metadata lengths are insufficient for streams and files that grow.
+    let source = match fs::File::open(&input_path).and_then(|file| {
+        let mut source = Vec::new();
+        file.take((MAX_SOURCE_BYTES + 1) as u64)
+            .read_to_end(&mut source)?;
+        Ok(source)
+    }) {
         Ok(source) => source,
         Err(error) => {
             eprintln!(

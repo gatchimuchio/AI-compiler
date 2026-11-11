@@ -51,6 +51,8 @@
 
 ## 3. 実装時の優先事項
 
+B33はAGENTS `BUDGET`の実装施工として、source 1 MiB、256 block、16,384 instruction、65,536 Phi incomingと公開IR識別子63 byteを新たな容量制限にした。CLIは上限＋1 byteまで読み、parserはencoding前、validatorは定義表・支配集合前に超過を`E_LIMIT`拒否する。容量縮小は初期変換契約§2.5へ明記する。総RSS/時間、assembler出力・object読取等の全境界やβ資源保証は未成立。局所QCは規格調査§3.13を参照。
+
 1. AI専用文字列の意味を先に定義し、処理の意味が変わらない変換経路を設計する。
 2. 対象CPU/OS/ABI/実行形式の条件を明示する。
 3. コンパイラ内部の変換規則を構築し、機械命令生成まで一気通貫で接続する。

@@ -2,6 +2,12 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-11 — R3/R4 入力読取と公開IRの容量制限
+
+- 新たな実装容量をsource 1 MiB、256 block、16,384 instruction、65,536 Phi incoming、各IR identifier 63 byteとした。CLIはcap+1 byteまで読み、parse/validate入口はencoding・clone・支配集合等の前にE_LIMITで超過を拒否する。AIC意味上の不正と容量拒否を区別し、β資源契約へ昇格しない。
+- exact/+1、checked overflow、公開API、既存source/output保持、assembler照会前拒否、EOF前のstream拒否を検査。試験自体は有限pipeで回帰時のメモリ消費も抑える。
+- format/check/Clippyとdebug/release各42 unit + 5 CLI + 10 E2EがPASS。初回Clippy指摘と試験memory監査の是正後、該当試験を両profileで再検査。詳細・source hash・未限定の資源境界は規格調査§3.13へ記録した。総RSS/時間、全規格QA、β保証・公開承認は未成立。
+
 ## 2026-11-11 — R1 SMT-LIBの数値意味とsolver証拠境界
 
 - SMT-LIB 2.7 r2026-09-09、FixedSizeBitVectors/Core/QF_BVの一次資料を、BV64 wrap・literal・Bool・parallel let・sat/unsat/unknown・model/proofの問いだけM2比較。AICとの対応案と未保証を数値比較§7へ記録した。

@@ -3,6 +3,7 @@ pub mod driver;
 mod elf;
 pub mod interpreter;
 pub mod ir;
+pub mod limits;
 pub mod parser;
 pub mod validate;
 pub mod x86_64;

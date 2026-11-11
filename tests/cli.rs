@@ -1,7 +1,10 @@
 use std::fs;
+use std::io::Write;
 use std::path::PathBuf;
-use std::process::Command;
+use std::process::{Command, Stdio};
 use std::sync::atomic::{AtomicU64, Ordering};
+
+use ai_compiler::limits::MAX_SOURCE_BYTES;
 
 static NEXT_TEST: AtomicU64 = AtomicU64::new(0);
 const TARGET: &str = "x86_64-linux-gnu";
@@ -98,4 +101,93 @@ fn cli_supports_a_positional_path_starting_with_a_dash_after_double_dash() {
         String::from_utf8_lossy(&result.stderr)
     );
     assert!(output.is_file());
+}
+
+#[test]
+fn cli_enforces_source_budget_and_preserves_files_before_tool_invocation() {
+    let dir = TestDir::new();
+    let input = dir.path("input.aic");
+    let output = dir.path("output.o");
+    let mut source = b"AIC 0.2\nfn aic_main(%x: u64) -> u64 {\n^entry:\n ret.u64 %x\n}\n;".to_vec();
+    source.resize(MAX_SOURCE_BYTES, b'x');
+    fs::write(&input, &source).unwrap();
+    let arguments = [
+        "compile",
+        "--target",
+        TARGET,
+        input.to_str().unwrap(),
+        "-o",
+        output.to_str().unwrap(),
+    ];
+    let accepted = run(&arguments);
+    assert!(
+        accepted.status.success(),
+        "{}",
+        String::from_utf8_lossy(&accepted.stderr)
+    );
+
+    source.push(b'x');
+    fs::write(&input, &source).unwrap();
+    fs::write(&output, b"previous artifact").unwrap();
+    let rejected = Command::new(env!("CARGO_BIN_EXE_aic"))
+        .args(arguments)
+        .env("PATH", &dir.0) // No assembler is available in this directory.
+        .output()
+        .unwrap();
+    assert_eq!(rejected.status.code(), Some(2));
+    assert!(String::from_utf8_lossy(&rejected.stderr).contains("error[E_LIMIT]"));
+    assert_eq!(fs::read(&output).unwrap(), b"previous artifact");
+    assert_eq!(fs::read(&input).unwrap(), source);
+    assert_eq!(fs::read_dir(&dir.0).unwrap().count(), 2);
+
+    let same_input = run(&[
+        "compile",
+        "--target",
+        TARGET,
+        input.to_str().unwrap(),
+        "-o",
+        input.to_str().unwrap(),
+    ]);
+    assert_eq!(same_input.status.code(), Some(2));
+    assert!(String::from_utf8_lossy(&same_input.stderr).contains("error[E_OUTPUT]"));
+    assert_eq!(fs::read(&input).unwrap(), source);
+}
+
+#[test]
+fn cli_bounds_reads_without_waiting_for_end_of_stream() {
+    let dir = TestDir::new();
+    let output = dir.path("output.o");
+    fs::write(&output, b"previous artifact").unwrap();
+    let mut child = Command::new("timeout")
+        .args([
+            "--kill-after=1s",
+            "5s",
+            env!("CARGO_BIN_EXE_aic"),
+            "compile",
+            "--target",
+            TARGET,
+            "/dev/stdin",
+            "-o",
+        ])
+        .arg(&output)
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .unwrap();
+    // Feed only a finite amount and keep the pipe open: a missing read bound
+    // waits for EOF and times out, rather than consuming unbounded test memory.
+    let mut writer = child.stdin.take().unwrap();
+    writer.write_all(&vec![0; MAX_SOURCE_BYTES + 1]).unwrap();
+    let result = child.wait_with_output().unwrap();
+    drop(writer);
+    assert_eq!(
+        result.status.code(),
+        Some(2),
+        "{}",
+        String::from_utf8_lossy(&result.stderr)
+    );
+    assert!(String::from_utf8_lossy(&result.stderr).contains("error[E_LIMIT]"));
+    assert_eq!(fs::read(&output).unwrap(), b"previous artifact");
+    assert_eq!(fs::read_dir(&dir.0).unwrap().count(), 1);
 }

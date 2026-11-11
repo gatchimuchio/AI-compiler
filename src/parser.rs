@@ -2,6 +2,7 @@ use crate::diagnostic::{Diagnostic, Result, Span};
 use crate::ir::{
     Block, Incoming, Instruction, InstructionKind, Module, Terminator, TerminatorKind,
 };
+use crate::limits::{MAX_IDENTIFIER_BYTES, MAX_SOURCE_BYTES, check_budget};
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 enum Kind {
@@ -38,6 +39,7 @@ struct PendingBlock {
 }
 
 pub fn parse(input: &[u8]) -> Result<Module> {
+    check_budget(input.len(), MAX_SOURCE_BYTES, "source bytes", None)?;
     let text = validate_encoding(input)?;
     let mut records = Vec::new();
     for (index, raw) in text.split('\n').enumerate() {
@@ -252,7 +254,7 @@ fn lex_line(line: &str, line_number: usize) -> Result<Vec<Token>> {
                 {
                     i += 1;
                 }
-                if i - id_start > 63 {
+                if i - id_start > MAX_IDENTIFIER_BYTES {
                     return Err(Diagnostic::at(
                         "E_SYNTAX",
                         Span::new(line_number, start + 1),
@@ -589,7 +591,7 @@ fn is_operation_name(value: &str) -> bool {
     value.split('.').all(|part| {
         let bytes = part.as_bytes();
         !bytes.is_empty()
-            && bytes.len() <= 63
+            && bytes.len() <= MAX_IDENTIFIER_BYTES
             && bytes[0].is_ascii_lowercase()
             && bytes[1..]
                 .iter()

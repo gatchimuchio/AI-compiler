@@ -2,6 +2,7 @@ use std::collections::{BTreeMap, BTreeSet, VecDeque};
 
 use crate::diagnostic::{Diagnostic, Result};
 use crate::ir::{InstructionKind, Module, TerminatorKind};
+use crate::limits::check_module_budget;
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum ValueType {
@@ -24,6 +25,7 @@ pub struct ValidatedModule {
 }
 
 pub fn validate(module: &Module) -> Result<ValidatedModule> {
+    check_module_budget(module)?;
     if module.blocks.is_empty() {
         return Err(Diagnostic::global(
             "E_CFG",
