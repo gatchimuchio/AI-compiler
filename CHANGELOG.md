@@ -2,6 +2,13 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-11 — R1 ASN.1 BER/CER/DER encoding-scope review
+
+- Compared ITU-T X.690 (02/2021), the current in-force edition, and in-force Erratum 1 (09/2021) on abstract ASN.1 values versus transfer syntax, BER representation choices, CER/DER restrictions, and the single-type scope of canonical encodings.
+- Recorded that BER INTEGER contents are already shortest under clause 8.3.2; DER requires minimum definite-length encoding and canonical SET/SET OF ordering, while CER uses indefinite length for constructed encodings. X.690 clause 12.1 limits unambiguous octet-string scope to one ASN.1 type. Erratum 1 fixes a Figure 4 high-tag identifier typo.
+- Retrieved the official English PDF for verification (840,764 bytes, SHA-256 `6ac799a2d1ebed36abe39c9eac3586185bfb7db679f801e737189d6fdb1bbd6c`) and deleted the temporary copy because reproduction terms were not established. No source copy is retained.
+- ASN.1 runtime/interop/performance checks and compiler tests were not run. No AIC feature or canonicalization policy was adopted; documentation-only update.
+
 ## 2026-11-11 — R1 CBOR deterministic map encoding review
 
 - Compared RFC 8949 (STD 94, December 2020, Internet Standard; it obsoletes RFC 7049 without creating a new format version) on the generic data model, map ordering and duplicate-key validity, and the core deterministic-encoding requirements.
