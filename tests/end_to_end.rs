@@ -182,41 +182,43 @@ fn loop_phi_cycle_object_matches_reference_and_exposes_valid_elf() {
     assert_eq!(actual, independent);
     assert_eq!(actual, expected);
 
-    let header = Command::new("readelf")
+    let inspection = Command::new("readelf")
         .env("LC_ALL", "C")
-        .arg("-h")
+        .args(["--lint", "--wide", "--all"])
         .arg(&object)
         .output()
         .unwrap();
-    assert!(header.status.success());
-    let header = String::from_utf8(header.stdout).unwrap();
-    assert!(header.contains("ELF64"));
-    assert!(header.contains("REL (Relocatable file)"));
-    assert!(header.contains("Advanced Micro Devices X86-64"));
-
-    let symbols = Command::new("readelf")
-        .env("LC_ALL", "C")
-        .arg("-s")
-        .arg(&object)
-        .output()
-        .unwrap();
-    assert!(symbols.status.success());
-    let symbols = String::from_utf8(symbols.stdout).unwrap();
-    assert!(symbols.contains("GLOBAL"));
-    assert!(symbols.contains("aic_main"));
-
-    let relocations = Command::new("readelf")
-        .env("LC_ALL", "C")
-        .arg("-r")
-        .arg(&object)
-        .output()
-        .unwrap();
-    assert!(relocations.status.success());
     assert!(
-        String::from_utf8(relocations.stdout)
-            .unwrap()
-            .contains("There are no relocations")
+        inspection.status.success(),
+        "readelf inspection failed: {}",
+        String::from_utf8_lossy(&inspection.stderr)
     );
+    // GNU as intentionally emits these empty sections. ELF permits zero-size
+    // sections; retain readelf's other lint diagnostics as test failures.
+    for warning in String::from_utf8(inspection.stderr).unwrap().lines() {
+        assert!(
+            [
+                "readelf: Warning: Section '.data': has a size of zero - is this intended ?",
+                "readelf: Warning: Section '.note.GNU-stack': has a size of zero - is this intended ?",
+            ]
+            .contains(&warning),
+            "unexpected readelf lint diagnostic: {warning}"
+        );
+    }
+    let inspection = String::from_utf8(inspection.stdout).unwrap();
+    for expected in [
+        "ELF64",
+        "REL (Relocatable file)",
+        "Advanced Micro Devices X86-64",
+        ".text",
+        ".symtab",
+        ".strtab",
+        "GLOBAL",
+        "aic_main",
+        "There are no relocations",
+    ] {
+        assert!(inspection.contains(expected), "missing {expected}");
+    }
 
     assert_amd64_baseline_instruction_subset(&object);
 }

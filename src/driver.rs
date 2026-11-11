@@ -7,6 +7,7 @@ use std::process::Command;
 use std::sync::atomic::{AtomicU64, Ordering};
 
 use crate::diagnostic::{Diagnostic, Result};
+use crate::elf::verify_elf64_rel_x86_64_bytes;
 use crate::parser::parse;
 use crate::validate::validate;
 use crate::x86_64::emit_assembly;
@@ -182,28 +183,14 @@ fn verify_elf64_rel_x86_64(path: &Path) -> Result<()> {
     verify_elf64_rel_x86_64_bytes(&bytes)
 }
 
-fn verify_elf64_rel_x86_64_bytes(bytes: &[u8]) -> Result<()> {
-    if bytes.len() < 64
-        || bytes.get(0..4) != Some(b"\x7fELF")
-        || bytes[4] != 2
-        || bytes[5] != 1
-        || bytes[6] != 1
-        || u16::from_le_bytes([bytes[16], bytes[17]]) != 1
-        || u16::from_le_bytes([bytes[18], bytes[19]]) != 62
-        || u32::from_le_bytes([bytes[20], bytes[21], bytes[22], bytes[23]]) != 1
-        || u16::from_le_bytes([bytes[52], bytes[53]]) != 64
-    {
-        return Err(Diagnostic::global(
-            "E_OUTPUT",
-            "assembler output is not an ELF64 little-endian x86-64 ET_REL object",
-        ));
-    }
-    Ok(())
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::sync::Mutex;
+
+    // Do not create executable fixtures while another fixture is spawning:
+    // an inherited writable descriptor can transiently make exec fail ETXTBSY.
+    static ASSEMBLER_FIXTURE: Mutex<()> = Mutex::new(());
 
     struct TemporaryDirectory(PathBuf);
 
@@ -227,9 +214,12 @@ mod tests {
     }
 
     #[test]
-    fn rejects_noncurrent_elf_identification_version() {
+    fn rejects_header_only_elf_and_noncurrent_identification_version() {
         let mut header = elf64_rel_header();
-        assert!(verify_elf64_rel_x86_64_bytes(&header).is_ok());
+        assert_eq!(
+            verify_elf64_rel_x86_64_bytes(&header).unwrap_err().code,
+            "E_OUTPUT"
+        );
 
         header[6] = 0;
         assert_eq!(
@@ -288,6 +278,8 @@ mod tests {
     fn rejects_non_gnu_assembler_and_preserves_existing_output() {
         use std::os::unix::fs::PermissionsExt;
 
+        let _guard = ASSEMBLER_FIXTURE.lock().unwrap();
+
         let directory = TemporaryDirectory(std::env::temp_dir().join(format!(
             "aic-non-gnu-as-{}-{}",
             std::process::id(),
@@ -330,6 +322,8 @@ mod tests {
     fn assembler_failure_cleans_temporary_files_and_preserves_output() {
         use std::os::unix::fs::PermissionsExt;
 
+        let _guard = ASSEMBLER_FIXTURE.lock().unwrap();
+
         let directory = TemporaryDirectory(std::env::temp_dir().join(format!(
             "aic-as-failure-{}-{}",
             std::process::id(),
@@ -367,6 +361,8 @@ mod tests {
     fn invalid_elf_output_preserves_destination_and_cleans_temporary_files() {
         use std::os::unix::fs::PermissionsExt;
 
+        let _guard = ASSEMBLER_FIXTURE.lock().unwrap();
+
         let directory = TemporaryDirectory(std::env::temp_dir().join(format!(
             "aic-invalid-elf-{}-{}",
             std::process::id(),
@@ -376,9 +372,7 @@ mod tests {
         let output = directory.0.join("preserved.o");
         fs::write(&output, b"previous artifact").unwrap();
 
-        let mut invalid_header = elf64_rel_header();
-        invalid_header[6] = 0;
-        fs::write(directory.0.join("invalid-elf.o"), invalid_header).unwrap();
+        fs::write(directory.0.join("invalid-elf.o"), elf64_rel_header()).unwrap();
 
         let assembler = directory.0.join("invalid-elf-as");
         fs::write(
@@ -399,8 +393,8 @@ mod tests {
         )
         .unwrap_err();
 
-        assert_eq!(error.code, "E_OUTPUT");
-        assert!(error.detail.contains("not an ELF64"));
+        assert_eq!(error.code, "E_OUTPUT", "unexpected diagnostic: {error}");
+        assert!(error.detail.contains("section header"));
         assert_eq!(fs::read(&output).unwrap(), b"previous artifact");
         assert_eq!(fs::read_dir(&directory.0).unwrap().count(), 3);
     }
@@ -408,6 +402,8 @@ mod tests {
     #[test]
     fn rejects_symlink_assembler_output_and_preserves_destination() {
         use std::os::unix::fs::PermissionsExt;
+
+        let _guard = ASSEMBLER_FIXTURE.lock().unwrap();
 
         let directory = TemporaryDirectory(std::env::temp_dir().join(format!(
             "aic-symlink-elf-{}-{}",
@@ -442,7 +438,7 @@ mod tests {
         )
         .unwrap_err();
 
-        assert_eq!(error.code, "E_OUTPUT");
+        assert_eq!(error.code, "E_OUTPUT", "unexpected diagnostic: {error}");
         assert!(error.detail.contains("regular file"));
         assert_eq!(fs::read(&output).unwrap(), b"previous artifact");
         assert_eq!(fs::read_dir(&directory.0).unwrap().count(), 3);

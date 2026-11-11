@@ -1,5 +1,6 @@
 pub mod diagnostic;
 pub mod driver;
+mod elf;
 pub mod interpreter;
 pub mod ir;
 pub mod parser;

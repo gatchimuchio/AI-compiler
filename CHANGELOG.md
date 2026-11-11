@@ -2,6 +2,14 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-11 — R1/R4 ELF構造検査とinstall前の不完全object拒否
+
+- 64-byte headerだけのassembler出力を成功としてinstallできた検査不足を是正。private `src/elf.rs`でsection表/payload範囲・非重複、文字列、SYMTAB関係、必須`aic_main`のcode範囲を限定検査し、既存staging→検査→rename経路へ接続した。
+- ELF 4.2のNOBITS、inactive NULL、empty/suffix/非UTF-8文字列、special symbol indexを区別。extended numbering/indexと解釈対象compressed tableはunsupported output shapeとして拒否し、全ELF適合とは区別する。
+- metadata変異・overflow・全truncated prefix、header-only fake-as拒否と既存destination保持を確認。実GNU as objectはreadelf lint/all、objdump、C++ harnessを通過。空`.data`/`.note.GNU-stack`の既知zero-size注意を識別し、他診断は失敗とする。
+- release再現でfake-as起動の`ETXTBSY`を捕捉。4試験の実行fixture lifecycleをtest-only Mutexで直列化後、同条件library試験30回連続PASS。FD継承機構は未traceで、過去のUNKNOWNを確定原因へ上書きしない。
+- Linux x86_64、rustc/cargo 1.99.1、g++ 14.2.0、Binutils 2.44でformat/check/Clippy/debug-release全試験PASS（各31 unit + 3 CLI + 7 E2E）。一次資料hash、規則と期待shape、codehash、制限は[規格調査§3.9](docs/research/01_既存技術・規格調査.md)へ記録。全section/relocation/命令意味のQA、別環境、β公開は未成立。
+
 ## 2026-11-11 — R1/R4通常関数ABIの条項監査と制御状態QC
 
 - 採用済みSystem V AMD64 single-u64関数の引数/結果、stack整列、保存GPR、DF、x87 CWとMXCSR controlを固定psABI sourceへ対応づけた。製品codegenに明確な違反は確認せず、既存probeのDF/FP制御状態の検査不足を補った。

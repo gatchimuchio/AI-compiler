@@ -1,0 +1,455 @@
+use crate::diagnostic::{Diagnostic, Result};
+
+const SHT_PROGBITS: u32 = 1;
+const SHT_SYMTAB: u32 = 2;
+const SHT_STRTAB: u32 = 3;
+const SHT_NOBITS: u32 = 8;
+const SHF_COMPRESSED: u64 = 0x800;
+
+struct Section {
+    name: u32,
+    kind: u32,
+    flags: u64,
+    offset: u64,
+    size: u64,
+    link: u32,
+    info: u32,
+    alignment: u64,
+    entry_size: u64,
+}
+
+fn invalid(detail: &str) -> Diagnostic {
+    Diagnostic::global("E_OUTPUT", format!("invalid ELF64 object: {detail}"))
+}
+
+// These fixed-width reads are used only inside a validated 64-byte header,
+// 64-byte section entry, or 24-byte symbol entry.
+fn u16_at(bytes: &[u8], offset: usize) -> u16 {
+    u16::from_le_bytes(bytes[offset..offset + 2].try_into().unwrap())
+}
+
+fn u32_at(bytes: &[u8], offset: usize) -> u32 {
+    u32::from_le_bytes(bytes[offset..offset + 4].try_into().unwrap())
+}
+
+fn u64_at(bytes: &[u8], offset: usize) -> u64 {
+    u64::from_le_bytes(bytes[offset..offset + 8].try_into().unwrap())
+}
+
+fn file_range(bytes: &[u8], offset: u64, size: u64) -> Result<&[u8]> {
+    let start = usize::try_from(offset).map_err(|_| invalid("file offset exceeds host range"))?;
+    let size = usize::try_from(size).map_err(|_| invalid("file size exceeds host range"))?;
+    let end = start
+        .checked_add(size)
+        .ok_or_else(|| invalid("file range overflows"))?;
+    bytes
+        .get(start..end)
+        .ok_or_else(|| invalid("file range extends beyond assembler output"))
+}
+
+fn string_table<'a>(bytes: &'a [u8], section: &Section) -> Result<&'a [u8]> {
+    if section.kind != SHT_STRTAB || section.flags & SHF_COMPRESSED != 0 {
+        return Err(invalid("expected an uncompressed string table"));
+    }
+    let table = file_range(bytes, section.offset, section.size)?;
+    if !table.is_empty() && (table.first() != Some(&0) || table.last() != Some(&0)) {
+        return Err(invalid("string table must start and end with NUL"));
+    }
+    Ok(table)
+}
+
+fn string_at(table: &[u8], offset: u32) -> Result<&[u8]> {
+    if table.is_empty() && offset == 0 {
+        return Ok(b"");
+    }
+    let tail = table
+        .get(offset as usize..)
+        .ok_or_else(|| invalid("string index is outside its table"))?;
+    let end = tail
+        .iter()
+        .position(|byte| *byte == 0)
+        .ok_or_else(|| invalid("string is not NUL terminated"))?;
+    Ok(&tail[..end])
+}
+
+pub(crate) fn verify_elf64_rel_x86_64_bytes(bytes: &[u8]) -> Result<()> {
+    if bytes.len() < 64
+        || bytes.get(0..4) != Some(b"\x7fELF")
+        || bytes[4] != 2
+        || bytes[5] != 1
+        || bytes[6] != 1
+        || u16_at(bytes, 16) != 1
+        || u16_at(bytes, 18) != 62
+        || u32_at(bytes, 20) != 1
+        || u16_at(bytes, 52) != 64
+    {
+        return Err(Diagnostic::global(
+            "E_OUTPUT",
+            "assembler output is not an ELF64 little-endian x86-64 ET_REL object",
+        ));
+    }
+
+    let section_offset = u64_at(bytes, 40);
+    let section_count = u16_at(bytes, 60) as usize;
+    let names_index = u16_at(bytes, 62) as usize;
+    if section_offset < 64
+        || u16_at(bytes, 58) != 64
+        || section_count == 0
+        || section_count >= 0xff00
+    {
+        return Err(invalid(
+            "missing, unsupported, or invalid section header table",
+        ));
+    }
+    if names_index == 0xffff {
+        return Err(invalid("extended section names index is unsupported"));
+    }
+    let table = file_range(bytes, section_offset, (section_count as u64) * 64)?;
+    let sections: Vec<_> = table
+        .as_chunks::<64>()
+        .0
+        .iter()
+        .map(|entry| Section {
+            name: u32_at(entry, 0),
+            kind: u32_at(entry, 4),
+            flags: u64_at(entry, 8),
+            offset: u64_at(entry, 24),
+            size: u64_at(entry, 32),
+            link: u32_at(entry, 40),
+            info: u32_at(entry, 44),
+            alignment: u64_at(entry, 48),
+            entry_size: u64_at(entry, 56),
+        })
+        .collect();
+    if table[..64].iter().any(|byte| *byte != 0) {
+        return Err(invalid("section zero must be empty for ordinary numbering"));
+    }
+    let mut occupied = Vec::new();
+    for section in &sections {
+        if section.kind == 0 {
+            continue;
+        }
+        if section.alignment != 0 && !section.alignment.is_power_of_two() {
+            return Err(invalid("section alignment is not zero or a power of two"));
+        }
+        // NOBITS has a conceptual offset and consumes no bytes in the file.
+        if section.kind != SHT_NOBITS {
+            file_range(bytes, section.offset, section.size)?;
+            if section.size != 0 {
+                occupied.push((section.offset, section.offset + section.size));
+            }
+        }
+    }
+    occupied.sort_unstable();
+    if occupied.windows(2).any(|pair| pair[0].1 > pair[1].0) {
+        return Err(invalid("section payloads overlap"));
+    }
+    if names_index != 0 {
+        let names = sections
+            .get(names_index)
+            .ok_or_else(|| invalid("section names index is outside the section table"))?;
+        let names = string_table(bytes, names)?;
+        for section in sections.iter().filter(|s| s.kind != 0) {
+            string_at(names, section.name)?;
+        }
+    }
+
+    let mut symbol_table_seen = false;
+    let mut entry_found = false;
+    for section in sections.iter().filter(|s| s.kind == SHT_SYMTAB) {
+        if symbol_table_seen || section.entry_size != 24 || section.size % 24 != 0 {
+            return Err(invalid("unsupported or invalid symbol table layout"));
+        }
+        symbol_table_seen = true;
+        if section.flags & SHF_COMPRESSED != 0 {
+            return Err(invalid("compressed symbol tables are unsupported"));
+        }
+        let symbols = file_range(bytes, section.offset, section.size)?;
+        if symbols.len() < 24 || symbols[..24].iter().any(|byte| *byte != 0) {
+            return Err(invalid("missing or invalid null symbol"));
+        }
+        let first_nonlocal = section.info as usize;
+        if first_nonlocal == 0 || first_nonlocal > symbols.len() / 24 {
+            return Err(invalid("invalid first non-local symbol index"));
+        }
+        let strings = sections
+            .get(section.link as usize)
+            .ok_or_else(|| invalid("symbol table string-table link is out of range"))?;
+        let strings = string_table(bytes, strings)?;
+        for (index, symbol) in symbols.as_chunks::<24>().0.iter().enumerate() {
+            let binding = symbol[4] >> 4;
+            if (binding == 0) != (index < first_nonlocal) {
+                return Err(invalid("symbol binding disagrees with sh_info ordering"));
+            }
+            let name = string_at(strings, u32_at(symbol, 0))?;
+            let target_index = u16_at(symbol, 6) as usize;
+            if target_index == 0xffff {
+                return Err(invalid("extended symbol section indexes are unsupported"));
+            }
+            if target_index < 0xff00 && target_index >= sections.len() {
+                return Err(invalid("symbol section index is out of range"));
+            }
+            if name == b"aic_main" {
+                if entry_found || binding != 1 || symbol[4] & 0xf != 2 || symbol[5] & 3 != 0 {
+                    return Err(invalid(
+                        "aic_main must be one global default-visible function",
+                    ));
+                }
+                let code = sections
+                    .get(target_index)
+                    .filter(|_| target_index != 0 && target_index < 0xff00)
+                    .ok_or_else(|| invalid("aic_main is not defined in an ordinary section"))?;
+                let value = u64_at(symbol, 8);
+                let size = u64_at(symbol, 16);
+                if code.kind != SHT_PROGBITS
+                    || code.flags & 6 != 6
+                    || code.flags & SHF_COMPRESSED != 0
+                    || size == 0
+                    || value.checked_add(size).is_none_or(|end| end > code.size)
+                {
+                    return Err(invalid("aic_main is outside allocated executable code"));
+                }
+                entry_found = true;
+            }
+        }
+    }
+    if !entry_found {
+        return Err(invalid("missing defined aic_main function"));
+    }
+    Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const TABLE: usize = 168;
+    const TEXT: usize = TABLE + 64;
+    const STRINGS: usize = TABLE + 128;
+    const SYMBOLS: usize = TABLE + 192;
+    const NAMES: usize = TABLE + 256;
+
+    fn put16(bytes: &mut [u8], offset: usize, value: u16) {
+        bytes[offset..offset + 2].copy_from_slice(&value.to_le_bytes());
+    }
+
+    fn put32(bytes: &mut [u8], offset: usize, value: u32) {
+        bytes[offset..offset + 4].copy_from_slice(&value.to_le_bytes());
+    }
+
+    fn put64(bytes: &mut [u8], offset: usize, value: u64) {
+        bytes[offset..offset + 8].copy_from_slice(&value.to_le_bytes());
+    }
+
+    fn object() -> Vec<u8> {
+        let mut bytes = vec![0; TABLE + 5 * 64];
+        bytes[..7].copy_from_slice(b"\x7fELF\x02\x01\x01");
+        put16(&mut bytes, 16, 1);
+        put16(&mut bytes, 18, 62);
+        put32(&mut bytes, 20, 1);
+        put64(&mut bytes, 40, TABLE as u64);
+        put16(&mut bytes, 52, 64);
+        put16(&mut bytes, 58, 64);
+        put16(&mut bytes, 60, 5);
+        put16(&mut bytes, 62, 4);
+        bytes[64] = 0xc3;
+        bytes[65..75].copy_from_slice(b"\0aic_main\0");
+        bytes[128..161].copy_from_slice(b"\0.text\0.strtab\0.symtab\0.shstrtab\0");
+        for (at, name, kind, offset, size, align) in [
+            (TEXT, 1, SHT_PROGBITS, 64, 1, 1),
+            (STRINGS, 7, SHT_STRTAB, 65, 10, 1),
+            (SYMBOLS, 15, SHT_SYMTAB, 80, 48, 8),
+            (NAMES, 23, SHT_STRTAB, 128, 33, 1),
+        ] {
+            put32(&mut bytes, at, name);
+            put32(&mut bytes, at + 4, kind);
+            put64(&mut bytes, at + 24, offset);
+            put64(&mut bytes, at + 32, size);
+            put64(&mut bytes, at + 48, align);
+        }
+        put64(&mut bytes, TEXT + 8, 6);
+        put32(&mut bytes, SYMBOLS + 40, 2);
+        put32(&mut bytes, SYMBOLS + 44, 1);
+        put64(&mut bytes, SYMBOLS + 56, 24);
+        put32(&mut bytes, 104, 1);
+        bytes[108] = 0x12;
+        put16(&mut bytes, 110, 1);
+        put64(&mut bytes, 120, 1);
+        bytes
+    }
+
+    fn with_extra_symbol(symbol: &[u8]) -> Vec<u8> {
+        let mut bytes = object();
+        let names = bytes[128..161].to_vec();
+        let names_offset = bytes.len();
+        bytes.extend_from_slice(&names);
+        put64(&mut bytes, NAMES + 24, names_offset as u64);
+        put64(&mut bytes, SYMBOLS + 32, 72);
+        bytes[128..152].copy_from_slice(symbol);
+        bytes
+    }
+
+    #[test]
+    fn accepts_function_shape_nobits_and_string_table_rules() {
+        let mut bytes = object();
+        verify_elf64_rel_x86_64_bytes(&bytes).unwrap();
+        // NOBITS occupies no file payload, even with a nonzero conceptual size.
+        bytes.resize(TABLE + 6 * 64, 0);
+        put16(&mut bytes, 60, 6);
+        put32(&mut bytes, TABLE + 5 * 64 + 4, SHT_NOBITS);
+        put64(&mut bytes, TABLE + 5 * 64 + 24, u64::MAX);
+        put64(&mut bytes, TABLE + 5 * 64 + 32, u64::MAX);
+        verify_elf64_rel_x86_64_bytes(&bytes).unwrap();
+
+        // Other fields of an inactive SHT_NULL entry are undefined.
+        put32(&mut bytes, TABLE + 5 * 64 + 4, 0);
+        put32(&mut bytes, TABLE + 5 * 64, u32::MAX);
+        put64(&mut bytes, TABLE + 5 * 64 + 48, 3);
+        verify_elf64_rel_x86_64_bytes(&bytes).unwrap();
+
+        // ELF permits absent section names, suffix sharing, and non-UTF-8 names.
+        put16(&mut bytes, 62, 0);
+        for index in 0..6 {
+            put32(&mut bytes, TABLE + index * 64, 0);
+        }
+        verify_elf64_rel_x86_64_bytes(&bytes).unwrap();
+        assert_eq!(string_at(b"\0prefixsuffix\0", 7).unwrap(), b"suffix");
+        assert_eq!(string_at(b"\0\xff\0", 1).unwrap(), b"\xff");
+        assert_eq!(string_at(b"", 0).unwrap(), b"");
+        assert!(string_at(b"", 1).is_err());
+    }
+
+    #[test]
+    fn rejects_malformed_tables_references_and_function_symbols() {
+        let cases = [
+            (
+                "section offset overflow",
+                40,
+                u64::MAX.to_le_bytes().to_vec(),
+            ),
+            ("section entry size", 58, 63u16.to_le_bytes().to_vec()),
+            ("extended section count", 60, 0u16.to_le_bytes().to_vec()),
+            (
+                "reserved section count",
+                60,
+                0xff00u16.to_le_bytes().to_vec(),
+            ),
+            ("section names index", 62, 5u16.to_le_bytes().to_vec()),
+            ("extended names index", 62, 0xffffu16.to_le_bytes().to_vec()),
+            ("null section", TABLE + 4, 1u32.to_le_bytes().to_vec()),
+            ("null section flags", TABLE + 8, 1u64.to_le_bytes().to_vec()),
+            ("payload offset", TEXT + 24, u64::MAX.to_le_bytes().to_vec()),
+            ("payload size", TEXT + 32, u64::MAX.to_le_bytes().to_vec()),
+            ("alignment", TEXT + 48, 3u64.to_le_bytes().to_vec()),
+            (
+                "payload overlap",
+                STRINGS + 24,
+                64u64.to_le_bytes().to_vec(),
+            ),
+            ("section name", TEXT, 33u32.to_le_bytes().to_vec()),
+            ("string table final NUL", 74, vec![1]),
+            ("symbol string index", 104, 10u32.to_le_bytes().to_vec()),
+            (
+                "symbol table link",
+                SYMBOLS + 40,
+                5u32.to_le_bytes().to_vec(),
+            ),
+            (
+                "symbol table link type",
+                SYMBOLS + 40,
+                1u32.to_le_bytes().to_vec(),
+            ),
+            (
+                "symbol entry size",
+                SYMBOLS + 56,
+                23u64.to_le_bytes().to_vec(),
+            ),
+            (
+                "symbol table size",
+                SYMBOLS + 32,
+                47u64.to_le_bytes().to_vec(),
+            ),
+            ("nonlocal index", SYMBOLS + 44, 3u32.to_le_bytes().to_vec()),
+            ("binding order", SYMBOLS + 44, 2u32.to_le_bytes().to_vec()),
+            ("null symbol", 80, vec![1]),
+            ("weak function", 108, vec![0x22]),
+            ("wrong symbol type", 108, vec![0x11]),
+            ("hidden function", 109, vec![2]),
+            ("undefined function", 110, 0u16.to_le_bytes().to_vec()),
+            ("function section index", 110, 5u16.to_le_bytes().to_vec()),
+            (
+                "extended symbol section index",
+                110,
+                0xffffu16.to_le_bytes().to_vec(),
+            ),
+            ("function value", 112, 1u64.to_le_bytes().to_vec()),
+            ("zero function size", 120, 0u64.to_le_bytes().to_vec()),
+            ("function size", 120, u64::MAX.to_le_bytes().to_vec()),
+            ("non-executable code", TEXT + 8, 2u64.to_le_bytes().to_vec()),
+            (
+                "compressed symbols",
+                SYMBOLS + 8,
+                SHF_COMPRESSED.to_le_bytes().to_vec(),
+            ),
+            (
+                "compressed strings",
+                STRINGS + 8,
+                SHF_COMPRESSED.to_le_bytes().to_vec(),
+            ),
+            ("missing function", 66, vec![b'x']),
+        ];
+        for (name, offset, replacement) in cases {
+            let mut bytes = object();
+            bytes[offset..offset + replacement.len()].copy_from_slice(&replacement);
+            let error = verify_elf64_rel_x86_64_bytes(&bytes).expect_err(name);
+            assert_eq!(error.code, "E_OUTPUT", "{name}");
+        }
+        let mut bytes = object();
+        put64(&mut bytes, 112, 1);
+        put64(&mut bytes, 120, u64::MAX);
+        assert!(verify_elf64_rel_x86_64_bytes(&bytes).is_err());
+
+        let bytes = object();
+        let duplicate = with_extra_symbol(&bytes[104..128]);
+        assert!(
+            verify_elf64_rel_x86_64_bytes(&duplicate)
+                .unwrap_err()
+                .detail
+                .contains("one global")
+        );
+
+        let mut special = [0; 24];
+        special[4] = 0x10;
+        put16(&mut special, 6, 0xfff1); // A non-target SHN_ABS symbol is valid.
+        verify_elf64_rel_x86_64_bytes(&with_extra_symbol(&special)).unwrap();
+        put16(&mut special, 6, 0xffff);
+        assert!(
+            verify_elf64_rel_x86_64_bytes(&with_extra_symbol(&special))
+                .unwrap_err()
+                .detail
+                .contains("extended symbol")
+        );
+
+        let mut bytes = object();
+        bytes.resize(TABLE + 6 * 64, 0);
+        bytes.extend_from_within(80..128);
+        put16(&mut bytes, 60, 6);
+        let second_table = TABLE + 5 * 64;
+        bytes.copy_within(SYMBOLS..SYMBOLS + 64, second_table);
+        put64(&mut bytes, second_table + 24, (TABLE + 6 * 64) as u64);
+        assert!(
+            verify_elf64_rel_x86_64_bytes(&bytes)
+                .unwrap_err()
+                .detail
+                .contains("symbol table layout")
+        );
+    }
+
+    #[test]
+    fn rejects_every_truncated_prefix_without_panicking() {
+        let bytes = object();
+        for end in 0..bytes.len() {
+            assert!(verify_elf64_rel_x86_64_bytes(&bytes[..end]).is_err());
+        }
+    }
+}
