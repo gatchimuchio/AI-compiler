@@ -2,6 +2,13 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-11 — R1 CBOR deterministic map encoding review
+
+- Compared RFC 8949 (STD 94, December 2020, Internet Standard; it obsoletes RFC 7049 without creating a new format version) on the generic data model, map ordering and duplicate-key validity, and the core deterministic-encoding requirements.
+- Recorded that map pair order has no data-model semantics, core deterministic encoding is an explicit profile with preferred serialization/no indefinite-length items/bytewise key ordering, and the older length-first order is a separate compatibility profile. Decoder behavior for duplicate keys varies; the protocol must define it.
+- Applied RFC Editor's verified technical erratum 8589 for Section 5.6.1 (verified 2025-11-07), correcting generic NaN map-key equivalence to include the sign bit. Retained the unmodified official plaintext RFC (185,226 bytes, SHA-256 `f1164a5b31a39350ad46abe29b83575eb933ca6c45366989c118b6b1058a214a`) with its copyright and IETF Trust license notice; the IETF Trust FAQ permits reproduction of whole unmodified RFCs.
+- No CBOR runtime/interop or performance test was run, and no AIC feature was adopted. Documentation-only update; compiler tests were not run.
+
 ## 2026-11-11 — R1 Apache Avro 1.12.0 schema resolution review
 
 - Compared the versioned Avro Specification 1.12.0 on writer/reader record-field resolution, optional reader aliases, read-time defaults, union branch selection, and Parsing Canonical Form. The pinned source is in Apache Avro `release-1.12.2` commit `8fa2067f70e3012cb3fd9a8839cd97e8c7cc1772`; the package release date and specification version are recorded separately.
