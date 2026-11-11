@@ -2,6 +2,12 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-11 — R4 現行producerにない再配置・未解決symbolのinstall拒否
+
+- REL/RELA、dynamic linking/symbol表、非null未定義symbol、COMMONを現行backendの非対応出力としてinstall前に拒否。一般ELFの不正と区別してE_OUTPUTを返す。
+- 実GNU asの外部call・local absolute relocation・未使用UNDEF・COMMONの4反例で、修正前のinstallを再現し、修正後の拒否・既存出力保持・staging cleanupを確認した。構造変異と従来正例も検査した。
+- format/check/Clippy、debug/release各33 unit + 3 CLI + 7 E2EがPASS。根拠・source hash・後続拡張等の未検査範囲は規格調査§3.10へ記録。全ELF適合、機械語の意味保存証明、β公開判断は未成立。
+
 ## 2026-11-11 — R1/R4 ELF構造検査とinstall前の不完全object拒否
 
 - 64-byte headerだけのassembler出力を成功としてinstallできた検査不足を是正。private `src/elf.rs`でsection表/payload範囲・非重複、文字列、SYMTAB関係、必須`aic_main`のcode範囲を限定検査し、既存staging→検査→rename経路へ接続した。

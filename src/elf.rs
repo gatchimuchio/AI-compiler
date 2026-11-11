@@ -3,7 +3,11 @@ use crate::diagnostic::{Diagnostic, Result};
 const SHT_PROGBITS: u32 = 1;
 const SHT_SYMTAB: u32 = 2;
 const SHT_STRTAB: u32 = 3;
+const SHT_RELA: u32 = 4;
+const SHT_DYNAMIC: u32 = 6;
 const SHT_NOBITS: u32 = 8;
+const SHT_REL: u32 = 9;
+const SHT_DYNSYM: u32 = 11;
 const SHF_COMPRESSED: u64 = 0x800;
 
 struct Section {
@@ -20,6 +24,13 @@ struct Section {
 
 fn invalid(detail: &str) -> Diagnostic {
     Diagnostic::global("E_OUTPUT", format!("invalid ELF64 object: {detail}"))
+}
+
+fn unsupported(detail: &str) -> Diagnostic {
+    Diagnostic::global(
+        "E_OUTPUT",
+        format!("unsupported assembler output: {detail}"),
+    )
 }
 
 // These fixed-width reads are used only inside a validated 64-byte header,
@@ -129,6 +140,15 @@ pub(crate) fn verify_elf64_rel_x86_64_bytes(bytes: &[u8]) -> Result<()> {
         if section.kind == 0 {
             continue;
         }
+        // The current producer uses immediate constants and stack slots, with
+        // branches resolved within one section. These are output-shape limits,
+        // not restrictions imposed on general ELF relocatable objects.
+        if matches!(section.kind, SHT_REL | SHT_RELA) {
+            return Err(unsupported("relocation sections are unsupported"));
+        }
+        if matches!(section.kind, SHT_DYNAMIC | SHT_DYNSYM) {
+            return Err(unsupported("dynamic tables are unsupported"));
+        }
         if section.alignment != 0 && !section.alignment.is_power_of_two() {
             return Err(invalid("section alignment is not zero or a power of two"));
         }
@@ -183,6 +203,14 @@ pub(crate) fn verify_elf64_rel_x86_64_bytes(bytes: &[u8]) -> Result<()> {
             }
             let name = string_at(strings, u32_at(symbol, 0))?;
             let target_index = u16_at(symbol, 6) as usize;
+            // Symbol zero is the required undefined null entry. No other
+            // unresolved symbols or linker-allocated common storage are emitted.
+            if index != 0 && target_index == 0 {
+                return Err(unsupported("undefined symbols are unsupported"));
+            }
+            if target_index == 0xfff2 || symbol[4] & 0xf == 5 {
+                return Err(unsupported("common symbols are unsupported"));
+            }
             if target_index == 0xffff {
                 return Err(invalid("extended symbol section indexes are unsupported"));
             }
@@ -442,6 +470,63 @@ mod tests {
                 .unwrap_err()
                 .detail
                 .contains("symbol table layout")
+        );
+    }
+
+    #[test]
+    fn rejects_link_requirements_outside_current_producer_shape() {
+        for (kind, detail) in [
+            (SHT_REL, "relocation sections"),
+            (SHT_RELA, "relocation sections"),
+            (SHT_DYNAMIC, "dynamic tables"),
+            (SHT_DYNSYM, "dynamic tables"),
+        ] {
+            for size in [0, 24] {
+                let mut bytes = object();
+                bytes.resize(TABLE + 6 * 64 + 24, 0);
+                put16(&mut bytes, 60, 6);
+                let section = TABLE + 5 * 64;
+                put32(&mut bytes, section + 4, kind);
+                put64(&mut bytes, section + 24, (TABLE + 6 * 64) as u64);
+                put64(&mut bytes, section + 32, size);
+                let error = verify_elf64_rel_x86_64_bytes(&bytes).unwrap_err();
+                assert_eq!(error.code, "E_OUTPUT");
+                assert!(error.detail.starts_with("unsupported assembler output:"));
+                assert!(error.detail.contains(detail));
+            }
+        }
+
+        for binding in [0, 1, 2] {
+            for target_index in [0, 0xfff2] {
+                let mut symbol = [0; 24];
+                symbol[4] = binding << 4;
+                put16(&mut symbol, 6, target_index);
+                let mut bytes = with_extra_symbol(&symbol);
+                if binding == 0 {
+                    // Keep local symbols before the existing global aic_main.
+                    let global = bytes[104..128].to_vec();
+                    bytes.copy_within(128..152, 104);
+                    bytes[128..152].copy_from_slice(&global);
+                    put32(&mut bytes, SYMBOLS + 44, 2);
+                }
+                let error = verify_elf64_rel_x86_64_bytes(&bytes).unwrap_err();
+                assert_eq!(error.code, "E_OUTPUT");
+                assert!(error.detail.starts_with("unsupported assembler output:"));
+                assert!(error.detail.contains(if target_index == 0 {
+                    "undefined symbols"
+                } else {
+                    "common symbols"
+                }));
+            }
+        }
+        let mut symbol = [0; 24];
+        symbol[4] = 0x15; // STT_COMMON is also unsupported with an ordinary index.
+        put16(&mut symbol, 6, 1);
+        assert!(
+            verify_elf64_rel_x86_64_bytes(&with_extra_symbol(&symbol))
+                .unwrap_err()
+                .detail
+                .contains("common symbols")
         );
     }
 
