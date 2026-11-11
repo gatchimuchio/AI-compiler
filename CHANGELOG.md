@@ -2,6 +2,13 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-11 — R1 Tree-sitter incremental parsing review
+
+- Compared Tree-sitter v0.27.2 (released 2026-11-07; tag commit `3fb7be49145acfb07e33b61ed5689e2b6771b2e9`) with the current AIC parser on concrete syntax trees, source positions, edit mapping, old-tree reuse, and changed-range reporting.
+- Recorded the requirement to apply `TSInputEdit` through `ts_tree_edit` before reparsing with the edited tree, plus the separate update requirement for retained `TSNode` values. Changed ranges describe syntactic hierarchy changes and may exceed the exact edit.
+- Pinned official documentation and API source by tag, retrieval size, and SHA-256 in `docs/research/03_入力表現・構文・検証境界比較.md`. Findings do not establish source-text round-tripping, persistent IDs, semantic validation, or measured performance; no AIC feature was adopted.
+- Documentation-only update; Tree-sitter runtime and benchmark observations were not run, and compiler tests were not run.
+
 ## 2026-11-11 — Zig 0.17.1 integer boundary semantics review
 
 - Compared the adopted AIC/0.2 `u64` wrap contract with Zig's versioned official Language Reference on compile-time integer literals, runtime widths, overflow checks, wrapping/saturating operators, overflow reporting, and cast versus truncation.
