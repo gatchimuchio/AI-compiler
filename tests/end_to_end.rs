@@ -441,6 +441,82 @@ fn loop_header_parallel_phi_with_two_backedges_matches_reference() {
 }
 
 #[test]
+fn two_entry_cycle_phi_matches_independent_gold() {
+    // Neither left nor right dominates the other: entry can enter either node
+    // of this SCC. Each cross-edge must carry the predecessor's UPDATED value.
+    let source = "AIC 0.2\nfn aic_main(%x: u64) -> u64 {\n^entry:\n %zero = const.u64 0\n %one = const.u64 1\n %limit = const.u64 5\n %delta_l = const.u64 17\n %delta_r = const.u64 29\n %choose = eq.u64 %x, %zero\n br.if %choose, ^left, ^right\n^left:\n %li = phi.u64 [^entry, %zero] [^right, %rn]\n %lv = phi.u64 [^entry, %x] [^right, %ru]\n %lu = add.wrap.u64 %lv, %delta_l\n %ln = add.wrap.u64 %li, %one\n %ld = eq.u64 %ln, %limit\n br.if %ld, ^exit, ^right\n^right:\n %ri = phi.u64 [^entry, %zero] [^left, %ln]\n %rv = phi.u64 [^entry, %x] [^left, %lu]\n %ru = sub.wrap.u64 %rv, %delta_r\n %rn = add.wrap.u64 %ri, %one\n %rd = eq.u64 %rn, %limit\n br.if %rd, ^exit, ^left\n^exit:\n %result = phi.u64 [^left, %lu] [^right, %ru]\n ret.u64 %result\n}\n";
+    let inputs = cyclic_cfg_inputs();
+    // Five visits: L/R/L/R/L adds 3*17-2*29; R/L/R/L/R adds 2*17-3*29.
+    let gold: Vec<_> = inputs
+        .iter()
+        .map(|x| x.wrapping_sub(if *x == 0 { 7 } else { 53 }))
+        .collect();
+    let module = parse(source.as_bytes()).unwrap();
+    assert_eq!(evaluate_many(&module, &inputs, 200).unwrap(), gold);
+    let dir = TestDir::new();
+    let object = compile_source(&dir, source);
+    let executable = link_harness(&dir, &object);
+    assert_eq!(run_harness(&dir, &executable, &inputs), gold);
+}
+
+fn cyclic_cfg_inputs() -> Vec<u64> {
+    let mut inputs = vec![0, 1, 2, u64::MAX, u64::MAX - 1, 1 << 63, (1 << 63) - 1];
+    let mut state = 0x48dc_1e72_a905_3fb6_u64;
+    for _ in 0..256 {
+        state = state
+            .wrapping_mul(6_364_136_223_846_793_005)
+            .wrapping_add(1_442_695_040_888_963_407);
+        inputs.push(state);
+    }
+    inputs
+}
+
+#[test]
+fn alternating_latch_phi_maps_match_independent_gold_and_changed_controls() {
+    let source = "AIC 0.2\nfn aic_main(%x: u64) -> u64 {\n^entry:\n %zero = const.u64 0\n %one = const.u64 1\n %limit = const.u64 5\n %plus = add.wrap.u64 %x, %one\n %minus = sub.wrap.u64 %x, %one\n br ^head\n^head:\n %i = phi.u64 [^entry, %zero] [^rotate, %rnext] [^adjust, %anext]\n %phase = phi.u64 [^entry, %zero] [^rotate, %one] [^adjust, %zero]\n %a = phi.u64 [^entry, %x] [^rotate, %b] [^adjust, %adjusted]\n %b = phi.u64 [^entry, %plus] [^rotate, %c] [^adjust, %b]\n %c = phi.u64 [^entry, %minus] [^rotate, %a] [^adjust, %c]\n %done = eq.u64 %i, %limit\n br.if %done, ^exit, ^select\n^select:\n %use_rotate = eq.u64 %phase, %zero\n br.if %use_rotate, ^rotate, ^adjust\n^rotate:\n %rnext = add.wrap.u64 %i, %one\n br ^head\n^adjust:\n %adjusted = sub.wrap.u64 %a, %one\n %anext = add.wrap.u64 %i, %one\n br ^head\n^exit:\n %twob = add.wrap.u64 %b, %b\n %twoc = add.wrap.u64 %c, %c\n %fourc = add.wrap.u64 %twoc, %twoc\n %ab = add.wrap.u64 %a, %twob\n %result = add.wrap.u64 %ab, %fourc\n ret.u64 %result\n}\n";
+    let phase_reversed = source.replace(
+        "%phase = phi.u64 [^entry, %zero]",
+        "%phase = phi.u64 [^entry, %one]",
+    );
+    // Change A=(a-1,b,c) to A'=(a,b,c-1), including its destination mapping.
+    let decrement_c = source
+        .replace("[^adjust, %adjusted]", "[^adjust, %a]")
+        .replace(
+            "[^rotate, %a] [^adjust, %c]",
+            "[^rotate, %a] [^adjust, %adjusted]",
+        )
+        .replace(
+            "%adjusted = sub.wrap.u64 %a, %one",
+            "%adjusted = sub.wrap.u64 %c, %one",
+        );
+    assert_ne!(phase_reversed, source);
+    assert_ne!(decrement_c, source);
+    let inputs = cyclic_cfg_inputs();
+    // R=(b,c,a), A=(a-1,b,c). R/A/R/A/R yields (x,x,x-2).
+    // Return a+2b+4c. Unequal weights distinguish the two changed controls.
+    for (name, source, delta) in [
+        ("rotate_first", source, 8),
+        ("phase_reversed", phase_reversed.as_str(), 4),
+        ("decrement_c", decrement_c.as_str(), 5),
+    ] {
+        let gold: Vec<_> = inputs
+            .iter()
+            .map(|x| x.wrapping_mul(7).wrapping_sub(delta))
+            .collect();
+        let module = parse(source.as_bytes()).unwrap();
+        assert_eq!(
+            evaluate_many(&module, &inputs, 200).unwrap(),
+            gold,
+            "{name}"
+        );
+        let dir = TestDir::new();
+        let object = compile_source(&dir, source);
+        let executable = link_harness(&dir, &object);
+        assert_eq!(run_harness(&dir, &executable, &inputs), gold, "{name}");
+    }
+}
+
+#[test]
 fn self_edge_phi_permutations_match_independent_gold_and_native_deadline() {
     // Rearrange literal source records without using the compiler's AST, maps,
     // or lowering. Keep entry first and ordinary instruction order unchanged.

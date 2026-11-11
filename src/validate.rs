@@ -429,6 +429,203 @@ mod tests {
     }
 
     #[test]
+    fn small_cfg_dominance_matches_independent_path_avoidance() {
+        use crate::diagnostic::Span;
+        use crate::ir::{Block, Incoming, Instruction, Terminator};
+
+        // An independent path oracle: removing a definition block must remove
+        // every entry-to-use path. It shares no dominator sets or predecessors
+        // with validate. Reachability here includes BOTH conditional CFG edges.
+        fn reachable_without(graph: &[Vec<usize>], removed: Option<usize>) -> u8 {
+            let mut seen = 0u8;
+            let mut pending = if removed == Some(0) { vec![] } else { vec![0] };
+            while let Some(node) = pending.pop() {
+                if seen & (1 << node) != 0 {
+                    continue;
+                }
+                seen |= 1 << node;
+                for &next in &graph[node] {
+                    if Some(next) != removed {
+                        pending.push(next);
+                    }
+                }
+            }
+            seen
+        }
+
+        fn name(node: usize) -> String {
+            if node == 0 {
+                "entry".into()
+            } else {
+                format!("b{node}")
+            }
+        }
+
+        fn module_for(graph: &[Vec<usize>], definition: usize, use_block: Option<usize>) -> Module {
+            let span = Span::new(1, 1);
+            let blocks = graph
+                .iter()
+                .enumerate()
+                .map(|(node, successors)| {
+                    let mut instructions = Vec::new();
+                    if node == 0 {
+                        instructions.push(Instruction {
+                            id: "condition".into(),
+                            kind: InstructionKind::Eq {
+                                lhs: "x".into(),
+                                rhs: "x".into(),
+                            },
+                            span,
+                        });
+                    }
+                    if node == definition {
+                        instructions.push(Instruction {
+                            id: "defined".into(),
+                            kind: InstructionKind::Const(0),
+                            span,
+                        });
+                    }
+                    if Some(node) == use_block {
+                        instructions.push(Instruction {
+                            id: "observed".into(),
+                            kind: InstructionKind::Add {
+                                lhs: "defined".into(),
+                                rhs: "x".into(),
+                            },
+                            span,
+                        });
+                    }
+                    let kind = match successors.as_slice() {
+                        [] => TerminatorKind::Return { value: "x".into() },
+                        [next] => TerminatorKind::Branch {
+                            target: name(*next),
+                        },
+                        [yes, no] => TerminatorKind::BranchIf {
+                            condition: "condition".into(),
+                            if_true: name(*yes),
+                            if_false: name(*no),
+                        },
+                        _ => unreachable!(),
+                    };
+                    Block {
+                        id: name(node),
+                        instructions,
+                        terminator: Terminator { kind, span },
+                        span,
+                    }
+                })
+                .collect();
+            Module {
+                parameter: "x".into(),
+                parameter_span: span,
+                blocks,
+            }
+        }
+
+        fn check(module: &Module, expected: bool, graph: &[Vec<usize>], label: &str) {
+            let result = validate(module);
+            assert_eq!(result.is_ok(), expected, "{label}: {graph:?}: {result:?}");
+            if let Err(error) = result {
+                assert_eq!(error.code, "E_DOMINANCE", "{label}: {graph:?}: {error}");
+            }
+        }
+
+        // For each node choose no edge, one edge, or two DISTINCT edges into
+        // {1,2,3}. This covers 7^4 labelled graphs, with no entry incoming edge.
+        // Branch-arm order does not affect dominance. Nonterminating graphs are
+        // allowed, but all nodes must be structurally reachable from entry.
+        let choices = [
+            vec![],
+            vec![1],
+            vec![2],
+            vec![3],
+            vec![1, 2],
+            vec![1, 3],
+            vec![2, 3],
+        ];
+        let mut counts = [0usize; 5]; // graphs, ordinary, accepted ordinary, Phi, accepted Phi
+        for encoding in 0..7usize.pow(4) {
+            let mut remaining = encoding;
+            let graph: Vec<_> = (0..4)
+                .map(|_| {
+                    let successors = choices[remaining % 7].clone();
+                    remaining /= 7;
+                    successors
+                })
+                .collect();
+            if reachable_without(&graph, None) != 0b1111 {
+                continue;
+            }
+            counts[0] += 1;
+            for definition in 0..4 {
+                let avoiding = reachable_without(&graph, Some(definition));
+                for use_block in 0..4 {
+                    let expected = avoiding & (1 << use_block) == 0;
+                    let module = module_for(&graph, definition, Some(use_block));
+                    check(
+                        &module,
+                        expected,
+                        &graph,
+                        &format!("ordinary D={definition} U={use_block}"),
+                    );
+                    counts[1] += 1;
+                    counts[2] += usize::from(expected);
+                }
+                for predecessor in 0..4 {
+                    for &target in &graph[predecessor] {
+                        let expected = avoiding & (1 << predecessor) == 0;
+                        let mut module = module_for(&graph, definition, None);
+                        let incomings = (0..4)
+                            .filter(|source| graph[*source].contains(&target))
+                            .map(|source| Incoming {
+                                block: name(source),
+                                value: if source == predecessor {
+                                    "defined"
+                                } else {
+                                    "x"
+                                }
+                                .into(),
+                                span: Span::new(1, 1),
+                            })
+                            .collect();
+                        module.blocks[target].instructions.insert(
+                            0,
+                            Instruction {
+                                id: "observed".into(),
+                                kind: InstructionKind::Phi { incomings },
+                                span: Span::new(1, 1),
+                            },
+                        );
+                        check(
+                            &module,
+                            expected,
+                            &graph,
+                            &format!("Phi D={definition} edge={predecessor}->{target}"),
+                        );
+                        counts[3] += 1;
+                        counts[4] += usize::from(expected);
+                    }
+                }
+            }
+        }
+        // Independent enumeration/count guards; do not silently reduce scope.
+        assert_eq!(counts, [1092, 17472, 9198, 25776, 13197]);
+
+        // The topology enumeration places same-block definitions before uses.
+        // Check strict instruction ordering separately, including self-reference.
+        let graph = vec![vec![1], vec![2], vec![3], vec![]];
+        let mut module = module_for(&graph, 0, Some(0));
+        module.blocks[0].instructions.swap(1, 2);
+        assert_eq!(validate(&module).unwrap_err().code, "E_DOMINANCE");
+        module.blocks[0].instructions.swap(1, 2);
+        module.blocks[0].instructions[2].kind = InstructionKind::Add {
+            lhs: "observed".into(),
+            rhs: "x".into(),
+        };
+        assert_eq!(validate(&module).unwrap_err().code, "E_DOMINANCE");
+    }
+
+    #[test]
     fn rejects_empty_entry_phi_in_directly_constructed_ir() {
         let mut module =
             parse(b"AIC 0.2\nfn aic_main(%x: u64) -> u64 {\n^entry:\n ret.u64 %x\n}\n").unwrap();

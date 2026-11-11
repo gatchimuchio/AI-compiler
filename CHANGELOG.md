@@ -2,6 +2,12 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-11 — R4 CFG支配の独立照合と循環Phiの追加QC
+
+- 全到達4-block CFG 1,092個で、通常use／Phi-edge useの計43,248判定を独立node除去・経路探索oracleへ照合。受理22,395／E_DOMINANCE拒否20,853と、同blockの順序違反2例を確認した。
+- 二入口SCCと同一実行中の交互latchを、更新値・3-cycle・異なるPhi写像の相互作用として実objectで検査。2つの意味変更対照を含む4 programs×263入力が独立goldと一致した。
+- 製品実装は変更せず、format/check/Clippy、debug/release各36 unit + 3 CLI + 10 E2EがPASS。有限母集団・source hash・未実施は規格調査§3.12へ記録。一般的な意味保存証明・QA完了・β承認は主張しない。
+
 ## 2026-11-11 — R4 公開IR検証とself-edge Phiの実物QC
 
 - 直接構築IRの空entry Phiをvalidateが受理する不整合と、公開emitterへ不一致metadataを渡すと旧block indexを使う欠陥を是正。公開入口は再検証・metadata照合後に現在IRをlowerし、driverは同一IRのcrate限定経路を維持する。既存API引数形・AIC意味は変更しない。
