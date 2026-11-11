@@ -5,6 +5,10 @@ use crate::ir::{InstructionKind, Module, TerminatorKind};
 
 pub const MAX_SOURCE_BYTES: usize = 1024 * 1024;
 pub const MAX_OBJECT_BYTES: usize = 8 * 1024 * 1024;
+/// Per-stream capture limit for each GNU assembler invocation.
+pub const MAX_ASSEMBLER_STREAM_BYTES: usize = 64 * 1024;
+/// Runtime before requesting termination of a GNU assembler child process.
+pub const MAX_ASSEMBLER_RUNTIME_SECONDS: u64 = 30;
 pub const MAX_BLOCKS: usize = 256;
 pub const MAX_INSTRUCTIONS: usize = 16_384;
 pub const MAX_PHI_INCOMINGS: usize = 65_536;

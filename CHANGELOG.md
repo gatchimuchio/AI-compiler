@@ -2,6 +2,12 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-11 — R3/R4 GNU as captureとdirect-child runtime budget
+
+- `as --version`とassembly invocationのstdout/stderrをstreamごと64 KiBでcaptureし、各direct childへ30秒のruntime deadlineを設定。同期nonblocking socket pairで両streamをdrainし、reader threadを使わない。
+- capture超過は`E_LIMIT`、runtime expiryは`E_TOOL`。超過/expiry時はdirect childへkillを要求してwaitする。version query・assembly両phaseで既存destination保持とstaging cleanup、exact/+1、runtime timeoutを確認した。
+- 子孫processはkill/waitせず、direct child終了後に子孫が出す追加streamとOS reap latencyに独立上限はない。compiler全体resourceやQA/β保証へ昇格しない。format/check/Clippy、debug/release各49 unit + 5 CLI + 10 E2EがPASS。詳細・hash・未保証は規格調査§3.15。
+
 ## 2026-11-11 — R3/R4 object読取量とELF名前走査
 
 - object観測byteの新規実装上限を8 MiBとし、driverのcap+1読取とELF入口のE_LIMIT拒否を接続。一般ELFの妥当性・総heap/disk/時間保証と区別する。

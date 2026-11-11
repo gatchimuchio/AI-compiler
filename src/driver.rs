@@ -1,14 +1,18 @@
 use std::ffi::OsStr;
 use std::fs::{self, DirBuilder, OpenOptions};
-use std::io::{Read, Write};
+use std::io::{self, Read, Write};
+use std::os::fd::OwnedFd;
 use std::os::unix::fs::DirBuilderExt;
+use std::os::unix::net::UnixStream;
 use std::path::{Path, PathBuf};
-use std::process::Command;
+use std::process::{Child, Command, Output, Stdio};
 use std::sync::atomic::{AtomicU64, Ordering};
+use std::thread;
+use std::time::{Duration, Instant};
 
 use crate::diagnostic::{Diagnostic, Result};
 use crate::elf::verify_elf64_rel_x86_64_bytes;
-use crate::limits::MAX_OBJECT_BYTES;
+use crate::limits::{MAX_ASSEMBLER_RUNTIME_SECONDS, MAX_ASSEMBLER_STREAM_BYTES, MAX_OBJECT_BYTES};
 use crate::parser::parse;
 use crate::validate::validate;
 use crate::x86_64::emit_validated_assembly;
@@ -59,16 +63,17 @@ fn compile_object_with_assembler(
     let object_path = temporary.0.join("output.o");
     write_file(&assembly_path, assembly.as_bytes())?;
 
-    let result = Command::new(assembler)
-        .arg("--64")
-        .arg("-march=generic64")
-        .arg("-o")
-        .arg(&object_path)
-        .arg(&assembly_path)
-        .output()
-        .map_err(|error| {
-            Diagnostic::global("E_TOOL", format!("could not start GNU assembler: {error}"))
-        })?;
+    let result = run_bounded_tool(
+        Command::new(assembler)
+            .arg("--64")
+            .arg("-march=generic64")
+            .arg("-o")
+            .arg(&object_path)
+            .arg(&assembly_path),
+        "GNU assembler",
+        MAX_ASSEMBLER_STREAM_BYTES,
+        Duration::from_secs(MAX_ASSEMBLER_RUNTIME_SECONDS),
+    )?;
     if !result.status.success() {
         let stderr = String::from_utf8_lossy(&result.stderr);
         let stderr = stderr.trim();
@@ -90,16 +95,12 @@ fn compile_object_with_assembler(
 }
 
 fn verify_gnu_assembler(assembler: &OsStr) -> Result<()> {
-    let output = Command::new(assembler)
-        .env("LC_ALL", "C")
-        .arg("--version")
-        .output()
-        .map_err(|error| {
-            Diagnostic::global(
-                "E_TOOL",
-                format!("could not query GNU assembler version: {error}"),
-            )
-        })?;
+    let output = run_bounded_tool(
+        Command::new(assembler).env("LC_ALL", "C").arg("--version"),
+        "GNU assembler version query",
+        MAX_ASSEMBLER_STREAM_BYTES,
+        Duration::from_secs(MAX_ASSEMBLER_RUNTIME_SECONDS),
+    )?;
     if !output.status.success() {
         return Err(Diagnostic::global(
             "E_TOOL",
@@ -118,6 +119,182 @@ fn verify_gnu_assembler(assembler: &OsStr) -> Result<()> {
         ));
     }
     Ok(())
+}
+
+fn stop_child(child: &mut Child, original: Diagnostic, operation: &str) -> Diagnostic {
+    let _ = child.kill();
+    match child.wait() {
+        Ok(_) => original,
+        Err(error) => Diagnostic::global(
+            original.code,
+            format!("{}; could not reap {operation}: {error}", original.detail),
+        ),
+    }
+}
+
+fn read_available(
+    stream: &mut UnixStream,
+    captured: &mut Vec<u8>,
+    stream_name: &str,
+    operation: &str,
+    limit: usize,
+) -> Result<bool> {
+    loop {
+        let remaining = limit
+            .checked_add(1)
+            .and_then(|bound| bound.checked_sub(captured.len()))
+            .ok_or_else(|| {
+                Diagnostic::global(
+                    "E_LIMIT",
+                    format!("{operation} {stream_name} exceeded the {limit}-byte capture limit"),
+                )
+            })?;
+        if remaining == 0 {
+            return Err(Diagnostic::global(
+                "E_LIMIT",
+                format!("{operation} {stream_name} exceeded the {limit}-byte capture limit"),
+            ));
+        }
+        let mut chunk = [0u8; 4096];
+        let read_limit = remaining.min(chunk.len());
+        match stream.read(&mut chunk[..read_limit]) {
+            Ok(0) => return Ok(true),
+            Ok(count) => {
+                let capture_count = count.min(limit.saturating_sub(captured.len()));
+                captured.extend_from_slice(&chunk[..capture_count]);
+                if capture_count < count {
+                    return Err(Diagnostic::global(
+                        "E_LIMIT",
+                        format!(
+                            "{operation} {stream_name} exceeded the {limit}-byte capture limit"
+                        ),
+                    ));
+                }
+            }
+            Err(error) if error.kind() == io::ErrorKind::WouldBlock => return Ok(false),
+            Err(error) if error.kind() == io::ErrorKind::Interrupted => continue,
+            Err(error) => {
+                return Err(Diagnostic::global(
+                    "E_TOOL",
+                    format!("could not read {operation} {stream_name}: {error}"),
+                ));
+            }
+        }
+    }
+}
+
+fn run_bounded_tool(
+    command: &mut Command,
+    operation: &str,
+    stream_limit: usize,
+    runtime_limit: Duration,
+) -> Result<Output> {
+    let (mut stdout, child_stdout) = UnixStream::pair().map_err(|error| {
+        Diagnostic::global(
+            "E_TOOL",
+            format!("could not capture {operation} stdout: {error}"),
+        )
+    })?;
+    let (mut stderr, child_stderr) = UnixStream::pair().map_err(|error| {
+        Diagnostic::global(
+            "E_TOOL",
+            format!("could not capture {operation} stderr: {error}"),
+        )
+    })?;
+    stdout.set_nonblocking(true).map_err(|error| {
+        Diagnostic::global(
+            "E_TOOL",
+            format!("could not configure {operation} stdout: {error}"),
+        )
+    })?;
+    stderr.set_nonblocking(true).map_err(|error| {
+        Diagnostic::global(
+            "E_TOOL",
+            format!("could not configure {operation} stderr: {error}"),
+        )
+    })?;
+    let stdout_fd: OwnedFd = child_stdout.into();
+    let stderr_fd: OwnedFd = child_stderr.into();
+    let mut child = command
+        .stdin(Stdio::null())
+        .stdout(Stdio::from(stdout_fd))
+        .stderr(Stdio::from(stderr_fd))
+        .spawn()
+        .map_err(|error| {
+            Diagnostic::global("E_TOOL", format!("could not start {operation}: {error}"))
+        })?;
+
+    let started = Instant::now();
+    let mut stdout_bytes = Vec::new();
+    let mut stderr_bytes = Vec::new();
+    let mut stdout_eof = false;
+    let mut stderr_eof = false;
+    loop {
+        if !stdout_eof {
+            stdout_eof = match read_available(
+                &mut stdout,
+                &mut stdout_bytes,
+                "stdout",
+                operation,
+                stream_limit,
+            ) {
+                Ok(done) => done,
+                Err(error) => return Err(stop_child(&mut child, error, operation)),
+            };
+        }
+
+        if !stderr_eof {
+            stderr_eof = match read_available(
+                &mut stderr,
+                &mut stderr_bytes,
+                "stderr",
+                operation,
+                stream_limit,
+            ) {
+                Ok(done) => done,
+                Err(error) => return Err(stop_child(&mut child, error, operation)),
+            };
+        }
+
+        let status = match child.try_wait() {
+            Ok(status) => status,
+            Err(error) => {
+                let failure = Diagnostic::global(
+                    "E_TOOL",
+                    format!("could not inspect {operation} status: {error}"),
+                );
+                return Err(stop_child(&mut child, failure, operation));
+            }
+        };
+        if let Some(status) = status {
+            // Read currently available bytes after exit; inherited descendant streams
+            // are outside this direct-child lifecycle and are not awaited.
+            for (stream, bytes, name, eof) in [
+                (&mut stdout, &mut stdout_bytes, "stdout", &mut stdout_eof),
+                (&mut stderr, &mut stderr_bytes, "stderr", &mut stderr_eof),
+            ] {
+                if !*eof {
+                    *eof = read_available(stream, bytes, name, operation, stream_limit)?;
+                }
+            }
+            return Ok(Output {
+                status,
+                stdout: stdout_bytes,
+                stderr: stderr_bytes,
+            });
+        }
+        if started.elapsed() >= runtime_limit {
+            let failure = Diagnostic::global(
+                "E_TOOL",
+                format!(
+                    "{operation} exceeded the runtime limit ({} ms)",
+                    runtime_limit.as_millis()
+                ),
+            );
+            return Err(stop_child(&mut child, failure, operation));
+        }
+        thread::sleep(Duration::from_millis(2));
+    }
 }
 
 fn reserve_temp_directory(parent: &Path) -> Result<TempDirectory> {
@@ -324,6 +501,136 @@ mod tests {
                 .contains("does not identify itself as GNU assembler"),
             "unexpected diagnostic: {error}"
         );
+        assert_eq!(fs::read(&output).unwrap(), b"previous artifact");
+        assert_eq!(fs::read_dir(&directory.0).unwrap().count(), 2);
+    }
+
+    #[test]
+    fn bounded_tool_capture_accepts_exact_limit_on_both_streams() {
+        let _guard = ASSEMBLER_FIXTURE.lock().unwrap();
+        let limit = MAX_ASSEMBLER_STREAM_BYTES.to_string();
+        let runtime = Duration::from_secs(2);
+        let mut stdout_command = Command::new("head");
+        stdout_command.args(["-c", &limit, "/dev/zero"]);
+        let stdout = run_bounded_tool(
+            &mut stdout_command,
+            "capture fixture",
+            MAX_ASSEMBLER_STREAM_BYTES,
+            runtime,
+        )
+        .unwrap();
+        assert!(stdout.status.success());
+        assert_eq!(stdout.stdout.len(), MAX_ASSEMBLER_STREAM_BYTES);
+        assert!(stdout.stderr.is_empty());
+
+        let mut stderr_command = Command::new("sh");
+        stderr_command.args(["-c", &format!("exec head -c {limit} /dev/zero >&2")]);
+        let stderr = run_bounded_tool(
+            &mut stderr_command,
+            "capture fixture",
+            MAX_ASSEMBLER_STREAM_BYTES,
+            runtime,
+        )
+        .unwrap();
+        assert!(stderr.status.success());
+        assert!(stderr.stdout.is_empty());
+        assert_eq!(stderr.stderr.len(), MAX_ASSEMBLER_STREAM_BYTES);
+    }
+
+    #[test]
+    fn bounded_tool_capture_rejects_excess_on_both_streams() {
+        let _guard = ASSEMBLER_FIXTURE.lock().unwrap();
+        let limit = (MAX_ASSEMBLER_STREAM_BYTES + 1).to_string();
+        let mut stdout_command = Command::new("head");
+        stdout_command.args(["-c", &limit, "/dev/zero"]);
+        let stdout = run_bounded_tool(
+            &mut stdout_command,
+            "capture fixture",
+            MAX_ASSEMBLER_STREAM_BYTES,
+            Duration::from_secs(2),
+        )
+        .unwrap_err();
+        assert_eq!(stdout.code, "E_LIMIT");
+        assert!(stdout.detail.contains("stdout"));
+
+        let mut stderr_command = Command::new("sh");
+        stderr_command.args(["-c", &format!("exec head -c {limit} /dev/zero >&2")]);
+        let stderr = run_bounded_tool(
+            &mut stderr_command,
+            "capture fixture",
+            MAX_ASSEMBLER_STREAM_BYTES,
+            Duration::from_secs(2),
+        )
+        .unwrap_err();
+        assert_eq!(stderr.code, "E_LIMIT");
+        assert!(stderr.detail.contains("stderr"));
+    }
+
+    #[test]
+    fn bounded_tool_runtime_limit_kills_and_reaps_the_child() {
+        let _guard = ASSEMBLER_FIXTURE.lock().unwrap();
+        let mut command = Command::new("sleep");
+        command.arg("2");
+        let error = run_bounded_tool(
+            &mut command,
+            "runtime fixture",
+            MAX_ASSEMBLER_STREAM_BYTES,
+            Duration::from_millis(50),
+        )
+        .unwrap_err();
+        assert_eq!(error.code, "E_TOOL");
+        assert!(error.detail.contains("runtime limit"));
+    }
+
+    #[test]
+    fn assembler_capture_limits_preserve_output_and_clean_staging() {
+        use std::os::unix::fs::PermissionsExt;
+
+        let _guard = ASSEMBLER_FIXTURE.lock().unwrap();
+        let directory = TemporaryDirectory(std::env::temp_dir().join(format!(
+            "aic-as-capture-{}-{}",
+            std::process::id(),
+            TEMP_SEQUENCE.fetch_add(1, Ordering::Relaxed)
+        )));
+        fs::create_dir(&directory.0).unwrap();
+        let output = directory.0.join("preserved.o");
+        fs::write(&output, b"previous artifact").unwrap();
+        let assembler = directory.0.join("capturing-as");
+        let excessive_count = (MAX_ASSEMBLER_STREAM_BYTES + 1).to_string();
+        let overflowing_query = format!(
+            "#!/bin/sh\nif [ \"$1\" = \"--version\" ]; then\nprintf 'GNU assembler fixture\\n'\nexec head -c {excessive_count} /dev/zero\nfi\nexit 0\n"
+        );
+        fs::write(&assembler, overflowing_query.as_bytes()).unwrap();
+        let mut permissions = fs::metadata(&assembler).unwrap().permissions();
+        permissions.set_mode(0o755);
+        fs::set_permissions(&assembler, permissions).unwrap();
+        let source = b"AIC 0.2\nfn aic_main(%x: u64) -> u64 {\n^entry:\n ret.u64 %x\n}\n";
+        let error = compile_object_with_assembler(
+            source,
+            "x86_64-linux-gnu",
+            &output,
+            assembler.as_os_str(),
+        )
+        .unwrap_err();
+        assert_eq!(error.code, "E_LIMIT");
+        assert!(error.detail.contains("stdout"));
+        assert!(error.detail.contains("version query"));
+        assert_eq!(fs::read(&output).unwrap(), b"previous artifact");
+        assert_eq!(fs::read_dir(&directory.0).unwrap().count(), 2);
+
+        let overflowing_assembly = format!(
+            "#!/bin/sh\nif [ \"$1\" = \"--version\" ]; then\nprintf 'GNU assembler fixture\\n'\nexit 0\nfi\nexec head -c {excessive_count} /dev/zero\n"
+        );
+        fs::write(&assembler, overflowing_assembly.as_bytes()).unwrap();
+        let error = compile_object_with_assembler(
+            source,
+            "x86_64-linux-gnu",
+            &output,
+            assembler.as_os_str(),
+        )
+        .unwrap_err();
+        assert_eq!(error.code, "E_LIMIT");
+        assert!(error.detail.contains("stdout"));
         assert_eq!(fs::read(&output).unwrap(), b"previous artifact");
         assert_eq!(fs::read_dir(&directory.0).unwrap().count(), 2);
     }
