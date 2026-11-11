@@ -1,0 +1,20 @@
+Third-party reference document; not licensed under this repository's Apache-2.0.
+
+Document: The SMT-LIB Standard, Version 2.7, Release September 9, 2026
+File: smt-lib-reference-v2.7-r2026-09-09.pdf
+Official source: https://smt-lib.org/papers/smt-lib-reference-v2.7-r2026-09-09.pdf
+Retrieved: 2026-11-11
+Size: 713335 bytes
+SHA-256: c01167d7eb9241a02ceb8c93cd37e4854cb8a38529157e0b72b1cdc8ecb4a8fc
+
+The PDF is preserved verbatim, including its copyright and permission page.
+Recipients may further redistribute the unmodified PDF under the notice below.
+This permission has not been established for separate SMT-LIB website or theory files.
+
+Original notice (PDF copyright page):
+
+Copyright © 2015-25 Clark Barrett, Pascal Fontaine, and Cesare Tinelli.
+Permission is granted to anyone to make or distribute verbatim copies of this document, in any medium,
+provided that the copyright notice and permission notice are preserved, and that the distributor grants
+the recipient permission for further redistribution as permitted by this notice. Modified versions may
+not be made.

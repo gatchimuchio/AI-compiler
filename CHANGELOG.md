@@ -2,6 +2,12 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-11 — R1 SMT-LIBの数値意味とsolver証拠境界
+
+- SMT-LIB 2.7 r2026-09-09、FixedSizeBitVectors/Core/QF_BVの一次資料を、BV64 wrap・literal・Bool・parallel let・sat/unsat/unknown・model/proofの問いだけM2比較。AICとの対応案と未保証を数値比較§7へ記録した。
+- 規範書の原形PDFはverbatim複製許諾とNOTICEを保持して保存し、公式取得bytesとの一致・SHA-256を確認。raw宣言は別途URL/hash/位置を記録し、PDFの許諾を転用しない。
+- 文書・原典保全のみ。compiler/solver実行はNOT_RUN、solver導入・機能追加・proof方式採用・QA完了・β承認は行っていない。B31のQC観測と区別する。
+
 ## 2026-11-11 — R4 CFG支配の独立照合と循環Phiの追加QC
 
 - 全到達4-block CFG 1,092個で、通常use／Phi-edge useの計43,248判定を独立node除去・経路探索oracleへ照合。受理22,395／E_DOMINANCE拒否20,853と、同blockの順序違反2例を確認した。
