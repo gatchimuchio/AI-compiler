@@ -2,6 +2,11 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-11 — R4 assembler timeout経路のcompile-level QC
+
+- GNU asのversion queryとassembly invocationが短いtest deadlineを超えた時、`E_TOOL`となり、既存destinationを保持し、stagingをcleanupするcompile-level testを追加した。
+- productionは従来どおり各direct child 30秒。test seamから50msを渡す。debug/release各51 unit + 5 CLI + 10 E2EがPASS。process-tree保証や資源契約は拡張しない。詳細・hash・適用限界は規格調査§3.17。
+
 ## 2026-11-11 — R4 simultaneous assembler stream capture QC
 
 - 両stdout/stderr writerが同時に各64 KiBを出し、shellが両writerをwaitするfixtureを追加。同期nonblocking captureがdeadlockせず、両streamのexact capを返すことを検査した。

@@ -37,6 +37,22 @@ fn compile_object_with_assembler(
     output: &Path,
     assembler: &OsStr,
 ) -> Result<()> {
+    compile_object_with_assembler_runtime_limit(
+        input,
+        target,
+        output,
+        assembler,
+        Duration::from_secs(MAX_ASSEMBLER_RUNTIME_SECONDS),
+    )
+}
+
+fn compile_object_with_assembler_runtime_limit(
+    input: &[u8],
+    target: &str,
+    output: &Path,
+    assembler: &OsStr,
+    runtime_limit: Duration,
+) -> Result<()> {
     let module = parse(input)?;
     let validated = validate(&module)?;
     if target != "x86_64-linux-gnu" {
@@ -45,7 +61,7 @@ fn compile_object_with_assembler(
             "supported target is x86_64-linux-gnu",
         ));
     }
-    verify_gnu_assembler(assembler)?;
+    verify_gnu_assembler(assembler, runtime_limit)?;
     let assembly = emit_validated_assembly(&module, &validated)?;
 
     let parent = output
@@ -72,7 +88,7 @@ fn compile_object_with_assembler(
             .arg(&assembly_path),
         "GNU assembler",
         MAX_ASSEMBLER_STREAM_BYTES,
-        Duration::from_secs(MAX_ASSEMBLER_RUNTIME_SECONDS),
+        runtime_limit,
     )?;
     if !result.status.success() {
         let stderr = String::from_utf8_lossy(&result.stderr);
@@ -94,12 +110,12 @@ fn compile_object_with_assembler(
     Ok(())
 }
 
-fn verify_gnu_assembler(assembler: &OsStr) -> Result<()> {
+fn verify_gnu_assembler(assembler: &OsStr, runtime_limit: Duration) -> Result<()> {
     let output = run_bounded_tool(
         Command::new(assembler).env("LC_ALL", "C").arg("--version"),
         "GNU assembler version query",
         MAX_ASSEMBLER_STREAM_BYTES,
-        Duration::from_secs(MAX_ASSEMBLER_RUNTIME_SECONDS),
+        runtime_limit,
     )?;
     if !output.status.success() {
         return Err(Diagnostic::global(
@@ -652,6 +668,65 @@ mod tests {
         .unwrap_err();
         assert_eq!(error.code, "E_LIMIT");
         assert!(error.detail.contains("stdout"));
+        assert_eq!(fs::read(&output).unwrap(), b"previous artifact");
+        assert_eq!(fs::read_dir(&directory.0).unwrap().count(), 2);
+    }
+
+    #[test]
+    fn assembler_runtime_limits_preserve_output_and_clean_staging() {
+        use std::os::unix::fs::PermissionsExt;
+
+        let _guard = ASSEMBLER_FIXTURE.lock().unwrap();
+        let directory = TemporaryDirectory(std::env::temp_dir().join(format!(
+            "aic-as-runtime-{}-{}",
+            std::process::id(),
+            TEMP_SEQUENCE.fetch_add(1, Ordering::Relaxed)
+        )));
+        fs::create_dir(&directory.0).unwrap();
+        let output = directory.0.join("preserved.o");
+        fs::write(&output, b"previous artifact").unwrap();
+        let assembler = directory.0.join("sleeping-as");
+        fs::write(
+            &assembler,
+            b"#!/bin/sh\nif [ \"$1\" = \"--version\" ]; then\nexec sleep 2\nfi\nexit 0\n",
+        )
+        .unwrap();
+        let mut permissions = fs::metadata(&assembler).unwrap().permissions();
+        permissions.set_mode(0o755);
+        fs::set_permissions(&assembler, permissions).unwrap();
+        let source = b"AIC 0.2\nfn aic_main(%x: u64) -> u64 {\n^entry:\n ret.u64 %x\n}\n";
+        let runtime_limit = Duration::from_millis(50);
+
+        let error = compile_object_with_assembler_runtime_limit(
+            source,
+            "x86_64-linux-gnu",
+            &output,
+            assembler.as_os_str(),
+            runtime_limit,
+        )
+        .unwrap_err();
+        assert_eq!(error.code, "E_TOOL");
+        assert!(error.detail.contains("version query"), "{error}");
+        assert!(error.detail.contains("runtime limit"), "{error}");
+        assert_eq!(fs::read(&output).unwrap(), b"previous artifact");
+        assert_eq!(fs::read_dir(&directory.0).unwrap().count(), 2);
+
+        fs::write(
+            &assembler,
+            b"#!/bin/sh\nif [ \"$1\" = \"--version\" ]; then\nprintf 'GNU assembler fixture\\n'\nexit 0\nfi\nexec sleep 2\n",
+        )
+        .unwrap();
+        let error = compile_object_with_assembler_runtime_limit(
+            source,
+            "x86_64-linux-gnu",
+            &output,
+            assembler.as_os_str(),
+            runtime_limit,
+        )
+        .unwrap_err();
+        assert_eq!(error.code, "E_TOOL");
+        assert!(!error.detail.contains("version query"), "{error}");
+        assert!(error.detail.contains("runtime limit"), "{error}");
         assert_eq!(fs::read(&output).unwrap(), b"previous artifact");
         assert_eq!(fs::read_dir(&directory.0).unwrap().count(), 2);
     }
