@@ -230,6 +230,13 @@ fn check_phi_edges(
             let InstructionKind::Phi { incomings } = &instruction.kind else {
                 continue;
             };
+            if target_index == 0 || incomings.is_empty() {
+                return Err(Diagnostic::at(
+                    "E_PHI",
+                    instruction.span,
+                    "phi requires a non-entry block and incoming operands",
+                ));
+            }
             let mut actual = BTreeSet::new();
             for incoming in incomings {
                 let predecessor = *block_index.get(&incoming.block).ok_or_else(|| {
@@ -419,6 +426,20 @@ mod tests {
     fn validate_source(source: &str) -> Result<ValidatedModule> {
         let module = parse(source.as_bytes())?;
         validate(&module)
+    }
+
+    #[test]
+    fn rejects_empty_entry_phi_in_directly_constructed_ir() {
+        let mut module =
+            parse(b"AIC 0.2\nfn aic_main(%x: u64) -> u64 {\n^entry:\n ret.u64 %x\n}\n").unwrap();
+        let span = module.parameter_span;
+        module.blocks[0].instructions.push(crate::ir::Instruction {
+            id: "p".into(),
+            kind: InstructionKind::Phi { incomings: vec![] },
+            span,
+        });
+        module.blocks[0].terminator.kind = TerminatorKind::Return { value: "p".into() };
+        assert_eq!(validate(&module).unwrap_err().code, "E_PHI");
     }
 
     #[test]

@@ -121,7 +121,10 @@ fn run_harness(dir: &TestDir, executable: &Path, inputs: &[u64]) -> Vec<u64> {
         writeln!(input_file, "{input}").unwrap();
     }
     drop(input_file);
-    let child = Command::new(executable)
+    // Fuel bounds the interpreter only. Bound native fixture execution separately.
+    let child = Command::new("timeout")
+        .args(["--kill-after=1s", "30s"])
+        .arg(executable)
         .stdin(Stdio::from(File::open(input_path).unwrap()))
         .stdout(Stdio::piped())
         .stderr(Stdio::piped())
@@ -130,7 +133,8 @@ fn run_harness(dir: &TestDir, executable: &Path, inputs: &[u64]) -> Vec<u64> {
     let output = child.wait_with_output().unwrap();
     assert!(
         output.status.success(),
-        "harness failed: {}",
+        "harness failed ({}): {}",
+        output.status,
         String::from_utf8_lossy(&output.stderr)
     );
     String::from_utf8(output.stdout)
@@ -434,6 +438,150 @@ fn loop_header_parallel_phi_with_two_backedges_matches_reference() {
         .map(|input| if *input == 1 { 29 } else { 17 })
         .collect();
     assert_eq!(actual, independent);
+}
+
+#[test]
+fn self_edge_phi_permutations_match_independent_gold_and_native_deadline() {
+    // Rearrange literal source records without using the compiler's AST, maps,
+    // or lowering. Keep entry first and ordinary instruction order unchanged.
+    fn rearrange(source: &str, variant: u8) -> String {
+        let (prefix, body) = source.split_once("^entry:\n").unwrap();
+        let mut blocks = vec![vec![String::from("^entry:")]];
+        for line in body.lines().filter(|line| *line != "}") {
+            if line.starts_with('^') {
+                blocks.push(vec![line.to_owned()]);
+            } else {
+                blocks.last_mut().unwrap().push(line.to_owned());
+            }
+        }
+        if variant & 1 != 0 {
+            blocks[1..].reverse();
+        }
+        for block in &mut blocks {
+            let phis = block[1..]
+                .iter()
+                .take_while(|line| line.contains("= phi.u64 "))
+                .count();
+            if variant & 2 != 0 {
+                block[1..1 + phis].reverse();
+            }
+            if variant & 4 != 0 {
+                for line in block {
+                    if let Some((left, right)) = line.split_once("phi.u64 ") {
+                        let mut incomings: Vec<_> =
+                            right.split_inclusive(']').map(str::trim).collect();
+                        incomings.reverse();
+                        *line = format!("{left}phi.u64 {}", incomings.join(" "));
+                    }
+                }
+            }
+        }
+        let result = format!(
+            "{prefix}{}\n}}\n",
+            blocks.into_iter().flatten().collect::<Vec<_>>().join("\n")
+        );
+        if variant & 8 == 0 {
+            return result;
+        }
+        let mut renamed = String::new();
+        let mut chars = result.chars().peekable();
+        while let Some(ch) = chars.next() {
+            renamed.push(ch);
+            if ch == '%' || ch == '^' {
+                let mut id = String::new();
+                while chars
+                    .peek()
+                    .is_some_and(|ch| ch.is_ascii_alphanumeric() || *ch == '_')
+                {
+                    id.push(chars.next().unwrap());
+                }
+                if ch != '^' || id != "entry" {
+                    renamed.push_str("renamed_");
+                }
+                renamed.push_str(&id);
+            }
+        }
+        renamed
+    }
+
+    let base = "AIC 0.2\nfn aic_main(%x: u64) -> u64 {\n^entry:\n %zero = const.u64 0\n %one = const.u64 1\n %limit = const.u64 5\n %plus = add.wrap.u64 %x, %one\n %minus = sub.wrap.u64 %x, %one\n br ^head\n^head:\n %i = phi.u64 [^entry, %zero] [^head, %next]\n %a = phi.u64 [^entry, %x] [^head, %b]\n %b = phi.u64 [^entry, %plus] [^head, %c]\n %c = phi.u64 [^entry, %minus] [^head, %a]\n %held = phi.u64 [^entry, %x] [^head, %held]\n %fan = phi.u64 [^entry, %x] [^head, %a]\n %next = add.wrap.u64 %i, %one\n %done = eq.u64 %i, %limit\n br.if %done, ^exit, ^head\n^exit:\n %ab = add.wrap.u64 %a, %b\n %abc = sub.wrap.u64 %ab, %c\n %with_hold = add.wrap.u64 %abc, %held\n %result = sub.wrap.u64 %with_hold, %fan\n ret.u64 %result\n}\n";
+    let mut inputs = vec![0, 1, 2, u64::MAX, u64::MAX - 1, 1 << 63, (1 << 63) - 1];
+    let mut random = 0x5b3e_107a_d924_6fc1_u64;
+    for _ in 0..256 {
+        random = random
+            .wrapping_mul(6_364_136_223_846_793_005)
+            .wrapping_add(1_442_695_040_888_963_407);
+        inputs.push(random);
+    }
+    for trips in [0, 1, 5] {
+        let source = base.replace("const.u64 5", &format!("const.u64 {trips}"));
+        // Starting from (x,x+1,x-1), rotate (a,b,c) on every self edge.
+        // held stays x; fan receives the PREVIOUS a. These closed forms are
+        // derived from that tuple, independently of parse/validation/codegen.
+        let gold: Vec<_> = inputs
+            .iter()
+            .map(|x| match trips {
+                0 => x.wrapping_add(2),
+                1 => *x,
+                5 => x.wrapping_sub(3),
+                _ => unreachable!(),
+            })
+            .collect();
+        for variant in 0..16 {
+            let source = rearrange(&source, variant);
+            let module = parse(source.as_bytes()).unwrap();
+            assert_eq!(
+                evaluate_many(&module, &inputs, 200).unwrap(),
+                gold,
+                "trips={trips} variant={variant}"
+            );
+            let dir = TestDir::new();
+            let object = compile_source(&dir, &source);
+            let executable = link_harness(&dir, &object);
+            assert_eq!(
+                run_harness(&dir, &executable, &inputs),
+                gold,
+                "trips={trips} variant={variant}"
+            );
+        }
+    }
+
+    // A valid but meaning-changing control breaks the three-cycle. Both
+    // consumers must expose its changed result, rather than pass the old gold.
+    let changed = base.replace(
+        "%a = phi.u64 [^entry, %x] [^head, %b]",
+        "%a = phi.u64 [^entry, %x] [^head, %a]",
+    );
+    assert_ne!(changed, base);
+    let module = parse(changed.as_bytes()).unwrap();
+    assert_eq!(evaluate_many(&module, &inputs, 200).unwrap(), inputs);
+    let dir = TestDir::new();
+    let object = compile_source(&dir, &changed);
+    let executable = link_harness(&dir, &object);
+    assert_eq!(run_harness(&dir, &executable, &inputs), inputs);
+
+    // A valid nonterminating function is not a compile rejection. Check the
+    // runner's deadline independently of the interpreter's fuel classification.
+    let forever =
+        "AIC 0.2\nfn aic_main(%x: u64) -> u64 {\n^entry:\n br ^loop\n^loop:\n br ^loop\n}\n";
+    let module = parse(forever.as_bytes()).unwrap();
+    assert_eq!(
+        evaluate_many(&module, &[0], 20),
+        Err(ai_compiler::EvalError::FuelExhausted)
+    );
+    let dir = TestDir::new();
+    let object = compile_source(&dir, forever);
+    let executable = link_harness(&dir, &object);
+    let input = dir.path("forever.in");
+    fs::write(&input, b"0\n").unwrap();
+    let result = Command::new("timeout")
+        .args(["--kill-after=1s", "0.1s"])
+        .arg(executable)
+        .stdin(Stdio::from(File::open(input).unwrap()))
+        .output()
+        .unwrap();
+    assert_eq!(result.status.code(), Some(124), "{result:?}");
+    assert!(result.stdout.is_empty());
 }
 
 #[test]

@@ -2,6 +2,12 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-11 — R4 公開IR検証とself-edge Phiの実物QC
+
+- 直接構築IRの空entry Phiをvalidateが受理する不整合と、公開emitterへ不一致metadataを渡すと旧block indexを使う欠陥を是正。公開入口は再検証・metadata照合後に現在IRをlowerし、driverは同一IRのcrate限定経路を維持する。既存API引数形・AIC意味は変更しない。
+- self-edgeの3-cycle/自己保持/fanoutについて、0/1/5回×16意味同値変形×263入力を独立goldとinterpreter・実objectの両方へ照合。意味変更対照とnative deadlineも確認した。
+- format/check/Clippy、debug/release各35 unit + 3 CLI + 8 E2EがPASS。QCはGNU coreutils timeoutを使用。根拠・source hash・未実施は規格調査§3.11へ記録し、全意味保存証明・QA完了・β承認と区別する。
+
 ## 2026-11-11 — R4 現行producerにない再配置・未解決symbolのinstall拒否
 
 - REL/RELA、dynamic linking/symbol表、非null未定義symbol、COMMONを現行backendの非対応出力としてinstall前に拒否。一般ELFの不正と区別してE_OUTPUTを返す。

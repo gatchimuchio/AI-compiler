@@ -54,7 +54,7 @@
 
 Rust compilerはAIC/0.2のparse、型/CFG/SSA/Phi検査、参照interpreter、x86-64 assembly生成からGNU as objectまでを接続しています。実行時に`as --version`のGNU assembler識別名を確認し、C++20 harnessから生成objectをlink・実行します。branch fixtureの全u16入力とu64境界値、loop/Phi-cycle fixtureの0..255、3つのloop-header Phiと2つのbackedgeを持ち一方でswapするloop、24段・各3 predecessorのPhi合流を持つ生成CFG、長いstack frameの結果を、参照interpreterと独立した期待値計算の両方に照合します。ELF header/symbol/relocation/disassembly、ABIのRSP/RBP/callee-saved GPR・DF・x87 CW・MXCSR control状態、同一環境でのbyte determinismも確認します。ABI probeは非default丸めモードで実行し、RBP・DF・x87 CW・MXCSR controlの破壊を拒否し、許容されるMXCSR status変更を受理します。probe自身のcaller状態復元もC++側で照合します。parserのfixture変異・切り詰め耐性も検査しています。objectはprivate一時directory内で生成し、header・section範囲・文字列表・symbolと`aic_main`定義を限定検査してから出力先へinstallします。extended numberingや解釈対象のcompressed tableは現在非対応です。現行backendが生成しないREL/RELA、dynamic表、非null未定義symbol、COMMONもinstall前に拒否します。一般ELFの不正判定や、機械語のpure性・すべての再配置不在を証明する検査ではありません。これらはhost上の局所QCで、ISA/gABIの完全照合や形式的意味保存証明ではありません。
 
-2026-11-11のdebug/release suiteは各33 Rust unit tests、3 CLI tests、7 E2E testsがPASSです。検査手順：
+2026-11-11のdebug/release suiteは各35 Rust unit tests、3 CLI tests、8 E2E testsがPASSです。公開Rust emitterは現在のIRを再検証してmetadataの一致を確認します。空entry Phiと不一致metadataの拒否、self-edgeの3-cycle／自己保持／fanoutについて48変種×263入力を独立期待値へ照合しました。検査手順：
 
 ~~~sh
 export PATH="${HOME}/.cargo/bin:${PATH}"
@@ -64,7 +64,7 @@ cargo clippy --all-targets -- -D warnings
 cargo fmt --all --check
 ~~~
 
-E2E testsにはGNU as/binutils、g++ 14以降が必要です。Pinned toolchainは[`rust-toolchain.toml`](rust-toolchain.toml)を参照してください。objectを作成する例：
+E2E testsにはGNU as/binutils、g++ 14以降、GNU coreutilsの`timeout`が必要です。共通native runnerの30秒期限は局所試験用で、AICの停止性や製品性能の保証ではありません。Pinned toolchainは[`rust-toolchain.toml`](rust-toolchain.toml)を参照してください。objectを作成する例：
 
 ~~~sh
 cargo run -- compile --target x86_64-linux-gnu examples/branch_phi.aic -o branch_phi.o

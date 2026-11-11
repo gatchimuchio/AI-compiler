@@ -3,7 +3,7 @@ use std::fmt::Write as _;
 
 use crate::diagnostic::{Diagnostic, Result};
 use crate::ir::{InstructionKind, Module, TerminatorKind};
-use crate::validate::ValidatedModule;
+use crate::validate::{ValidatedModule, validate};
 
 struct Edge {
     source: usize,
@@ -12,6 +12,24 @@ struct Edge {
 }
 
 pub fn emit_assembly(module: &Module, validated: &ValidatedModule) -> Result<String> {
+    // Public IR and metadata are independently constructible and mutable.
+    // Fresh validation establishes legality; metadata equality is not AST identity.
+    let current = validate(module)?;
+    if &current != validated {
+        return Err(Diagnostic::global(
+            "E_OUTPUT",
+            "validation metadata does not match the supplied module",
+        ));
+    }
+    emit_validated_assembly(module, &current)
+}
+
+// Internal callers must validate this same, unchanged module immediately before
+// lowering. The driver owns both values, so it need not repeat public validation.
+pub(crate) fn emit_validated_assembly(
+    module: &Module,
+    validated: &ValidatedModule,
+) -> Result<String> {
     let mut slots = BTreeMap::new();
     let mut next_slot = 1usize;
     slots.insert(module.parameter.clone(), next_slot);
@@ -248,6 +266,36 @@ mod tests {
     use super::*;
     use crate::parser::parse;
     use crate::validate::validate;
+
+    #[test]
+    fn public_emitter_rejects_stale_or_forged_validation_and_invalid_ir() {
+        let source = b"AIC 0.2\nfn aic_main(%x: u64) -> u64 {\n^entry:\n %one = const.u64 1\n %two = const.u64 2\n %choose = eq.u64 %x, %one\n br.if %choose, ^yes, ^no\n^yes:\n ret.u64 %one\n^no:\n ret.u64 %two\n}\n";
+        let mut module = parse(source).unwrap();
+        let validated = validate(&module).unwrap();
+        emit_assembly(&module, &validated).unwrap();
+        module.blocks.swap(1, 2);
+        assert_eq!(
+            emit_assembly(&module, &validated).unwrap_err().code,
+            "E_OUTPUT"
+        );
+        emit_assembly(&module, &validate(&module).unwrap()).unwrap();
+        let mut forged = validate(&module).unwrap();
+        forged.block_index.insert("yes".into(), usize::MAX);
+        assert_eq!(
+            emit_assembly(&module, &forged).unwrap_err().code,
+            "E_OUTPUT"
+        );
+        let current = validate(&module).unwrap();
+        module.blocks[0].instructions.insert(
+            0,
+            crate::ir::Instruction {
+                id: "empty".into(),
+                kind: InstructionKind::Phi { incomings: vec![] },
+                span: module.parameter_span,
+            },
+        );
+        assert_eq!(emit_assembly(&module, &current).unwrap_err().code, "E_PHI");
+    }
 
     #[test]
     fn emits_edge_staged_phi_copies() {

@@ -10,7 +10,7 @@ use crate::diagnostic::{Diagnostic, Result};
 use crate::elf::verify_elf64_rel_x86_64_bytes;
 use crate::parser::parse;
 use crate::validate::validate;
-use crate::x86_64::emit_assembly;
+use crate::x86_64::emit_validated_assembly;
 
 static TEMP_SEQUENCE: AtomicU64 = AtomicU64::new(0);
 
@@ -41,7 +41,7 @@ fn compile_object_with_assembler(
         ));
     }
     verify_gnu_assembler(assembler)?;
-    let assembly = emit_assembly(&module, &validated)?;
+    let assembly = emit_validated_assembly(&module, &validated)?;
 
     let parent = output
         .parent()
