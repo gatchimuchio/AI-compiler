@@ -9,7 +9,10 @@ aic_probe:
     pushq %r13
     pushq %r14
     pushq %r15
-    subq $40, %rsp
+    subq $88, %rsp
+
+    fnstcw 16(%rsp)
+    stmxcsr 20(%rsp)
 
     movq %rdi, -48(%rbp)
     movq %rsi, -56(%rbp)
@@ -23,6 +26,18 @@ aic_probe:
     testq $15, %rsp
     jne .Laic_probe_failed
 
+    # Exercise preserved controls with valid non-default rounding modes.
+    movzwl 16(%rsp), %eax
+    andw $0xf3ff, %ax
+    orw $0x0400, %ax
+    movw %ax, 24(%rsp)
+    fldcw 24(%rsp)
+    movl 20(%rsp), %eax
+    andl $0xffff9fff, %eax
+    orl $0x4000, %eax
+    movl %eax, 28(%rsp)
+    ldmxcsr 28(%rsp)
+    cld
     movq -48(%rbp), %rdi
     call aic_main
     cmpq %rsp, (%rsp)
@@ -31,6 +46,20 @@ aic_probe:
     jne .Laic_probe_rbp_failed
     movq -56(%rbp), %r10
     movq %rax, (%r10)
+
+    pushfq
+    popq %r11
+    testq $0x400, %r11
+    jne .Laic_probe_failed
+    fnstcw 32(%rsp)
+    movzwl 32(%rsp), %eax
+    cmpw 24(%rsp), %ax
+    jne .Laic_probe_failed
+    stmxcsr 36(%rsp)
+    movl 36(%rsp), %eax
+    xorl 28(%rsp), %eax
+    testl $0xffc0, %eax
+    jne .Laic_probe_failed
 
     movl $1, %eax
     cmpq $0x1122, %rbx
@@ -53,6 +82,9 @@ aic_probe:
     movq 8(%rsp), %rbp
     xorl %eax, %eax
 .Laic_probe_done:
+    fldcw 16(%rsp)
+    ldmxcsr 20(%rsp)
+    cld
     leaq -40(%rbp), %rsp
     popq %r15
     popq %r14

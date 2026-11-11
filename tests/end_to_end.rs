@@ -95,6 +95,7 @@ fn link_harness(dir: &TestDir, object: &Path) -> PathBuf {
     let result = Command::new("g++")
         .arg("-std=c++20")
         .arg("-O2")
+        .arg("-mno-red-zone")
         .arg("-Wall")
         .arg("-Wextra")
         .arg("-Werror")
@@ -434,35 +435,72 @@ fn loop_header_parallel_phi_with_two_backedges_matches_reference() {
 }
 
 #[test]
-fn abi_probe_rejects_callee_saved_rbp_violation() {
-    let dir = TestDir::new();
-    let assembly_path = dir.path("bad-abi.s");
-    let object = dir.path("bad-abi.o");
-    fs::write(
-        &assembly_path,
-        ".text\n.globl aic_main\n.type aic_main, @function\naic_main:\n  movq $0, %rbp\n  xorq %rax, %rax\n  ret\n.size aic_main, .-aic_main\n.section .note.GNU-stack,\"\",@progbits\n",
-    )
-    .unwrap();
-    let assembled = Command::new("as")
-        .arg("--64")
-        .arg("-o")
-        .arg(&object)
-        .arg(&assembly_path)
-        .output()
+fn abi_probe_checks_preserved_controls_and_restores_caller_state() {
+    let cases = [
+        (
+            "entry_and_rounding_modes",
+            "leaq 8(%rsp), %rax\n testq $15, %rax\n jne .Lbad\n pushfq\n popq %rax\n testq $0x400, %rax\n jne .Lbad\n fnstcw -8(%rsp)\n movzwl -8(%rsp), %eax\n andl $0x0c00, %eax\n cmpl $0x0400, %eax\n jne .Lbad\n stmxcsr -4(%rsp)\n movl -4(%rsp), %eax\n andl $0x6000, %eax\n cmpl $0x4000, %eax\n jne .Lbad\n movq %rdi, %rax\n ret\n.Lbad:\n movq %rdi, %rax\n notq %rax\n ret\n",
+            0,
+        ),
+        ("rbp", "movq $0, %rbp\n movq %rdi, %rax\n ret\n", 2),
+        ("direction_flag", "std\n movq %rdi, %rax\n ret\n", 2),
+        (
+            "x87_control",
+            "fnstcw -8(%rsp)\n xorw $0x0400, -8(%rsp)\n fldcw -8(%rsp)\n movq %rdi, %rax\n ret\n",
+            2,
+        ),
+        (
+            "mxcsr_control",
+            "stmxcsr -4(%rsp)\n xorl $0x2000, -4(%rsp)\n ldmxcsr -4(%rsp)\n movq %rdi, %rax\n ret\n",
+            2,
+        ),
+        (
+            "mxcsr_status",
+            "stmxcsr -4(%rsp)\n xorl $0x20, -4(%rsp)\n ldmxcsr -4(%rsp)\n movq %rdi, %rax\n ret\n",
+            0,
+        ),
+    ];
+    for (name, body, expected_status) in cases {
+        let dir = TestDir::new();
+        let assembly_path = dir.path("abi-case.s");
+        let object = dir.path("abi-case.o");
+        fs::write(
+            &assembly_path,
+            format!(
+                ".text\n.globl aic_main\n.type aic_main, @function\naic_main:\n {body}.size aic_main, .-aic_main\n.section .note.GNU-stack,\"\",@progbits\n"
+            ),
+        )
         .unwrap();
-    assert!(
-        assembled.status.success(),
-        "assembler failed: {}",
-        String::from_utf8_lossy(&assembled.stderr)
-    );
-    let executable = link_harness(&dir, &object);
-    let input_path = dir.path("input.txt");
-    fs::write(&input_path, "0\n").unwrap();
-    let result = Command::new(executable)
-        .stdin(Stdio::from(File::open(input_path).unwrap()))
-        .output()
-        .unwrap();
+        let assembled = Command::new("as")
+            .arg("--64")
+            .arg("-march=generic64")
+            .arg("-o")
+            .arg(&object)
+            .arg(&assembly_path)
+            .output()
+            .unwrap();
+        assert!(
+            assembled.status.success(),
+            "assembler failed for {name}: {}",
+            String::from_utf8_lossy(&assembled.stderr)
+        );
+        let executable = link_harness(&dir, &object);
+        let input_path = dir.path("input.txt");
+        fs::write(&input_path, "37\n").unwrap();
+        let result = Command::new(executable)
+            .stdin(Stdio::from(File::open(input_path).unwrap()))
+            .output()
+            .unwrap();
 
-    assert_eq!(result.status.code(), Some(2));
-    assert!(result.stdout.is_empty());
+        assert_eq!(result.status.code(), Some(expected_status), "{name}");
+        assert_eq!(
+            result.stdout,
+            if expected_status == 0 {
+                b"37\n".as_slice()
+            } else {
+                b"".as_slice()
+            },
+            "{name}"
+        );
+    }
 }

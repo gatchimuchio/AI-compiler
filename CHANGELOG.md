@@ -2,6 +2,14 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-11 — R1/R4通常関数ABIの条項監査と制御状態QC
+
+- 採用済みSystem V AMD64 single-u64関数の引数/結果、stack整列、保存GPR、DF、x87 CWとMXCSR controlを固定psABI sourceへ対応づけた。製品codegenに明確な違反は確認せず、既存probeのDF/FP制御状態の検査不足を補った。
+- probeは有効な非default丸めモードでcalleeを呼び、MXCSR status bitを保存義務に含めず、正常・拒否の両方で元の制御状態とDF=0を復元する。C++ consumerはその復元を独立照合し、RFLAGS取得用に`-mno-red-zone`でbuildする。
+- 6ケースでentry alignment/DF/丸めモードと正常結果、RBP/DF/x87 CW/MXCSR control破壊の拒否、許容されるMXCSR status-only変更を確認。生成objectを使う全E2Eも拡張probeを通過した。
+- Linux 6.18.57 x86_64、rustc/cargo 1.99.1、g++ 14.2.0、GNU Binutils 2.44でformat、locked check、Clippy、debug/release testsがPASS。各28 unit + 3 CLI + 7 E2E。規範条項、Intel固定PDFの取得hash、試験source hashと未実施範囲は[規格調査§3.8](docs/research/01_既存技術・規格調査.md)に記録。
+- 例外・非同期unwind、x87/MMX tag状態の動的検査、任意RSP/frame破壊からの復旧、別CPU/OS/toolchain QAは未成立。AIC意味・対応機能・QA閾値・β公開判断の追加採用はない。規格原典はstream照合し、ローカルコピーは保存していない。
+
 ## 2026-11-11 — R1 target profile floor/reference adoption
 
 - Ownerの「全部承認」を、直前に提示した2件の推奨へ適用し、AMD64 psABI 1.0 `baseline`を最低CPU ISA floor、安定版ELF Object File Format 4.2をgABI共通object規則の契約参照版として採用。`x86_64-linux-gnu`をprofileのプロジェクト固有aliasと定義。
