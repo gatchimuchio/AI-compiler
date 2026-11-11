@@ -538,6 +538,27 @@ mod tests {
     }
 
     #[test]
+    fn bounded_tool_capture_drains_both_streams_without_deadlock() {
+        let _guard = ASSEMBLER_FIXTURE.lock().unwrap();
+        let limit = MAX_ASSEMBLER_STREAM_BYTES.to_string();
+        let mut command = Command::new("sh");
+        command.args([
+            "-c",
+            &format!("head -c {limit} /dev/zero & head -c {limit} /dev/zero >&2 & wait"),
+        ]);
+        let output = run_bounded_tool(
+            &mut command,
+            "simultaneous capture fixture",
+            MAX_ASSEMBLER_STREAM_BYTES,
+            Duration::from_secs(2),
+        )
+        .unwrap();
+        assert!(output.status.success());
+        assert_eq!(output.stdout.len(), MAX_ASSEMBLER_STREAM_BYTES);
+        assert_eq!(output.stderr.len(), MAX_ASSEMBLER_STREAM_BYTES);
+    }
+
+    #[test]
     fn bounded_tool_capture_rejects_excess_on_both_streams() {
         let _guard = ASSEMBLER_FIXTURE.lock().unwrap();
         let limit = (MAX_ASSEMBLER_STREAM_BYTES + 1).to_string();

@@ -2,6 +2,11 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-11 — R4 simultaneous assembler stream capture QC
+
+- 両stdout/stderr writerが同時に各64 KiBを出し、shellが両writerをwaitするfixtureを追加。同期nonblocking captureがdeadlockせず、両streamのexact capを返すことを検査した。
+- このQCはB35のrunner実装を変更しない。process descendantsの管理やprocess-tree保証を増やさない。debug/release各50 unit + 5 CLI + 10 E2EがPASS。詳細・hash・適用限界は規格調査§3.16。
+
 ## 2026-11-11 — R3/R4 GNU as captureとdirect-child runtime budget
 
 - `as --version`とassembly invocationのstdout/stderrをstreamごと64 KiBでcaptureし、各direct childへ30秒のruntime deadlineを設定。同期nonblocking socket pairで両streamをdrainし、reader threadを使わない。

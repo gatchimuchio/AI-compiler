@@ -57,6 +57,8 @@ B34はobject観測byte上限8 MiBをdriverの上限＋1読取とELF入口へ接�
 
 B35はB34で保留したGNU as version queryとassemblyのstdout/stderr capture・runtimeを有限化した。各streamは64 KiB、各direct childの実行deadlineは30秒。同期nonblocking socket pairで両streamをdrainし、reader threadを作らない。上限超過・期限到達でdirect childのkillを要求してwaitし、version query前とassembly後の既存output保持・staging cleanupを検査する。子孫processのkill/wait、direct child終了後の子孫stream、OS reap latencyは保証しない。総RSS・compiler全体時間・process tree予算やβ資源契約には拡張しない。根拠と全試験結果は規格調査§3.15。
 
+B36はB35のrunner codeを変更せず、stdout/stderr writerが各64 KiBを同時に出すfixtureを追加した。両streamが正確にcapまで読み取られ、direct shellが両writerをwaitしてもtimeout/deadlockしないことを確認する。これはLinux上の有限QCで、full process-tree supervisionまたは全socket/backpressure条件を証明しない。結果は規格調査§3.16。
+
 1. AI専用文字列の意味を先に定義し、処理の意味が変わらない変換経路を設計する。
 2. 対象CPU/OS/ABI/実行形式の条件を明示する。
 3. コンパイラ内部の変換規則を構築し、機械命令生成まで一気通貫で接続する。

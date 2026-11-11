@@ -56,7 +56,7 @@ Rust compilerはAIC/0.2のparse、型/CFG/SSA/Phi検査、参照interpreter、x8
 
 現実装の容量はsource 1 MiB、256 block、16,384命令、Phi incoming総数65,536、公開IR識別子各63 byte、assembler objectの観測量8 MiBです。GNU asのversion queryとassembly invocationはstdout/stderrをそれぞれ最大64 KiB captureし、direct childが実行を続けた場合はspawn後30秒で終了を要求します。超過は`E_LIMIT`、期限超過は`E_TOOL`で拒否します。parameterとterminatorは命令数へ含めません。CLIは上限＋1 byteまで読み、EOFを待たずに超過を拒否できます。これらは新たな実装制限で、AIC意味上の不正・総メモリやcompiler全体の時間保証・β資源契約とは区別します。assemblerのprocess descendantsはkill/waitせず、直接child終了後の追加出力も追跡しません。ELF検査では末尾NULの保証と必須名の固定長比較で、長い文字列の反復走査も除去しました。詳しくは[初期変換契約§2.5](docs/proposals/01_初期変換契約案.md)を参照してください。
 
-2026-11-11のdebug/release suiteは各49 Rust unit tests、5 CLI tests、10 E2E testsがPASSです。新規試験でassemblerのstdout/stderr capture上限ちょうど/+1、runtime期限超過、version queryとassembly両phaseでの既存出力保持を確認します。公開Rust emitterは現在のIRを再検証してmetadataの一致を確認します。空entry Phiと不一致metadataの拒否、self-edgeの3-cycle／自己保持／fanoutについて48変種×263入力を独立期待値へ照合しました。さらに4-block CFGの支配判定43,248件を別方式の経路探索へ照合し、二入口循環・交互latchのPhiを実objectで検査しました。いずれも有限な対象のQCです。検査手順：
+2026-11-11のdebug/release suiteは各50 Rust unit tests、5 CLI tests、10 E2E testsがPASSです。assemblerのstdout/stderr capture上限ちょうど/+1、両stream同時出力、runtime期限超過、version queryとassembly両phaseでの既存出力保持を確認します。公開Rust emitterは現在のIRを再検証してmetadataの一致を確認します。空entry Phiと不一致metadataの拒否、self-edgeの3-cycle／自己保持／fanoutについて48変種×263入力を独立期待値へ照合しました。さらに4-block CFGの支配判定43,248件を別方式の経路探索へ照合し、二入口循環・交互latchのPhiを実objectで検査しました。いずれも有限な対象のQCです。検査手順：
 
 ~~~sh
 export PATH="${HOME}/.cargo/bin:${PATH}"
@@ -66,7 +66,7 @@ cargo clippy --all-targets -- -D warnings
 cargo fmt --all --check
 ~~~
 
-E2E testsにはGNU as/binutilsとg++ 14以降、CLIのstream試験とE2EにはGNU coreutilsの`timeout`が必要です。共通native runnerの30秒期限は局所試験用で、AICの停止性や製品性能の保証ではありません。Pinned toolchainは[`rust-toolchain.toml`](rust-toolchain.toml)を参照してください。objectを作成する例：
+Assembler capture unit testsには`/bin/sh`とGNU coreutilsの`head`、E2E testsにはGNU as/binutilsとg++ 14以降が必要です。CLIのstream試験とE2EにはGNU coreutilsの`timeout`が必要です。共通native runnerの30秒期限は局所試験用で、AICの停止性や製品性能の保証ではありません。Pinned toolchainは[`rust-toolchain.toml`](rust-toolchain.toml)を参照してください。objectを作成する例：
 
 ~~~sh
 cargo run -- compile --target x86_64-linux-gnu examples/branch_phi.aic -o branch_phi.o
