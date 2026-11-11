@@ -2,6 +2,13 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-11 — R1 Apache Avro 1.12.0 schema resolution review
+
+- Compared the versioned Avro Specification 1.12.0 on writer/reader record-field resolution, optional reader aliases, read-time defaults, union branch selection, and Parsing Canonical Form. The pinned source is in Apache Avro `release-1.12.2` commit `8fa2067f70e3012cb3fd9a8839cd97e8c7cc1772`; the package release date and specification version are recorded separately.
+- Recorded that writer-only fields are ignored, missing reader fields need reader defaults, and defaults do not make fields optional during encoding. Parsing Canonical Form omits attributes such as aliases, defaults, and documentation; it does not establish migration compatibility, source-text fidelity, or unknown-byte round-tripping. The specification says its fingerprints provide no security guarantee.
+- Retained the exact upstream Markdown specification source (58,744 bytes, SHA-256 `490b2d0f96bb7ca69777329df7d4adbd1334e7b27243e3b0a37f0cd204439414`) with Apache `LICENSE.txt` (29,259 bytes, SHA-256 `5e223a61e0107f44782f855c54ff8df9f53d8182dced28ba511ab92ce41919f8`) and `NOTICE.txt` (2,552 bytes, SHA-256 `1a78544696de6cf9f06e7afaf0aa8d54c799ee8b6d9a5f796408e449a8d66373`). Official HTML retrieval size/hash and source provenance are recorded in `docs/research/04_構造化編集・版進化比較.md`.
+- Avro runtime, compatibility tests, and performance measurements were not run. No AIC feature or version policy was adopted; documentation-only change, compiler tests not run.
+
 ## 2026-11-11 — R1 Tree-sitter incremental parsing review
 
 - Compared Tree-sitter v0.27.2 (released 2026-11-07; tag commit `3fb7be49145acfb07e33b61ed5689e2b6771b2e9`) with the current AIC parser on concrete syntax trees, source positions, edit mapping, old-tree reuse, and changed-range reporting.
