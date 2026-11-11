@@ -2,6 +2,13 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-11 — Zig 0.17.1 integer boundary semantics review
+
+- Compared the adopted AIC/0.2 `u64` wrap contract with Zig's versioned official Language Reference on compile-time integer literals, runtime widths, overflow checks, wrapping/saturating operators, overflow reporting, and cast versus truncation.
+- Recorded compile-time detection, safety-checked runtime behavior, and unchecked illegal behavior separately. The comparison is limited to the Zig 0.17.1 documentation; no family-wide or cross-version claim is made.
+- Fixed the download-index entry and documentation body by version, retrieval date, size, and SHA-256. No Zig compiler was available for a local observation (`NOT_RUN`); no Zig code, AIC operation, or input-contract behavior was adopted.
+- Documentation-only update; compiler tests were not run.
+
 ## 2026-11-10 — Cloud Codex単独運用向けAGENTS.mdの統合改訂
 
 - AI-compilerのリポジトリ局所`AGENTS.md`を、日本語基底かつグローバル/カスタム指示に依存しない施工・監査規律へ再構成。Owner原文、主語/目的/設計者/施工者/使用者/指示者/責任者、正当性・整合性・一貫性・妥当性、観測・根因帰還・Git責任境界を明示。
