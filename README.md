@@ -2,7 +2,7 @@
 
 **AIが直接生成・操作できる専用文字列表現を、既存の計算機規格に適合する機械命令へ変換する、新規コンパイラの研究開発プロジェクト。**
 
-> **現在の状態（2026-11-09）：初期R2範囲はOwner採用済み、R3一気通貫実装はWIRED、R4の局所QCを観測済み。** 現行命令formsとELF Object File Format 4.2のgABI共通object条項は一次資料で照合済みです。最低CPU ISA feature baselineとELF参照版は未決定です。既存言語・表現の広い参照地図を初期化しましたが、個別比較は継続中です。R1、対象別QA、β版公開は未完了・未承認です。
+> **現在の状態（2026-11-11）：初期R2範囲とtarget profileのCPU floor/ELF参照版はOwner採用済み、R3一気通貫実装はWIRED、R4の局所QCを観測済み。** Linux x86-64はAMD64 psABI 1.0 `baseline`以上、gABI共通object規則は安定版ELF Object File Format 4.2を契約参照版とします。CLI target `x86_64-linux-gnu`はこのprofileのプロジェクト固有aliasです。広いR1調査、全target QA、β版公開は未完了・未承認です。
 
 [English](README.en.md) · [統合仕様書](docs/01_統合仕様書.md) · [工程表](docs/02_工程表.md) · [Codex施工指示書](docs/03_Codex施工指示書.md) · [参照と継承範囲](docs/REFERENCES.md) · [開発規則](AGENTS.md)
 
@@ -31,7 +31,7 @@
 ## 採用済みの初期実装範囲
 
 - 入力はAIC/0.2の単一関数`aic_main(u64) -> u64`。`u64` wrap add/sub、equality、CFG branch、Phi、returnを扱います。
-- targetはLinux x86-64 / System V AMD64 ABI / ELF64 ET_RELのみ。compilerはGNU asでrelocatable objectを作り、linkerは試験harness側だけで使います。
+- targetはLinux x86-64 / AMD64 psABI 1.0 `baseline` / System V AMD64 ABI / ELF64 ET_RELのみ。gABI共通object参照版はELF Object File Format 4.2です。GNU asへ`--64 -march=generic64`を渡します。linkerは試験harness側だけで使います。
 - memory、pointer、I/O、syscall、global、複数function、call、exception、atomic/thread、float/vector、nondeterminismは未対応です。
 - 初期backendはstack-slot方式で、性能最適化を目的にしません。非対応target・operationは拒否します。
 

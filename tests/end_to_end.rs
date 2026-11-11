@@ -51,6 +51,45 @@ fn compile_source(dir: &TestDir, source: &str) -> PathBuf {
     object
 }
 
+fn assert_amd64_baseline_instruction_subset(object: &Path) {
+    let output = Command::new("objdump")
+        .env("LC_ALL", "C")
+        .arg("-d")
+        .arg(object)
+        .output()
+        .unwrap();
+    assert!(
+        output.status.success(),
+        "objdump failed: {}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let disassembly = String::from_utf8(output.stdout).unwrap();
+    assert!(disassembly.contains("<aic_main>"));
+
+    const BASELINE_SUBSET: &[&str] = &[
+        "add", "cmp", "cmpq", "jmp", "jne", "leave", "mov", "movabs", "movzbq", "push", "ret",
+        "sete", "sub",
+    ];
+    let mut instruction_count = 0;
+    for line in disassembly.lines() {
+        let Some((_, encoded)) = line.split_once('\t') else {
+            continue;
+        };
+        let Some((_, instruction)) = encoded.split_once('\t') else {
+            continue;
+        };
+        let Some(mnemonic) = instruction.split_whitespace().next() else {
+            continue;
+        };
+        assert!(
+            BASELINE_SUBSET.contains(&mnemonic),
+            "instruction `{mnemonic}` is outside the reviewed baseline subset: {line}"
+        );
+        instruction_count += 1;
+    }
+    assert!(instruction_count > 0, "objdump found no instructions");
+}
+
 fn link_harness(dir: &TestDir, object: &Path) -> PathBuf {
     let executable = dir.path("harness");
     let result = Command::new("g++")
@@ -106,6 +145,7 @@ fn branch_phi_object_matches_reference_for_exhaustive_u16_inputs_and_boundaries(
     let module = parse(source.as_bytes()).unwrap();
     let dir = TestDir::new();
     let object = compile_source(&dir, source);
+    assert_amd64_baseline_instruction_subset(&object);
     let executable = link_harness(&dir, &object);
 
     let mut inputs: Vec<u64> = (0..=u16::MAX).map(u64::from).collect();
@@ -177,18 +217,7 @@ fn loop_phi_cycle_object_matches_reference_and_exposes_valid_elf() {
             .contains("There are no relocations")
     );
 
-    let disassembly = Command::new("objdump")
-        .env("LC_ALL", "C")
-        .arg("-dr")
-        .arg(&object)
-        .output()
-        .unwrap();
-    assert!(disassembly.status.success());
-    assert!(
-        String::from_utf8(disassembly.stdout)
-            .unwrap()
-            .contains("<aic_main>")
-    );
+    assert_amd64_baseline_instruction_subset(&object);
 }
 
 #[test]

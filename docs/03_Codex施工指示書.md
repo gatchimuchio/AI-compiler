@@ -2,19 +2,19 @@
 
 - 版：`0.3-r3`
 - 作成：2026-11-02
-- 更新：2026-11-09
+- 更新：2026-11-11
 - 対象：AI-compilerの調査・設計・実装を依頼されたCodex
 - 本書だけでコンパイラ開発開始やβ版公開の新規権限を付与しない。
 
-## 0. 現行の施工命令（2026-11-09）
+## 0. 現行の施工命令（2026-11-11）
 
-**対象：** `gatchimuchio/AI-compiler`。Ownerは2026-11-09に初期R3範囲を採用した。採用範囲はAIC/0.2の`aic_main(u64) -> u64`、Linux x86-64/System V ABI/ELF64 ET_REL、Rust 2024 + Cargoのcompiler、C++20のindependent test harness、GNU asでのobject作成、harness外部link、memory/I/O/callなし。Ownerの「どっちも採用」はRust compilerとC++ test harnessの両方を役割分担して採用する意味に記録する。
+**対象：** `gatchimuchio/AI-compiler`。Ownerは2026-11-09に初期R3範囲、2026-11-11にtarget profileのCPU floorとELF共通object参照版を採用した。採用範囲はAIC/0.2の`aic_main(u64) -> u64`、Linux x86-64 / AMD64 psABI 1.0 `baseline` / System V ABI / ELF64 ET_REL / ELF Object File Format 4.2、Rust 2024 + Cargoのcompiler、C++20のindependent test harness、GNU as `--64 -march=generic64`でのobject作成、harness外部link、memory/I/O/callなし。`x86_64-linux-gnu`はCPU profileのプロジェクト固有alias。Ownerの「どっちも採用」はRust compilerとC++ test harnessの両方を役割分担して採用する意味に記録する。
 
-**工程現況：** 既存言語・IR・DSL・データ/仕様形式を広く参照する枝地図と、深掘り保留を採用判断から分離する方針を追加した。初期索引は全言語・全版の調査完了を意味しない。LLVM/GCC/CompCert等の既存compiler、Intel SDM ID `671200`、AMD APM Vol. 3 Rev. 3.37の命令参照、およびELF Object File Format 4.2のheader/section/symbol/relocationは既存記録の範囲で照合済み。4.3はDRAFTと表示される。AMD64 psABI baselineとstable 4.2を推奨候補として記録したが、Owner未採用のためR1継続中。R2の上記実装範囲は採用済み。Rust parser→validation→reference interpreter/assembly generation→GNU as→ELF object→C++20 harnessの初期vertical sliceが接続され、local QCを再観測した。対象別QA、形式証明、β公開は未成立・未承認。
+**工程現況：** 既存言語・IR・DSL・データ/仕様形式を広く参照する枝地図と、深掘り保留を採用判断から分離する方針を追加した。初期索引は全言語・全版の調査完了を意味しない。LLVM/GCC/CompCert等の既存compiler、Intel SDM ID `671200`、AMD APM Vol. 3 Rev. 3.37の命令参照、およびELF Object File Format 4.2のheader/section/symbol/relocationは既存記録の範囲で照合済み。4.3はDRAFTと表示される。OwnerはAMD64 psABI baselineとstable 4.2を採用し、現行命令subset・GNU as target option・ET_REL出力を限定再照合した。R1の広い言語/表現調査は継続中。R2の上記実装範囲は採用済み。Rust parser→validation→reference interpreter/assembly generation→GNU as→ELF object→C++20 harnessの初期vertical sliceが接続され、local QCを再観測した。対象別QA、形式証明、β公開は未成立・未承認。
 
 ### B1／R1の継続
 
-既存compiler・ABI資料の限定調査は`docs/research/01_既存技術・規格調査.md`、言語・表現の開放型枝地図と深度方針は`docs/research/02_既存言語・表現参照地図.md`、構文・検証・表現境界、構造化編集/版進化、制御/効果/状態、整数/数値境界、メモリ参照/寿命/アクセス境界、診断義務/位置情報/エラー回復の限定比較は順に`docs/research/03_入力表現・構文・検証境界比較.md`〜`08_診断・位置情報・エラー回復比較.md`に記録する。LLVM/GCC/CompCertは既存compiler調査の候補群であり、言語・表現全体の代替ではない。深掘り保留は理由・現在深度・再開条件付きで残し、「未調査」「保留」「不採用」を分ける。現行出力命令をIntel SDM/AMD APMの一般命令条項と照合し、ELF Object File Format 4.2のgABI共通object規則を確認済み。baselineと参照版の推奨候補はOwner未採用である。引き続き対象familyを除外せず、AI入力の編集・意味・診断・版進化・メモリ参照等の設計問いを横断し、優先枝の一次資料調査を広げる。CPU floor/ELF版がOwner採用された時は条項をその条件で再照合する。未確認を明示し、host executionを公式適合の証明に置き換えない。
+既存compiler・ABI資料の限定調査は`docs/research/01_既存技術・規格調査.md`、言語・表現の開放型枝地図と深度方針は`docs/research/02_既存言語・表現参照地図.md`、構文・検証・表現境界、構造化編集/版進化、制御/効果/状態、整数/数値境界、メモリ参照/寿命/アクセス境界、診断義務/位置情報/エラー回復の限定比較は順に`docs/research/03_入力表現・構文・検証境界比較.md`〜`08_診断・位置情報・エラー回復比較.md`に記録する。LLVM/GCC/CompCertは既存compiler調査の候補群であり、言語・表現全体の代替ではない。深掘り保留は理由・現在深度・再開条件付きで残し、「未調査」「保留」「不採用」を分ける。現行出力命令をIntel SDM/AMD APMの一般命令条項と照合し、ELF Object File Format 4.2のgABI共通object規則を確認済み。CPU floorはAMD64 psABI 1.0 baseline、ELF共通object参照版は4.2としてOwner採用済み。引き続き対象familyを除外せず、AI入力の編集・意味・診断・版進化・メモリ参照等の設計問いを横断し、優先枝の一次資料調査を広げる。採用条件の限定再照合を記録し、未監査条項は対象QAの範囲で継続確認する。未確認を明示し、host executionを公式適合の証明に置き換えない。
 
 ### B2／R2の採用記録
 
@@ -24,7 +24,7 @@
 
 1. 入口からobjectまで実接続し、未対応構文・targetを明示的に拒否する。安定codeと入力位置を含む診断を維持する。
 2. CFG/type/SSA/Phi意味を参照interpreterとcodegenで同じ定義に従わせ、Phi edge parallel-copy、u64 wrap境界、branch、loopをfixtureで照合する。
-3. GNU asをshell command文字列経由でなく引数配列で起動し、ET_REL objectを検査してから出力先へinstallする。linkerはcompiler内から呼ばない。
+3. GNU asをshell command文字列経由でなく`--64 -march=generic64`を含む引数配列で起動し、ET_REL objectを検査してから出力先へinstallする。linkerはcompiler内から呼ばない。
 4. C++20 harnessから通常ABI callし、返却値、callee-saved register、stack状態、ELF header/symbol/relocation/disassemblyをQCする。
 5. debug/release build、format、lint、CLI拒否、入力境界、決定性を検査し、各結果を対象・版・条件に結び付ける。
 6. ISA/gABI完全照合、別CPU/OS、形式証明、未実行検査はPASSにせず未解決として残す。R3実装と局所QCはβ公開の許可ではない。

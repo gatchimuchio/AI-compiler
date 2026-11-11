@@ -59,6 +59,7 @@ fn compile_object_with_assembler(
 
     let result = Command::new(assembler)
         .arg("--64")
+        .arg("-march=generic64")
         .arg("-o")
         .arg(&object_path)
         .arg(&assembly_path)
@@ -382,7 +383,7 @@ mod tests {
         let assembler = directory.0.join("invalid-elf-as");
         fs::write(
             &assembler,
-            b"#!/bin/sh\nif [ \"$1\" = \"--version\" ]; then\nprintf 'GNU assembler fixture\\n'\nexit 0\nfi\ncp \"${0%/*}/invalid-elf.o\" \"$3\"\n",
+            b"#!/bin/sh\nif [ \"$1\" = \"--version\" ]; then\nprintf 'GNU assembler fixture\\n'\nexit 0\nfi\nif [ \"$1\" != \"--64\" ] || [ \"$2\" != \"-march=generic64\" ] || [ \"$3\" != \"-o\" ]; then\nprintf 'unexpected assembler arguments\\n' >&2\nexit 16\nfi\ncp \"${0%/*}/invalid-elf.o\" \"$4\"\n",
         )
         .unwrap();
         let mut permissions = fs::metadata(&assembler).unwrap().permissions();
@@ -425,7 +426,7 @@ mod tests {
         let assembler = directory.0.join("symlink-elf-as");
         fs::write(
             &assembler,
-            b"#!/bin/sh\nif [ \"$1\" = \"--version\" ]; then\nprintf 'GNU assembler fixture\\n'\nexit 0\nfi\nln -s \"${0%/*}/matching-elf-header.o\" \"$3\"\n",
+            b"#!/bin/sh\nif [ \"$1\" = \"--version\" ]; then\nprintf 'GNU assembler fixture\\n'\nexit 0\nfi\nln -s \"${0%/*}/matching-elf-header.o\" \"$4\"\n",
         )
         .unwrap();
         let mut permissions = fs::metadata(&assembler).unwrap().permissions();

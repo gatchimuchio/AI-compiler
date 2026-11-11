@@ -2,6 +2,14 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-11 — R1 target profile floor/reference adoption
+
+- Ownerの「全部承認」を、直前に提示した2件の推奨へ適用し、AMD64 psABI 1.0 `baseline`を最低CPU ISA floor、安定版ELF Object File Format 4.2をgABI共通object規則の契約参照版として採用。`x86_64-linux-gnu`をprofileのプロジェクト固有aliasと定義。
+- 固定psABI source commit `e1ce098331da5dbd66e1ffc74162380bcc213236`のbaseline feature table、ELF公式4.2 Revision History (Published 2025)、公式現行4.3 DRAFT表示を照合。根拠とsource SHA-256は[規格調査](docs/research/01_既存技術・規格調査.md)へ記録。
+- GNU asへ`--64 -march=generic64`を渡し、branch/loopのobject disassemblyに現在のmnemonic subset assertionを追加。GNU Binutils 2.44 local probeはbaseline例を受理し、POPCNT/VADDPSを拒否。
+- Linux x86_64、rustc/cargo 1.99.1、g++ 14.2.0、GNU Binutils 2.44で`cargo fmt --all --check`、`cargo check --all-targets --locked`、`cargo clippy --all-targets --locked -- -D warnings`、`cargo test --locked`、`cargo test --release --locked`がPASS。debug/releaseは各28 unit + 3 CLI + 7 E2E tests。
+- ELF/ISA full-clause conformance、別CPU/OS/toolchain QA、形式的意味保存証明、QA閾値、GNU ISA-level property note要否、assembler version pin、β公開は未確定または未実施。規格原典のコピーはrepoへ保存していない。現環境で欠けていたpinned Rust toolchainは公式rustup経由でuser-localに導入。
+
 ## 2026-11-11 — R1 ASN.1 BER/CER/DER encoding-scope review
 
 - Compared ITU-T X.690 (02/2021), the current in-force edition, and in-force Erratum 1 (09/2021) on abstract ASN.1 values versus transfer syntax, BER representation choices, CER/DER restrictions, and the single-type scope of canonical encodings.

@@ -2,7 +2,7 @@
 
 **A new compiler project that translates AI-native, machine-operable text into machine instructions compatible with existing computing standards.**
 
-> **Status (2026-11-09): the owner adopted the initial R2 scope; the R3 vertical slice is wired and local R4 QC has been observed.** The current instruction forms and the gABI-common clauses in ELF Object File Format 4.2 have been checked against primary sources. The minimum CPU ISA feature baseline and ELF object-format reference edition remain undecided. An open map of language and representation families is seeded, while individual comparisons remain in progress. R1, target QA, and beta publication are incomplete and unapproved.
+> **Status (2026-11-11): the owner adopted the initial R2 scope and the target profile's CPU floor and ELF reference edition; the R3 vertical slice is wired and local R4 QC has been observed.** The Linux x86-64 floor is AMD64 psABI 1.0 `baseline`, and the gABI-common object reference is stable ELF Object File Format 4.2. The CLI target `x86_64-linux-gnu` is a project-specific alias for that profile. The broader R1 survey, target QA, and beta publication remain incomplete; beta publication is unapproved.
 
 [日本語正本](README.md) · [Specification (Japanese)](docs/01_統合仕様書.md) · [Roadmap (Japanese)](docs/02_工程表.md) · [Codex instructions (Japanese)](docs/03_Codex施工指示書.md) · [Agent rules](AGENTS.md)
 
@@ -17,11 +17,11 @@ Conventional high-level programming languages are not required as **intermediate
 ## Adopted initial implementation scope
 
 - Input: AIC/0.2, one `u64` argument, one `u64` result from `aic_main`. The initial operations are wrapping `u64` add/subtract, equality, CFG branches, Phi, and return.
-- Target: Linux x86-64 / System V AMD64 ABI / ELF64 ET_REL only. GNU as creates relocatable objects; linking happens only in the test harness.
+- Target: Linux x86-64 / AMD64 psABI 1.0 `baseline` / System V AMD64 ABI / ELF64 ET_REL only. The gABI-common object reference is ELF Object File Format 4.2. GNU as receives `--64 -march=generic64`; linking happens only in the test harness.
 - Unsupported: memory, pointers, I/O, syscalls, globals, multiple functions, calls, exceptions, atomics/threads, floating point/vectors, and nondeterminism.
 - The initial backend uses stack slots and does not optimize for performance. Unsupported targets and operations are rejected.
 
-This adoption establishes the initial implementation scope. It does not declare standards conformance complete or approve beta publication. The current instruction forms and common gABI clauses received a limited source review; target conditions and full-clause conformance remain open. Test results are not generalized to every CPU or environment.
+This adoption establishes the initial implementation scope and target profile: AMD64 psABI 1.0 `baseline` and ELF Object File Format 4.2 for common gABI object rules. It does not declare standards conformance complete or approve beta publication. The current instruction forms and common gABI clauses received a limited source review; full-clause conformance remains open. Test results are not generalized to every CPU or environment.
 
 ## Scope and boundaries
 
