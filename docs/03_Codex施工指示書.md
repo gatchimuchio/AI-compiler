@@ -10,7 +10,7 @@
 
 **対象：** `gatchimuchio/AI-compiler`。Ownerは2026-11-09に初期R3範囲、2026-11-11にtarget profileのCPU floorとELF共通object参照版を採用した。採用範囲はAIC/0.2の`aic_main(u64) -> u64`、Linux x86-64 / AMD64 psABI 1.0 `baseline` / System V ABI / ELF64 ET_REL / ELF Object File Format 4.2、Rust 2024 + Cargoのcompiler、C++20のindependent test harness、GNU as `--64 -march=generic64`でのobject作成、harness外部link、memory/I/O/callなし。`x86_64-linux-gnu`はCPU profileのプロジェクト固有alias。Ownerの「どっちも採用」はRust compilerとC++ test harnessの両方を役割分担して採用する意味に記録する。
 
-**工程現況：** 既存言語・IR・DSL・データ/仕様形式を広く参照する枝地図と、深掘り保留を採用判断から分離する方針を追加した。初期索引は全言語・全版の調査完了を意味しない。LLVM/GCC/CompCert等の既存compiler、Intel SDM ID `671200`、AMD APM Vol. 3 Rev. 3.37の命令参照、およびELF Object File Format 4.2のheader/section/symbol/relocationは既存記録の範囲で照合済み。4.3はDRAFTと表示される。OwnerはAMD64 psABI baselineとstable 4.2を採用し、現行命令subset・GNU as target option・ET_REL出力を限定再照合した。B27は通常関数ABIの条項別監査と、DF/x87 CW/MXCSR controlの保存・caller状態復元をprobeとC++ consumerで確認した。B28はELF 4.2のsection/string/symbol検査をinstall前へ接続し、header-only出力の拒否と既存destinationの保持を確認した。B29は現producerにない再配置・dynamic表・非null未定義symbol・COMMONの受理を是正し、実GNU asの4反例でinstall拒否とdestination保持を確認した（規格調査§3.10）。B30は公開IRの空entry Phi受理とemitterの不一致metadata利用を是正し、self-edge Phiの48変種を実objectでQCした（規格調査§3.11）。B31は4-block CFGの支配判定を独立経路探索で照合し、二入口循環と同一実行中の交互latchを実objectで確認した（規格調査§3.12）。B32はR1のSMT-LIB 2.7/BV/Core/QF_BVをM2照合し、数値意味・局所並列束縛とsolver証拠の保証範囲を記録した（数値比較§7）。compiler試験・solver実行はこの文書バッチではNOT_RUN。R1の広い言語/表現調査は継続中。R2の上記実装範囲は採用済み。Rust parser→validation→reference interpreter/assembly generation→GNU as→ELF object→C++20 harnessの初期vertical sliceが接続され、local QCを再観測した。対象別QA、形式証明、β公開は未成立・未承認。
+**工程現況：** 既存言語・IR・DSL・データ/仕様形式を広く参照する枝地図と、深掘り保留を採用判断から分離する方針を追加した。初期索引は全言語・全版の調査完了を意味しない。LLVM/GCC/CompCert等の既存compiler、Intel SDM ID `671200`、AMD APM Vol. 3 Rev. 3.37の命令参照、およびELF Object File Format 4.2のheader/section/symbol/relocationは既存記録の範囲で照合済み。4.3はDRAFTと表示される。OwnerはAMD64 psABI baselineとstable 4.2を採用し、現行命令subset・GNU as target option・ET_REL出力を限定再照合した。B27は通常関数ABIの条項別監査と、DF/x87 CW/MXCSR controlの保存・caller状態復元をprobeとC++ consumerで確認した。B28はELF 4.2のsection/string/symbol検査をinstall前へ接続し、header-only出力の拒否と既存destinationの保持を確認した。B29は現producerにない再配置・dynamic表・非null未定義symbol・COMMONの受理を是正し、実GNU asの4反例でinstall拒否とdestination保持を確認した（規格調査§3.10）。B30は公開IRの空entry Phi受理とemitterの不一致metadata利用を是正し、self-edge Phiの48変種を実objectでQCした（規格調査§3.11）。B31は4-block CFGの支配判定を独立経路探索で照合し、二入口循環と同一実行中の交互latchを実objectで確認した（規格調査§3.12）。B32はR1のSMT-LIB 2.7/BV/Core/QF_BVをM2照合し、数値意味・局所並列束縛とsolver証拠の保証範囲を記録した（数値比較§7）。B32のcompiler試験・solver実行はNOT_RUN。B33はsource/公開IR、B34はobject観測量の実装容量を明示してE_LIMIT拒否を接続し、B34のformat/check/Clippyとdebug/release各45unit+5CLI+10E2EがPASS。R1の広い言語/表現調査は継続中。R2の上記実装範囲は採用済み。Rust parser→validation→reference interpreter/assembly generation→GNU as→ELF object→C++20 harnessの初期vertical sliceが接続され、local QCを再観測した。対象別QA、形式証明、β公開は未成立・未承認。
 
 ### B1／R1の継続
 
@@ -52,6 +52,8 @@
 ## 3. 実装時の優先事項
 
 B33はAGENTS `BUDGET`の実装施工として、source 1 MiB、256 block、16,384 instruction、65,536 Phi incomingと公開IR識別子63 byteを新たな容量制限にした。CLIは上限＋1 byteまで読み、parserはencoding前、validatorは定義表・支配集合前に超過を`E_LIMIT`拒否する。容量縮小は初期変換契約§2.5へ明記する。総RSS/時間、assembler出力・object読取等の全境界やβ資源保証は未成立。局所QCは規格調査§3.13を参照。
+
+B34はobject観測byte上限8 MiBをdriverの上限＋1読取とELF入口へ接続し、文字列表の反復NUL走査をindex検査・必須名9-byte比較へ置換した。有限な実装容量とし、一般ELFの不正・disk/heap/時間保証へ昇格しない。通常のdestination保持・staging cleanupと名前意味を境界試験で確認。assembler captureはblocking pipeの停止・descendant保持・thread回収を含む設計が必要なため今回は保留し、制限済みと記載しない。根拠・全suite結果は規格調査§3.14。
 
 1. AI専用文字列の意味を先に定義し、処理の意味が変わらない変換経路を設計する。
 2. 対象CPU/OS/ABI/実行形式の条件を明示する。

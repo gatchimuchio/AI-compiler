@@ -54,9 +54,9 @@
 
 Rust compilerはAIC/0.2のparse、型/CFG/SSA/Phi検査、参照interpreter、x86-64 assembly生成からGNU as objectまでを接続しています。実行時に`as --version`のGNU assembler識別名を確認し、C++20 harnessから生成objectをlink・実行します。branch fixtureの全u16入力とu64境界値、loop/Phi-cycle fixtureの0..255、3つのloop-header Phiと2つのbackedgeを持ち一方でswapするloop、24段・各3 predecessorのPhi合流を持つ生成CFG、長いstack frameの結果を、参照interpreterと独立した期待値計算の両方に照合します。ELF header/symbol/relocation/disassembly、ABIのRSP/RBP/callee-saved GPR・DF・x87 CW・MXCSR control状態、同一環境でのbyte determinismも確認します。ABI probeは非default丸めモードで実行し、RBP・DF・x87 CW・MXCSR controlの破壊を拒否し、許容されるMXCSR status変更を受理します。probe自身のcaller状態復元もC++側で照合します。parserのfixture変異・切り詰め耐性も検査しています。objectはprivate一時directory内で生成し、header・section範囲・文字列表・symbolと`aic_main`定義を限定検査してから出力先へinstallします。extended numberingや解釈対象のcompressed tableは現在非対応です。現行backendが生成しないREL/RELA、dynamic表、非null未定義symbol、COMMONもinstall前に拒否します。一般ELFの不正判定や、機械語のpure性・すべての再配置不在を証明する検査ではありません。これらはhost上の局所QCで、ISA/gABIの完全照合や形式的意味保存証明ではありません。
 
-現実装の容量はsource 1 MiB、256 block、16,384命令、Phi incoming総数65,536、公開IR識別子各63 byteです。超過は`E_LIMIT`で処理を拒否します。parameterとterminatorは命令数へ含めません。CLIは上限＋1 byteまで読み、EOFを待たずに超過を拒否できます。これは新たな実装制限で、AIC意味上の不正・総メモリや時間の保証・β資源契約とは区別します。詳しくは[初期変換契約§2.5](docs/proposals/01_初期変換契約案.md)を参照してください。
+現実装の容量はsource 1 MiB、256 block、16,384命令、Phi incoming総数65,536、公開IR識別子各63 byte、assembler objectの観測量8 MiBです。超過は`E_LIMIT`で処理を拒否します。parameterとterminatorは命令数へ含めません。CLIは上限＋1 byteまで読み、EOFを待たずに超過を拒否できます。これは新たな実装制限で、AIC意味上の不正・総メモリや時間の保証・β資源契約とは区別します。ELF検査では末尾NULの保証と必須名の固定長比較で、長い文字列の反復走査も除去しました。詳しくは[初期変換契約§2.5](docs/proposals/01_初期変換契約案.md)を参照してください。
 
-2026-11-11のdebug/release suiteは各42 Rust unit tests、5 CLI tests、10 E2E testsがPASSです。公開Rust emitterは現在のIRを再検証してmetadataの一致を確認します。空entry Phiと不一致metadataの拒否、self-edgeの3-cycle／自己保持／fanoutについて48変種×263入力を独立期待値へ照合しました。さらに4-block CFGの支配判定43,248件を別方式の経路探索へ照合し、二入口循環・交互latchのPhiを実objectで検査しました。いずれも有限な対象のQCです。検査手順：
+2026-11-11のdebug/release suiteは各45 Rust unit tests、5 CLI tests、10 E2E testsがPASSです。公開Rust emitterは現在のIRを再検証してmetadataの一致を確認します。空entry Phiと不一致metadataの拒否、self-edgeの3-cycle／自己保持／fanoutについて48変種×263入力を独立期待値へ照合しました。さらに4-block CFGの支配判定43,248件を別方式の経路探索へ照合し、二入口循環・交互latchのPhiを実objectで検査しました。いずれも有限な対象のQCです。検査手順：
 
 ~~~sh
 export PATH="${HOME}/.cargo/bin:${PATH}"

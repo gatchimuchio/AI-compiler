@@ -2,6 +2,12 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-11 — R3/R4 object読取量とELF名前走査
+
+- object観測byteの新規実装上限を8 MiBとし、driverのcap+1読取とELF入口のE_LIMIT拒否を接続。一般ELFの妥当性・総heap/disk/時間保証と区別する。
+- ELF文字列表の末尾NUL保証からstrict index検査と必須名9byte比較へ置換し、多数suffix参照による長い反復走査を除去。公式ELF4.2の§3/Chapter4を再照合し、原典copyは保持せずURL/hashを記録した。
+- 先行2回帰の超過受理を是正し、exact 8MiB install・+1拒否・既存destination保持・staging cleanupと名前8caseを確認。format/check/Clippy、debug/release各45 unit + 5 CLI + 10 E2EがPASS。capture/time/tree管理は設計保留で、QA完了・β保証/公開承認は未成立。詳細・hash・未実施は規格調査§3.14。
+
 ## 2026-11-11 — R3/R4 入力読取と公開IRの容量制限
 
 - 新たな実装容量をsource 1 MiB、256 block、16,384 instruction、65,536 Phi incoming、各IR identifier 63 byteとした。CLIはcap+1 byteまで読み、parse/validate入口はencoding・clone・支配集合等の前にE_LIMITで超過を拒否する。AIC意味上の不正と容量拒否を区別し、β資源契約へ昇格しない。

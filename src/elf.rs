@@ -1,4 +1,5 @@
 use crate::diagnostic::{Diagnostic, Result};
+use crate::limits::{MAX_OBJECT_BYTES, check_budget};
 
 const SHT_PROGBITS: u32 = 1;
 const SHT_SYMTAB: u32 = 2;
@@ -69,21 +70,26 @@ fn string_table<'a>(bytes: &'a [u8], section: &Section) -> Result<&'a [u8]> {
     Ok(table)
 }
 
-fn string_at(table: &[u8], offset: u32) -> Result<&[u8]> {
+// Only call with a table returned by string_table: its final NUL ensures every
+// in-range index has a terminator, including suffix and non-UTF-8 byte names.
+// Return the tail without rescanning for NUL; callers compare only fixed names.
+fn string_tail(table: &[u8], offset: u32) -> Result<&[u8]> {
     if table.is_empty() && offset == 0 {
         return Ok(b"");
     }
-    let tail = table
+    table
         .get(offset as usize..)
-        .ok_or_else(|| invalid("string index is outside its table"))?;
-    let end = tail
-        .iter()
-        .position(|byte| *byte == 0)
-        .ok_or_else(|| invalid("string is not NUL terminated"))?;
-    Ok(&tail[..end])
+        .filter(|tail| !tail.is_empty())
+        .ok_or_else(|| invalid("string index is outside its table"))
 }
 
 pub(crate) fn verify_elf64_rel_x86_64_bytes(bytes: &[u8]) -> Result<()> {
+    check_budget(
+        bytes.len(),
+        MAX_OBJECT_BYTES,
+        "assembler object bytes",
+        None,
+    )?;
     if bytes.len() < 64
         || bytes.get(0..4) != Some(b"\x7fELF")
         || bytes[4] != 2
@@ -170,7 +176,7 @@ pub(crate) fn verify_elf64_rel_x86_64_bytes(bytes: &[u8]) -> Result<()> {
             .ok_or_else(|| invalid("section names index is outside the section table"))?;
         let names = string_table(bytes, names)?;
         for section in sections.iter().filter(|s| s.kind != 0) {
-            string_at(names, section.name)?;
+            string_tail(names, section.name)?;
         }
     }
 
@@ -201,7 +207,7 @@ pub(crate) fn verify_elf64_rel_x86_64_bytes(bytes: &[u8]) -> Result<()> {
             if (binding == 0) != (index < first_nonlocal) {
                 return Err(invalid("symbol binding disagrees with sh_info ordering"));
             }
-            let name = string_at(strings, u32_at(symbol, 0))?;
+            let name = string_tail(strings, u32_at(symbol, 0))?;
             let target_index = u16_at(symbol, 6) as usize;
             // Symbol zero is the required undefined null entry. No other
             // unresolved symbols or linker-allocated common storage are emitted.
@@ -217,7 +223,7 @@ pub(crate) fn verify_elf64_rel_x86_64_bytes(bytes: &[u8]) -> Result<()> {
             if target_index < 0xff00 && target_index >= sections.len() {
                 return Err(invalid("symbol section index is out of range"));
             }
-            if name == b"aic_main" {
+            if name.starts_with(b"aic_main\0") {
                 if entry_found || binding != 1 || symbol[4] & 0xf != 2 || symbol[5] & 3 != 0 {
                     return Err(invalid(
                         "aic_main must be one global default-visible function",
@@ -318,6 +324,20 @@ mod tests {
     }
 
     #[test]
+    fn object_byte_budget_counts_inactive_trailing_bytes() {
+        let mut bytes = object();
+        bytes.resize(MAX_OBJECT_BYTES, 0);
+        verify_elf64_rel_x86_64_bytes(&bytes).unwrap();
+        bytes.push(0);
+        assert_eq!(
+            verify_elf64_rel_x86_64_bytes(&bytes)
+                .err()
+                .map(|error| error.code),
+            Some("E_LIMIT")
+        );
+    }
+
+    #[test]
     fn accepts_function_shape_nobits_and_string_table_rules() {
         let mut bytes = object();
         verify_elf64_rel_x86_64_bytes(&bytes).unwrap();
@@ -341,10 +361,38 @@ mod tests {
             put32(&mut bytes, TABLE + index * 64, 0);
         }
         verify_elf64_rel_x86_64_bytes(&bytes).unwrap();
-        assert_eq!(string_at(b"\0prefixsuffix\0", 7).unwrap(), b"suffix");
-        assert_eq!(string_at(b"\0\xff\0", 1).unwrap(), b"\xff");
-        assert_eq!(string_at(b"", 0).unwrap(), b"");
-        assert!(string_at(b"", 1).is_err());
+        assert_eq!(string_tail(b"\0prefixsuffix\0", 7).unwrap(), b"suffix\0");
+        assert_eq!(string_tail(b"\0\xff\0", 1).unwrap(), b"\xff\0");
+        assert_eq!(string_tail(b"", 0).unwrap(), b"");
+        assert!(string_tail(b"", 1).is_err());
+        assert_eq!(string_tail(b"\0", 0).unwrap(), b"\0");
+        assert!(string_tail(b"\0", 1).is_err());
+    }
+
+    #[test]
+    fn entry_name_matching_preserves_nul_suffix_and_byte_semantics() {
+        for (strings, offset, accepted) in [
+            (b"\0aic_main\0".as_slice(), 1, true),
+            (b"\0prefixaic_main\0".as_slice(), 7, true),
+            (b"\0\xffaic_main\0".as_slice(), 2, true),
+            (b"\0aic_main_extra\0".as_slice(), 1, false),
+            (b"\0aic_mainx\0".as_slice(), 1, false),
+            (b"\0aic_main\0".as_slice(), 9, false),
+            (b"\0aic_main\0".as_slice(), 10, false),
+            (b"".as_slice(), 0, false),
+        ] {
+            let mut bytes = object();
+            let start = bytes.len();
+            bytes.extend_from_slice(strings);
+            put64(&mut bytes, STRINGS + 24, start as u64);
+            put64(&mut bytes, STRINGS + 32, strings.len() as u64);
+            put32(&mut bytes, 104, offset);
+            assert_eq!(
+                verify_elf64_rel_x86_64_bytes(&bytes).is_ok(),
+                accepted,
+                "{strings:?} offset={offset}"
+            );
+        }
     }
 
     #[test]

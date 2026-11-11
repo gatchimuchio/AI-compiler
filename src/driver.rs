@@ -1,6 +1,6 @@
 use std::ffi::OsStr;
 use std::fs::{self, DirBuilder, OpenOptions};
-use std::io::Write;
+use std::io::{Read, Write};
 use std::os::unix::fs::DirBuilderExt;
 use std::path::{Path, PathBuf};
 use std::process::Command;
@@ -8,6 +8,7 @@ use std::sync::atomic::{AtomicU64, Ordering};
 
 use crate::diagnostic::{Diagnostic, Result};
 use crate::elf::verify_elf64_rel_x86_64_bytes;
+use crate::limits::MAX_OBJECT_BYTES;
 use crate::parser::parse;
 use crate::validate::validate;
 use crate::x86_64::emit_validated_assembly;
@@ -174,12 +175,21 @@ fn verify_elf64_rel_x86_64(path: &Path) -> Result<()> {
             "assembler output is not a regular file",
         ));
     }
-    let bytes = fs::read(path).map_err(|error| {
-        Diagnostic::global(
-            "E_OUTPUT",
-            format!("could not read assembler output: {error}"),
-        )
-    })?;
+    // Bound the observed bytes even if a regular file grows after inspection.
+    // The verifier rejects the extra byte instead of accepting a truncated ELF.
+    let bytes = fs::File::open(path)
+        .and_then(|file| {
+            let mut bytes = Vec::new();
+            file.take((MAX_OBJECT_BYTES + 1) as u64)
+                .read_to_end(&mut bytes)?;
+            Ok(bytes)
+        })
+        .map_err(|error| {
+            Diagnostic::global(
+                "E_OUTPUT",
+                format!("could not read assembler output: {error}"),
+            )
+        })?;
     verify_elf64_rel_x86_64_bytes(&bytes)
 }
 
@@ -493,6 +503,59 @@ mod tests {
             assert_eq!(fs::read_dir(&directory.0).unwrap().count(), 4, "{name}");
         }
         assert!(accepted.is_empty(), "unexpectedly installed: {accepted:?}");
+    }
+
+    #[test]
+    fn object_byte_budget_preserves_destination_and_cleans_staging() {
+        use std::os::unix::fs::PermissionsExt;
+
+        let _guard = ASSEMBLER_FIXTURE.lock().unwrap();
+        let directory = TemporaryDirectory(std::env::temp_dir().join(format!(
+            "aic-object-budget-{}-{}",
+            std::process::id(),
+            TEMP_SEQUENCE.fetch_add(1, Ordering::Relaxed)
+        )));
+        fs::create_dir(&directory.0).unwrap();
+        let input = directory.0.join("fixture.s");
+        let fixture = directory.0.join("fixture.o");
+        fs::write(&input, b".text\n.globl aic_main\n.type aic_main,@function\naic_main:\nmovq %rdi,%rax\nret\n.size aic_main,.-aic_main\n.section .note.GNU-stack,\"\",@progbits\n").unwrap();
+        let assembled = Command::new("as")
+            .args(["--64", "-march=generic64", "-o"])
+            .arg(&fixture)
+            .arg(&input)
+            .output()
+            .unwrap();
+        assert!(assembled.status.success(), "{assembled:?}");
+        let assembler = directory.0.join("substituting-as");
+        fs::write(&assembler, b"#!/bin/sh\nif [ \"$1\" = \"--version\" ]; then\nprintf 'GNU assembler fixture\\n'\nexit 0\nfi\nif [ \"$1\" != \"--64\" ] || [ \"$2\" != \"-march=generic64\" ] || [ \"$3\" != \"-o\" ]; then\nexit 16\nfi\ncp \"${0%/*}/fixture.o\" \"$4\"\n").unwrap();
+        let mut permissions = fs::metadata(&assembler).unwrap().permissions();
+        permissions.set_mode(0o755);
+        fs::set_permissions(&assembler, permissions).unwrap();
+        let output = directory.0.join("preserved.o");
+        let source = b"AIC 0.2\nfn aic_main(%x: u64) -> u64 {\n^entry:\n ret.u64 %x\n}\n";
+        for size in [MAX_OBJECT_BYTES, MAX_OBJECT_BYTES + 1] {
+            fs::OpenOptions::new()
+                .write(true)
+                .open(&fixture)
+                .unwrap()
+                .set_len(size as u64)
+                .unwrap();
+            fs::write(&output, b"previous artifact").unwrap();
+            let result = compile_object_with_assembler(
+                source,
+                "x86_64-linux-gnu",
+                &output,
+                assembler.as_os_str(),
+            );
+            if size == MAX_OBJECT_BYTES {
+                result.unwrap();
+                assert_eq!(fs::metadata(&output).unwrap().len(), size as u64);
+            } else {
+                assert_eq!(result.err().map(|error| error.code), Some("E_LIMIT"));
+                assert_eq!(fs::read(&output).unwrap(), b"previous artifact");
+            }
+            assert_eq!(fs::read_dir(&directory.0).unwrap().count(), 4);
+        }
     }
 
     #[test]

@@ -4,6 +4,7 @@ use crate::diagnostic::{Diagnostic, Result, Span};
 use crate::ir::{InstructionKind, Module, TerminatorKind};
 
 pub const MAX_SOURCE_BYTES: usize = 1024 * 1024;
+pub const MAX_OBJECT_BYTES: usize = 8 * 1024 * 1024;
 pub const MAX_BLOCKS: usize = 256;
 pub const MAX_INSTRUCTIONS: usize = 16_384;
 pub const MAX_PHI_INCOMINGS: usize = 65_536;
