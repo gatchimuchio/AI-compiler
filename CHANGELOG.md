@@ -2,6 +2,12 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-12 — R1 宣言型問い合わせ・規則評価の結果意味（B49）
+
+- PostgreSQL 18、SPARQL 1.1、XQuery 3.1、Souffléの版・資料種別を分け、結果の重複・順序と再帰評価を一次資料から限定比較した。
+- ISO SQL、SPARQL 1.2意味差、query family全体は未調査のまま残す。AIC/0.2採用意味、コード、R3/R4、QA/β状態の変更はない。
+- 詳細とsource scopeは[研究比較§09](docs/research/09_宣言型問い合わせ・規則評価比較.md)。文書のみの更新で、コード試験はNOT_RUN（非該当）。
+
 ## 2026-11-12 UTC runtime snapshot — R1/R3/R4 x86 ISA-needed GNU property boundary (B48)
 
 - AMD64 psABI 1.0 `baseline`とGNU Binutils 2.44 ld manualを照合。公式manualは`-z x86-64-v2/v3/v4`が`.note.gnu.property`へ必要ISA levelを記すと説明し、固定psABI資料はv2以降のfeatureをbaselineへ追加するlevelとして定義する。
