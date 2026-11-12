@@ -1476,6 +1476,118 @@ mod tests {
     }
 
     #[test]
+    fn higher_x86_isa_requirement_preserves_output_and_baseline_remains_accepted() {
+        use std::os::unix::fs::PermissionsExt;
+
+        let _guard = ASSEMBLER_FIXTURE.lock().unwrap();
+        let directory = TemporaryDirectory(std::env::temp_dir().join(format!(
+            "aic-x86-isa-needed-{}-{}",
+            std::process::id(),
+            TEMP_SEQUENCE.fetch_add(1, Ordering::Relaxed)
+        )));
+        fs::create_dir(&directory.0).unwrap();
+        let input = directory.0.join("fixture.s");
+        let fixture = directory.0.join("fixture.o");
+        let linked = directory.0.join("linked");
+        let output = directory.0.join("preserved.o");
+        let assembler = directory.0.join("substituting-as");
+        fs::write(
+            &assembler,
+            b"#!/bin/sh\nif [ \"$1\" = \"--version\" ]; then\nprintf 'GNU assembler fixture\\n'\nexit 0\nfi\ncp \"${0%/*}/fixture.o\" \"$4\"\n",
+        )
+        .unwrap();
+        let mut permissions = fs::metadata(&assembler).unwrap().permissions();
+        permissions.set_mode(0o755);
+        fs::set_permissions(&assembler, permissions).unwrap();
+        let source = b"AIC 0.2\nfn aic_main(%x: u64) -> u64 {\n^entry:\n ret.u64 %x\n}\n";
+
+        for (name, level, should_reject) in [("baseline", 1u32, false), ("v4", 8, true)] {
+            fs::write(
+                &input,
+                format!(
+                    ".section .note.gnu.property,\"\",@note\n.p2align 3\n.long 4\n.long 16\n.long 5\n.asciz \"GNU\"\n.p2align 3\n.long 0xc0008002\n.long 4\n.long {level}\n.long 0\n.text\n.globl aic_main\n.type aic_main,@function\naic_main:\nmovq %rdi,%rax\nret\n.size aic_main,.-aic_main\n.section .note.GNU-stack,\"\",@progbits\n"
+                ),
+            )
+            .unwrap();
+            let assembled = Command::new("as")
+                .args(["--64", "-march=generic64", "-o"])
+                .arg(&fixture)
+                .arg(&input)
+                .output()
+                .unwrap();
+            assert!(assembled.status.success(), "{name}: {assembled:?}");
+
+            let inspection = Command::new("readelf")
+                .env("LC_ALL", "C")
+                .args(["--wide", "--notes"])
+                .arg(&fixture)
+                .output()
+                .unwrap();
+            assert!(inspection.status.success(), "{name}: {inspection:?}");
+            let inspected = String::from_utf8(inspection.stdout).unwrap();
+            assert!(inspected.contains("x86 ISA needed"), "{name}: {inspected}");
+            if should_reject {
+                assert!(inspected.contains("x86-64-v4"), "{name}: {inspected}");
+            } else {
+                assert!(inspected.contains("x86-64-baseline"), "{name}: {inspected}");
+            }
+
+            let linked_result = Command::new("ld")
+                .args(["-e", "aic_main", "-o"])
+                .arg(&linked)
+                .arg(&fixture)
+                .output()
+                .unwrap();
+            assert!(linked_result.status.success(), "{name}: {linked_result:?}");
+            let linked_inspection = Command::new("readelf")
+                .env("LC_ALL", "C")
+                .args(["--wide", "--notes"])
+                .arg(&linked)
+                .output()
+                .unwrap();
+            assert!(
+                linked_inspection.status.success(),
+                "{name}: {linked_inspection:?}"
+            );
+            let linked_notes = String::from_utf8(linked_inspection.stdout).unwrap();
+            assert!(
+                linked_notes.contains("x86 ISA needed"),
+                "{name}: {linked_notes}"
+            );
+            assert_eq!(
+                linked_notes.contains("x86-64-v4"),
+                should_reject,
+                "{name}: {linked_notes}"
+            );
+            fs::remove_file(&linked).unwrap();
+
+            fs::write(&output, b"previous artifact").unwrap();
+            let result = compile_object_with_assembler(
+                source,
+                "x86_64-linux-gnu",
+                &output,
+                assembler.as_os_str(),
+            );
+            if should_reject {
+                let error = result.unwrap_err();
+                assert_eq!(error.code, "E_OUTPUT", "{error}");
+                assert!(error.detail.starts_with("unsupported assembler output:"));
+                assert!(
+                    error
+                        .detail
+                        .contains("x86 ISA requirements exceed the adopted baseline"),
+                    "{error}"
+                );
+                assert_eq!(fs::read(&output).unwrap(), b"previous artifact");
+            } else {
+                result.unwrap();
+                assert_eq!(fs::read(&output).unwrap(), fs::read(&fixture).unwrap());
+            }
+            assert_eq!(fs::read_dir(&directory.0).unwrap().count(), 4, "{name}");
+        }
+    }
+
+    #[test]
     fn unsupported_entry_and_program_headers_preserve_output_and_clean_staging() {
         use std::os::unix::fs::PermissionsExt;
 

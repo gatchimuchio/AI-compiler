@@ -2,6 +2,12 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-12 UTC runtime snapshot — R1/R3/R4 x86 ISA-needed GNU property boundary (B48)
+
+- AMD64 psABI 1.0 `baseline`とGNU Binutils 2.44 ld manualを照合。公式manualは`-z x86-64-v2/v3/v4`が`.note.gnu.property`へ必要ISA levelを記すと説明し、固定psABI資料はv2以降のfeatureをbaselineへ追加するlevelとして定義する。
+- SHT_NOTE内のGNU `NT_GNU_PROPERTY_TYPE_0`を解析し、`GNU_PROPERTY_X86_ISA_1_NEEDED`のbaseline bit以外を持つobjectをinstall前にunsupported E_OUTPUT拒否する。修正前は高ISA要求と不正property sizeをaccept。修正後はv2/v4 rejection、baseline acceptance、ISA-used/other property acceptance、既存destination保持、staging cleanupを検査。noteは必須にしない。
+- GNU as/ld 2.44実object/link observationでv4 propertyが最終imageのPT_GNU_PROPERTYへ伝播することを確認。focused regressions 3/3、debug/release各75 Rust unit + 5 CLI + 10 E2E、format/check/ClippyはPASS。source/artifact hashes、未監査範囲は規格調査§3.28。
+
 ## 2026-11-12 UTC runtime snapshot — R1/R3/R4 GNU executable-stack marker boundary (B47)
 
 - GNU Binutils 2.44の公式as/ld manualと実GNU as/readelf/ld観測で、SHF_EXECINSTR付き`.note.GNU-stack`が`GNU_STACK RWE`を要求し、flagなしnoteは`RW`となることを確認した。marker欠落時defaultはtarget依存であり、`-z noexecstack`はrequestを上書きした。

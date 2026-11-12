@@ -6,6 +6,8 @@ const SHT_SYMTAB: u32 = 2;
 const SHT_STRTAB: u32 = 3;
 const SHT_RELA: u32 = 4;
 const SHT_DYNAMIC: u32 = 6;
+const SHT_NOTE: u32 = 7;
+const NT_GNU_PROPERTY_TYPE_0: u32 = 5;
 const SHT_NOBITS: u32 = 8;
 const SHT_REL: u32 = 9;
 const SHT_DYNSYM: u32 = 11;
@@ -22,6 +24,8 @@ const SHF_EXCLUDE: u64 = 0x8000_0000;
 const SHF_GROUP: u64 = 0x200;
 const SHF_TLS: u64 = 0x400;
 const SHF_COMPRESSED: u64 = 0x800;
+const GNU_PROPERTY_X86_ISA_1_NEEDED: u32 = 0xc000_8002;
+const GNU_PROPERTY_X86_ISA_1_BASELINE: u32 = 1 << 0;
 
 struct Section {
     name: u32,
@@ -94,6 +98,89 @@ fn string_tail(table: &[u8], offset: u32) -> Result<&[u8]> {
         .get(offset as usize..)
         .filter(|tail| !tail.is_empty())
         .ok_or_else(|| invalid("string index is outside its table"))
+}
+
+fn align_usize(value: usize, alignment: usize) -> Result<usize> {
+    value
+        .checked_add(alignment - 1)
+        .map(|aligned| aligned & !(alignment - 1))
+        .ok_or_else(|| invalid("ELF note alignment overflows"))
+}
+
+fn verify_gnu_property_descriptor(descriptor: &[u8]) -> Result<()> {
+    if descriptor.len() < 8 || !descriptor.len().is_multiple_of(8) {
+        return Err(invalid("invalid GNU property descriptor size"));
+    }
+    let mut offset = 0;
+    while offset < descriptor.len() {
+        if descriptor.len() - offset < 8 {
+            return Err(invalid("truncated GNU property header"));
+        }
+        let property_type = u32_at(descriptor, offset);
+        let data_size = usize::try_from(u32_at(descriptor, offset + 4))
+            .map_err(|_| invalid("GNU property size exceeds host range"))?;
+        let data_start = offset + 8;
+        let data_end = data_start
+            .checked_add(data_size)
+            .ok_or_else(|| invalid("GNU property range overflows"))?;
+        if data_end > descriptor.len() {
+            return Err(invalid("GNU property extends beyond its note descriptor"));
+        }
+        if property_type == GNU_PROPERTY_X86_ISA_1_NEEDED {
+            if data_size != 4 {
+                return Err(invalid("invalid x86 ISA-needed GNU property size"));
+            }
+            let required = u32_at(descriptor, data_start);
+            if required & !GNU_PROPERTY_X86_ISA_1_BASELINE != 0 {
+                return Err(unsupported(
+                    "x86 ISA requirements exceed the adopted baseline",
+                ));
+            }
+        }
+        let next = align_usize(data_end, 8)?;
+        if next > descriptor.len() {
+            return Err(invalid("truncated GNU property padding"));
+        }
+        offset = next;
+    }
+    Ok(())
+}
+
+fn verify_note_section(notes: &[u8]) -> Result<()> {
+    let mut offset = 0;
+    while offset < notes.len() {
+        if notes.len() - offset < 12 {
+            return Err(invalid("truncated ELF note header"));
+        }
+        let name_size = usize::try_from(u32_at(notes, offset))
+            .map_err(|_| invalid("ELF note name size exceeds host range"))?;
+        let descriptor_size = usize::try_from(u32_at(notes, offset + 4))
+            .map_err(|_| invalid("ELF note descriptor size exceeds host range"))?;
+        let note_type = u32_at(notes, offset + 8);
+        let name_start = offset + 12;
+        let name_end = name_start
+            .checked_add(name_size)
+            .ok_or_else(|| invalid("ELF note name range overflows"))?;
+        if name_end > notes.len() {
+            return Err(invalid("ELF note name extends beyond its section"));
+        }
+        let descriptor_start = align_usize(name_end, 4)?;
+        let descriptor_end = descriptor_start
+            .checked_add(descriptor_size)
+            .ok_or_else(|| invalid("ELF note descriptor range overflows"))?;
+        if descriptor_end > notes.len() {
+            return Err(invalid("ELF note descriptor extends beyond its section"));
+        }
+        if note_type == NT_GNU_PROPERTY_TYPE_0 && notes.get(name_start..name_end) == Some(b"GNU\0")
+        {
+            verify_gnu_property_descriptor(&notes[descriptor_start..descriptor_end])?;
+        }
+        offset = align_usize(descriptor_end, 4)?;
+        if offset > notes.len() {
+            return Err(invalid("truncated ELF note padding"));
+        }
+    }
+    Ok(())
 }
 
 pub(crate) fn verify_elf64_rel_x86_64_bytes(bytes: &[u8]) -> Result<()> {
@@ -239,7 +326,16 @@ pub(crate) fn verify_elf64_rel_x86_64_bytes(bytes: &[u8]) -> Result<()> {
         }
         // NOBITS has a conceptual offset and consumes no bytes in the file.
         if section.kind != SHT_NOBITS {
-            file_range(bytes, section.offset, section.size)?;
+            let payload = file_range(bytes, section.offset, section.size)?;
+            if section.kind == SHT_NOTE {
+                if section.flags & SHF_COMPRESSED != 0 {
+                    return Err(unsupported("compressed note sections are unsupported"));
+                }
+                // GNU ld promotes x86 ISA-needed notes into PT_GNU_PROPERTY.
+                // Keep this object's declared hardware floor within the
+                // adopted AMD64 psABI baseline before installation.
+                verify_note_section(payload)?;
+            }
             if section.size != 0 {
                 occupied.push((section.offset, section.offset + section.size));
             }
@@ -453,6 +549,33 @@ mod tests {
         bytes
     }
 
+    fn gnu_property_note(property_type: u32, value: u32) -> Vec<u8> {
+        let mut note = Vec::new();
+        note.extend_from_slice(&4u32.to_le_bytes());
+        note.extend_from_slice(&16u32.to_le_bytes());
+        note.extend_from_slice(&5u32.to_le_bytes());
+        note.extend_from_slice(b"GNU\0");
+        note.extend_from_slice(&property_type.to_le_bytes());
+        note.extend_from_slice(&4u32.to_le_bytes());
+        note.extend_from_slice(&value.to_le_bytes());
+        note.extend_from_slice(&0u32.to_le_bytes());
+        note
+    }
+
+    fn with_gnu_property_note(property_type: u32, value: u32) -> Vec<u8> {
+        let mut bytes = with_named_extra_section(b".note.gnu.property", 0);
+        let section = TABLE + 5 * 64;
+        let payload_offset = (bytes.len() + 7) & !7;
+        bytes.resize(payload_offset, 0);
+        let note = gnu_property_note(property_type, value);
+        bytes.extend_from_slice(&note);
+        put32(&mut bytes, section + 4, SHT_NOTE);
+        put64(&mut bytes, section + 24, payload_offset as u64);
+        put64(&mut bytes, section + 32, note.len() as u64);
+        put64(&mut bytes, section + 48, 8);
+        bytes
+    }
+
     fn with_extra_symbol(symbol: &[u8]) -> Vec<u8> {
         let mut bytes = object();
         let names = bytes[128..161].to_vec();
@@ -657,6 +780,54 @@ mod tests {
         ] {
             verify_elf64_rel_x86_64_bytes(&bytes).unwrap();
         }
+    }
+
+    #[test]
+    fn x86_isa_needed_property_cannot_raise_the_adopted_baseline() {
+        const ISA_1_USED: u32 = 0xc001_0002;
+        const ISA_1_NEEDED: u32 = 0xc000_8002;
+
+        for bytes in [
+            with_gnu_property_note(ISA_1_NEEDED, 1 << 1),
+            with_gnu_property_note(ISA_1_NEEDED, 1 << 3),
+            with_gnu_property_note(ISA_1_NEEDED, (1 << 0) | (1 << 3)),
+        ] {
+            let error = verify_elf64_rel_x86_64_bytes(&bytes).unwrap_err();
+            assert_eq!(error.code, "E_OUTPUT");
+            assert!(error.detail.starts_with("unsupported assembler output:"));
+            assert!(
+                error
+                    .detail
+                    .contains("x86 ISA requirements exceed the adopted baseline")
+            );
+        }
+
+        for bytes in [
+            with_gnu_property_note(ISA_1_NEEDED, 1),
+            with_gnu_property_note(ISA_1_USED, 1 << 3),
+            with_gnu_property_note(0xc000_0002, 1 << 3),
+        ] {
+            verify_elf64_rel_x86_64_bytes(&bytes).unwrap();
+        }
+    }
+
+    #[test]
+    fn malformed_x86_isa_needed_property_is_invalid_elf() {
+        const ISA_1_NEEDED: u32 = 0xc000_8002;
+
+        let mut bytes = with_gnu_property_note(ISA_1_NEEDED, 1);
+        let section = TABLE + 5 * 64;
+        let payload_offset = u64_at(&bytes, section + 24) as usize;
+        put32(&mut bytes, payload_offset + 20, 8);
+
+        let error = verify_elf64_rel_x86_64_bytes(&bytes).unwrap_err();
+        assert_eq!(error.code, "E_OUTPUT");
+        assert!(error.detail.starts_with("invalid ELF64 object:"));
+        assert!(
+            error
+                .detail
+                .contains("invalid x86 ISA-needed GNU property size")
+        );
     }
 
     #[test]
