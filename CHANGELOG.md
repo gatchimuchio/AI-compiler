@@ -2,6 +2,12 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-12 — R1/R3/R4 ELF init/fini array出力境界
+
+- ELF 4.2 §3.3で初期化・終了関数pointer arrayを表す`SHT_PREINIT_ARRAY`/`SHT_INIT_ARRAY`/`SHT_FINI_ARRAY`を、現producerが使わない有効なsection typeとしてinstall前にunsupported `E_OUTPUT`拒否する。
+- 修正前にunit fixtureと実GNU as 2.44の3 objectが受理されることを再現。修正後はreadelf type確認、拒否、既存destination保持、staging cleanupを確認した。配列payloadやsection type全般のallowlistは実装していない。
+- format/check/Clippyとdebug/release各59 unit + 5 CLI + 10 E2EがPASS。根拠・source hash・未検査範囲は規格調査§3.21。
+
 ## 2026-11-12 — R1/R3/R4 ELF section group出力境界
 
 - ELF 4.2 §3.3–3.4のSHT_GROUP/SHF_GROUPを、group payloadを解釈せずに受理するとlinker selectionがentry functionを捨て得る有効な未対応shapeとして識別し、install前にunsupported E_OUTPUTで拒否する。

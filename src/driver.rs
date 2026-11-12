@@ -909,6 +909,94 @@ mod tests {
     }
 
     #[test]
+    fn unsupported_initialization_and_termination_arrays_preserve_output_and_clean_staging() {
+        use std::os::unix::fs::PermissionsExt;
+
+        let _guard = ASSEMBLER_FIXTURE.lock().unwrap();
+        let directory = TemporaryDirectory(std::env::temp_dir().join(format!(
+            "aic-init-termination-arrays-{}-{}",
+            std::process::id(),
+            TEMP_SEQUENCE.fetch_add(1, Ordering::Relaxed)
+        )));
+        fs::create_dir(&directory.0).unwrap();
+        let input = directory.0.join("fixture.s");
+        let fixture = directory.0.join("fixture.o");
+        let output = directory.0.join("preserved.o");
+        let assembler = directory.0.join("substituting-as");
+        fs::write(
+            &assembler,
+            b"#!/bin/sh\nif [ \"$1\" = \"--version\" ]; then\nprintf 'GNU assembler fixture\\n'\nexit 0\nfi\ncp \"${0%/*}/fixture.o\" \"$4\"\n",
+        )
+        .unwrap();
+        let mut permissions = fs::metadata(&assembler).unwrap().permissions();
+        permissions.set_mode(0o755);
+        fs::set_permissions(&assembler, permissions).unwrap();
+        let source = b"AIC 0.2\nfn aic_main(%x: u64) -> u64 {\n^entry:\n ret.u64 %x\n}\n";
+        let mut accepted = Vec::new();
+
+        for (section, section_type) in [
+            ("preinit_array", "@preinit_array"),
+            ("init_array", "@init_array"),
+            ("fini_array", "@fini_array"),
+        ] {
+            let assembly = format!(
+                ".text\n.globl aic_main\n.type aic_main,@function\naic_main:\nret\n.size aic_main,.-aic_main\n.section .{section},\"aw\",{section_type}\n.p2align 3\n.quad 0\n.section .note.GNU-stack,\"\",@progbits\n"
+            );
+            fs::write(&input, assembly).unwrap();
+            let assembled = Command::new("as")
+                .args(["--64", "-march=generic64", "-o"])
+                .arg(&fixture)
+                .arg(&input)
+                .output()
+                .unwrap();
+            assert!(assembled.status.success(), "{section}: {assembled:?}");
+
+            let inspection = Command::new("readelf")
+                .env("LC_ALL", "C")
+                .args(["--wide", "--section-headers"])
+                .arg(&fixture)
+                .output()
+                .unwrap();
+            assert!(inspection.status.success(), "{section}: {inspection:?}");
+            let inspected = String::from_utf8(inspection.stdout).unwrap();
+            let section_type_name = section.to_ascii_uppercase();
+            assert!(
+                inspected.lines().any(|line| {
+                    line.contains(&format!(".{section}")) && line.contains(&section_type_name)
+                }),
+                "{section}: {inspected}"
+            );
+
+            fs::write(&output, b"previous artifact").unwrap();
+            match compile_object_with_assembler(
+                source,
+                "x86_64-linux-gnu",
+                &output,
+                assembler.as_os_str(),
+            ) {
+                Ok(()) => accepted.push(section),
+                Err(error) => {
+                    assert_eq!(error.code, "E_OUTPUT", "{section}: {error}");
+                    assert!(error.detail.starts_with("unsupported assembler output:"));
+                    assert!(
+                        error
+                            .detail
+                            .contains("initialization and termination arrays are unsupported"),
+                        "{section}: {error}"
+                    );
+                    assert_eq!(
+                        fs::read(&output).unwrap(),
+                        b"previous artifact",
+                        "{section}"
+                    );
+                }
+            }
+            assert_eq!(fs::read_dir(&directory.0).unwrap().count(), 4, "{section}");
+        }
+        assert!(accepted.is_empty(), "unexpectedly installed: {accepted:?}");
+    }
+
+    #[test]
     fn unsupported_entry_and_program_headers_preserve_output_and_clean_staging() {
         use std::os::unix::fs::PermissionsExt;
 

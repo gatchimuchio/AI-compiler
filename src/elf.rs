@@ -9,6 +9,9 @@ const SHT_DYNAMIC: u32 = 6;
 const SHT_NOBITS: u32 = 8;
 const SHT_REL: u32 = 9;
 const SHT_DYNSYM: u32 = 11;
+const SHT_INIT_ARRAY: u32 = 14;
+const SHT_FINI_ARRAY: u32 = 15;
+const SHT_PREINIT_ARRAY: u32 = 16;
 const SHT_GROUP: u32 = 17;
 const SHF_GROUP: u64 = 0x200;
 const SHF_COMPRESSED: u64 = 0x800;
@@ -164,6 +167,17 @@ pub(crate) fn verify_elf64_rel_x86_64_bytes(bytes: &[u8]) -> Result<()> {
         // groups, so reject this valid but unsupported output shape.
         if section.kind == SHT_GROUP || section.flags & SHF_GROUP != 0 {
             return Err(unsupported("section groups are unsupported"));
+        }
+        // These sections add function calls to the linked program's
+        // initialization or termination sequence. The current producer emits
+        // none of them, so treat the valid ELF types as unsupported output.
+        if matches!(
+            section.kind,
+            SHT_INIT_ARRAY | SHT_FINI_ARRAY | SHT_PREINIT_ARRAY
+        ) {
+            return Err(unsupported(
+                "initialization and termination arrays are unsupported",
+            ));
         }
         // The current producer uses immediate constants and stack slots, with
         // branches resolved within one section. These are output-shape limits,
@@ -442,6 +456,26 @@ mod tests {
             assert_eq!(error.code, "E_OUTPUT");
             assert!(error.detail.starts_with("unsupported assembler output:"));
             assert!(error.detail.contains("section groups are unsupported"));
+        }
+    }
+
+    #[test]
+    fn initialization_and_termination_arrays_are_outside_the_object_profile() {
+        for kind in [SHT_INIT_ARRAY, SHT_FINI_ARRAY, SHT_PREINIT_ARRAY] {
+            let mut bytes = object();
+            bytes.resize(TABLE + 6 * 64, 0);
+            put16(&mut bytes, 60, 6);
+            put32(&mut bytes, TABLE + 5 * 64 + 4, kind);
+
+            let error = verify_elf64_rel_x86_64_bytes(&bytes).unwrap_err();
+            assert_eq!(error.code, "E_OUTPUT", "section type {kind}: {error}");
+            assert!(error.detail.starts_with("unsupported assembler output:"));
+            assert!(
+                error
+                    .detail
+                    .contains("initialization and termination arrays are unsupported"),
+                "section type {kind}: {error}"
+            );
         }
     }
 
