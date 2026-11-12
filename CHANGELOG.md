@@ -2,6 +2,12 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-12 — R1/R3/R4 ELF allocated section storage出力境界
+
+- ELF 4.2 §3.4のSHF_ALLOC/SHF_WRITE/SHF_EXECINSTR意味とAIC/0.2のmemory/global stateなし契約に照らし、非空の割当sectionを非書込の実行codeに限定する。GNU asの.data/.rodata/.bssは有効なELFだが、現producer未対応shapeとしてinstall前にunsupported E_OUTPUTで拒否する。空.data/.bssは維持する。
+- 修正前にunit/compile-level反例が受理されることを再現。修正後は実GNU as objectのsection type/size/flags、既存destination保持、staging cleanupを確認した。
+- format/check/Clippyとdebug/release各64 unit + 5 CLI + 10 E2EがPASS。根拠・source hash・未検査範囲は規格調査§3.23。
+
 ## 2026-11-12 — R1/R3/R4 ELF TLS section flag出力境界
 
 - ELF 4.2 §3.4の`SHF_TLS` (0x400)を、現producerにない有効なTLS storage flagとしてinstall前にunsupported `E_OUTPUT`拒否する。AIC/0.2のthread-local stateは追加しない。

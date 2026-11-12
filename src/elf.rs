@@ -13,6 +13,9 @@ const SHT_INIT_ARRAY: u32 = 14;
 const SHT_FINI_ARRAY: u32 = 15;
 const SHT_PREINIT_ARRAY: u32 = 16;
 const SHT_GROUP: u32 = 17;
+const SHF_WRITE: u64 = 0x1;
+const SHF_ALLOC: u64 = 0x2;
+const SHF_EXECINSTR: u64 = 0x4;
 const SHF_GROUP: u64 = 0x200;
 const SHF_TLS: u64 = 0x400;
 const SHF_COMPRESSED: u64 = 0x800;
@@ -186,6 +189,18 @@ pub(crate) fn verify_elf64_rel_x86_64_bytes(bytes: &[u8]) -> Result<()> {
                 "initialization and termination arrays are unsupported",
             ));
         }
+        // AIC has no memory or global state. Nonempty sections allocated at
+        // runtime must therefore be read-only executable code. Keep the
+        // producer's empty .data/.bss sections, but reject allocated storage
+        // and writable code before installing the object.
+        if section.size != 0
+            && section.flags & SHF_ALLOC != 0
+            && (section.flags & SHF_EXECINSTR == 0 || section.flags & SHF_WRITE != 0)
+        {
+            return Err(unsupported(
+                "writable or non-code allocated sections are unsupported",
+            ));
+        }
         // The current producer uses immediate constants and stack slots, with
         // branches resolved within one section. These are output-shape limits,
         // not restrictions imposed on general ELF relocatable objects.
@@ -279,7 +294,7 @@ pub(crate) fn verify_elf64_rel_x86_64_bytes(bytes: &[u8]) -> Result<()> {
                 let value = u64_at(symbol, 8);
                 let size = u64_at(symbol, 16);
                 if code.kind != SHT_PROGBITS
-                    || code.flags & 6 != 6
+                    || code.flags & (SHF_ALLOC | SHF_EXECINSTR) != (SHF_ALLOC | SHF_EXECINSTR)
                     || code.flags & SHF_COMPRESSED != 0
                     || size == 0
                     || value.checked_add(size).is_none_or(|end| end > code.size)
@@ -352,6 +367,26 @@ mod tests {
         bytes[108] = 0x12;
         put16(&mut bytes, 110, 1);
         put64(&mut bytes, 120, 1);
+        bytes
+    }
+
+    fn with_extra_section(kind: u32, flags: u64, size: u64) -> Vec<u8> {
+        let mut bytes = object();
+        let section_table_end = TABLE + 6 * 64;
+        let payload_size = if kind == SHT_NOBITS {
+            0
+        } else {
+            usize::try_from(size).unwrap()
+        };
+        bytes.resize(section_table_end + payload_size, 0);
+        put16(&mut bytes, 60, 6);
+
+        let section = TABLE + 5 * 64;
+        put32(&mut bytes, section + 4, kind);
+        put64(&mut bytes, section + 8, flags);
+        put64(&mut bytes, section + 24, section_table_end as u64);
+        put64(&mut bytes, section + 32, size);
+        put64(&mut bytes, section + 48, 1);
         bytes
     }
 
@@ -495,6 +530,37 @@ mod tests {
         assert_eq!(error.code, "E_OUTPUT");
         assert!(error.detail.starts_with("unsupported assembler output:"));
         assert!(error.detail.contains("thread-local storage is unsupported"));
+    }
+
+    #[test]
+    fn nonempty_writable_or_non_code_allocated_sections_are_outside_the_object_profile() {
+        for (kind, flags, size) in [
+            (SHT_PROGBITS, SHF_ALLOC, 8),
+            (SHT_PROGBITS, SHF_ALLOC | SHF_WRITE, 8),
+            (SHT_PROGBITS, SHF_ALLOC | SHF_EXECINSTR | SHF_WRITE, 8),
+            (SHT_NOBITS, SHF_ALLOC | SHF_WRITE, 8),
+        ] {
+            let bytes = with_extra_section(kind, flags, size);
+            let error = verify_elf64_rel_x86_64_bytes(&bytes).unwrap_err();
+            assert_eq!(error.code, "E_OUTPUT");
+            assert!(error.detail.starts_with("unsupported assembler output:"));
+            assert!(
+                error
+                    .detail
+                    .contains("writable or non-code allocated sections are unsupported")
+            );
+        }
+    }
+
+    #[test]
+    fn executable_code_and_empty_or_nonallocated_sections_remain_accepted() {
+        for bytes in [
+            with_extra_section(SHT_PROGBITS, SHF_ALLOC | SHF_EXECINSTR, 1),
+            with_extra_section(SHT_PROGBITS, SHF_ALLOC | SHF_WRITE, 0),
+            with_extra_section(SHT_PROGBITS, SHF_WRITE, 8),
+        ] {
+            verify_elf64_rel_x86_64_bytes(&bytes).unwrap();
+        }
     }
 
     #[test]
