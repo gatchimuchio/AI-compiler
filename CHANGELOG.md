@@ -2,7 +2,13 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
-## 2026-11-13 — R1/R3/R4 ELF section address/alignment検査
+## 2026-11-12 — R1/R3/R4 ELF section group出力境界
+
+- ELF 4.2 §3.3–3.4のSHT_GROUP/SHF_GROUPを、group payloadを解釈せずに受理するとlinker selectionがentry functionを捨て得る有効な未対応shapeとして識別し、install前にunsupported E_OUTPUTで拒否する。
+- 修正前にunitと実GNU as 2.44 COMDAT `aic_main` objectが受理されることを確認。修正後はreadelf marker、拒否、既存destination保持、staging cleanupを確認した。
+- format/check/Clippyとdebug/release各57 unit + 5 CLI + 10 E2EがPASS。一般ELF不正やgroup payload検査とは区別する。根拠・source hash・限界は規格調査§3.20。
+
+## 2026-11-12 — R1/R3/R4 ELF section address/alignment検査
 
 - ELF 4.2 §3のsh_addr/sh_addralign整列要求を通常sectionへ実装。不整列section addressを現producer固有の出力制限でなく一般ELF規則の違反としてinstall前にE_OUTPUT拒否する。
 - 修正前にunit testと実GNU as object由来のcompile-level testが不整列code sectionを受理することを再現。修正後はreject、既存destination保持、staging cleanupを確認。sh_addralign 0/1の「制約なし」も確認。

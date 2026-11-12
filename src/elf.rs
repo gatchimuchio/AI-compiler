@@ -9,6 +9,8 @@ const SHT_DYNAMIC: u32 = 6;
 const SHT_NOBITS: u32 = 8;
 const SHT_REL: u32 = 9;
 const SHT_DYNSYM: u32 = 11;
+const SHT_GROUP: u32 = 17;
+const SHF_GROUP: u64 = 0x200;
 const SHF_COMPRESSED: u64 = 0x800;
 
 struct Section {
@@ -156,6 +158,12 @@ pub(crate) fn verify_elf64_rel_x86_64_bytes(bytes: &[u8]) -> Result<()> {
     for section in &sections {
         if section.kind == 0 {
             continue;
+        }
+        // Section groups can make a linker discard a valid COMDAT group,
+        // including the required entry point. The current producer emits no
+        // groups, so reject this valid but unsupported output shape.
+        if section.kind == SHT_GROUP || section.flags & SHF_GROUP != 0 {
+            return Err(unsupported("section groups are unsupported"));
         }
         // The current producer uses immediate constants and stack slots, with
         // branches resolved within one section. These are output-shape limits,
@@ -416,6 +424,24 @@ mod tests {
             put64(&mut bytes, TEXT + 16, 1);
             put64(&mut bytes, TEXT + 48, alignment);
             verify_elf64_rel_x86_64_bytes(&bytes).unwrap();
+        }
+    }
+
+    #[test]
+    fn section_groups_are_outside_the_object_profile() {
+        let mut group = object();
+        group.resize(TABLE + 6 * 64, 0);
+        put16(&mut group, 60, 6);
+        put32(&mut group, TABLE + 5 * 64 + 4, SHT_GROUP);
+
+        let mut grouped_member = object();
+        put64(&mut grouped_member, TEXT + 8, SHF_GROUP);
+
+        for bytes in [group, grouped_member] {
+            let error = verify_elf64_rel_x86_64_bytes(&bytes).unwrap_err();
+            assert_eq!(error.code, "E_OUTPUT");
+            assert!(error.detail.starts_with("unsupported assembler output:"));
+            assert!(error.detail.contains("section groups are unsupported"));
         }
     }
 

@@ -1070,6 +1070,76 @@ mod tests {
     }
 
     #[test]
+    fn comdat_section_group_preserves_output_and_cleans_staging() {
+        use std::os::unix::fs::PermissionsExt;
+
+        let _guard = ASSEMBLER_FIXTURE.lock().unwrap();
+        let directory = TemporaryDirectory(std::env::temp_dir().join(format!(
+            "aic-section-group-{}-{}",
+            std::process::id(),
+            TEMP_SEQUENCE.fetch_add(1, Ordering::Relaxed)
+        )));
+        fs::create_dir(&directory.0).unwrap();
+        let assembly = directory.0.join("fixture.s");
+        let fixture = directory.0.join("fixture.o");
+        fs::write(
+            &assembly,
+            ".section .text.aic_main,\"axG\",@progbits,aic_main,comdat\n.globl aic_main\n.type aic_main,@function\naic_main:\n  movq %rdi,%rax\n  ret\n.size aic_main,.-aic_main\n.section .note.GNU-stack,\"\",@progbits\n",
+        )
+        .unwrap();
+        let assembled = Command::new("as")
+            .args(["--64", "-march=generic64", "-o"])
+            .arg(&fixture)
+            .arg(&assembly)
+            .output()
+            .unwrap();
+        assert!(assembled.status.success(), "{assembled:?}");
+        let inspection = Command::new("readelf")
+            .env("LC_ALL", "C")
+            .args([
+                "--wide",
+                "--section-headers",
+                "--section-groups",
+                "--symbols",
+            ])
+            .arg(&fixture)
+            .output()
+            .unwrap();
+        assert!(inspection.status.success(), "{inspection:?}");
+        let inspected = String::from_utf8(inspection.stdout).unwrap();
+        assert!(inspected.contains("COMDAT group"), "{inspected}");
+        assert!(inspected.contains(".text.aic_main"), "{inspected}");
+        assert!(inspected.contains("aic_main"), "{inspected}");
+        fs::remove_file(&assembly).unwrap();
+
+        let assembler = directory.0.join("substituting-as");
+        fs::write(
+            &assembler,
+            b"#!/bin/sh\nif [ \"$1\" = \"--version\" ]; then\nprintf 'GNU assembler fixture\\n'\nexit 0\nfi\ncp \"${0%/*}/fixture.o\" \"$4\"\n",
+        )
+        .unwrap();
+        let mut permissions = fs::metadata(&assembler).unwrap().permissions();
+        permissions.set_mode(0o755);
+        fs::set_permissions(&assembler, permissions).unwrap();
+        let output = directory.0.join("preserved.o");
+        fs::write(&output, b"previous artifact").unwrap();
+
+        let source = b"AIC 0.2\nfn aic_main(%x: u64) -> u64 {\n^entry:\n ret.u64 %x\n}\n";
+        let error = compile_object_with_assembler(
+            source,
+            "x86_64-linux-gnu",
+            &output,
+            assembler.as_os_str(),
+        )
+        .unwrap_err();
+        assert_eq!(error.code, "E_OUTPUT", "{error}");
+        assert!(error.detail.starts_with("unsupported assembler output:"));
+        assert!(error.detail.contains("section groups are unsupported"));
+        assert_eq!(fs::read(&output).unwrap(), b"previous artifact");
+        assert_eq!(fs::read_dir(&directory.0).unwrap().count(), 3);
+    }
+
+    #[test]
     fn object_byte_budget_preserves_destination_and_cleans_staging() {
         use std::os::unix::fs::PermissionsExt;
 

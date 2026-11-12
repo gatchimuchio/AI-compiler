@@ -2,15 +2,15 @@
 
 - 版：`0.3-r3`
 - 作成：2026-11-02
-- 更新：2026-11-13
+- 更新：2026-11-12
 - 対象：AI-compilerの調査・設計・実装を依頼されたCodex
 - 本書だけでコンパイラ開発開始やβ版公開の新規権限を付与しない。
 
-## 0. 現行の施工命令（2026-11-13）
+## 0. 現行の施工命令（2026-11-12）
 
 **対象：** `gatchimuchio/AI-compiler`。Ownerは2026-11-09に初期R3範囲、2026-11-11にtarget profileのCPU floorとELF共通object参照版を採用した。採用範囲はAIC/0.2の`aic_main(u64) -> u64`、Linux x86-64 / AMD64 psABI 1.0 `baseline` / System V ABI / ELF64 ET_REL / ELF Object File Format 4.2、Rust 2024 + Cargoのcompiler、C++20のindependent test harness、GNU as `--64 -march=generic64`でのobject作成、harness外部link、memory/I/O/callなし。`x86_64-linux-gnu`はCPU profileのプロジェクト固有alias。Ownerの「どっちも採用」はRust compilerとC++ test harnessの両方を役割分担して採用する意味に記録する。
 
-**工程現況：** 既存言語・IR・DSL・データ/仕様形式を広く参照する枝地図と、深掘り保留を採用判断から分離する方針を追加した。初期索引は全言語・全版の調査完了を意味しない。LLVM/GCC/CompCert等の既存compiler、Intel SDM ID `671200`、AMD APM Vol. 3 Rev. 3.37の命令参照、およびELF Object File Format 4.2のheader/section/symbol/relocationは既存記録の範囲で照合済み。4.3はDRAFTと表示される。OwnerはAMD64 psABI baselineとstable 4.2を採用し、現行命令subset・GNU as target option・ET_REL出力を限定再照合した。B27は通常関数ABIの条項別監査と、DF/x87 CW/MXCSR controlの保存・caller状態復元をprobeとC++ consumerで確認した。B28はELF 4.2のsection/string/symbol検査をinstall前へ接続し、header-only出力の拒否と既存destinationの保持を確認した。B29は現producerにない再配置・dynamic表・非null未定義symbol・COMMONの受理を是正し、実GNU asの4反例でinstall拒否とdestination保持を確認した（規格調査§3.10）。B30は公開IRの空entry Phi受理とemitterの不一致metadata利用を是正し、self-edge Phiの48変種を実objectでQCした（規格調査§3.11）。B31は4-block CFGの支配判定を独立経路探索で照合し、二入口循環と同一実行中の交互latchを実objectで確認した（規格調査§3.12）。B32はR1のSMT-LIB 2.7/BV/Core/QF_BVをM2照合し、数値意味・局所並列束縛とsolver証拠の保証範囲を記録した（数値比較§7）。B32のcompiler試験・solver実行はNOT_RUN。B33はsource/公開IR、B34はobject観測量の実装容量を明示してE_LIMIT拒否を接続した。B35はB34で保留したassembler stdout/stderr captureとruntimeを各stream64 KiB、direct child30秒の有限な実装予算で接続し、同期nonblocking取得・kill/wait・出力保持を局所検査した。子孫processとOS reap latencyは管理しない（規格調査§3.15）。B36で両stream同時captureを有限QCし、B37ではcompile経路のversion query/assembly timeout時に既存出力を保持しstagingをcleanupすることを確認した。production deadlineは30秒のまま（規格調査§3.16–3.17）。B38はprocess entry/program headerのmetadataを持つ現producer外のobjectをinstallするgapを是正し、実object由来の2反例で拒否と出力保持を確認した（規格調査§3.18）。B39はELF 4.2 §3のsh_addr/sh_addralign整列関係を一般規則として検査し、実GNU as由来の不整列sectionを拒否した（規格調査§3.19）。R1の広い言語/表現調査は継続中。R2の上記実装範囲は採用済み。Rust parser→validation→reference interpreter/assembly generation→GNU as→ELF object→C++20 harnessの初期vertical sliceが接続され、local QCを再観測した。対象別QA、形式証明、β公開は未成立・未承認。
+**工程現況：** 既存言語・IR・DSL・データ/仕様形式を広く参照する枝地図と、深掘り保留を採用判断から分離する方針を追加した。初期索引は全言語・全版の調査完了を意味しない。LLVM/GCC/CompCert等の既存compiler、Intel SDM ID `671200`、AMD APM Vol. 3 Rev. 3.37の命令参照、およびELF Object File Format 4.2のheader/section/symbol/relocationは既存記録の範囲で照合済み。4.3はDRAFTと表示される。OwnerはAMD64 psABI baselineとstable 4.2を採用し、現行命令subset・GNU as target option・ET_REL出力を限定再照合した。B27は通常関数ABIの条項別監査と、DF/x87 CW/MXCSR controlの保存・caller状態復元をprobeとC++ consumerで確認した。B28はELF 4.2のsection/string/symbol検査をinstall前へ接続し、header-only出力の拒否と既存destinationの保持を確認した。B29は現producerにない再配置・dynamic表・非null未定義symbol・COMMONの受理を是正し、実GNU asの4反例でinstall拒否とdestination保持を確認した（規格調査§3.10）。B30は公開IRの空entry Phi受理とemitterの不一致metadata利用を是正し、self-edge Phiの48変種を実objectでQCした（規格調査§3.11）。B31は4-block CFGの支配判定を独立経路探索で照合し、二入口循環と同一実行中の交互latchを実objectで確認した（規格調査§3.12）。B32はR1のSMT-LIB 2.7/BV/Core/QF_BVをM2照合し、数値意味・局所並列束縛とsolver証拠の保証範囲を記録した（数値比較§7）。B32のcompiler試験・solver実行はNOT_RUN。B33はsource/公開IR、B34はobject観測量の実装容量を明示してE_LIMIT拒否を接続した。B35はB34で保留したassembler stdout/stderr captureとruntimeを各stream64 KiB、direct child30秒の有限な実装予算で接続し、同期nonblocking取得・kill/wait・出力保持を局所検査した。子孫processとOS reap latencyは管理しない（規格調査§3.15）。B36で両stream同時captureを有限QCし、B37ではcompile経路のversion query/assembly timeout時に既存出力を保持しstagingをcleanupすることを確認した。production deadlineは30秒のまま（規格調査§3.16–3.17）。B38はprocess entry/program headerのmetadataを持つ現producer外のobjectをinstallするgapを是正し、実object由来の2反例で拒否と出力保持を確認した（規格調査§3.18）。B39はELF 4.2 §3のsh_addr/sh_addralign整列関係を一般規則として検査し、実GNU as由来の不整列sectionを拒否した（規格調査§3.19）。B40は未対応のSHT_GROUP/SHF_GROUPを、COMDATでentry functionがlink時に選択・破棄され得るproducer外shapeとして拒否した（規格調査§3.20）。R1の広い言語/表現調査は継続中。R2の上記実装範囲は採用済み。Rust parser→validation→reference interpreter/assembly generation→GNU as→ELF object→C++20 harnessの初期vertical sliceが接続され、local QCを再観測した。対象別QA、形式証明、β公開は未成立・未承認。
 
 ### B1／R1の継続
 
@@ -64,6 +64,8 @@ B37はprivate compile helperにruntime deadlineのtest seamを設け、GNU as ve
 B38はELF 4.2 §2.1と固定AMD64 psABIのheader節を照合し、非zeroのe_entry、e_phoff、e_phnumを現producerの期待出力外としてE_OUTPUT拒否する。通常のlink用function objectを維持し、実GNU as出力由来のentry address/PT_NULL table反例でdestination保持・staging cleanupを確認する。一般ELFの不正、program header全規則の検証、β適合とは区別する。結果は規格調査§3.18。
 
 B39はELF 4.2 §3の通常section headerを読み、sh_addralignが2以上のsectionでsh_addrをその倍数と照合する。0/1は制約なしとして扱い、SHT_NULLの未定義fieldは読まない。不整列ならproducer固有unsupportedではなく、一般ELF規則の違反としてE_OUTPUTで拒否する。実GNU as objectのallocated executable sectionをsh_addr=1、sh_addralign=8へ変異したfixtureでreadelf読取、拒否、既存destination保持、staging cleanupを確認する。section addressの一般意味・全section/header配置規則・β適合とは区別する。結果は規格調査§3.19。
+
+B40はELF 4.2 §3.3–3.4のSHT_GROUP/SHF_GROUPを、一般ELF違反ではなく未対応のproducer output shapeとして拒否する。COMDAT groupでは同じsignatureの重複時にlinkerがいずれかのgroupを破棄できるため、現compilerはgroup headerまたはgroup-member flagを含むobjectをinstallしない。GNU as 2.44のCOMDAT `aic_main` objectでreadelf markerを確認し、拒否・既存destination保持・staging cleanupを検査する。group payloadの解釈・他linker動作・全ELF適合とは区別する。結果は規格調査§3.20。
 
 1. AI専用文字列の意味を先に定義し、処理の意味が変わらない変換経路を設計する。
 2. 対象CPU/OS/ABI/実行形式の条件を明示する。
