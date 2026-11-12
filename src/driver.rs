@@ -995,6 +995,81 @@ mod tests {
     }
 
     #[test]
+    fn misaligned_section_address_preserves_output_and_cleans_staging() {
+        use std::os::unix::fs::PermissionsExt;
+
+        let _guard = ASSEMBLER_FIXTURE.lock().unwrap();
+        let directory = TemporaryDirectory(std::env::temp_dir().join(format!(
+            "aic-section-alignment-{}-{}",
+            std::process::id(),
+            TEMP_SEQUENCE.fetch_add(1, Ordering::Relaxed)
+        )));
+        fs::create_dir(&directory.0).unwrap();
+        let fixture = directory.0.join("fixture.o");
+        let source = b"AIC 0.2\nfn aic_main(%x: u64) -> u64 {\n^entry:\n ret.u64 %x\n}\n";
+        compile_object(source, "x86_64-linux-gnu", &fixture).unwrap();
+        let mut bytes = fs::read(&fixture).unwrap();
+        let section_offset = u64::from_le_bytes(bytes[40..48].try_into().unwrap()) as usize;
+        let section_count = u16::from_le_bytes(bytes[60..62].try_into().unwrap()) as usize;
+        let code_header = (0..section_count)
+            .map(|index| section_offset + index * 64)
+            .find(|offset| {
+                let flags = u64::from_le_bytes(bytes[offset + 8..offset + 16].try_into().unwrap());
+                flags & 6 == 6
+            })
+            .expect("GNU as output has an allocated executable section");
+        bytes[code_header + 16..code_header + 24].copy_from_slice(&1u64.to_le_bytes());
+        bytes[code_header + 48..code_header + 56].copy_from_slice(&8u64.to_le_bytes());
+        fs::write(&fixture, &bytes).unwrap();
+
+        let inspection = Command::new("readelf")
+            .env("LC_ALL", "C")
+            .args(["--wide", "--section-headers"])
+            .arg(&fixture)
+            .output()
+            .unwrap();
+        assert!(inspection.status.success(), "{inspection:?}");
+        let inspected = String::from_utf8(inspection.stdout).unwrap();
+        assert!(
+            inspected.lines().any(|line| {
+                line.contains(".text")
+                    && line.contains("0000000000000001")
+                    && line.trim_end().ends_with('8')
+            }),
+            "{inspected}"
+        );
+
+        let assembler = directory.0.join("substituting-as");
+        fs::write(
+            &assembler,
+            b"#!/bin/sh\nif [ \"$1\" = \"--version\" ]; then\nprintf 'GNU assembler fixture\\n'\nexit 0\nfi\ncp \"${0%/*}/fixture.o\" \"$4\"\n",
+        )
+        .unwrap();
+        let mut permissions = fs::metadata(&assembler).unwrap().permissions();
+        permissions.set_mode(0o755);
+        fs::set_permissions(&assembler, permissions).unwrap();
+        let output = directory.0.join("preserved.o");
+        fs::write(&output, b"previous artifact").unwrap();
+
+        let error = compile_object_with_assembler(
+            source,
+            "x86_64-linux-gnu",
+            &output,
+            assembler.as_os_str(),
+        )
+        .unwrap_err();
+        assert_eq!(error.code, "E_OUTPUT", "{error}");
+        assert!(error.detail.starts_with("invalid ELF64 object:"));
+        assert!(
+            error
+                .detail
+                .contains("section address violates its alignment")
+        );
+        assert_eq!(fs::read(&output).unwrap(), b"previous artifact");
+        assert_eq!(fs::read_dir(&directory.0).unwrap().count(), 3);
+    }
+
+    #[test]
     fn object_byte_budget_preserves_destination_and_cleans_staging() {
         use std::os::unix::fs::PermissionsExt;
 

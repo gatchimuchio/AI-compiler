@@ -15,6 +15,7 @@ struct Section {
     name: u32,
     kind: u32,
     flags: u64,
+    address: u64,
     offset: u64,
     size: u64,
     link: u32,
@@ -139,6 +140,7 @@ pub(crate) fn verify_elf64_rel_x86_64_bytes(bytes: &[u8]) -> Result<()> {
             name: u32_at(entry, 0),
             kind: u32_at(entry, 4),
             flags: u64_at(entry, 8),
+            address: u64_at(entry, 16),
             offset: u64_at(entry, 24),
             size: u64_at(entry, 32),
             link: u32_at(entry, 40),
@@ -166,6 +168,9 @@ pub(crate) fn verify_elf64_rel_x86_64_bytes(bytes: &[u8]) -> Result<()> {
         }
         if section.alignment != 0 && !section.alignment.is_power_of_two() {
             return Err(invalid("section alignment is not zero or a power of two"));
+        }
+        if section.alignment > 1 && section.address % section.alignment != 0 {
+            return Err(invalid("section address violates its alignment"));
         }
         // NOBITS has a conceptual offset and consumes no bytes in the file.
         if section.kind != SHT_NOBITS {
@@ -387,6 +392,30 @@ mod tests {
             assert_eq!(error.code, "E_OUTPUT", "{name}: {error}");
             assert!(error.detail.starts_with("unsupported assembler output:"));
             assert!(error.detail.contains(detail), "{name}: {error}");
+        }
+    }
+
+    #[test]
+    fn section_address_must_satisfy_section_alignment() {
+        for alignment in [2, 8] {
+            let mut bytes = object();
+            put64(&mut bytes, TEXT + 16, 1);
+            put64(&mut bytes, TEXT + 48, alignment);
+            let error = verify_elf64_rel_x86_64_bytes(&bytes).unwrap_err();
+            assert_eq!(error.code, "E_OUTPUT");
+            assert!(
+                error
+                    .detail
+                    .contains("section address violates its alignment")
+            );
+        }
+
+        // ELF defines alignment values zero and one as no constraint.
+        for alignment in [0, 1] {
+            let mut bytes = object();
+            put64(&mut bytes, TEXT + 16, 1);
+            put64(&mut bytes, TEXT + 48, alignment);
+            verify_elf64_rel_x86_64_bytes(&bytes).unwrap();
         }
     }
 
