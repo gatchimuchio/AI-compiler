@@ -2,6 +2,12 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-13 — R1/R3/R4 GNU SHF_EXCLUDE出力境界
+
+- GNU Binutils 2.44の`as` section attribute `e`／`SHF_EXCLUDE`が最終executable/shared libraryからsectionを除外する旨を、版付き公式manual・sourceで確認。現行検査は`.text.aic_main` `AXE` objectをinstallし、GNU ld 2.44で参照時にundefined `aic_main`となることを実観測した。
+- 以後はSHF_EXCLUDE付きsectionを現producer未対応shapeとしてinstall前にunsupported `E_OUTPUT`拒否する。実GNU as object、readelf flag、既存destination保持、staging cleanupを検査。gABI 4.2の不正判定や全linker保証ではない。
+- format/check/Clippyとdebug/release各66 unit + 5 CLI + 10 E2EがPASS。根拠・source hash・未検査範囲は規格調査§3.24。
+
 ## 2026-11-12 — R1/R3/R4 ELF allocated section storage出力境界
 
 - ELF 4.2 §3.4のSHF_ALLOC/SHF_WRITE/SHF_EXECINSTR意味とAIC/0.2のmemory/global stateなし契約に照らし、非空の割当sectionを非書込の実行codeに限定する。GNU asの.data/.rodata/.bssは有効なELFだが、現producer未対応shapeとしてinstall前にunsupported E_OUTPUTで拒否する。空.data/.bssは維持する。

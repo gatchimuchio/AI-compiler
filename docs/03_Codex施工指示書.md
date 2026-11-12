@@ -2,11 +2,11 @@
 
 - 版：`0.3-r3`
 - 作成：2026-11-02
-- 更新：2026-11-12
+- 更新：2026-11-13
 - 対象：AI-compilerの調査・設計・実装を依頼されたCodex
 - 本書だけでコンパイラ開発開始やβ版公開の新規権限を付与しない。
 
-## 0. 現行の施工命令（2026-11-12）
+## 0. 現行の施工命令（2026-11-13）
 
 **対象：** `gatchimuchio/AI-compiler`。Ownerは2026-11-09に初期R3範囲、2026-11-11にtarget profileのCPU floorとELF共通object参照版を採用した。採用範囲はAIC/0.2の`aic_main(u64) -> u64`、Linux x86-64 / AMD64 psABI 1.0 `baseline` / System V ABI / ELF64 ET_REL / ELF Object File Format 4.2、Rust 2024 + Cargoのcompiler、C++20のindependent test harness、GNU as `--64 -march=generic64`でのobject作成、harness外部link、memory/I/O/callなし。`x86_64-linux-gnu`はCPU profileのプロジェクト固有alias。Ownerの「どっちも採用」はRust compilerとC++ test harnessの両方を役割分担して採用する意味に記録する。
 
@@ -72,6 +72,8 @@ B41はELF 4.2 §3.3のSHT_PREINIT_ARRAY/SHT_INIT_ARRAY/SHT_FINI_ARRAYを、一�
 B42はELF 4.2 §3.4のSHF_TLS (0x400)を、thread-local storageを持つ有効なsection flagとして現producerのunsupported output shapeにする。AIC/0.2にthread-local stateはなく、flagを持つsectionはinstall前に拒否する。GNU as 2.44の.tdata (PROGBITS)/.tbss (NOBITS) objectでreadelfのtype/flag、拒否、既存destination保持、staging cleanupを確認する。TLS modelや全ELF flag検査とは区別する。結果は規格調査§3.22。
 
 B43はELF 4.2 §3.4のSHF_ALLOC (0x2)、SHF_WRITE (0x1)、SHF_EXECINSTR (0x4)に照合し、非空の割当sectionを非書込の実行コードに限定する。現producerが出す空.data/.bssと通常.textは維持する。GNU as 2.44の.data/.rodata/.bss反例でtype/size/flags、install前拒否、既存destination保持、staging cleanupを確認する。これは現producerのshape制限で、一般ELF不正判定・機械命令検査・linker/loader QAとは区別する。結果は規格調査§3.23。
+
+B44はGNU Binutils 2.44のsection attribute `e`が設定する`SHF_EXCLUDE`を、一般gABI不正ではなく未対応producer output shapeとして拒否する。GNU as 2.44の`.text.aic_main` `AXE` objectは修正前にinstallされ、別objectからの参照を含むGNU ld 2.44 linkで`undefined reference to aic_main`となった。修正後は実GNU as/readelf fixtureでflag確認後にinstall前拒否、既存destination保持・staging cleanupを確認する。結果は規格調査§3.24。
 
 1. AI専用文字列の意味を先に定義し、処理の意味が変わらない変換経路を設計する。
 2. 対象CPU/OS/ABI/実行形式の条件を明示する。
