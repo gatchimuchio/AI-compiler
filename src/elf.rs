@@ -17,6 +17,7 @@ const SHF_WRITE: u64 = 0x1;
 const SHF_ALLOC: u64 = 0x2;
 const SHF_EXECINSTR: u64 = 0x4;
 const SHF_MERGE: u64 = 0x10;
+const SHF_LINK_ORDER: u64 = 0x80;
 const SHF_EXCLUDE: u64 = 0x8000_0000;
 const SHF_GROUP: u64 = 0x200;
 const SHF_TLS: u64 = 0x400;
@@ -180,6 +181,11 @@ pub(crate) fn verify_elf64_rel_x86_64_bytes(bytes: &[u8]) -> Result<()> {
         // byte-wise merging can change executable code.
         if section.flags & SHF_MERGE != 0 {
             return Err(unsupported("mergeable sections are unsupported"));
+        }
+        // SHF_LINK_ORDER ties a section's order to another section through
+        // sh_link. The current producer emits no such cross-section dependency.
+        if section.flags & SHF_LINK_ORDER != 0 {
+            return Err(unsupported("link-order sections are unsupported"));
         }
         // Section groups can make a linker discard a valid COMDAT group,
         // including the required entry point. The current producer emits no
@@ -573,6 +579,18 @@ mod tests {
             assert!(error.detail.starts_with("unsupported assembler output:"));
             assert!(error.detail.contains("mergeable sections are unsupported"));
         }
+    }
+
+    #[test]
+    fn link_order_sections_are_outside_the_object_profile() {
+        let mut bytes =
+            with_extra_section(SHT_PROGBITS, SHF_ALLOC | SHF_EXECINSTR | SHF_LINK_ORDER, 8);
+        put32(&mut bytes, TABLE + 5 * 64 + 40, 1);
+
+        let error = verify_elf64_rel_x86_64_bytes(&bytes).unwrap_err();
+        assert_eq!(error.code, "E_OUTPUT");
+        assert!(error.detail.starts_with("unsupported assembler output:"));
+        assert!(error.detail.contains("link-order sections are unsupported"));
     }
 
     #[test]

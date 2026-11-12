@@ -2,6 +2,12 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-13 — R1/R3/R4 ELF SHF_LINK_ORDER出力境界
+
+- ELF 4.2 §3.4のSHF_LINK_ORDER (0x80)とBinutils 2.44 `as` manualを照合。実GNU as objectで`.text.aic_main`が`AXL`・非zero `sh_link`となり、GNU ld 2.44の通常linkは期待値42、`--gc-sections`ではlink-order sectionが破棄され外部参照に失敗する反例を観測した。
+- SHF_LINK_ORDER付き通常sectionを現producer未対応shapeとしてinstall前にunsupported E_OUTPUT拒否。unit/compile-level回帰は実as/readelf出力、修正前受理、既存destination保持、staging cleanupを検査する。
+- focused regression 2/2 PASS。Linux 6.18.57 x86_64 / rustc-cargo 1.99.1 / g++ 14.2.0 / GNU Binutils 2.44でformat、check、Clippy、debug/release全suiteがexit 0。各profileで70 unit + 5 CLI + 10 E2E PASS。環境・source/artifact hash・未監査範囲は規格調査§3.26。
+
 ## 2026-11-13 — R1/R3/R4 ELF SHF_MERGE実行section境界
 
 - ELF 4.2 §3.4 Table 3.3のSHF_MERGE (0x10)とGNU Binutils 2.44 as manual／`common.h`を照合。実GNU asのAXM executable sectionをGNU ld 2.44がmergeし、linked `aic_main` codeを変えてSIGSEGVを起こす反例を観測した。
