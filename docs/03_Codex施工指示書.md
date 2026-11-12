@@ -2,11 +2,11 @@
 
 - 版：`0.3-r3`
 - 作成：2026-11-02
-- 更新：2026-11-13
+- 更新：2026-11-12
 - 対象：AI-compilerの調査・設計・実装を依頼されたCodex
 - 本書だけでコンパイラ開発開始やβ版公開の新規権限を付与しない。
 
-## 0. 現行の施工命令（2026-11-13）
+## 0. 現行の施工命令（2026-11-12 UTC runtime snapshot）
 
 **対象：** `gatchimuchio/AI-compiler`。Ownerは2026-11-09に初期R3範囲、2026-11-11にtarget profileのCPU floorとELF共通object参照版を採用した。採用範囲はAIC/0.2の`aic_main(u64) -> u64`、Linux x86-64 / AMD64 psABI 1.0 `baseline` / System V ABI / ELF64 ET_REL / ELF Object File Format 4.2、Rust 2024 + Cargoのcompiler、C++20のindependent test harness、GNU as `--64 -march=generic64`でのobject作成、harness外部link、memory/I/O/callなし。`x86_64-linux-gnu`はCPU profileのプロジェクト固有alias。Ownerの「どっちも採用」はRust compilerとC++ test harnessの両方を役割分担して採用する意味に記録する。
 
@@ -78,6 +78,8 @@ B44はGNU Binutils 2.44のsection attribute `e`が設定する`SHF_EXCLUDE`を�
 B45はELF 4.2 §3.4のSHF_MERGE (0x10) sectionを、一般ELF違反でなく現producer未対応shapeとしてinstall前にunsupported E_OUTPUT拒否する。実GNU as 2.44の`.text.aic_main` AXM objectは修正前に受理され、GNU ld 2.44は重複byte elementをmergeしてaic_main codeを変え、linked fixtureはSIGSEGVした。修正後は実as/readelf fixtureでmerge flagを確認し、拒否・既存destination保持・staging cleanupを検査した。全ELF適合や全linker挙動は主張しない。根拠は規格調査§3.25。
 
 B46はELF 4.2 §3.4のSHF_LINK_ORDER (0x80)を持つ通常sectionを、一般ELF違反でなく現producer未対応shapeとしてinstall前にunsupported E_OUTPUT拒否する。GNU as 2.44の`.text.aic_main` `AXL` objectは、通常linkでは期待値42を返す一方、GNU ld 2.44の`--gc-sections`ではlink-order sectionがdiscardedとなり、参照される`aic_main`が未解決になった。修正前unit/compile-level検査は実objectを受理し、修正後はas/readelf flag・拒否・既存destination保持・staging cleanupを確認した。GNU ld 2.44とこのlink optionに限定した観測で、全ELF適合や全linker挙動は主張しない。根拠は規格調査§3.26。
+
+B47はGNU Binutils 2.44の`.note.GNU-stack`にSHF_EXECINSTRが付くsectionを、producer未対応shapeとしてinstall前にunsupported E_OUTPUT拒否する。実as/readelf objectで`X`を確認し、GNU ldが`GNU_STACK RWE`を生成することを観測した。flagなしの現producer noteは受理し、出力保持・staging cleanupも確認する。これはGNU Binutils 2.44に基づく局所profile制限で、一般ELF違反や最終executableのstack permission保証ではない。根拠は規格調査§3.27。
 
 1. AI専用文字列の意味を先に定義し、処理の意味が変わらない変換経路を設計する。
 2. 対象CPU/OS/ABI/実行形式の条件を明示する。

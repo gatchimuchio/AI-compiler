@@ -2,6 +2,12 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-12 UTC runtime snapshot — R1/R3/R4 GNU executable-stack marker boundary (B47)
+
+- GNU Binutils 2.44の公式as/ld manualと実GNU as/readelf/ld観測で、SHF_EXECINSTR付き`.note.GNU-stack`が`GNU_STACK RWE`を要求し、flagなしnoteは`RW`となることを確認した。marker欠落時defaultはtarget依存であり、`-z noexecstack`はrequestを上書きした。
+- Executable `.note.GNU-stack` markerをinstall前にunsupported `E_OUTPUT`拒否する。修正前focused unit/compile-level regressionsはobjectを受理。修正後2/2 PASSし、実as/readelf marker、既存destination保持、staging cleanup、flagなしnoteのbyte-identical install、別名sectionの受理を確認した。
+- Linux 6.18.57 x86_64 / rustc-cargo 1.99.1 / g++ 14.2.0 / GNU Binutils 2.44。format/check/Clippy、debug/release各72 Rust unit + 5 CLI + 10 E2E testsがPASS。これはGNU固有のproducer-profile制限で、ELF不正や最終executable stack permissionの保証ではない。source/artifact hashと未監査範囲は規格調査§3.27。
+
 ## 2026-11-13 — R1/R3/R4 ELF SHF_LINK_ORDER出力境界
 
 - ELF 4.2 §3.4のSHF_LINK_ORDER (0x80)とBinutils 2.44 `as` manualを照合。実GNU as objectで`.text.aic_main`が`AXL`・非zero `sh_link`となり、GNU ld 2.44の通常linkは期待値42、`--gc-sections`ではlink-order sectionが破棄され外部参照に失敗する反例を観測した。

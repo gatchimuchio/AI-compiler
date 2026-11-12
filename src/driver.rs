@@ -1390,6 +1390,92 @@ mod tests {
     }
 
     #[test]
+    fn executable_gnu_stack_note_preserves_output_and_normal_note_is_accepted() {
+        use std::os::unix::fs::PermissionsExt;
+
+        let _guard = ASSEMBLER_FIXTURE.lock().unwrap();
+        let directory = TemporaryDirectory(std::env::temp_dir().join(format!(
+            "aic-executable-gnu-stack-{}-{}",
+            std::process::id(),
+            TEMP_SEQUENCE.fetch_add(1, Ordering::Relaxed)
+        )));
+        fs::create_dir(&directory.0).unwrap();
+        let input = directory.0.join("fixture.s");
+        let fixture = directory.0.join("fixture.o");
+        let output = directory.0.join("preserved.o");
+        let assembler = directory.0.join("substituting-as");
+        fs::write(
+            &assembler,
+            b"#!/bin/sh\nif [ \"$1\" = \"--version\" ]; then\nprintf 'GNU assembler fixture\\n'\nexit 0\nfi\ncp \"${0%/*}/fixture.o\" \"$4\"\n",
+        )
+        .unwrap();
+        let mut permissions = fs::metadata(&assembler).unwrap().permissions();
+        permissions.set_mode(0o755);
+        fs::set_permissions(&assembler, permissions).unwrap();
+        let source = b"AIC 0.2\nfn aic_main(%x: u64) -> u64 {\n^entry:\n ret.u64 %x\n}\n";
+
+        for (name, note_flags, should_reject) in
+            [("executable", "x", true), ("non-executable", "", false)]
+        {
+            fs::write(
+                &input,
+                format!(
+                    ".text\n.globl aic_main\n.type aic_main,@function\naic_main:\nmovq %rdi,%rax\nret\n.size aic_main,.-aic_main\n.section .note.GNU-stack,\"{note_flags}\",@progbits\n"
+                ),
+            )
+            .unwrap();
+            let assembled = Command::new("as")
+                .args(["--64", "-march=generic64", "-o"])
+                .arg(&fixture)
+                .arg(&input)
+                .output()
+                .unwrap();
+            assert!(assembled.status.success(), "{name}: {assembled:?}");
+
+            let inspection = Command::new("readelf")
+                .env("LC_ALL", "C")
+                .args(["--wide", "--section-headers"])
+                .arg(&fixture)
+                .output()
+                .unwrap();
+            assert!(inspection.status.success(), "{name}: {inspection:?}");
+            let inspected = String::from_utf8(inspection.stdout).unwrap();
+            let row = inspected
+                .lines()
+                .find(|line| line.split_whitespace().nth(2) == Some(".note.GNU-stack"))
+                .unwrap_or_else(|| panic!("{name}: {inspected}"));
+            let columns: Vec<_> = row.split_whitespace().collect();
+            assert_eq!(columns.get(3).copied(), Some("PROGBITS"), "{row}");
+            assert_eq!(columns.get(6).copied(), Some("000000"), "{row}");
+            assert_eq!(row.contains(" X "), should_reject, "{row}");
+
+            fs::write(&output, b"previous artifact").unwrap();
+            let result = compile_object_with_assembler(
+                source,
+                "x86_64-linux-gnu",
+                &output,
+                assembler.as_os_str(),
+            );
+            if should_reject {
+                let error = result.unwrap_err();
+                assert_eq!(error.code, "E_OUTPUT", "{error}");
+                assert!(error.detail.starts_with("unsupported assembler output:"));
+                assert!(
+                    error
+                        .detail
+                        .contains("executable GNU-stack sections are unsupported"),
+                    "{error}"
+                );
+                assert_eq!(fs::read(&output).unwrap(), b"previous artifact");
+            } else {
+                result.unwrap();
+                assert_eq!(fs::read(&output).unwrap(), fs::read(&fixture).unwrap());
+            }
+            assert_eq!(fs::read_dir(&directory.0).unwrap().count(), 4, "{name}");
+        }
+    }
+
+    #[test]
     fn unsupported_entry_and_program_headers_preserve_output_and_clean_staging() {
         use std::os::unix::fs::PermissionsExt;
 

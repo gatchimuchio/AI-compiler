@@ -249,13 +249,28 @@ pub(crate) fn verify_elf64_rel_x86_64_bytes(bytes: &[u8]) -> Result<()> {
     if occupied.windows(2).any(|pair| pair[0].1 > pair[1].0) {
         return Err(invalid("section payloads overlap"));
     }
-    if names_index != 0 {
+    let section_names = if names_index != 0 {
         let names = sections
             .get(names_index)
             .ok_or_else(|| invalid("section names index is outside the section table"))?;
         let names = string_table(bytes, names)?;
         for section in sections.iter().filter(|s| s.kind != 0) {
             string_tail(names, section.name)?;
+        }
+        Some(names)
+    } else {
+        None
+    };
+    if let Some(names) = section_names {
+        for section in sections.iter().filter(|s| s.kind != 0) {
+            if section.flags & SHF_EXECINSTR != 0
+                && string_tail(names, section.name)?.starts_with(b".note.GNU-stack\0")
+            {
+                // GNU ld turns this input marker into an executable PT_GNU_STACK.
+                // The producer emits the marker without SHF_EXECINSTR; do not
+                // install an object that asks its consumer for an executable stack.
+                return Err(unsupported("executable GNU-stack sections are unsupported"));
+            }
         }
     }
 
@@ -407,6 +422,33 @@ mod tests {
         put64(&mut bytes, section + 8, flags);
         put64(&mut bytes, section + 24, section_table_end as u64);
         put64(&mut bytes, section + 32, size);
+        put64(&mut bytes, section + 48, 1);
+        bytes
+    }
+
+    fn with_named_extra_section(name: &[u8], flags: u64) -> Vec<u8> {
+        assert!(!name.contains(&0));
+        let mut bytes = object();
+        let original_names = bytes[128..161].to_vec();
+        let names_offset = TABLE + 6 * 64;
+        let name_offset = original_names.len();
+        let names_size = original_names.len() + name.len() + 1;
+        bytes.resize(names_offset + names_size, 0);
+        bytes[names_offset..names_offset + original_names.len()].copy_from_slice(&original_names);
+        bytes[names_offset + name_offset..names_offset + name_offset + name.len()]
+            .copy_from_slice(name);
+        put16(&mut bytes, 60, 6);
+
+        // Relocate the section-name string table after the enlarged section table.
+        put64(&mut bytes, NAMES + 24, names_offset as u64);
+        put64(&mut bytes, NAMES + 32, names_size as u64);
+
+        let section = TABLE + 5 * 64;
+        put32(&mut bytes, section, name_offset as u32);
+        put32(&mut bytes, section + 4, SHT_PROGBITS);
+        put64(&mut bytes, section + 8, flags);
+        let section_offset = bytes.len() as u64;
+        put64(&mut bytes, section + 24, section_offset);
         put64(&mut bytes, section + 48, 1);
         bytes
     }
@@ -591,6 +633,30 @@ mod tests {
         assert_eq!(error.code, "E_OUTPUT");
         assert!(error.detail.starts_with("unsupported assembler output:"));
         assert!(error.detail.contains("link-order sections are unsupported"));
+    }
+
+    #[test]
+    fn executable_gnu_stack_notes_are_outside_the_object_profile() {
+        let error = verify_elf64_rel_x86_64_bytes(&with_named_extra_section(
+            b".note.GNU-stack",
+            SHF_EXECINSTR,
+        ))
+        .unwrap_err();
+        assert_eq!(error.code, "E_OUTPUT");
+        assert!(error.detail.starts_with("unsupported assembler output:"));
+        assert!(
+            error
+                .detail
+                .contains("executable GNU-stack sections are unsupported")
+        );
+
+        for bytes in [
+            with_named_extra_section(b".note.GNU-stack", 0),
+            with_named_extra_section(b".note.GNU-stack.extra", SHF_EXECINSTR),
+            with_extra_section(SHT_PROGBITS, SHF_EXECINSTR, 0),
+        ] {
+            verify_elf64_rel_x86_64_bytes(&bytes).unwrap();
+        }
     }
 
     #[test]
