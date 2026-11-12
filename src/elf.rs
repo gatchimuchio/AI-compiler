@@ -14,6 +14,7 @@ const SHT_FINI_ARRAY: u32 = 15;
 const SHT_PREINIT_ARRAY: u32 = 16;
 const SHT_GROUP: u32 = 17;
 const SHF_GROUP: u64 = 0x200;
+const SHF_TLS: u64 = 0x400;
 const SHF_COMPRESSED: u64 = 0x800;
 
 struct Section {
@@ -167,6 +168,12 @@ pub(crate) fn verify_elf64_rel_x86_64_bytes(bytes: &[u8]) -> Result<()> {
         // groups, so reject this valid but unsupported output shape.
         if section.kind == SHT_GROUP || section.flags & SHF_GROUP != 0 {
             return Err(unsupported("section groups are unsupported"));
+        }
+        // SHF_TLS adds per-execution-flow storage to the linked object. AIC
+        // has no thread-local state, so this valid but unsupported shape must
+        // not be installed for the downstream consumer.
+        if section.flags & SHF_TLS != 0 {
+            return Err(unsupported("thread-local storage is unsupported"));
         }
         // These sections add function calls to the linked program's
         // initialization or termination sequence. The current producer emits
@@ -477,6 +484,17 @@ mod tests {
                 "section type {kind}: {error}"
             );
         }
+    }
+
+    #[test]
+    fn thread_local_storage_flags_are_outside_the_object_profile() {
+        let mut bytes = object();
+        put64(&mut bytes, TEXT + 8, 6 | SHF_TLS);
+
+        let error = verify_elf64_rel_x86_64_bytes(&bytes).unwrap_err();
+        assert_eq!(error.code, "E_OUTPUT");
+        assert!(error.detail.starts_with("unsupported assembler output:"));
+        assert!(error.detail.contains("thread-local storage is unsupported"));
     }
 
     #[test]
