@@ -1,12 +1,45 @@
-# AI-compiler Codex施工指示書 — 初期正本
+# AI-compiler Codex施工指示書 — 最適アクセス基盤施工
 
-- 版：`0.3-r3`
+- 旧文書版：`0.3-r3`
 - 作成：2026-11-02
-- 更新：2026-11-12
+- 更新：2026-11-13
+- 文書版：0.4-foundation-execution（旧AIC/0.2実装・検査記録は維持）
 - 対象：AI-compilerの調査・設計・実装を依頼されたCodex
-- 本書だけでコンパイラ開発開始やβ版公開の新規権限を付与しない。
+- 本書単独では新たな施工/公開権限を発生させない。Ownerが採用済み3点セットを投入して具体的工程の施工を指示した場合、範囲内の通常調査・実装・Git保全は包括許可とし、逐次追認を求めない。新たな仕様採用・品質緩和・外部送信・Release/公開・権限昇格は別の判断。
 
-## 0. 現行の施工命令（2026-11-12 UTC runtime snapshot）
+## 0. 現行施工命令：AICompilerの主語・目的・成立条件
+
+**SUBJECT＝AICompiler。PURPOSE＝既存機械語への最適なアクセス・操作・変換基盤の確立。DESIGN_OBJECT＝AIが自然言語から機械語への変換で生成・変更・検査する、最も効率的な操作記号フォーマットとその変換・拒否・証拠系。RESEARCH_INPUT＝既存の言語・compilerが採用する機械語変換の規則/基準と蓄積された現実の実績。NON_GOAL＝機械語/ISA/CPU/メモリ原理そのものの最適化・再設計。**
+
+**ACTORS：** 指示者＝Owner（目的・制約・施工命令・最終採否）、設計者＝チャッピー（仕様・工程・指示・評価軸・契約の設計品質を負担）、施工者＝Codex（許可範囲の調査・実装・検査・証拠保全を負担）、使用者＝製品利用主体、責任者＝Owner（公開・製品保証等の最終責任を負い、施工者/設計者の担当品質責任を免除しない）。設計と採用、採用と施工、施工と利用を混同しない。Codexによる設計提案は可能だが、Ownerの採用判断に変換しない。
+
+**OWNER_INTENT_BINDING：** 2026-11-13のOwner訂正は旧目標解釈より優先する。AICompilerに機械語自体の最適化を混入させない。旧AIC/0.2の初期採用・実績・拒否・QA未完を保持しつつ、主工程を仕様書§0・工程表G0–G6へ切り替える。AIC/0.2の変換成功は最適記号形式の成立を意味しない。
+
+### 0.1 施工開始時に確定する対象
+
+1. Ownerの最新原文、許可された工程/パス/副作用、remote/main HEAD・dirty tree・他writer、適用AGENTS、三点正本、採用済みAIC/0.2契約、source/tests、公式規格・版、研究資料、前回のFAIL/未決定/保留を照合する。
+2. 対象・目的・前提・評価軸・母集団・入力・記号意味・target条件・実consumer・拒否/異常/回復・停止条件・権限を対応づけ、現物のない接続はCODE_PRESENT/NOT_STARTEDとする。
+3. 今回の施工バッチが工程表G0–G6のどの必要条件を成立させるかを先に記録する。資料追加数、test件数、コミット数、日数ではなく、元の要求から機械語・実行結果までの実経路と比較可能性を成果として報告する。
+
+### 0.2 全体躯体先行・実物比較の施工順
+
+1. **G1先行：** 既存AIC/0.2のproducer→parser→validator/IR→x86-64 backend→GNU as→ELF ET_REL→C++20 consumerを維持し、その前段の自然言語要求→AI操作記号の対応契約と、後段の生成物/実績/評価証拠の接続点を確定する。自然言語解釈をRust compiler自体の機能と決めつけない。未実装の接続やtargetをmockで成功させない。
+2. **G2照合：** 既存言語・compiler・IR/DSLと現行ISA/ABI/objectの根拠を、**実際の変換判断と現実の生成物・成果**に結びつける。文法比較、論文読了、規格紹介だけでは足りない。出典/版/条項→対象source/意味→compiler/flags→machine bytes/disassembly→consumer実行結果→実測/反例の連鎖を保存する。
+3. **G3記号候補：** 既存の変換基準から必要条件/冗長/実装の都合を分離して抽出し、AIが操作可能な記号形式の候補を設計する。AIC/0.2は採用済みの対照であって最適解ではない。候補ごとにgrammar、型・状態・効果・制御、識別子・編集/版、拒否、targetへの意味、source identity、予測される利害を記録する。候補は採用前に現行AIC経路へ黙って混ぜない。
+4. **G4一気通貫施工：** Owner採用済みの候補と対象targetについて、AI操作記号から実物の機械語object・実consumerまで一度すべてを接続する。その後の実物QCで局所の意味/ABI/ELF/境界や相互作用を検査する。関数ごとに全面回帰/形式的公開検査を繰り返して全体施工を遅らせない。ただし外部作用・出力破壊・権限・安全/拒否境界は即時検査する。
+5. **G5比較：** 同じ意味・入力・target・CPU/OS・toolchain/flags・実行条件と独立oracleで、既存方式対候補・候補間のAI生成/修正効率と機械実行性能/size/資源を測る。比較母集団、失敗率、拒否・timeout、残差、測定誤差、Paretoと適用範囲を残す。条件の異なる計測や単一最良例で最適性を断定しない。
+6. **G6 QA・採用判断：** 適合・意味・比較精度・決定性・停止・復旧・版互換・対象profileのQA母集団/下限を提案し、Owner採否後に対象別検証する。局所PASSを全対象QAへ拡張しない。β/GA公開は独立のOwner GOとする。
+
+### 0.3 参照・比較・評価の証拠フォーマット
+
+研究・実装・計測の各レコードは必要な範囲で、識別子、問い/主張、対象言語/式・compiler/build、版/commit、規範URL/条項/原典hash、input/source意味、変換手順とflags、target profile、出力bytes/hash/disassembly、oracle、計測値/単位/繰返し/環境、結果PASS/FAIL/INCONCLUSIVE/NOT_RUN、反例、推論、未調査、採用/保留/却下の主体と理由、再実行コマンドを持つ。原文と分析を別保存し、過去の研究台帳を原典なしの断言へ縮約しない。
+
+- 問題の「最適」は評価軸・制約・代表課題・重み・下限を固定した範囲でだけ判断する。意味保存/対象規格適合/拒否・安全は満たすべき条件であり、時間・byte・tokenの一指標を最上位の目的へすり替えない。
+- 公式規格の規範、compiler固有の選択、実際の生成結果、計測に由来する推論を別ラベルで記録し、同じ規則が全言語/全ISAにあると推定しない。
+- 独立oracleが不足するときは相関欠陥を残件とし、REFERENCE/TEST_RESULT/INFERENCE/HYPOTHESIS/UNVERIFIEDを区別する。手元の成功件数から全入力・全CPU・全環境の成立を宣言しない。
+- 機械語自身の再設計・CPU物理制約の変更、新しいtargetや候補記号の無断正式採用、既存ソース意味の緩和、未承認の公開/外部送信は禁止する。
+
+## 0A. AIC/0.2の採用・施工・観測履歴（2026-11-12 UTC runtime snapshot）
 
 **対象：** `gatchimuchio/AI-compiler`。Ownerは2026-11-09に初期R3範囲、2026-11-11にtarget profileのCPU floorとELF共通object参照版を採用した。採用範囲はAIC/0.2の`aic_main(u64) -> u64`、Linux x86-64 / AMD64 psABI 1.0 `baseline` / System V ABI / ELF64 ET_REL / ELF Object File Format 4.2、Rust 2024 + Cargoのcompiler、C++20のindependent test harness、GNU as `--64 -march=generic64`でのobject作成、harness外部link、memory/I/O/callなし。`x86_64-linux-gnu`はCPU profileのプロジェクト固有alias。Ownerの「どっちも採用」はRust compilerとC++ test harnessの両方を役割分担して採用する意味に記録する。
 
