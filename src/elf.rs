@@ -16,6 +16,7 @@ const SHT_GROUP: u32 = 17;
 const SHF_WRITE: u64 = 0x1;
 const SHF_ALLOC: u64 = 0x2;
 const SHF_EXECINSTR: u64 = 0x4;
+const SHF_MERGE: u64 = 0x10;
 const SHF_EXCLUDE: u64 = 0x8000_0000;
 const SHF_GROUP: u64 = 0x200;
 const SHF_TLS: u64 = 0x400;
@@ -173,6 +174,12 @@ pub(crate) fn verify_elf64_rel_x86_64_bytes(bytes: &[u8]) -> Result<()> {
         // omitted.
         if section.flags & SHF_EXCLUDE != 0 {
             return Err(unsupported("excluded sections are unsupported"));
+        }
+        // Link editors may merge equal entities inside these sections. The
+        // current compiler emits instructions, not mergeable entities, and
+        // byte-wise merging can change executable code.
+        if section.flags & SHF_MERGE != 0 {
+            return Err(unsupported("mergeable sections are unsupported"));
         }
         // Section groups can make a linker discard a valid COMDAT group,
         // including the required entry point. The current producer emits no
@@ -549,6 +556,22 @@ mod tests {
             assert_eq!(error.code, "E_OUTPUT");
             assert!(error.detail.starts_with("unsupported assembler output:"));
             assert!(error.detail.contains("excluded sections are unsupported"));
+        }
+    }
+
+    #[test]
+    fn mergeable_sections_are_outside_the_object_profile() {
+        let mut entry = object();
+        put64(&mut entry, TEXT + 8, 6 | SHF_MERGE);
+        for bytes in [
+            entry,
+            with_extra_section(SHT_PROGBITS, SHF_MERGE, 8),
+            with_extra_section(SHT_PROGBITS, SHF_MERGE | 0x20, 8),
+        ] {
+            let error = verify_elf64_rel_x86_64_bytes(&bytes).unwrap_err();
+            assert_eq!(error.code, "E_OUTPUT");
+            assert!(error.detail.starts_with("unsupported assembler output:"));
+            assert!(error.detail.contains("mergeable sections are unsupported"));
         }
     }
 

@@ -1241,6 +1241,76 @@ mod tests {
     }
 
     #[test]
+    fn mergeable_code_section_preserves_output_and_cleans_staging() {
+        use std::os::unix::fs::PermissionsExt;
+
+        let _guard = ASSEMBLER_FIXTURE.lock().unwrap();
+        let directory = TemporaryDirectory(std::env::temp_dir().join(format!(
+            "aic-mergeable-section-{}-{}",
+            std::process::id(),
+            TEMP_SEQUENCE.fetch_add(1, Ordering::Relaxed)
+        )));
+        fs::create_dir(&directory.0).unwrap();
+        let input = directory.0.join("fixture.s");
+        let fixture = directory.0.join("fixture.o");
+        let output = directory.0.join("preserved.o");
+        let assembler = directory.0.join("substituting-as");
+        fs::write(
+            &input,
+            ".section .text.aic_main,\"axM\",@progbits,1\n.globl aic_main\n.type aic_main,@function\naic_main:\nmovl $0x01010101,%eax\nret\n.size aic_main,.-aic_main\n.section .note.GNU-stack,\"\",@progbits\n",
+        )
+        .unwrap();
+        let assembled = Command::new("as")
+            .args(["--64", "-march=generic64", "-o"])
+            .arg(&fixture)
+            .arg(&input)
+            .output()
+            .unwrap();
+        assert!(assembled.status.success(), "{assembled:?}");
+
+        let inspection = Command::new("readelf")
+            .env("LC_ALL", "C")
+            .args(["--wide", "--section-headers"])
+            .arg(&fixture)
+            .output()
+            .unwrap();
+        assert!(inspection.status.success(), "{inspection:?}");
+        let inspected = String::from_utf8(inspection.stdout).unwrap();
+        let row = inspected
+            .lines()
+            .find(|line| line.split_whitespace().nth(2) == Some(".text.aic_main"))
+            .unwrap_or_else(|| panic!("{inspected}"));
+        let columns: Vec<_> = row.split_whitespace().collect();
+        assert_eq!(columns.get(3).copied(), Some("PROGBITS"), "{row}");
+        assert_eq!(columns.get(6).copied(), Some("000006"), "{row}");
+        assert_eq!(columns.get(7).copied(), Some("01"), "{row}");
+        assert_eq!(columns.get(8).copied(), Some("AXM"), "{row}");
+
+        fs::write(
+            &assembler,
+            b"#!/bin/sh\nif [ \"$1\" = \"--version\" ]; then\nprintf 'GNU assembler fixture\\n'\nexit 0\nfi\ncp \"${0%/*}/fixture.o\" \"$4\"\n",
+        )
+        .unwrap();
+        let mut permissions = fs::metadata(&assembler).unwrap().permissions();
+        permissions.set_mode(0o755);
+        fs::set_permissions(&assembler, permissions).unwrap();
+        fs::write(&output, b"previous artifact").unwrap();
+        let source = b"AIC 0.2\nfn aic_main(%x: u64) -> u64 {\n^entry:\n ret.u64 %x\n}\n";
+        let error = compile_object_with_assembler(
+            source,
+            "x86_64-linux-gnu",
+            &output,
+            assembler.as_os_str(),
+        )
+        .unwrap_err();
+        assert_eq!(error.code, "E_OUTPUT");
+        assert!(error.detail.starts_with("unsupported assembler output:"));
+        assert!(error.detail.contains("mergeable sections are unsupported"));
+        assert_eq!(fs::read(&output).unwrap(), b"previous artifact");
+        assert_eq!(fs::read_dir(&directory.0).unwrap().count(), 4);
+    }
+
+    #[test]
     fn unsupported_entry_and_program_headers_preserve_output_and_clean_staging() {
         use std::os::unix::fs::PermissionsExt;
 

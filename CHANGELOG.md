@@ -2,6 +2,12 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-13 — R1/R3/R4 ELF SHF_MERGE実行section境界
+
+- ELF 4.2 §3.4 Table 3.3のSHF_MERGE (0x10)とGNU Binutils 2.44 as manual／`common.h`を照合。実GNU asのAXM executable sectionをGNU ld 2.44がmergeし、linked `aic_main` codeを変えてSIGSEGVを起こす反例を観測した。
+- SHF_MERGE付き通常sectionを現producer未対応shapeとしてinstall前にunsupported E_OUTPUT拒否。unit/compile-level回帰で修正前の受理、修正後のreadelf flag確認、既存destination保持、staging cleanupを検査した。
+- focused regression 2/2 PASS。Linux 6.18.57 x86_64 / rustc-cargo 1.99.1 / g++ 14.2.0 / GNU Binutils 2.44でformat、check、Clippy、debug/release全suiteがexit 0。各profileで68 unit + 5 CLI + 10 E2E PASS。環境・source/artifact hash・未検査範囲は規格調査§3.25。
+
 ## 2026-11-13 — R1/R3/R4 GNU SHF_EXCLUDE出力境界
 
 - GNU Binutils 2.44の`as` section attribute `e`／`SHF_EXCLUDE`が最終executable/shared libraryからsectionを除外する旨を、版付き公式manual・sourceで確認。現行検査は`.text.aic_main` `AXE` objectをinstallし、GNU ld 2.44で参照時にundefined `aic_main`となることを実観測した。
