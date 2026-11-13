@@ -44,3 +44,7 @@ This is a single, fixed negative-control observation prompted by the original PR
 B58, B59, and B60 each observed 16 expected `PASS` results for this testcase across eight configured variants. The registered expectation for this control is also 16 `PASS`, with no `FAIL` or `XPASS`; all other statuses and harness/build deviations will be recorded verbatim. A completed PASS supports only this one testcase under this Debian GCC 14.2.0-19 build and the mixed-version harness described above. A harness or setup failure is `NOT_RUN` for the testcase.
 
 The external run root is `/tmp/aic-gcc14.2-pr116488-control-2026-11-13/`. No system package, global configuration, AICompiler source, adopted contract, target, QA threshold, or release state is to be changed. AICompiler project tests remain `NOT_RUN`.
+
+## Pretest identity amendment — 2026-11-13 09:56 UTC
+
+Before the selected run, the testcase bytes and Git blob were rechecked against B60. The GCC 14.2.0 Debian package, compiler components, runtime library, assembler/linker, host, GCC 15.2.0 testsuite sources, DejaGnu tools, and derived `site.exp` identities are recorded in [pretest-identity.json](observations/pretest-identity.json). The derived site file omits the GCC 15.2.0 `TEST_GCC_EXEC_PREFIX`, points its temporary directory at the B61 object directory, and leaves the B60 source/build tree unchanged. At this amendment, the selected testcase had not started and its result remains `NOT_RUN`.

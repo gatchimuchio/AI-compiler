@@ -1,0 +1,310 @@
+{
+  "schema_version": 1,
+  "record_id": "G2-HISTORY-2026-11-13-09",
+  "batch": "B61",
+  "preregistration_commit": "e8304664fe485a9a13e91daad5ac473262c03093",
+  "pretest_identity_recorded_utc": "2026-11-13T09:56:13Z",
+  "selected_test_started": false,
+  "selected_test_outcome": "NOT_RUN",
+  "question": "Does the GCC 15.2.0 pr116488.c testcase pass under Debian GCC 14.2.0-19 using GCC 15.2.0 testsuite support on native Linux x86-64?",
+  "repository_state": {
+    "head": "e8304664fe485a9a13e91daad5ac473262c03093",
+    "origin_main": "e8304664fe485a9a13e91daad5ac473262c03093",
+    "worktree_clean": true,
+    "local_recovery_refs": {
+      "codex/backup-main": "e8304664fe485a9a13e91daad5ac473262c03093",
+      "codex/backup-main-prev": "edea42ea1813b1bfbe06cf86a2aca4454eb88908"
+    },
+    "remote_backup_tags": "Older existing tags remain; a prior normal push was refused because same-name tags already exist. No force update is permitted."
+  },
+  "source": {
+    "release": "GCC 15.2.0",
+    "release_tag": "releases/gcc-15.2.0",
+    "peeled_commit": "5115c7e447fc07457443df874bf57840e8316d5f",
+    "archive_path": "/tmp/aic-gcc15.2-pr116488-2026-11-13/sources/gcc-15.2.0.tar.xz",
+    "archive_sha256": "438fd996826b0c82485a29da03a72d71d6e3541a83ec702df4271f6fe025d24e",
+    "archive_sha512": "89047a2e07bd9da265b507b516ed3635adb17491c7f4f67cf090f0bd5b3fc7f2ee6e4cc4008beef7ca884b6b71dffe2bb652b21f01a702e17b468cca2d10b2de",
+    "testcase": {
+      "path": "/tmp/aic-gcc15.2-pr116488-2026-11-13/source/gcc-15.2.0/gcc/testsuite/gcc.dg/torture/pr116488.c",
+      "bytes": 399,
+      "sha256": "10182dfccf8dec109189e28ef12484371c6b6c594dcdb76ebc468c7d1d0a6aa1"
+    },
+    "testcase_git_blob": "b2af84fef43040e7d9651386f52930b97a70d469",
+    "test_harness_source": {
+      "dg_torture_driver": {
+        "path": "/tmp/aic-gcc15.2-pr116488-2026-11-13/source/gcc-15.2.0/gcc/testsuite/gcc.dg/torture/dg-torture.exp",
+        "bytes": 204,
+        "sha256": "fd01a620384cc5b580e327d91dbffe322ea5f59efb49dbdd073736889fed678b"
+      },
+      "gcc_dg_support": {
+        "path": "/tmp/aic-gcc15.2-pr116488-2026-11-13/source/gcc-15.2.0/gcc/testsuite/lib/gcc-dg.exp",
+        "bytes": 45383,
+        "sha256": "628ec6a9c41e870f3c5a74d63b0c22fa7773a8e07be4d2314a33091f2e8232a7"
+      },
+      "gcc_support": {
+        "path": "/tmp/aic-gcc15.2-pr116488-2026-11-13/source/gcc-15.2.0/gcc/testsuite/lib/gcc.exp",
+        "bytes": 5399,
+        "sha256": "dc0ecfae661786a1ad97c6e61b07f2de452f547bbef1c84da6431a84ef17da75"
+      },
+      "torture_options": {
+        "path": "/tmp/aic-gcc15.2-pr116488-2026-11-13/source/gcc-15.2.0/gcc/testsuite/lib/torture-options.exp",
+        "bytes": 4980,
+        "sha256": "6051cd3b4bebc5ec5be94108af67eaca09ae54a638ff8d6cfba7230fdb980f7d"
+      }
+    },
+    "archive_reuse": "Reuses the already checksum-verified B60 tree; no archive download or source modification in B61."
+  },
+  "compiler_under_test": {
+    "name": "Debian GCC 14.2.0-19",
+    "driver_path": "/usr/bin/gcc-14",
+    "version": "14.2.0",
+    "target": "x86_64-linux-gnu",
+    "binary_components": {
+      "driver": {
+        "path": "/usr/bin/gcc-14",
+        "bytes": 1162264,
+        "sha256": "a23ecab8ff08f09ad8c80602c2c5df7f49e09c25905cb8975902e101bf72635f"
+      },
+      "cc1": {
+        "path": "/usr/libexec/gcc/x86_64-linux-gnu/14/cc1",
+        "bytes": 34148896,
+        "sha256": "02675980109a4a5496cddf67d5286de57942759edc830deaa525e36f9a2a0291"
+      },
+      "lto_wrapper": {
+        "path": "/usr/libexec/gcc/x86_64-linux-gnu/14/lto-wrapper",
+        "bytes": 966936,
+        "sha256": "290775a27c6dac1f5cc9bb9e7f0265fd955e0c4f7b29aaa04811393144b6f528"
+      },
+      "libgcc_s": {
+        "path": "/usr/lib/gcc/x86_64-linux-gnu/14/../../../x86_64-linux-gnu/libgcc_s.so.1",
+        "bytes": 182856,
+        "sha256": "30c61ab012a4241bed033725a09b61f5fdd3bb7df95ee852d0b096520524c7af"
+      },
+      "assembler": {
+        "path": "/usr/bin/as",
+        "bytes": 795184,
+        "sha256": "07dd8551ea0aa065975e4dddb8e1bb7dc308d12d54eca22c3858db79467c7cb9"
+      },
+      "linker": {
+        "path": "/usr/bin/ld",
+        "bytes": 1861256,
+        "sha256": "d2766988b6a1b1d1518cdc09242e726d1f24e151e16410ada3092b11ffd9081b"
+      }
+    },
+    "debian_packages": {
+      "path": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13/captures/debian-packages.txt",
+      "bytes": 96,
+      "sha256": "a45c3958e79467bfce1f22dd761b461f244e0f4ffd8d6c33b09e33bb972f7f62"
+    },
+    "configured_languages": [
+      "c",
+      "ada",
+      "c++",
+      "go",
+      "d",
+      "fortran",
+      "objc",
+      "obj-c++",
+      "m2",
+      "rust"
+    ],
+    "qualification": "Installed Debian-packaged compiler; not rebuilt from the upstream GCC 14.2.0 source archive in this observation."
+  },
+  "host": {
+    "kernel": {
+      "path": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13/captures/uname.txt",
+      "bytes": 80,
+      "sha256": "355fc8d71f26ac56a7f52bda6931096188b14d72b7e3ffc8cc1d0e5cb2f12df6"
+    },
+    "glibc_version_capture": {
+      "path": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13/captures/glibc-version.txt",
+      "bytes": 11,
+      "sha256": "0584cb92f3422fd95c4a1d03a2843f3e844cfe5466619885dafbc31ebed1e323"
+    },
+    "assembler_version_capture": {
+      "path": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13/captures/as-version.txt",
+      "bytes": 327,
+      "sha256": "30ed9a2bce280f226da81fee598554614751c91ba1697703ada386f16840b691"
+    },
+    "linker_version_capture": {
+      "path": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13/captures/ld-version.txt",
+      "bytes": 281,
+      "sha256": "cfff299abc32f737f1cb856667d31ff328f3755d06d98bc093a3ed8e98d4339e"
+    },
+    "native_testsuite_configuration": "x86_64-pc-linux-gnu",
+    "board": "unix"
+  },
+  "testsuite_harness": {
+    "release_source": "GCC 15.2.0",
+    "tools": {
+      "runtest": {
+        "path": "/tmp/aic-gcc15-pr116488-2026-11-13/tools/bin/runtest",
+        "bytes": 4631,
+        "sha256": "c285da648b5514e9e06a506f6b6b229657a8001c8c8506d0e35a2bf0f754ab08"
+      },
+      "gawk": {
+        "path": "/tmp/aic-gcc15-pr116488-2026-11-13/tools/bin/gawk",
+        "bytes": 2671992,
+        "sha256": "77e760857c3a20406de344d40ab5cd3ba4aadcd72e41149bb1177250d5c276f8"
+      },
+      "expect": {
+        "path": "/tmp/aic-gcc15-pr116488-2026-11-13/tools/bin/expect",
+        "bytes": 16704,
+        "sha256": "90c8f027f2b0810d93d7fc7666de9cc4f676285c6a021ce9094cf266c1d6f6a0"
+      },
+      "tclsh": {
+        "path": "/tmp/aic-gcc15-pr116488-2026-11-13/tools/bin/tclsh8.6",
+        "bytes": 16176,
+        "sha256": "fa80133bf2193a88a101cf38d2f23f84dae701ce1f28e2627d38dbde9742ab48"
+      },
+      "libtcl": {
+        "path": "/tmp/aic-gcc15-pr116488-2026-11-13/tools/lib/libtcl8.6.so",
+        "bytes": 1940312,
+        "sha256": "650f10c37841f1ddd3301d89e93d492d75ff2eef38b74a32262417b150108e86"
+      },
+      "unix_board": {
+        "path": "/tmp/aic-gcc15-pr116488-2026-11-13/tools/share/dejagnu/config/unix.exp",
+        "bytes": 4748,
+        "sha256": "c0c9bae718db6e114d01e92035c92e08c0131dee096ece5902e41394b03ee3f1"
+      }
+    },
+    "versions": {
+      "DejaGnu": "1.6.3",
+      "Expect": "5.45.4",
+      "Tcl": "8.6.16",
+      "gawk": "5.3.0"
+    },
+    "generated_site_exp_original": {
+      "path": "/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gcc/testsuite/gcc/site.exp",
+      "bytes": 1317,
+      "sha256": "dbb5e1aa8d82d4105e6978b4010ca2ba376488bf9c0f42fac6df587924cc5701"
+    },
+    "generated_site_exp_for_b61": {
+      "path": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13/gcc/site.exp",
+      "bytes": 1206,
+      "sha256": "d81280c68ef8607476a66747ae31f1256de94c4d73b24b4e991e560b23adcac2"
+    },
+    "site_exp_adjustments": {
+      "removed_assignment": "TEST_GCC_EXEC_PREFIX (prevents GCC 15.2 install tree from supplying compiler components)",
+      "tmpdir": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13/gcc",
+      "B60_source_and_build_tree_modified": false
+    },
+    "compiler_selection": "DejaGnu --tool_exec=/usr/bin/gcc-14; GCC_EXEC_PREFIX remains unset."
+  },
+  "execution_plan": {
+    "command": "env -u GCC_EXEC_PREFIX PATH=/tmp/aic-gcc15-pr116488-2026-11-13/tools/bin:/usr/bin:/bin LD_LIBRARY_PATH=/tmp/aic-gcc15-pr116488-2026-11-13/tools/lib /tmp/aic-gcc15-pr116488-2026-11-13/tools/bin/runtest --tool gcc --tool_exec=/usr/bin/gcc-14 --target_board=unix --srcdir=/tmp/aic-gcc15.2-pr116488-2026-11-13/source/gcc-15.2.0/gcc/testsuite --objdir=/tmp/aic-gcc14.2-pr116488-control-2026-11-13/gcc dg-torture.exp=pr116488.c",
+    "argv": [
+      "runtest",
+      "--tool",
+      "gcc",
+      "--tool_exec=/usr/bin/gcc-14",
+      "--target_board=unix",
+      "--srcdir=/tmp/aic-gcc15.2-pr116488-2026-11-13/source/gcc-15.2.0/gcc/testsuite",
+      "--objdir=/tmp/aic-gcc14.2-pr116488-control-2026-11-13/gcc",
+      "dg-torture.exp=pr116488.c"
+    ],
+    "working_directory": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13/gcc",
+    "environment": {
+      "GCC_EXEC_PREFIX": "UNSET",
+      "PATH": "/tmp/aic-gcc15-pr116488-2026-11-13/tools/bin:/usr/bin:/bin",
+      "LD_LIBRARY_PATH": "/tmp/aic-gcc15-pr116488-2026-11-13/tools/lib"
+    },
+    "selector": "dg-torture.exp=pr116488.c",
+    "run_count": 0,
+    "output_files": [
+      "captures/runtest.stdout",
+      "captures/runtest.stderr",
+      "captures/runtest.exit-status",
+      "gcc/gcc.sum",
+      "gcc/gcc.log"
+    ]
+  },
+  "expected_observation": {
+    "PASS": 16,
+    "FAIL": 0,
+    "XPASS": 0,
+    "XFAIL": 0,
+    "UNSUPPORTED": 0,
+    "UNRESOLVED": 0,
+    "UNTESTED": 0,
+    "variants": [
+      "-O0",
+      "-O1",
+      "-O2",
+      "-O3 -fomit-frame-pointer -funroll-loops -fpeel-loops -ftracer -finline-functions",
+      "-O3 -g",
+      "-Os",
+      "-O2 -flto -fno-use-linker-plugin -flto-partition=none",
+      "-O2 -flto -fuse-linker-plugin -fno-fat-lto-objects"
+    ]
+  },
+  "raw_pretest_captures": {
+    "as-version.txt": {
+      "path": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13/captures/as-version.txt",
+      "bytes": 327,
+      "sha256": "30ed9a2bce280f226da81fee598554614751c91ba1697703ada386f16840b691"
+    },
+    "debian-packages.txt": {
+      "path": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13/captures/debian-packages.txt",
+      "bytes": 96,
+      "sha256": "a45c3958e79467bfce1f22dd761b461f244e0f4ffd8d6c33b09e33bb972f7f62"
+    },
+    "expect-version.txt": {
+      "path": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13/captures/expect-version.txt",
+      "bytes": 22,
+      "sha256": "a5e12c638b94b8e468074ea42892d035b636c99fcb2509c94a4778f3c07fe938"
+    },
+    "gawk-version.txt": {
+      "path": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13/captures/gawk-version.txt",
+      "bytes": 704,
+      "sha256": "72721d1beb54495eef2218c73ac800a0867191535f3cf217631e8b4dd6dd80ea"
+    },
+    "gcc-14-runtime-path.txt": {
+      "path": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13/captures/gcc-14-runtime-path.txt",
+      "bytes": 73,
+      "sha256": "02d5d9ce1ec419a920ce6dc35f400d78e4ab0cd228f9e99b538972fb2231691f"
+    },
+    "gcc-14-target.txt": {
+      "path": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13/captures/gcc-14-target.txt",
+      "bytes": 17,
+      "sha256": "08cababdf891ccbf96eb376f1e84f279f70302fb13d84e5f98637becdfc6d989"
+    },
+    "gcc-14-version.txt": {
+      "path": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13/captures/gcc-14-version.txt",
+      "bytes": 1647,
+      "sha256": "0de1ffed5e5dc8df8de51b4f361fdd15ed4ddde61349b51768ababbd0c5ae5d5"
+    },
+    "glibc-version.txt": {
+      "path": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13/captures/glibc-version.txt",
+      "bytes": 11,
+      "sha256": "0584cb92f3422fd95c4a1d03a2843f3e844cfe5466619885dafbc31ebed1e323"
+    },
+    "ld-version.txt": {
+      "path": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13/captures/ld-version.txt",
+      "bytes": 281,
+      "sha256": "cfff299abc32f737f1cb856667d31ff328f3755d06d98bc093a3ed8e98d4339e"
+    },
+    "runtest-version.txt": {
+      "path": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13/captures/runtest-version.txt",
+      "bytes": 60,
+      "sha256": "f1ff80cd00936705de1874a0048541bdc069812275971ac58b1bde2e410ab681"
+    },
+    "tcl-version.txt": {
+      "path": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13/captures/tcl-version.txt",
+      "bytes": 7,
+      "sha256": "7c8702491905550822efa4986d94040bf06e1a080304f39a935df1006a891bb8"
+    },
+    "uname.txt": {
+      "path": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13/captures/uname.txt",
+      "bytes": 80,
+      "sha256": "355fc8d71f26ac56a7f52bda6931096188b14d72b7e3ffc8cc1d0e5cb2f12df6"
+    }
+  },
+  "external_root": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13",
+  "project_tests": {
+    "status": "NOT_RUN",
+    "scope": "AICompiler repository Rust/C++ project tests",
+    "reason": "Outside this GCC cross-version control observation."
+  },
+  "interpretation_limit": "Any PASS is limited to this GCC 15.2.0 testcase, the Debian GCC 14.2.0-19 build, the native target, and the mixed-version test harness. It does not establish official GCC 14.2.0 release-suite results, all-target behavior, compiler reliability, AIC compatibility, or G2 completion."
+}
