@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "git",
+    "ls-remote",
+    "https://github.com/llvm/llvm-project.git",
+    "refs/heads/release/23.x",
+    "refs/tags/llvmorg-23.1.5",
+    "refs/tags/llvmorg-23.1.5^{}",
+    "refs/tags/llvmorg-23.1.6",
+    "refs/tags/llvmorg-23.1.6^{}"
+  ],
+  "exit_code": 0,
+  "stdout": "c47d7823685a0e7048795e0cd2d58ad35e454ee9\trefs/heads/release/23.x\n604d7ddfacefc074968a9ba0d88c667ab31b42bd\trefs/tags/llvmorg-23.1.5\n392dfff97d29b59d77e5cac6d4b6ef2585fe7117\trefs/tags/llvmorg-23.1.5^{}\n",
+  "stderr": "",
+  "fetched_utc": "2026-11-13T07:02:45.971475+00:00",
+  "stdout_sha256": "a7d08eb00f95adb8286a2d849e2ded5ea506639f5e34e87c04198278f827f973"
+}

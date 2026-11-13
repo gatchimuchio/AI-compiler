@@ -1,0 +1,58 @@
+{
+  "record_id": "G2-HISTORY-2026-11-13-04",
+  "baseline_repository_commit": "b666119d591d09308e6d0659cc8bcd4731c84751",
+  "cutoff_utc": "2026-11-13",
+  "capture_time_start_utc": "2026-11-13T07:02:42Z",
+  "question": "Whether LLVM X86 tailcc stack argument alignment fix PR #235417 was present in a later stable release or release/23.x by cutoff",
+  "release_status": {
+    "latest_tag": "llvmorg-23.1.5",
+    "latest_published_at": "2026-11-03T21:35:47Z",
+    "next_scheduled_tag": "llvmorg-23.1.6",
+    "next_scheduled_date": "2026-11-17",
+    "release_23_1_6_http_status": 404,
+    "tag_23_1_6_http_status": 404,
+    "tag_23_1_6_present_in_ls_remote": false
+  },
+  "release_branch": {
+    "name": "release/23.x",
+    "commit": "c47d7823685a0e7048795e0cd2d58ad35e454ee9",
+    "source_path": "llvm/lib/Target/X86/X86ISelLoweringCall.cpp",
+    "source_bytes": 130483,
+    "source_sha256": "4cdacbf4e5fb4865f5819f13a380dfde943db1e204cd3f17832eb6e487ab055c",
+    "identical_to_23_1_5_tag_source": true,
+    "pre_fix_expression": "NumBytes = GetAlignedArgumentStackSize(NumBytes, DAG);",
+    "regression_test_path_http_status": 404,
+    "path_history_since_2026_10_26": []
+  },
+  "fix": {
+    "pr": "https://github.com/llvm/llvm-project/pull/235417",
+    "commit": "911cced04d8b4b72ae90f5ce7685a8534592ac8c",
+    "merged_at": "2026-10-27T15:07:17Z",
+    "fixed_expression": "NumBytes = GetAlignedArgumentStackSize(CCInfo.getStackSize(), DAG);",
+    "code_git_blob": "6470869f3f19ad16c8dc67caff524434b0461d19",
+    "code_raw_bytes": 130278,
+    "code_raw_sha256": "723becf4d35fc93113c23361919671a9c7f177281011318c563e625e73a823f7",
+    "test_git_blob": "df64b704a361f8f510a924cd5fb0e845075683f4",
+    "test_raw_bytes": 7272,
+    "test_raw_sha256": "9a2bfde607e7b9aab27170cf599690838ed55dfb33ef85e533beb3804998a1a2"
+  },
+  "interpretation": "The fix is recorded in LLVM main, but by the capture cutoff there was no later stable release and the pinned release/23.x source and test path did not contain this change. Do not infer the future contents of 23.1.6 or later releases.",
+  "erratum": {
+    "document": "docs/evidence/G2_既存compiler運用履歴_2026-11-13.md",
+    "prior_error": "The raw SHA-256 labels for the fix source and added test were transposed.",
+    "correct_source_sha256": "723becf4d35fc93113c23361919671a9c7f177281011318c563e625e73a823f7",
+    "correct_test_sha256": "9a2bfde607e7b9aab27170cf599690838ed55dfb33ef85e533beb3804998a1a2",
+    "git_blob_ids_were_correct": true
+  },
+  "tests": {
+    "llvm_build_run": false,
+    "llvm_test_suite_run": false,
+    "repository_test_suite_run": false,
+    "reason": "Read-only upstream release/source-history follow-up; documentation and evidence only."
+  },
+  "observations": {
+    "capture_manifest": "observations/capture-manifest.json",
+    "git_ls_remote": "observations/git-ls-remote.json",
+    "external_raw_capture_root": "/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/llvm-release-followup-2026-11-13"
+  }
+}
