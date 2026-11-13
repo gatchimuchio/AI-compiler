@@ -2,6 +2,12 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-13 — G2 Rust vtable修正経路の限定追跡
+
+- Rust #161441のreportから、#158993のsolver変更、#161555のstable backport、issue専用run-pass試験、1.98.1 release noteまでを固定commit付き一次資料で接続した。元PRのnext-solver check-pass試験とstable向けissue回帰試験を区別し、試験を実行したとは記載していない。[履歴記録](docs/evidence/G2_既存compiler運用履歴_2026-11-13.md)
+- 今回もRama reproduction、rustc版間の再実行、Rust試験suiteはNOT_RUN。症状はreporter観測、修正関係はmaintainer/Release Teamの記録として扱い、G2全体の完了・修正の独立QAへ一般化しない。
+- 文書のみの変更。製品コード・toolchain・runtimeは変更していない。実装テストはNOT_RUN（非該当）。
+
 ## 2026-11-13 — G2 compiler運用履歴の限定調査
 
 - GCC 14.1–14.4のrelease timelineと各保守announcementの報告修正件数、およびGCC trunk PR 116488とRust 1.98 vtable miscompilationのreport/fix記録を一次資料で照合した。[履歴記録](docs/evidence/G2_既存compiler運用履歴_2026-11-13.md)に条件・source hash・取得時点・不確実性を保存。
