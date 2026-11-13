@@ -57,9 +57,11 @@ The complete response manifest records URLs, HTTP statuses, retrieval times, byt
 - Source inclusion does not establish that every target/configuration is correct, that every distribution uses identical sources, or that no later recurrence exists.
 - This one incident and the previously recorded release examples do not represent GCC's complete maintenance history or quantify compiler reliability. G2 remains incomplete.
 
-## Later execution record
+## Later execution records
 
 B58 recorded 16 expected passes for GCC 15.3.0's `pr116488.c` test on native Linux x86-64. The source URL deviation, test command, hashes, and limits are in [the execution evidence](G2_gcc_pr116488_testsuite_2026-11-13.md) and [the B58 experiment](../../experiments/g2-gcc-pr116488-testsuite-2026-11-13/).
+
+B59 separately built GCC 15.1.0 and recorded 16 expected passes for the same selected test on native Linux x86-64, with no archive URL deviation. This adds an execution observation for the first stable GCC 15 release; it does not cover GCC 15.2.0 or the full series. See [B59 execution evidence](G2_gcc_pr116488_testsuite_15.1_2026-11-13.md) and [the B59 experiment](../../experiments/g2-gcc-pr116488-testsuite-15.1-2026-11-13/).
 
 ## Release-tag identity correction
 

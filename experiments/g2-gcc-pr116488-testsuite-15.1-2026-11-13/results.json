@@ -1,0 +1,238 @@
+{
+  "schema_version": 1,
+  "record_id": "G2-HISTORY-2026-11-13-07",
+  "batch": "B59",
+  "baseline_repository_commit": "5098c124528485fc53299400dd70ff2d52cd69bd",
+  "preregistration_commit": "bc89f50b4153e20f9084e4d64aa246f6b18b0204",
+  "pre_execution_amendment_commits": [
+    "f4cc0e62699a6e32ed2c2d66accbd45dd5f0b383",
+    "c441a86b65954348393c57697b53c8843de9544a"
+  ],
+  "question": "Whether the unmodified GCC 15.1.0 release C frontend passes its own PR 116488 gcc.dg/torture regression test on the executor's native Linux x86-64 target.",
+  "result": "PASS",
+  "test_window_utc": {
+    "started": "2026-11-13T08:58:27Z",
+    "completed_from_capture_mtime": "2026-11-13T08:58:29.920930039Z",
+    "command_elapsed_seconds": 2.3,
+    "testsuite_reported_start": "2026-11-13T08:58:28Z"
+  },
+  "source_identity": {
+    "release": "GCC 15.1.0",
+    "release_tag": "releases/gcc-15.1.0",
+    "release_tag_object_id": "f33bb98ad1669db947ef9351939d242e4a88542b",
+    "release_tag_peeled_commit_id": "1b306039ac49f8ad91ca71d3de3150a3c9fa792a",
+    "official_remote_and_mirror_match": true,
+    "tag_identity_followup_utc": "2026-11-13T08:35:09Z",
+    "tag_refs_capture_sha256_each": "aa81ab322d59adc34908312aeaf0fb6604a9aa2a7907bb4fa86465e2346ee4cd",
+    "configured_target": "x86_64-linux-gnu",
+    "native_testsuite_configuration": "x86_64-pc-linux-gnu",
+    "gcc_base_ver": "15.1.0",
+    "testcase": "gcc/testsuite/gcc.dg/torture/pr116488.c",
+    "testcase_bytes": 399,
+    "testcase_sha256": "10182dfccf8dec109189e28ef12484371c6b6c594dcdb76ebc468c7d1d0a6aa1",
+    "testcase_git_blob": "b2af84fef43040e7d9651386f52930b97a70d469",
+    "ext_dce_bytes": 37425,
+    "ext_dce_sha256": "56ad15e68cce43c7f6f9ad4db81d464ffea44076c20eb7a202820ae0230cdd1e",
+    "ext_dce_git_blob": "a03439501419df9fccf712383040b2b2ea556c9f",
+    "tag_source_hashes_match_prior_capture": true
+  },
+  "source_archive": {
+    "planned_url": "https://gcc.gnu.org/pub/gcc/releases/gcc-15.1.0/gcc-15.1.0.tar.xz",
+    "retrieved_url": "https://gcc.gnu.org/pub/gcc/releases/gcc-15.1.0/gcc-15.1.0.tar.xz",
+    "http_status": 200,
+    "request_started_utc": "2026-11-13T08:32:04Z",
+    "bytes": 98268344,
+    "sha256": "e2b09ec21660f01fecffb715e0120265216943f038d0e48a9868713e54f06cea",
+    "published_checksum_url": "https://gcc.gnu.org/pub/gcc/releases/gcc-15.1.0/sha512.sum",
+    "published_checksum_http_status": 200,
+    "published_checksum_bytes": 600,
+    "published_checksum_sha256": "55430da81d652702c896bccf4be1813072fdaed4c62f600db2e6ac3cef6eeb73",
+    "published_sha512": "ddd35ca6c653dffa88f7c7ef9ee4cd806e156e0f3b30f4d63e75a8363361285cd566ee73127734cde6a934611de815bee3e32e24bfd2e0ab9f7ff35c929821c1",
+    "published_sha512_matches_archive": true,
+    "provenance_deviation": null
+  },
+  "build": {
+    "bundled_prerequisites_command": "./contrib/download_prerequisites --sha512",
+    "bundled_prerequisites_exit_status": 0,
+    "bundled_prerequisites": [
+      "gettext 0.22",
+      "gmp 6.2.1",
+      "mpfr 4.1.0",
+      "mpc 1.2.1",
+      "isl 0.24"
+    ],
+    "configure_command": "/tmp/aic-gcc15.1-pr116488-2026-11-13/source/gcc-15.1.0/configure --target=x86_64-linux-gnu --prefix=/tmp/aic-gcc15.1-pr116488-2026-11-13/tools/gcc-15.1.0 --enable-languages=c --disable-bootstrap --disable-multilib --disable-nls --disable-werror",
+    "host_compiler": "Debian GCC 14.2.0-19",
+    "configure_exit_status": 0,
+    "frontend_command": "make -j4 all-gcc",
+    "frontend_exit_status": 0,
+    "target_runtime_command": "make -j4 all-target-libgcc",
+    "target_runtime_exit_status": 0,
+    "xgcc_version": "15.1.0",
+    "xgcc_target": "x86_64-linux-gnu",
+    "target_runtime_resolved_path": "/tmp/aic-gcc15.1-pr116488-2026-11-13/build/gcc-15.1.0/gcc/libgcc_s.so.1",
+    "compiler_artifacts": {
+      "gcc/xgcc_sha256": "0cde098ca3ae647e0fbd22b3a8c0553b753db4723331b2ce918a202991e80b85",
+      "gcc/cc1_sha256": "ab7f77baf0fe575871fd69ba46e125c69d53132abca24be090300179f2f89311"
+    },
+    "target_runtime_artifacts": {
+      "gcc/libgcc.a_sha256": "b43d3045061718a9de3f1dce2529ab8c7b77bafba8ef307891f46ce93a4ee20e",
+      "gcc/libgcc_s.so.1_sha256": "01424c13248f0d58e7c534ad020596ed82c844dad0f30d856225118c684b0312",
+      "gcc/crtbegin.o_sha256": "f2e69f19a6361f998b5224ca06832af7e16f845bafd3c77da37fbbbf43933ed6"
+    }
+  },
+  "test_execution": {
+    "command": "env PATH=/tmp/aic-gcc15-pr116488-2026-11-13/tools/bin:/usr/bin:/bin LD_LIBRARY_PATH=/tmp/aic-gcc15-pr116488-2026-11-13/tools/lib make check-gcc RUNTESTFLAGS='dg-torture.exp=pr116488.c'",
+    "working_directory": "/tmp/aic-gcc15.1-pr116488-2026-11-13/build/gcc-15.1.0",
+    "environment": {
+      "PATH_prefix": "/tmp/aic-gcc15-pr116488-2026-11-13/tools/bin",
+      "LD_LIBRARY_PATH_prefix": "/tmp/aic-gcc15-pr116488-2026-11-13/tools/lib",
+      "testsuite_runtime_library_path": "/tmp/aic-gcc15.1-pr116488-2026-11-13/build/gcc-15.1.0/gcc"
+    },
+    "make_exit_status": 0,
+    "dejagnu": "1.6.3",
+    "expect": "5.45.4",
+    "tcl": "8.6.16",
+    "gawk": "5.3.0",
+    "native_configuration": "x86_64-pc-linux-gnu",
+    "host_environment": {
+      "kernel": "Linux 6.18.57 x86_64",
+      "glibc": "2.41",
+      "host_gcc": "Debian GCC 14.2.0-19",
+      "binutils_as": "GNU Binutils 2.44"
+    },
+    "status_counts": {
+      "PASS": 16,
+      "FAIL": 0,
+      "XPASS": 0,
+      "XFAIL": 0,
+      "UNSUPPORTED": 0,
+      "UNRESOLVED": 0,
+      "UNTESTED": 0
+    },
+    "expected_passes": 16,
+    "variants": [
+      "-O0",
+      "-O1",
+      "-O2",
+      "-O3 -fomit-frame-pointer -funroll-loops -fpeel-loops -ftracer -finline-functions",
+      "-O3 -g",
+      "-Os",
+      "-O2 -flto -fno-use-linker-plugin -flto-partition=none",
+      "-O2 -flto -fuse-linker-plugin -fno-fat-lto-objects"
+    ],
+    "per_variant_results": "Each of the 8 variants produced one PASS for the excess-errors check and one PASS for execution. The testcase's -fno-forward-propagate option applies in every variant.",
+    "acceptance": "PASS: the selected testsuite run completed with exactly 16 PASS results and no FAIL or XPASS.",
+    "harness_warning": "DejaGnu printed 'WARNING: Couldn't find the global config file.' It loaded GCC 15.1.0's local gcc.exp, the local unix board, and the release testsuite interface; the selected test completed with the recorded summary."
+  },
+  "tool_source_provenance": {
+    "reused_from": "B58 user-local test tool prefix /tmp/aic-gcc15-pr116488-2026-11-13/tools",
+    "gawk_5_3_0_sha256": "77e760857c3a20406de344d40ab5cd3ba4aadcd72e41149bb1177250d5c276f8",
+    "expect_5_45_4_sha256": "90c8f027f2b0810d93d7fc7666de9cc4f676285c6a021ce9094cf266c1d6f6a0",
+    "dejagnu_runtest_1_6_3_sha256": "c285da648b5514e9e06a506f6b6b229657a8001c8c8506d0e35a2bf0f754ab08",
+    "tclsh8_6_16_sha256": "fa80133bf2193a88a101cf38d2f23f84dae701ce1f28e2627d38dbde9742ab48",
+    "libtcl8_6_so_sha256": "650f10c37841f1ddd3301d89e93d492d75ff2eef38b74a32262417b150108e86",
+    "gcc_bundled_prerequisites_sha512_verified": true,
+    "installation_boundary": "All newly built GCC source/build/runtime outputs remain in the B59 temporary root; reused tools remain in B58's user-local prefix. No system packages or global configuration were changed."
+  },
+  "captured_outputs": {
+    "external_root": "/tmp/aic-gcc15.1-pr116488-2026-11-13",
+    "files": {
+      "sources/sha512.sum": {
+        "bytes": 600,
+        "sha256": "55430da81d652702c896bccf4be1813072fdaed4c62f600db2e6ac3cef6eeb73"
+      },
+      "sources/gcc-15.1.0.tar.xz": {
+        "bytes": 98268344,
+        "sha256": "e2b09ec21660f01fecffb715e0120265216943f038d0e48a9868713e54f06cea",
+        "published_sha512": "ddd35ca6c653dffa88f7c7ef9ee4cd806e156e0f3b30f4d63e75a8363361285cd566ee73127734cde6a934611de815bee3e32e24bfd2e0ab9f7ff35c929821c1"
+      },
+      "captures/archive-download.command.txt": {
+        "bytes": 296,
+        "sha256": "e32b178b39262536f9ae8306406988364ec02d27716ac445a54ee5c5cca37f8c"
+      },
+      "captures/archive-download.meta": {
+        "bytes": 521,
+        "sha256": "855e2d29c224d9d0b0c70461215529969133eac67a52fcc7d25a80305da0efae"
+      },
+      "captures/gcc-15.1.0.headers": {
+        "bytes": 454,
+        "sha256": "647bde9778f00937fc77e132c28fc864d14acd6f136b1058e16cffbe395206fc"
+      },
+      "captures/check-gcc.started.utc": {
+        "bytes": 21,
+        "sha256": "907d9ca98939ea3b53040de7a1c3068c54f0e15a7a56f9cbcf68c6b367d5be2f"
+      },
+      "captures/gcc.sum": {
+        "bytes": 1711,
+        "sha256": "ac3ba7893aebd6c13b68b8b99f067b15cd3cb979046660e855a8cf8611ac866b"
+      },
+      "captures/gcc.log": {
+        "bytes": 21270,
+        "sha256": "955c1832fa79b272bd914e119a36d478ec78d6f6e51500b20ed3018e94de84e8"
+      },
+      "captures/check-gcc.log": {
+        "bytes": 2375,
+        "sha256": "a90c6019c509fb7a5b5b963523fbd002bbb9b0a1222be113cd6b754b93550c9c"
+      },
+      "captures/check-gcc.command.txt": {
+        "bytes": 185,
+        "sha256": "264e7f625026c98d4c180f3f486006e5bfe50d8c55d81b06c6487516cb3d1f9e"
+      },
+      "captures/configure.command.txt": {
+        "bytes": 214,
+        "sha256": "1ff07a3ec55d0a09b4d7f95a99e76d0ac3dc69d79d3109fc5f7af2293f79f2ed"
+      },
+      "captures/configure.log": {
+        "bytes": 6447,
+        "sha256": "a3e4ae93225e0a2ba2e9254a42e71b76fe04ec98fd21cfbaad5a6f7860135abe"
+      },
+      "captures/gcc-build.log": {
+        "bytes": 2765135,
+        "sha256": "9c337718ef72f7d882411a6ac1e59095d000c65ea93828a28b895d434b8c66e1"
+      },
+      "captures/libgcc-build.log": {
+        "bytes": 699247,
+        "sha256": "130b47187a28b13f7a4cb5eb7ef5f5d89b4cdf3884cbd055b290536403572bfc"
+      },
+      "captures/gcc-prerequisites.log": {
+        "bytes": 801,
+        "sha256": "9c4977b08646b51a12793a7f0c1167d31dda42165c8265ad34c2fff0349b389c"
+      },
+      "captures/source-validation.txt": {
+        "bytes": 436,
+        "sha256": "1076304a57c9ab7570e50d4d9dece4fb9a1fb821390f2de1543b92bee33b7f69"
+      },
+      "captures/source-validation.command.txt": {
+        "bytes": 402,
+        "sha256": "bbbe95a4cdf46c87c344e74eee04ba01cff5ccc00d3ee7da3db47b1acebc2bed"
+      },
+      "captures/pretest-identity.command.txt": {
+        "bytes": 2468,
+        "sha256": "daa22b520ccc79d790acb566d761875d7be5f22e7bfd156d277234e9c096ae58"
+      },
+      "captures/pretest-identity.txt": {
+        "bytes": 2355,
+        "sha256": "dbe15cdfc141931e1ec0a5c6a4d4dc6929cd8eb6d7022c57c878c426111ef28a"
+      },
+      "captures/gcc-official-15-series-tag-objects-and-peeled-commits.txt": {
+        "bytes": 435,
+        "sha256": "aa81ab322d59adc34908312aeaf0fb6604a9aa2a7907bb4fa86465e2346ee4cd"
+      },
+      "captures/gcc-mirror-15-series-tag-objects-and-peeled-commits.txt": {
+        "bytes": 435,
+        "sha256": "aa81ab322d59adc34908312aeaf0fb6604a9aa2a7907bb4fa86465e2346ee4cd"
+      }
+    },
+    "gcc_sum_has_only_the_selected_test": true,
+    "raw_gcc_sum_and_log_are_outside_repository": true
+  },
+  "project_tests": {
+    "status": "NOT_RUN",
+    "scope": "AICompiler repository source-code test suite",
+    "reason": "This work unit changed evidence/documentation only and ran the preregistered GCC regression. rustc and cargo are unavailable in the executor."
+  },
+  "interpretation": "GCC 15.1.0's native Linux x86-64 build passed this one release testsuite regression across the 8 configured torture variants. This adds a selected-test observation for the first stable GCC 15 release alongside B58's separate GCC 15.3.0 run. It does not establish the GCC 15.2.0 result, full GCC testsuite status, other targets/configurations, compiler-quality or reliability rates, AIC compatibility, or completion of G2.",
+  "adoption": "No change to AIC/0.2, the proposed G0-G6 plan, compiler/toolchain selection, target, QA threshold, or release status.",
+  "preregistration": "preregistration.md"
+}
