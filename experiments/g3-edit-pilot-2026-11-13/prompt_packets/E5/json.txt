@@ -1,0 +1,25 @@
+提示されたprogramに指定taskを適用してください。要求された変更を実施し、要求に含まれない意味、操作、識別子は保ってください。
+回答は指定形式の完全なprogramを1つだけ返し、説明文やMarkdown fenceを付けないでください。
+
+AIC-J/0.1の完全なJSON objectを一つ返してください。top-levelはformat="AIC-J/0.1"とfunctionだけです。function keyはname、params、result、blocksだけで、name="aic_main"、paramsは[{"id":"x","type":"u64"}]、result="u64"、blocksはid="entry"の一要素です。block keyはid、ops、termだけです。opsは以下のshapeを使います：const `{ "id": ID, "op": "const.u64", "value": DECIMAL_STRING }`、add `{ "id": ID, "op": "add.wrap.u64", "args": [ID, ID] }`、sub `{ "id": ID, "op": "sub.wrap.u64", "args": [ID, ID] }`。add.wrap.u64とsub.wrap.u64はmodulo 2^64です。termは`{ "op": "ret.u64", "value": ID }`だけです。IDは[a-z][a-z0-9_]{0,62}、parameterとinstruction definitionは互いに異なる一意なID、JSONでは%や^を付けません。IDとDECIMAL_STRINGは説明用placeholderなので実際の値に置き換え、placeholderそのものは出力しないでください。DECIMAL_STRINGは`0`、または1〜20桁で1〜9から始まり、値が18446744073709551615以下の符号なし10進数です。array順を保ち、definitionより前のuseを作らないでください。duplicate key、unknown key/operation、型やarityの誤り、重複ID、未解決参照、範囲外定数は不正です。
+
+入力値に関係なく7を返すprogramに変更し、計算に不要になった操作を削除してください。定数identifierはsevenにしてください。
+
+{
+  "format": "AIC-J/0.1",
+  "function": {
+    "name": "aic_main",
+    "params": [{"id": "x", "type": "u64"}],
+    "result": "u64",
+    "blocks": [
+      {
+        "id": "entry",
+        "ops": [
+          {"id": "one", "op": "const.u64", "value": "1"},
+          {"id": "sum", "op": "add.wrap.u64", "args": ["x", "one"]}
+        ],
+        "term": {"op": "ret.u64", "value": "sum"}
+      }
+    ]
+  }
+}

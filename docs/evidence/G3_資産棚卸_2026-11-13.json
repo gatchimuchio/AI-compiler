@@ -1,0 +1,386 @@
+{
+  "buckets": [
+    {
+      "assets": [
+        {
+          "path": "docs/01_統合仕様書.md",
+          "sha256": "a9ed714c8c7c55d8e3509977df2a8bee70877bbb67b4b8788d30698db4d9a980",
+          "size_bytes": 28877
+        },
+        {
+          "path": "docs/02_工程表.md",
+          "sha256": "ac0706fe634f152ddb141cc9c8cfbd314f3e2389f444b7c4cbe787bc7a0f7d23",
+          "size_bytes": 59924
+        },
+        {
+          "path": "docs/evidence/G3_単一block局所編集pilot_2026-11-13.md",
+          "sha256": "652da20ad29e511ebdfa77797d1e91cf1c5acc002adb2aa3ea9cb34d36dbc27f",
+          "size_bytes": 5722
+        },
+        {
+          "path": "docs/evidence/G3_資産棚卸_2026-11-13.json",
+          "sha256": "self-reference-omitted",
+          "size_bytes": 15206
+        },
+        {
+          "path": "docs/proposals/G3_単一block局所編集比較プロトコル案.md",
+          "sha256": "3772a0ec1c5c4dcb33765a34d9cca743117098d5d444ffe315687e3ed2ad66ab",
+          "size_bytes": 19733
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/README.md",
+          "sha256": "3c0c1ce478b938a096747b0d98738697ffe54e224633307f4432b6980fd16d17",
+          "size_bytes": 3752
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/context_preflight.json",
+          "sha256": "0380f0af98a52f1068bbdaa04aead396d52ed73b6872866aeecdf8a32d266ddf",
+          "size_bytes": 440
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/fixed_inputs.json",
+          "sha256": "8ae65c4bc7fcadd748804f4b0b4bd2dcffbee5c3b18c98971df106f83eb32545",
+          "size_bytes": 656
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/inflight.json",
+          "sha256": "2c9a4388be02fd3802fe2d8337aa7207e9f3293c9231dd043077bb45a7da665f",
+          "size_bytes": 102
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/manifest.json",
+          "sha256": "af2cf6307753ba44a29f664b3958552146ec9058ae10263c9e1747796bdabdfd",
+          "size_bytes": 10802
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/oracle.json",
+          "sha256": "d854a1ca4663c839bb0410290419378be0f598cf684938d42c9b2fa78b96f4b0",
+          "size_bytes": 4105
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/preflight.json",
+          "sha256": "1e7c2e6fdb21f41f1eee25a1b6dc8536375d6191a45c9244d8b83db75c8b3293",
+          "size_bytes": 9950
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/prepare_pilot.py",
+          "sha256": "2eab64809755338b2ac176ba63139f37f914b9ac78b6336257f8bf2402d0a1a8",
+          "size_bytes": 12597
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/prompt_assets/aic_schema_card.txt",
+          "sha256": "0b28fd0fb498032cda41c62a7bbb20541a47c03c7e687a57489ca28836e3b5ef",
+          "size_bytes": 984
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/prompt_assets/common_prompt.txt",
+          "sha256": "146763bce58ac359a91767ba5fa11ee0bd471c07c784bba52fbcf642e298dc3c",
+          "size_bytes": 301
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/prompt_assets/initial_aic.aic",
+          "sha256": "97c018103c9f4d1ebcbabc3fa0296858406445ed0ce3584a0ecffee47320689b",
+          "size_bytes": 114
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/prompt_assets/initial_json.json",
+          "sha256": "c2e06f8b7bd414313e4631caf39b75592cacde01c799bb7311f0eb37cfd19b96",
+          "size_bytes": 402
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/prompt_assets/json_schema_card.txt",
+          "sha256": "0c9fdbdf3d8811ecbbe766f49dbdf6a77acd0f6082f37f5254d05585dd687dbb",
+          "size_bytes": 1271
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/prompt_assets/system_message.txt",
+          "sha256": "bd0c6a4dee5caae102787d638f8386eda42edca6dfefeff31ba7be1643f09671",
+          "size_bytes": 9
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/prompt_packets/E1/aic.txt",
+          "sha256": "ee3ac41410d44cc33c1c7e03bd85091cca3958d0150f77dcff263b796ea0d3a0",
+          "size_bytes": 1542
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/prompt_packets/E1/json.txt",
+          "sha256": "6dd7ea61c7ecb6aabeb7581a080325a4abdc5d4b6244c41ec9882a8b7d644e0f",
+          "size_bytes": 2117
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/prompt_packets/E2/aic.txt",
+          "sha256": "8b9eaa2a80e172b27e93ca7ffa8862844f6105ea822e802ace1304ac422f3048",
+          "size_bytes": 1509
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/prompt_packets/E2/json.txt",
+          "sha256": "7fcefd8f5d05ce4340960cb19ebb85bf75b951681061127585c2ece468cf5299",
+          "size_bytes": 2084
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/prompt_packets/E3/aic.txt",
+          "sha256": "22c8df548d59d499588d19e0667847f8bce923e53bcd065e284fd0331e0d1704",
+          "size_bytes": 1554
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/prompt_packets/E3/json.txt",
+          "sha256": "21a1a35b571a6e3a4d4ae7adde2ac7fb59a6eac5f38c46433dc965e8b47fd137",
+          "size_bytes": 2129
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/prompt_packets/E4/aic.txt",
+          "sha256": "d7fbe266cf6a91c9e0edb73c82f5d26a134cbcb907e95429b5f15d5829557a2b",
+          "size_bytes": 1565
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/prompt_packets/E4/json.txt",
+          "sha256": "26a314f68c8414aa97814804bbc119494183c41bfe53eba2a3af3245af028a1b",
+          "size_bytes": 2140
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/prompt_packets/E5/aic.txt",
+          "sha256": "22c337da9e990786238646d1eb6ee1d5ed07e8703e94c841af4a2fcde45106a9",
+          "size_bytes": 1572
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/prompt_packets/E5/json.txt",
+          "sha256": "72cd745032b966e412960974fe33c1cfccf80cf67168a66eda4a43041da127da",
+          "size_bytes": 2147
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/prompt_packets/E6/aic.txt",
+          "sha256": "8bb1d0110759c7d3fc907dbeec1c92aa0fc72ebed2427b626dd6d8b385dec6f7",
+          "size_bytes": 1567
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/prompt_packets/E6/json.txt",
+          "sha256": "07f9ecb330d67815dcee0042fffb97831e8224192767e501d87a95b78dc47dde",
+          "size_bytes": 2142
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/raw_audit.json",
+          "sha256": "837372d36d7edabdfbd993f1736b5edf7f8bc9fedbee3ed4b8289f44ad99cf85",
+          "size_bytes": 697
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/recovery_addendum.json",
+          "sha256": "df6b5452c1dac1a68fdc329d3d0970bbb2d454866c943bd5f4a1776f52dee1ed",
+          "size_bytes": 2945
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/recovery_context_preflight.json",
+          "sha256": "0380f0af98a52f1068bbdaa04aead396d52ed73b6872866aeecdf8a32d266ddf",
+          "size_bytes": 440
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/recovery_status.json",
+          "sha256": "4f9486ee87dd5902c0a321367ff44c775317b12f0e7384181fb0040f6f094ed7",
+          "size_bytes": 834
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/resume_pilot.py",
+          "sha256": "b3103310bbf732a4b451ff39aa9a7369b6c83634d67495da122aeaa6319e1902",
+          "size_bytes": 14283
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/run_metadata.json",
+          "sha256": "4f9486ee87dd5902c0a321367ff44c775317b12f0e7384181fb0040f6f094ed7",
+          "size_bytes": 834
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/run_pilot.py",
+          "sha256": "b20d4af36a6bd0ee5520100cc4a0f73794cacc83b5f04dd3fde0ea301ad1e358",
+          "size_bytes": 11153
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/rust-helper/Cargo.lock",
+          "sha256": "5f7d23401454151988b421e97450121fd601902905acd1afa7e72c7e03604331",
+          "size_bytes": 248
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/rust-helper/Cargo.toml",
+          "sha256": "c6fcc684adc915f95d64be33400779a00d05bf5132fec1470e44838e59a11ad9",
+          "size_bytes": 162
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/rust-helper/src/main.rs",
+          "sha256": "29e981e199c507bbfa4f6ddd7dc281cae16f34786beab62832d951816347386d",
+          "size_bytes": 2301
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/score_pilot.py",
+          "sha256": "eb26dd2af068498fd640752b8ee8e907bedf04d90d77d0c07347400109f201c6",
+          "size_bytes": 21104
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/scored.jsonl",
+          "sha256": "02d035a58854239bad7a991b70ae45b18af851588a896d5ba6279568144671ff",
+          "size_bytes": 68382
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/summary.json",
+          "sha256": "0289c8e8321d10225605c5077b73a132e55c8b3d1e8891edc57578078796ce6b",
+          "size_bytes": 4685
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/test_score_pilot.py",
+          "sha256": "1bd857c4e6a5ee563769188bc1324e12b323fba015183c730b90c01f1827a926",
+          "size_bytes": 3187
+        },
+        {
+          "path": "experiments/g3-edit-pilot-2026-11-13/trials.jsonl",
+          "sha256": "17291e60d77e36ffd605eadc324cf2a35d455b53129ba0aff76516939c0074fa",
+          "size_bytes": 1222475
+        }
+      ],
+      "bytes": 1550745,
+      "regular_file_count": 46,
+      "state": "保持"
+    },
+    {
+      "assets": [
+        {
+          "bytes": 46980,
+          "path": "/tmp/codex-remote-attachments/6af3be48-658c-8191-9bac-a4d6a6b1d086/17951520-18ce-4417-9fef-dcc2dcedfd6b/1-AICompiler_3point_set_2026-11-13.zip",
+          "regular_file_count": 1
+        },
+        {
+          "bytes": 115083,
+          "path": "/tmp/aic-3point-20261113-incoming",
+          "regular_file_count": 3
+        },
+        {
+          "bytes": 17486,
+          "path": "/tmp/aic-g1-single-20261113",
+          "regular_file_count": 6
+        },
+        {
+          "bytes": 3580857,
+          "path": "/tmp/aic-g2-compare",
+          "regular_file_count": 5
+        },
+        {
+          "bytes": 35311,
+          "path": "/tmp/aic-g2-compare-20261113",
+          "regular_file_count": 9
+        },
+        {
+          "bytes": 190,
+          "path": "/tmp/llvm-api-error.json",
+          "regular_file_count": 1
+        },
+        {
+          "bytes": 3019952101,
+          "path": "/tmp/aic-g3-pilot-2026-11-13",
+          "regular_file_count": 12534
+        }
+      ],
+      "bytes": 3023748008,
+      "g3_external_component_breakdown": [
+        {
+          "bytes": 2497280256,
+          "path": "/tmp/aic-g3-pilot-2026-11-13/Qwen3-4B-Q4_K_M.gguf",
+          "regular_file_count": 1
+        },
+        {
+          "bytes": 34630,
+          "path": "/tmp/aic-g3-pilot-2026-11-13/artifacts",
+          "regular_file_count": 6
+        },
+        {
+          "bytes": 3429342,
+          "path": "/tmp/aic-g3-pilot-2026-11-13/cargo-target",
+          "regular_file_count": 22
+        },
+        {
+          "bytes": 2250957,
+          "path": "/tmp/aic-g3-pilot-2026-11-13/helper-target",
+          "regular_file_count": 20
+        },
+        {
+          "bytes": 8569,
+          "path": "/tmp/aic-g3-pilot-2026-11-13/normalized",
+          "regular_file_count": 61
+        },
+        {
+          "bytes": 280466907,
+          "path": "/tmp/aic-g3-pilot-2026-11-13/uv-cache",
+          "regular_file_count": 7142
+        },
+        {
+          "bytes": 236481440,
+          "path": "/tmp/aic-g3-pilot-2026-11-13/venv",
+          "regular_file_count": 5282
+        }
+      ],
+      "regular_file_count": 12559,
+      "state": "保管済み"
+    },
+    {
+      "assets": [],
+      "bytes": 0,
+      "regular_file_count": 0,
+      "state": "稼働中"
+    },
+    {
+      "assets": [
+        {
+          "path": "/tmp/aic-g3-pilot-2026-11-13/trash/duplicate-source-docs/01_統合仕様書.md",
+          "sha256": "c86f17c7aab5bebfe1f7e5e0edd006eefff93262292f8307f3ffac79277d483e",
+          "size_bytes": 27789
+        },
+        {
+          "path": "/tmp/aic-g3-pilot-2026-11-13/trash/duplicate-source-docs/02_工程表.md",
+          "sha256": "8a124a7a55deeb1ed1ad87131c2a6c0d313e572e00cce1296a63d4832552c263",
+          "size_bytes": 56414
+        },
+        {
+          "path": "/tmp/aic-g3-pilot-2026-11-13/trash/duplicate-source-docs/03_Codex施工指示書.md",
+          "sha256": "711f5eafe68e82bc5e5bc5ed227c346e0603f083c31d285f80eebaea42d3a417",
+          "size_bytes": 30880
+        },
+        {
+          "path": "/tmp/aic-g3-pilot-2026-11-13/trash/python-bytecode/prepare_pilot.cpython-312.pyc",
+          "sha256": "9808a9cfb515bc7e2f1f2e109f5b72b1278979742a23723bdc143365a82fdc25",
+          "size_bytes": 15037
+        },
+        {
+          "path": "/tmp/aic-g3-pilot-2026-11-13/trash/python-bytecode/resume_pilot.cpython-312.pyc",
+          "sha256": "e1bfb23aa2170abe7cabd756f8c1c4a7affefbccb4ee3ea51ee1db83bceecca6",
+          "size_bytes": 20465
+        },
+        {
+          "path": "/tmp/aic-g3-pilot-2026-11-13/trash/python-bytecode/run_pilot.cpython-312.pyc",
+          "sha256": "aa8bab979aab2f93ddb4e8fe04a5fcd3f8e8d4d3b0649a41906a1cf6f50d0148",
+          "size_bytes": 15214
+        },
+        {
+          "path": "/tmp/aic-g3-pilot-2026-11-13/trash/python-bytecode/score_pilot.cpython-312.pyc",
+          "sha256": "c69c3844fdce891593f97855e3ec66fb6747e7aa2fdf22187486c15928458d39",
+          "size_bytes": 30723
+        },
+        {
+          "path": "/tmp/aic-g3-pilot-2026-11-13/trash/python-bytecode/test_score_pilot.cpython-312.pyc",
+          "sha256": "72e5893f9463196a8c5ac3f8c23dba0f8f8dda2ba0ea648a7e48ec3ee162b732",
+          "size_bytes": 4843
+        }
+      ],
+      "bytes": 201365,
+      "regular_file_count": 8,
+      "state": "ゴミ箱移動済み"
+    },
+    {
+      "assets": [],
+      "bytes": 0,
+      "regular_file_count": 0,
+      "state": "保留"
+    }
+  ],
+  "date": "2026-11-13",
+  "platform": "Linux; no Windows filesystem assets or operations",
+  "scope": "Repository files changed/added for the G3 pilot, the uploaded 3-point-set ZIP and its retained extraction, related G1/G2 evidence bundles from this continuation, the public GitHub 422 diagnostic, and the external G3 model/build/runtime/artifact bundle. System runtime files, unrelated earlier ABI workspaces, logs, sockets, and Git internals are excluded.",
+  "title": "G3 pilot work-unit asset inventory",
+  "total_bytes": 3025500118,
+  "total_regular_files": 12613,
+  "unit": "regular files; directories are grouping roots only"
+}

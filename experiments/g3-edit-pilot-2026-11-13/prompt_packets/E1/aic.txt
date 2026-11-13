@@ -1,0 +1,23 @@
+提示されたprogramに指定taskを適用してください。要求された変更を実施し、要求に含まれない意味、操作、識別子は保ってください。
+回答は指定形式の完全なprogramを1つだけ返し、説明文やMarkdown fenceを付けないでください。
+
+AIC/0.2の完全なmoduleを一つ返してください。出力形は次のとおりです。
+AIC 0.2
+fn aic_main(%x: u64) -> u64 {
+^entry:
+  %id = const.u64 DECIMAL
+  %id = add.wrap.u64 %lhs, %rhs
+  %id = sub.wrap.u64 %lhs, %rhs
+  ret.u64 %id
+}
+const.u64行、add.wrap.u64行、sub.wrap.u64行は必要な数だけ使い、各instruction/terminatorは1物理行に一つ置いてください。add.wrap.u64とsub.wrap.u64はmodulo 2^64です。value IDは[a-z][a-z0-9_]{0,62}、parameterとinstruction definitionは互いに異なる一意なID、参照では%を付け、definitionより前のuseを作らないでください。id/lhs/rhs/DECIMALは説明用placeholderなので実際のID/数値へ置き換え、placeholderそのものは出力しないでください。DECIMALは`0`、または1〜20桁で1〜9から始まり、値が18446744073709551615以下の符号なし10進数です。追加のfunction、block、operation、commentは出力しないでください。
+
+identifier oneで定義されている定数を1から17に変更してください。ほかの操作は変更しないでください。
+
+AIC 0.2
+fn aic_main(%x: u64) -> u64 {
+^entry:
+  %one = const.u64 1
+  %sum = add.wrap.u64 %x, %one
+  ret.u64 %sum
+}

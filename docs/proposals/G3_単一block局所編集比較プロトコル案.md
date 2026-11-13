@@ -1,7 +1,7 @@
 # G3 単一block局所編集の比較プロトコル案
 
 - 作成日：2026-11-13
-- 状態：**未採用候補に限る限定pilot。Ownerは目的に基づく条件選択・実行を委任した。2026-11-13時点で条件を選定、試行前。G3全体、製品仕様、QA閾値、正式採用を確定しない。**
+- 状態：**未採用候補に限る限定pilotを実施済み。120 slot中119回答完了、1 JSON slotは中断時の応答不明として再送せず記録。完了回答のstrict format parseはAIC 0/60、JSON 0/59。AIC-J/0.1は未採用。G3全体、製品仕様、QA閾値、正式採用を確定しない。**
 - 対照：Owner採用済みAIC/0.2。
 - 比較候補：未採用AIC-J/0.1。
 - 関連資料：[初期変換契約](01_初期変換契約案.md)、[G1単一課題観測](../evidence/G1_単一課題観測_2026-11-13.md)、[構造化編集と版進化の限定比較](../research/04_構造化編集・版進化比較.md)。
@@ -150,4 +150,11 @@ oracleは正規化operation listを用い、wrap加減算をPythonの整数演�
 - **保存：** 全raw prompt/response、metadata、判定結果とrunnerを`experiments/g3-edit-pilot-2026-11-13/`へ保存し、pilot reportとともにrepositoryへ記録する。model weightsとisolated Python environment/object artifactsはrepository外の`/tmp/aic-g3-pilot-2026-11-13/`に保持し、hash/pathをreportへ記載する。model weightsはGitHubへuploadしない。
 - **停止境界：** model artifactのrevision/license/hashが合わない場合、outputが固定promptと結びつかない場合、runner/adapterの生産コード流用やproduction path変更が必要になった場合は試行前に止める。候補優劣、総合勝者、製品採用、正式QA、公開の閾値は本pilotから決めない。
 
-条件固定時点では試行結果は存在せず、AIC-J/0.1は未採用候補のままとする。
+条件固定時点では試行結果は存在しなかった。後続の実行結果では119回答すべてが空の`<think>…</think>` wrapperによりstrict format parseへ不合格となり、意味編集・object比較は成立していない。結果・失敗範囲・再現hashは[実行記録](../evidence/G3_単一block局所編集pilot_2026-11-13.md)に記録する。AIC-J/0.1は未採用候補のままとする。
+
+## 7. 2026-11-13 実行結果追記
+
+- 事前登録どおりの60 paired slotsを全て記録し、AICは60/60回答、JSONは59/60回答が完了。E2 replicate 2 JSONはprocess中断時に応答が記録されず、重複生成を避けて`interrupted_unknown`扱いとした。回復条件は[recovery addendum](../../experiments/g3-edit-pilot-2026-11-13/recovery_addendum.json)に事後採点前に固定した。
+- 全119完了回答は空の`<think>\n\n</think>\n\n`で始まり、strict format parser受理は両方0。これを回答本文から取り除く処理はしなかった。したがってvalidator、編集意味判定、候補回答のobject compile・consumer・22-input oracle検査は0件。
+- parser/validator/compiler/harness連携のsynthetic preflightは両formatで通過したが、model回答の品質評価へ加算しない。task別/形式別の数、token/time、source hashes、保存先は[結果evidence](../evidence/G3_単一block局所編集pilot_2026-11-13.md)とexperiment artifactsに記録する。
+- これは当該model/chat-template/`/no_think`/prompt条件におけるformat-gate失敗の観測だけである。両候補の意味品質の同等性・優位性、他課題への一般化、candidate adoption、QA閾値、G3全体完了を意味しない。chat-template変更やwrapper除去を含む追試は別途事前登録する。

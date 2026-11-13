@@ -1,0 +1,30 @@
+{
+  "checks": {
+    "exact_120_slot_records": true,
+    "contiguous_indices": true,
+    "one_interrupted_unknown": true,
+    "119_completed": true,
+    "no_inference_exception": true,
+    "system_fixed": true,
+    "all_prompt_hashes_match": true,
+    "completed_response_hex_matches": true,
+    "schedule_matches": true,
+    "unknown_is_call24": true,
+    "run_metadata_complete": true
+  },
+  "status_counts": {
+    "completed": 119,
+    "interrupted_unknown": 1
+  },
+  "format_counts": {
+    "aic": {
+      "completed": 60,
+      "interrupted_unknown": 0
+    },
+    "json": {
+      "completed": 59,
+      "interrupted_unknown": 1
+    }
+  },
+  "last_call_elapsed_run_seconds": 3960.606218854995
+}

@@ -1,0 +1,211 @@
+{
+  "budget": {
+    "generation_calls_max": 120,
+    "inference_charge": 0,
+    "model_download_bytes_max": 2497280256,
+    "wall_clock_hours_max": 4
+  },
+  "compiler": {
+    "candidate_adapter": "isolated JSON-to-AIC adapter in score_pilot.py",
+    "oracle": "independent Python modulo-2^64 evaluator",
+    "production_source_sha256": {
+      "Cargo.lock": "b32df078c11fe4d7ff64d028c751f7417070d5b8be347198007dc78aa7beaf2d",
+      "Cargo.toml": "ff99f05baeafcd5cc5a8d7fb4045ad15e2cbef47f2f3939cd34b0214b50910c1",
+      "src/driver.rs": "c5ee542ce1c1cdffac8857570771f7e2786acffd3e89fa26a161da9db824c8fc",
+      "src/ir.rs": "8c8a8c4f4f08c4bc7669f4b0d32f9240227ad0c6983bbe215fa4de0c13c71202",
+      "src/parser.rs": "564d804e922e50d440560279cb85a69b9ad94f848b6c6d97e469a9f853ea448b",
+      "src/validate.rs": "b83107205e353e0917ac71a6a795b911e4ff0fc295f695857d26cc40f78be3ec",
+      "src/x86_64.rs": "e2e8242632424a9290d2c450e0a64cc50df0254c2bae4f28b2e44eef4068156e",
+      "tests/abi_probe.S": "aaf1c4cbb0263134e63c6abdbbb1d8b1136f700a257fd469c44acd76af93ef97",
+      "tests/harness.cpp": "1c3db341e12e63fa2d6a57007bbea13945b57d822013d3bf7f21c3e6ce876097"
+    },
+    "repository_commit": "12234aab847992d12e8a974ed2d1dd1777aa7bfa",
+    "source_parser": "production ai-compiler::parse",
+    "target": "x86_64-linux-gnu",
+    "validator": "production ai-compiler::validate"
+  },
+  "date": "2026-11-13",
+  "experiment": "G3 single-block local-edit pilot",
+  "input_set_sha256": "8ae65c4bc7fcadd748804f4b0b4bd2dcffbee5c3b18c98971df106f83eb32545",
+  "model": {
+    "context_tokens": 4096,
+    "filename": "Qwen3-4B-Q4_K_M.gguf",
+    "frequency_penalty": 0.0,
+    "license": "Apache-2.0 (pinned repository model card)",
+    "max_output_tokens": 1024,
+    "min_p": 0.0,
+    "mirostat_mode": 0,
+    "path": "/tmp/aic-g3-pilot-2026-11-13/Qwen3-4B-Q4_K_M.gguf",
+    "presence_penalty": 1.5,
+    "provider": "local CPU; no remote inference or token billing",
+    "repeat_penalty": 1.0,
+    "repository": "Qwen/Qwen3-4B-GGUF",
+    "revision": "bc640142c66e1fdd12af0bd68f40445458f3869b",
+    "runner": "llama-cpp-python==0.3.16",
+    "sha256": "7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5",
+    "size_bytes": 2497280256,
+    "stream": false,
+    "system_message": "/no_think",
+    "temperature": 0.7,
+    "threads": 5,
+    "tools": false,
+    "top_k": 20,
+    "top_p": 0.8,
+    "web_access": false
+  },
+  "oracle_sha256": "d854a1ca4663c839bb0410290419378be0f598cf684938d42c9b2fa78b96f4b0",
+  "preregistered_file_sha256": {
+    "fixed_inputs.json": "8ae65c4bc7fcadd748804f4b0b4bd2dcffbee5c3b18c98971df106f83eb32545",
+    "oracle.json": "d854a1ca4663c839bb0410290419378be0f598cf684938d42c9b2fa78b96f4b0",
+    "prepare_pilot.py": "2eab64809755338b2ac176ba63139f37f914b9ac78b6336257f8bf2402d0a1a8",
+    "prompt_assets/aic_schema_card.txt": "0b28fd0fb498032cda41c62a7bbb20541a47c03c7e687a57489ca28836e3b5ef",
+    "prompt_assets/common_prompt.txt": "146763bce58ac359a91767ba5fa11ee0bd471c07c784bba52fbcf642e298dc3c",
+    "prompt_assets/initial_aic.aic": "97c018103c9f4d1ebcbabc3fa0296858406445ed0ce3584a0ecffee47320689b",
+    "prompt_assets/initial_json.json": "c2e06f8b7bd414313e4631caf39b75592cacde01c799bb7311f0eb37cfd19b96",
+    "prompt_assets/json_schema_card.txt": "0c9fdbdf3d8811ecbbe766f49dbdf6a77acd0f6082f37f5254d05585dd687dbb",
+    "prompt_assets/system_message.txt": "bd0c6a4dee5caae102787d638f8386eda42edca6dfefeff31ba7be1643f09671",
+    "prompt_packets/E1/aic.txt": "ee3ac41410d44cc33c1c7e03bd85091cca3958d0150f77dcff263b796ea0d3a0",
+    "prompt_packets/E1/json.txt": "6dd7ea61c7ecb6aabeb7581a080325a4abdc5d4b6244c41ec9882a8b7d644e0f",
+    "prompt_packets/E2/aic.txt": "8b9eaa2a80e172b27e93ca7ffa8862844f6105ea822e802ace1304ac422f3048",
+    "prompt_packets/E2/json.txt": "7fcefd8f5d05ce4340960cb19ebb85bf75b951681061127585c2ece468cf5299",
+    "prompt_packets/E3/aic.txt": "22c8df548d59d499588d19e0667847f8bce923e53bcd065e284fd0331e0d1704",
+    "prompt_packets/E3/json.txt": "21a1a35b571a6e3a4d4ae7adde2ac7fb59a6eac5f38c46433dc965e8b47fd137",
+    "prompt_packets/E4/aic.txt": "d7fbe266cf6a91c9e0edb73c82f5d26a134cbcb907e95429b5f15d5829557a2b",
+    "prompt_packets/E4/json.txt": "26a314f68c8414aa97814804bbc119494183c41bfe53eba2a3af3245af028a1b",
+    "prompt_packets/E5/aic.txt": "22c337da9e990786238646d1eb6ee1d5ed07e8703e94c841af4a2fcde45106a9",
+    "prompt_packets/E5/json.txt": "72cd745032b966e412960974fe33c1cfccf80cf67168a66eda4a43041da127da",
+    "prompt_packets/E6/aic.txt": "8bb1d0110759c7d3fc907dbeec1c92aa0fc72ebed2427b626dd6d8b385dec6f7",
+    "prompt_packets/E6/json.txt": "07f9ecb330d67815dcee0042fffb97831e8224192767e501d87a95b78dc47dde",
+    "run_pilot.py": "b20d4af36a6bd0ee5520100cc4a0f73794cacc83b5f04dd3fde0ea301ad1e358",
+    "rust-helper/Cargo.lock": "5f7d23401454151988b421e97450121fd601902905acd1afa7e72c7e03604331",
+    "rust-helper/Cargo.toml": "c6fcc684adc915f95d64be33400779a00d05bf5132fec1470e44838e59a11ad9",
+    "rust-helper/src/main.rs": "29e981e199c507bbfa4f6ddd7dc281cae16f34786beab62832d951816347386d",
+    "score_pilot.py": "eb26dd2af068498fd640752b8ee8e907bedf04d90d77d0c07347400109f201c6"
+  },
+  "randomization": {
+    "order_bit": "SHA256(ASCII(AIC-G3-pilot-order-v1)||0x00||task_id||0x00||uint32_be(replicate))[0] & 1; 0=AIC first, 1=JSON first",
+    "pair_seed": "uint32_be(SHA256(ASCII(AIC-G3-pilot-seed-v1)||0x00||task_id||0x00||uint32_be(replicate))[:4])",
+    "same_seed_within_pair": true
+  },
+  "scope": {
+    "candidate": "unadopted AIC-J/0.1 pilot-only profile",
+    "control": "adopted AIC/0.2",
+    "max_first_response_calls": 120,
+    "paired_runs": 60,
+    "repair_turns": 0,
+    "replicates_per_task": 10,
+    "tasks": [
+      "E1",
+      "E2",
+      "E3",
+      "E4",
+      "E5",
+      "E6"
+    ]
+  },
+  "status": "preregistered; ready for first generation call",
+  "storage": {
+    "external_model_and_builds": "/tmp/aic-g3-pilot-2026-11-13/; model weights are not committed",
+    "repository_raw_records": "trials.jsonl; complete prompt, response, metadata, and errors",
+    "repository_scored_records": "scored.jsonl and summary.json"
+  },
+  "tokenizer": "GGUF tokenizer/chat template from pinned model; llama-cpp-python chat completion usage fields",
+  "trial_prompts": [
+    {
+      "byte_count": 1542,
+      "format": "aic",
+      "path": "prompt_packets/E1/aic.txt",
+      "request": "identifier oneで定義されている定数を1から17に変更してください。ほかの操作は変更しないでください。",
+      "sha256": "ee3ac41410d44cc33c1c7e03bd85091cca3958d0150f77dcff263b796ea0d3a0",
+      "task_id": "E1"
+    },
+    {
+      "byte_count": 2117,
+      "format": "json",
+      "path": "prompt_packets/E1/json.txt",
+      "request": "identifier oneで定義されている定数を1から17に変更してください。ほかの操作は変更しないでください。",
+      "sha256": "6dd7ea61c7ecb6aabeb7581a080325a4abdc5d4b6244c41ec9882a8b7d644e0f",
+      "task_id": "E1"
+    },
+    {
+      "byte_count": 1509,
+      "format": "aic",
+      "path": "prompt_packets/E2/aic.txt",
+      "request": "sumの演算をwrap減算に変えてください。operandと定数は変更しないでください。",
+      "sha256": "8b9eaa2a80e172b27e93ca7ffa8862844f6105ea822e802ace1304ac422f3048",
+      "task_id": "E2"
+    },
+    {
+      "byte_count": 2084,
+      "format": "json",
+      "path": "prompt_packets/E2/json.txt",
+      "request": "sumの演算をwrap減算に変えてください。operandと定数は変更しないでください。",
+      "sha256": "7fcefd8f5d05ce4340960cb19ebb85bf75b951681061127585c2ece468cf5299",
+      "task_id": "E2"
+    },
+    {
+      "byte_count": 1554,
+      "format": "aic",
+      "path": "prompt_packets/E3/aic.txt",
+      "request": "現在のsumの値から2を引いた値を返してください。定数をidentifier two、結果をidentifier resultで追加してください。",
+      "sha256": "22c8df548d59d499588d19e0667847f8bce923e53bcd065e284fd0331e0d1704",
+      "task_id": "E3"
+    },
+    {
+      "byte_count": 2129,
+      "format": "json",
+      "path": "prompt_packets/E3/json.txt",
+      "request": "現在のsumの値から2を引いた値を返してください。定数をidentifier two、結果をidentifier resultで追加してください。",
+      "sha256": "21a1a35b571a6e3a4d4ae7adde2ac7fb59a6eac5f38c46433dc965e8b47fd137",
+      "task_id": "E3"
+    },
+    {
+      "byte_count": 1565,
+      "format": "aic",
+      "path": "prompt_packets/E4/aic.txt",
+      "request": "sumという値identifierをanswerへ変更し、その定義とすべての参照を更新してください。演算と定数は変えないでください。",
+      "sha256": "d7fbe266cf6a91c9e0edb73c82f5d26a134cbcb907e95429b5f15d5829557a2b",
+      "task_id": "E4"
+    },
+    {
+      "byte_count": 2140,
+      "format": "json",
+      "path": "prompt_packets/E4/json.txt",
+      "request": "sumという値identifierをanswerへ変更し、その定義とすべての参照を更新してください。演算と定数は変えないでください。",
+      "sha256": "26a314f68c8414aa97814804bbc119494183c41bfe53eba2a3af3245af028a1b",
+      "task_id": "E4"
+    },
+    {
+      "byte_count": 1572,
+      "format": "aic",
+      "path": "prompt_packets/E5/aic.txt",
+      "request": "入力値に関係なく7を返すprogramに変更し、計算に不要になった操作を削除してください。定数identifierはsevenにしてください。",
+      "sha256": "22c337da9e990786238646d1eb6ee1d5ed07e8703e94c841af4a2fcde45106a9",
+      "task_id": "E5"
+    },
+    {
+      "byte_count": 2147,
+      "format": "json",
+      "path": "prompt_packets/E5/json.txt",
+      "request": "入力値に関係なく7を返すprogramに変更し、計算に不要になった操作を削除してください。定数identifierはsevenにしてください。",
+      "sha256": "72cd745032b966e412960974fe33c1cfccf80cf67168a66eda4a43041da127da",
+      "task_id": "E5"
+    },
+    {
+      "byte_count": 1567,
+      "format": "aic",
+      "path": "prompt_packets/E6/aic.txt",
+      "request": "定数oneを4に変え、現在のsumに2を足した値を返してください。追加する定数と結果のidentifierはtwoとresultにしてください。",
+      "sha256": "8bb1d0110759c7d3fc907dbeec1c92aa0fc72ebed2427b626dd6d8b385dec6f7",
+      "task_id": "E6"
+    },
+    {
+      "byte_count": 2142,
+      "format": "json",
+      "path": "prompt_packets/E6/json.txt",
+      "request": "定数oneを4に変え、現在のsumに2を足した値を返してください。追加する定数と結果のidentifierはtwoとresultにしてください。",
+      "sha256": "07f9ecb330d67815dcee0042fffb97831e8224192767e501d87a95b78dc47dde",
+      "task_id": "E6"
+    }
+  ]
+}

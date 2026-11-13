@@ -1,0 +1,83 @@
+{
+  "attempt_accounting": {
+    "known_completed_call_slots": 24,
+    "maximum_possible_generation_requests_including_unknown_slot": 120,
+    "possibly_started_but_unrecorded_slots": 1,
+    "remaining_distinct_scheduled_slots": 95
+  },
+  "baseline": {
+    "completed_responses": 24,
+    "durable_call_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23
+    ],
+    "durable_rows": 24,
+    "inference_errors_recorded": 0,
+    "initial_trials_prefix_sha256": "1ff87e31834dd997cd25a26e79a4d95697630c32cf8a7cd751d77d1c124c8e62",
+    "last_completed_finished_utc": "2026-11-13T03:57:53.683171+00:00",
+    "original_manifest_sha256": "af2cf6307753ba44a29f664b3958552146ec9058ae10263c9e1747796bdabdfd",
+    "original_runner_sha256": "b20d4af36a6bd0ee5520100cc4a0f73794cacc83b5f04dd3fde0ea301ad1e358",
+    "prior_elapsed_run_seconds": 686.8201648549948,
+    "recovery_script_sha256": "b3103310bbf732a4b451ff39aa9a7369b6c83634d67495da122aeaa6319e1902",
+    "trials_file_sha256_at_interruption": "1ff87e31834dd997cd25a26e79a4d95697630c32cf8a7cd751d77d1c124c8e62"
+  },
+  "created_utc": "2026-11-13T04:03:43.143799+00:00",
+  "reason": "The original one-shot runner process was externally interrupted after its 24th completed durable record. It did not produce run_metadata.json. The next scheduled call has no durable response and may have been in progress.",
+  "record_type": "operational_recovery_addendum",
+  "recovery_rule": {
+    "all_other_conditions": "Inherit model, revision, prompt packet bytes, task bank, pair seeds, order bits, sampling, parser/validator/oracle, CPU settings, output/context limits, object consumer, and storage rules unchanged from manifest.json.",
+    "cumulative_generation_slot_cap": 120,
+    "cumulative_wall_clock_cap_seconds": 14400,
+    "do_not_score_or_adjust_prompts_from_prior_responses": true,
+    "first_new_slot": {
+      "call_index": 25,
+      "format": "aic",
+      "order_bit": 1,
+      "pair_order": [
+        "json",
+        "aic"
+      ],
+      "pair_seed": 593577576,
+      "replicate": 2,
+      "task_id": "E2"
+    },
+    "resume_at_call_index": 25,
+    "subsequent_interruption_handling": "Durably write an active in-flight state before each new call. If there is no durable response at a later restart, record that slot as interrupted_unknown and skip it; never retry a possibly started slot.",
+    "unknown_slot": {
+      "call_index": 24,
+      "format": "json",
+      "order_bit": 1,
+      "pair_order": [
+        "json",
+        "aic"
+      ],
+      "pair_seed": 593577576,
+      "replicate": 2,
+      "task_id": "E2"
+    },
+    "unknown_slot_disposition": "append an interrupted_unknown row with raw prompt and fixed metadata; do not resend it"
+  },
+  "status": "fixed_before_scoring_or_outcome_inspection"
+}

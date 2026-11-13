@@ -1,0 +1,18 @@
+{
+  "format": "AIC-J/0.1",
+  "function": {
+    "name": "aic_main",
+    "params": [{"id": "x", "type": "u64"}],
+    "result": "u64",
+    "blocks": [
+      {
+        "id": "entry",
+        "ops": [
+          {"id": "one", "op": "const.u64", "value": "1"},
+          {"id": "sum", "op": "add.wrap.u64", "args": ["x", "one"]}
+        ],
+        "term": {"op": "ret.u64", "value": "sum"}
+      }
+    ]
+  }
+}

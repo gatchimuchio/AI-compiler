@@ -1,0 +1,20 @@
+{
+  "context_tokens": 4096,
+  "max_output_tokens": 1024,
+  "formatted_prompt_tokens": {
+    "E1/aic": 482,
+    "E1/json": 659,
+    "E2/aic": 478,
+    "E2/json": 655,
+    "E3/aic": 486,
+    "E3/json": 663,
+    "E4/aic": 488,
+    "E4/json": 665,
+    "E5/aic": 489,
+    "E5/json": 666,
+    "E6/aic": 492,
+    "E6/json": 669
+  },
+  "all_fit": true,
+  "chat_template_sha256": "57f1fd00f0013a2be96aa79b857391f27e23df5b5f847072b524c897e24d0361"
+}
