@@ -1,7 +1,7 @@
 # G3 単一block局所編集の比較プロトコル案
 
 - 作成日：2026-11-13
-- 状態：**未採用の限定プロトコル案。実験未実施。G3全体、候補選定、製品仕様、QA閾値を確定しない。**
+- 状態：**未採用候補に限る限定pilot。Ownerは目的に基づく条件選択・実行を委任した。2026-11-13時点で条件を選定、試行前。G3全体、製品仕様、QA閾値、正式採用を確定しない。**
 - 対照：Owner採用済みAIC/0.2。
 - 比較候補：未採用AIC-J/0.1。
 - 関連資料：[初期変換契約](01_初期変換契約案.md)、[G1単一課題観測](../evidence/G1_単一課題観測_2026-11-13.md)、[構造化編集と版進化の限定比較](../research/04_構造化編集・版進化比較.md)。
@@ -136,11 +136,16 @@ oracleは正規化operation listを用い、wrap加減算をPythonの整数演�
 
 この案はG3の「単一block局所編集」評価方法を具体化するだけで、G3全体の完了を意味しない。比較対象にAIC/0.2以外の候補を追加するか、JSON候補profileを承認するかは未決定のままとする。評価adapter、実験用task、結果は採用済みcompiler pathから隔離する。G4で隔離実装し、G5では同じ条件の実object/consumer検査を別に行い、G6でOwnerが採否・閾値・対象範囲を判断する。正式QA、製品公開、最適性の主張は本案の範囲外である。
 
-### Ownerが実験開始前に決める事項
+### 事前選定・Owner委任の記録
 
-- 比較候補profileとtask bankをこのpilotに限って使うこと。
-- 実験に使うmodel/provider、実行予算、raw artifactの保存先と保持期間。
-- 10 paired run/taskの規模を受け入れるか、変更するか。
-- G4隔離実装とG5 object/consumer検査を開始する条件。
+2026-11-13にOwnerは、pilotを進めるか、候補profile/task bank、model、実行予算、raw artifact保持条件を目的に照らして実行者が選び実行するよう指示した。以下はその権限範囲で固定する選定であり、AIC-J/0.1の製品採用、G3全体の完了、QA閾値、β公開判断ではない。
 
-これらの判断が記録されるまで、実験結果は存在せず、AIC-J/0.1は未採用候補のままとする。
+- **比較対象：** 採用済み対照AIC/0.2対未採用候補AIC-J/0.1。このpilot専用JSON profileは§2のschema card本文に固定する。課題はE1–E6の6件だけを使う。
+- **規模：** 各task 10 paired run、計60 pair/120 first-response calls。task IDはASCII `E1`–`E6`、replicateは`0..9`。pair seedは`SHA-256(ASCII("AIC-G3-pilot-seed-v1") || 0x00 || task_id || 0x00 || uint32_be(replicate))`の先頭4 byteをunsigned big-endian整数として使う。同じseedをpair内の両formatへ使う。順序bitは同様にprefix `AIC-G3-pilot-order-v1`で生成したhashの先頭byteの最下位bitとし、0ならAICを先、1ならJSONを先に実行する。修復turnは行わず、各callのmax outputは1024 token。推論失敗はretryせず失敗記録へ含める。
+- **model/provider：** Hugging Faceの`Qwen/Qwen3-4B-GGUF` revision `bc640142c66e1fdd12af0bd68f40445458f3869b`、`Qwen3-4B-Q4_K_M.gguf`をlocal CPUで実行する。Model card licenseはApache-2.0。samplingはmodel cardのnon-thinking推奨（temperature 0.7、top_p 0.8、top_k 20、min_p 0、presence_penalty 1.5）、context 4096、system message `/no_think`。Tool/web accessはなく、remote inference requestやtoken課金は使わない。Runnerは`llama-cpp-python==0.3.16`に固定する。
+- **実行予算：** 最大120 generation call、各1回のみ。CPUは現environmentの5 threadを使用し、実行壁時計4時間で終了する。model fileは2,497,280,256 bytesを上限にdownloadし、推論費用は0。上限を超えた場合は部分結果を明示して止める。
+- **判定・object：** 指定のstrict parser/common validator/Python modular oracleを実装して使う。parser/validator/oracleはmodel promptの外に置き、期待operation listをmodelへ渡さない。各candidate outputのraw bytes、compile/consumer結果、hashを記録する。strict parseとvalidatorを通った出力は、実compilerと同じtarget profileでobject化し、汎用C++ consumerから全22固定入力を実行する。これは隔離実験であり製品pathへ配線しない。
+- **保存：** 全raw prompt/response、metadata、判定結果とrunnerを`experiments/g3-edit-pilot-2026-11-13/`へ保存し、pilot reportとともにrepositoryへ記録する。model weightsとisolated Python environment/object artifactsはrepository外の`/tmp/aic-g3-pilot-2026-11-13/`に保持し、hash/pathをreportへ記載する。model weightsはGitHubへuploadしない。
+- **停止境界：** model artifactのrevision/license/hashが合わない場合、outputが固定promptと結びつかない場合、runner/adapterの生産コード流用やproduction path変更が必要になった場合は試行前に止める。候補優劣、総合勝者、製品採用、正式QA、公開の閾値は本pilotから決めない。
+
+条件固定時点では試行結果は存在せず、AIC-J/0.1は未採用候補のままとする。
