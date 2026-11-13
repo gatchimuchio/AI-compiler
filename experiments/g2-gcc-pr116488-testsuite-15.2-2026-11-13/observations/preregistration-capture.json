@@ -1,0 +1,37 @@
+{
+  "checksum_list": {
+    "url": "https://gcc.gnu.org/pub/gcc/releases/gcc-15.2.0/sha512.sum",
+    "final_url": "https://gcc.gnu.org/pub/gcc/releases/gcc-15.2.0/sha512.sum",
+    "http_status": 200,
+    "retrieved_utc": "2026-11-13T09:12:18.078764+00:00",
+    "bytes": 600,
+    "sha256": "ca8146c37d6770f0b358db5c1e31951ed4018b7f21e92fca55cbd5431123dc19",
+    "sha512": "52e4ecf4a36a885d97e1dd71620c29edf3ec150a1d3d2cab84efeeba2e8dcec7b07b6ab21e7573bba08137b666cb02e361d7cc200bf41eb64cedda09767b47c9"
+  },
+  "release_tag": {
+    "tag_object_id": "dcd428f94ffb464418f996ffb70dfa398f5caa3f",
+    "peeled_commit_id": "5115c7e447fc07457443df874bf57840e8316d5f",
+    "captured_utc": "2026-11-13T09:12:18.078947+00:00/2026-11-13T09:12:19.767048+00:00",
+    "official_remote": {
+      "url": "https://gcc.gnu.org/git/gcc.git",
+      "argv": ["git", "ls-remote", "https://gcc.gnu.org/git/gcc.git", "refs/tags/releases/gcc-15.2.0", "refs/tags/releases/gcc-15.2.0^{}"],
+      "exit_status": 0,
+      "stdout_bytes": 145,
+      "stdout_sha256": "7e633ea387a82160c86de5c990706670aee531c1c974c81e17662a34db286c3d",
+      "stderr_bytes": 0
+    },
+    "mirror": {
+      "url": "https://github.com/gcc-mirror/gcc.git",
+      "argv": ["git", "ls-remote", "https://github.com/gcc-mirror/gcc.git", "refs/tags/releases/gcc-15.2.0", "refs/tags/releases/gcc-15.2.0^{}"],
+      "exit_status": 0,
+      "stdout_bytes": 145,
+      "stdout_sha256": "7e633ea387a82160c86de5c990706670aee531c1c974c81e17662a34db286c3d",
+      "stderr_bytes": 0
+    },
+    "outputs_byte_identical": true
+  },
+  "source_archive_retrieved": false,
+  "source_extracted": false,
+  "build_started": false,
+  "test_run": false
+}

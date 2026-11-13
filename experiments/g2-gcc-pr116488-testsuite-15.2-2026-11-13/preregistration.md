@@ -1,0 +1,31 @@
+# GCC 15.2.0 PR 116488 regression execution — preregistration
+
+- Record ID: `G2-HISTORY-2026-11-13-08`
+- Batch: `B60`
+- Repository baseline before preregistration: `054e3c65d2636a8617ce670b85dafb4605a9dd93`
+- Survey date: 2026-11-13 UTC
+- Parent source record: [GCC 15.1.0–15.3.0 stable-source follow-up](../../docs/evidence/G2_gcc_release_followup_2026-11-13.md)
+- Prior selected-test observations: [GCC 15.3.0](../g2-gcc-pr116488-testsuite-2026-11-13/README.md) and [GCC 15.1.0](../g2-gcc-pr116488-testsuite-15.1-2026-11-13/README.md)
+- Fixed release tag: `releases/gcc-15.2.0`, annotated tag object `dcd428f94ffb464418f996ffb70dfa398f5caa3f`, peeled commit `5115c7e447fc07457443df874bf57840e8316d5f`. Both identities were queried from the official GCC remote and the `gcc-mirror/gcc` mirror before preregistration; the captured outputs match byte-for-byte.
+- Fixed testcase: `gcc/testsuite/gcc.dg/torture/pr116488.c`, 399 bytes, SHA-256 `10182dfccf8dec109189e28ef12484371c6b6c594dcdb76ebc468c7d1d0a6aa1`, Git blob `b2af84fef43040e7d9651386f52930b97a70d469`, as captured from the fixed release tag in the B57 source follow-up.
+- Fixed implementation source: `gcc/ext-dce.cc`, 40,217 bytes, SHA-256 `f6b40d2ec541e522d98d9c9801c7427c6a1c0fc6f74dddbdc976b0036a07d76f`, Git blob `67ec92a42878ac1ef1e133cd57a163f1ad4a3159`, as captured from the fixed release tag in the B57 source follow-up.
+
+## Question and boundary
+
+Does the unmodified GCC 15.2.0 release C compiler pass its own `gcc.dg/torture/pr116488.c` regression test on this executor's native Linux x86-64 target, using the test directives and GCC testsuite harness from that same release source?
+
+This is one bounded G2 compiler-maintenance-history observation, filling the release interval between B59 (15.1.0) and B58 (15.3.0). The result applies only to the identified source, build, test, native target, and execution environment. It does not establish all-target or full-testsuite correctness, GCC reliability rates, AIC compatibility, long-term compatibility, or G2 completion. No AIC/0.2 source, target, adopted contract, candidate format, QA threshold, or release state is in scope.
+
+## Frozen procedure
+
+1. Commit and push this preregistration, the official checksum-list snapshot, and the release-tag identity captures before retrieving the GCC source archive. The official checksum-list body is [`observations/gcc-15.2.0-sha512.sum`](observations/gcc-15.2.0-sha512.sum), retrieved from `https://gcc.gnu.org/pub/gcc/releases/gcc-15.2.0/sha512.sum` (HTTP 200, 600 bytes, SHA-256 `ca8146c37d6770f0b358db5c1e31951ed4018b7f21e92fca55cbd5431123dc19`). It publishes SHA-512 `89047a2e07bd9da265b507b516ed3635adb17491c7f4f67cf090f0bd5b3fc7f2ee6e4cc4008beef7ca884b6b71dffe2bb652b21f01a702e17b468cca2d10b2de` for `gcc-15.2.0.tar.xz`. The official and mirror `git ls-remote` outputs are each 145 bytes, SHA-256 `7e633ea387a82160c86de5c990706670aee531c1c974c81e17662a34db286c3d`, exit 0, and byte-identical; the exact outputs are preserved under [`observations/`](observations/). Then retrieve only `https://gcc.gnu.org/pub/gcc/releases/gcc-15.2.0/gcc-15.2.0.tar.xz`. Record final URL, HTTP status, archive bytes, SHA-256 and SHA-512. Stop before extraction/build if retrieval fails, the official SHA-512 differs, `gcc/BASE-VER` is not `15.2.0`, the official and mirror release refs no longer match the fixed tag object and peeled commit, or the testcase / `ext-dce.cc` hashes differ from the fixed values above.
+2. Use the release archive's own `contrib/download_prerequisites --sha512` to retrieve only its bundled build prerequisites. Configure its C frontend for native `x86_64-linux-gnu` with host Debian GCC 14.2.0 and `--enable-languages=c --disable-bootstrap --disable-multilib --disable-nls --disable-werror`; then run `make -j4 all-gcc` and `make -j4 all-target-libgcc`. Preserve exact commands, logs, compiler identity, and target-runtime artifact hashes. Stop and record `NOT_RUN` if setup fails; do not alter versions or flags after observing the testcase.
+3. Reuse only the B58 user-local DejaGnu 1.6.3, Expect 5.45.4, Tcl 8.6.16 and GNU gawk 5.3.0 tools under `/tmp/aic-gcc15-pr116488-2026-11-13/tools/`. Before the testcase, record tool versions and hashes. Expected hashes from B59 are: `gawk` `77e760857c3a20406de344d40ab5cd3ba4aadcd72e41149bb1177250d5c276f8`; `expect` `90c8f027f2b0810d93d7fc7666de9cc4f676285c6a021ce9094cf266c1d6f6a0`; `runtest` `c285da648b5514e9e06a506f6b6b229657a8001c8c8506d0e35a2bf0f754ab08`; `tclsh8.6` `fa80133bf2193a88a101cf38d2f23f84dae701ce1f28e2627d38dbde9742ab48`; `libtcl8.6.so` `650f10c37841f1ddd3301d89e93d492d75ff2eef38b74a32262417b150108e86`. Use GCC 15.2.0's own `gcc.exp`, board configuration, and testcase. No system package, global configuration, or repository source is changed.
+4. Run only `make check-gcc RUNTESTFLAGS='dg-torture.exp=pr116488.c'` from the configured GCC 15.2.0 build directory, with the verified B58 tool prefix first in `PATH` and its Tcl library directory in `LD_LIBRARY_PATH`. Preserve the exact command/environment, `.sum`, `.log`, harness output, native runtime identity, and per-variant status counts. Do not widen the selector or rerun with changed source/options after observing an outcome.
+5. B58 and B59 each recorded 16 expected passes across eight torture-option variants for this 399-byte testcase. Preregister the same expectation for 15.2.0: acceptance is one completed selected run with exactly the observed statuses recorded, 16 expected `PASS` results, and no `FAIL` or `XPASS`. Any other status or count is reported verbatim as a deviation, without suppressing it. A build, configuration, runtime, or harness failure is `NOT_RUN` for this testcase, not a pass.
+
+## Environment and storage boundary
+
+At preregistration, the executor is Linux x86-64, kernel `6.18.57`, host Debian GCC 14.2.0-19, GNU Binutils 2.44, GNU Make 4.4.1; 5 CPUs and approximately 18 GiB free disk. The source and build outputs will be kept under `/tmp/aic-gcc15.2-pr116488-2026-11-13/`; the B58/B59 roots and the B58 user-local tool prefix are retained. No cleanup of prior runs is part of this unit.
+
+This record does not run AICompiler project tests or claim a project-code verification result; they remain `NOT_RUN`. The Rust/C++ project test suite is outside this bounded GCC history observation.
