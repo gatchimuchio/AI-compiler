@@ -10,13 +10,13 @@
         },
         {
           "path": "docs/01_統合仕様書.md",
-          "sha256": "fb826a059d4358776d6191c9326a9704c168046cb7ae828f7108d4af3775b2f0",
-          "size_bytes": 31722
+          "sha256": "7e93029aaa9d1d70cdc071a3efc6a66d3e76094bc9d4031dc02febefaa3e2440",
+          "size_bytes": 32132
         },
         {
           "path": "docs/02_工程表.md",
-          "sha256": "1fc4537891f79ca093c47b4c4b1ab0a9b770424284a084a816677138ee85434e",
-          "size_bytes": 71586
+          "sha256": "ef9fffd24780e28ea844e06c5e9780aa013f84a9e52e718656724b1176492166",
+          "size_bytes": 72404
         },
         {
           "path": "docs/03_Codex施工指示書.md",
@@ -85,8 +85,8 @@
         },
         {
           "path": "docs/evidence/G2_既存compiler運用履歴_2026-11-13.md",
-          "sha256": "59255eddd10d634910ab1a117ee564018d733b14adadf1e5b584dc687ab6117c",
-          "size_bytes": 37271
+          "sha256": "8aa2a1912bcf6743cf614322790c17cb409ea15b97d43a3910ab7ce1a7cb965d",
+          "size_bytes": 39258
         },
         {
           "path": "docs/evidence/G3_Qwen3テンプレート補正追試_2026-11-13.md",
@@ -100,7 +100,7 @@
         },
         {
           "path": "docs/evidence/G3_資産棚卸_2026-11-13.json",
-          "size_bytes": 52398,
+          "size_bytes": 54199,
           "self_reference": "SHA-256 omitted to avoid a recursive manifest hash"
         },
         {
@@ -760,8 +760,8 @@
         },
         {
           "path": "docs/evidence/G2_gcc_pr116488_reporter_reproduction_2026-11-13.md",
-          "sha256": "3f721f0fae03c55560fd47bfcda87be35245f26008a7dce660233525024acc05",
-          "size_bytes": 7564
+          "sha256": "e669307c1159f142c7fceb6866361e0354c527a488faab50b0c6e62b0e561ae5",
+          "size_bytes": 7836
         },
         {
           "path": "experiments/g2-gcc-pr116488-reporter-reproducer-2026-11-13/README.md",
@@ -860,17 +860,37 @@
         },
         {
           "path": "experiments/g2-gcc-pr116488-c11-semantics-2026-11-13/README.md",
-          "sha256": "b0470b30f374ecbfabe01dc6ded38fce9d195a4b6c2d123428567046c47e41dc",
-          "size_bytes": 712
+          "sha256": "4e6b83999de7c87fbc76076e96667917ff3979f05feda400c8ca7834da61700d",
+          "size_bytes": 1239
         },
         {
           "path": "experiments/g2-gcc-pr116488-c11-semantics-2026-11-13/preregistration.md",
           "sha256": "d1b48d550bef2616864445ff190c80c276a19416ed174147ac0ef59996b1fcd4",
           "size_bytes": 2130
+        },
+        {
+          "path": "docs/evidence/G2_gcc_pr116488_c11_semantics_2026-11-13.md",
+          "sha256": "b147d4d2279a69ad42fe449f4660f238cd8f781db9b22faa8851186b3af8bf8c",
+          "size_bytes": 5904
+        },
+        {
+          "path": "experiments/g2-gcc-pr116488-c11-semantics-2026-11-13/observations/capture-manifest.json",
+          "sha256": "480625311bad8923bf7531e5c8e1ca93558208ff63c99c8bb44ea2f3e731505a",
+          "size_bytes": 3349
+        },
+        {
+          "path": "experiments/g2-gcc-pr116488-c11-semantics-2026-11-13/observations/source-capture.json",
+          "sha256": "61fa9c0e996fef5a63052d0156f8afac577e4c3f23f49cd5aa1172416972c485",
+          "size_bytes": 2305
+        },
+        {
+          "path": "experiments/g2-gcc-pr116488-c11-semantics-2026-11-13/observations/semantics-audit.json",
+          "sha256": "adb997d90446d2d1c2049d3b5516af416ed2d27f2522ca9f4dd53503b4140084",
+          "size_bytes": 4035
         }
       ],
-      "regular_file_count": 173,
-      "bytes": 4001589
+      "regular_file_count": 177,
+      "bytes": 4022997
     },
     {
       "state": "保管済み",
@@ -949,6 +969,11 @@
           "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13",
           "regular_file_count": 27,
           "bytes": 99189
+        },
+        {
+          "path": "/tmp/aic-g2-gcc-pr116488-c11-semantics-2026-11-13",
+          "regular_file_count": 8,
+          "bytes": 3329246
         }
       ],
       "g3_external_component_breakdown": [
@@ -1013,8 +1038,8 @@
           ]
         }
       ],
-      "regular_file_count": 505431,
-      "bytes": 15096178072
+      "regular_file_count": 505439,
+      "bytes": 15099507318
     },
     {
       "state": "稼働中",
@@ -1083,10 +1108,10 @@
   ],
   "date": "2026-11-13",
   "platform": "Linux; no Windows filesystem assets or operations",
-  "scope": "Repository records and source inputs retained for the G3 pilot, the identified-model G1 addendum, the G2 addition and subtraction comparisons, the G2 subtraction transform audit, the uploaded three-document set and its extraction, and related G1/G2 evidence. This inventory also includes the B58 GCC 15.3.0, B59 GCC 15.1.0, B60 GCC 15.2.0, and B61 Debian GCC 14.2.0 cross-version PR 116488 testsuite observations, plus the B62 reporter-source GCC 14.2/15.2 reproduction and B63 GCC 15.2.0 ext_dce pass inspection. External storage includes model/build/runtime/object/consumer artifacts, frozen comparison logs, GCC/Rust transform diagnostics, LLVM release/source-history snapshots, GCC PR 116488 stable-release/source-history follow-up, and GCC 15.3.0, GCC 15.1.0, GCC 15.2.0, and GCC 14.2.0 control source/build/tool/test outputs, plus B62 reporter source, run binaries, runtime logs, and disassembly, plus B63 pass/option-query captures, compile results, assembly and RTL dumps, pre-run attestation, and post-run review. Generated bytecode is excluded from preserved directory totals and counted in the separate external trash group. No active compiler/model/consumer process or unresolved asset is present. File symlinks to regular targets are counted as paths with target size; directory symlinks are not traversed. System runtime files, unrelated prior ABI workspaces, sockets, and Git internals are excluded. The inventory manifest counts itself by path and byte length; its own SHA-256 is omitted to avoid self-reference.",
+  "scope": "Repository records and source inputs retained for the G3 pilot, the identified-model G1 addendum, the G2 addition and subtraction comparisons, the G2 subtraction transform audit, the uploaded three-document set and its extraction, and related G1/G2 evidence. This inventory also includes the B58 GCC 15.3.0, B59 GCC 15.1.0, B60 GCC 15.2.0, and B61 Debian GCC 14.2.0 cross-version PR 116488 testsuite observations, plus the B62 reporter-source GCC 14.2/15.2 reproduction and B63 GCC 15.2.0 ext_dce pass inspection. External storage includes model/build/runtime/object/consumer artifacts, frozen comparison logs, GCC/Rust transform diagnostics, LLVM release/source-history snapshots, GCC PR 116488 stable-release/source-history follow-up, and GCC 15.3.0, GCC 15.1.0, GCC 15.2.0, and GCC 14.2.0 control source/build/tool/test outputs, plus B62 reporter source, run binaries, runtime logs, and disassembly, plus B63 pass/option-query captures, compile results, assembly and RTL dumps, pre-run attestation, and post-run review. B64 C11 semantics audit and hash-verified N1570 PDF/full-text source capture. Generated bytecode is excluded from preserved directory totals and counted in the separate external trash group. No active compiler/model/consumer process or unresolved asset is present. File symlinks to regular targets are counted as paths with target size; directory symlinks are not traversed. System runtime files, unrelated prior ABI workspaces, sockets, and Git internals are excluded. The inventory manifest counts itself by path and byte length; its own SHA-256 is omitted to avoid self-reference.",
   "title": "G1-G3 and G2 transform/release-history work-unit asset inventory",
-  "total_bytes": 15100411772,
-  "total_regular_files": 505613,
+  "total_bytes": 15103762426,
+  "total_regular_files": 505625,
   "unit": "regular-file paths (including symlinks to regular files, measured by target size); directories are grouping roots only; this manifest omits its own SHA-256 to avoid self-reference",
   "gcc15_pr116488_external_component_breakdown": {
     "root": "/tmp/aic-gcc15-pr116488-2026-11-13",
@@ -1230,6 +1255,26 @@
         "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/source",
         "regular_file_count": 1,
         "bytes": 236
+      }
+    ]
+  },
+  "gcc_pr116488_c11_semantics_external_component_breakdown": {
+    "root": "/tmp/aic-g2-gcc-pr116488-c11-semantics-2026-11-13",
+    "components": [
+      {
+        "path": "/tmp/aic-g2-gcc-pr116488-c11-semantics-2026-11-13/observations",
+        "regular_file_count": 5,
+        "bytes": 8350
+      },
+      {
+        "path": "/tmp/aic-g2-gcc-pr116488-c11-semantics-2026-11-13/source",
+        "regular_file_count": 1,
+        "bytes": 236
+      },
+      {
+        "path": "/tmp/aic-g2-gcc-pr116488-c11-semantics-2026-11-13/standards",
+        "regular_file_count": 2,
+        "bytes": 3320660
       }
     ]
   }

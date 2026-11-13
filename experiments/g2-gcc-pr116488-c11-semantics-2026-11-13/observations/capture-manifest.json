@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "record_id": "G2-HISTORY-2026-11-13-12",
+  "batch": "B64",
+  "external_root": "/tmp/aic-g2-gcc-pr116488-c11-semantics-2026-11-13",
+  "captured_utc": "2026-11-13T11:06:02Z",
+  "classification": "保管済み: hash-verified C source, official N1570 PDF, derived full-text extraction, clause excerpts, and read-only semantic audit captures",
+  "count_rule": "All regular files and symlinks to regular-file targets under external_root, with file bytes and SHA-256; no directory symlinks traversed. capture-manifest.json is stored in the repository and is not part of this external tree.",
+  "total_regular_file_paths": 8,
+  "total_bytes": 3329246,
+  "components": [
+    {
+      "path": "/tmp/aic-g2-gcc-pr116488-c11-semantics-2026-11-13/observations",
+      "regular_file_count": 5,
+      "bytes": 8350
+    },
+    {
+      "path": "/tmp/aic-g2-gcc-pr116488-c11-semantics-2026-11-13/source",
+      "regular_file_count": 1,
+      "bytes": 236
+    },
+    {
+      "path": "/tmp/aic-g2-gcc-pr116488-c11-semantics-2026-11-13/standards",
+      "regular_file_count": 2,
+      "bytes": 3320660
+    }
+  ],
+  "files": [
+    {
+      "relative_path": "observations/n1570-clause-excerpts.txt",
+      "path": "/tmp/aic-g2-gcc-pr116488-c11-semantics-2026-11-13/observations/n1570-clause-excerpts.txt",
+      "size_bytes": 1865,
+      "sha256": "d3793683c3b295d8f3fc4fed9b815653d07a0886a6bec7633e67226689ca8f96"
+    },
+    {
+      "relative_path": "observations/pdftotext-version.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-c11-semantics-2026-11-13/observations/pdftotext-version.stderr",
+      "size_bytes": 145,
+      "sha256": "0f2ff359cb556fedcd7be481e9a06c6f25d46789094b702bd84ab4cf09ce49b0"
+    },
+    {
+      "relative_path": "observations/pdftotext-version.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-c11-semantics-2026-11-13/observations/pdftotext-version.stdout",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "observations/semantics-audit.json",
+      "path": "/tmp/aic-g2-gcc-pr116488-c11-semantics-2026-11-13/observations/semantics-audit.json",
+      "size_bytes": 4035,
+      "sha256": "adb997d90446d2d1c2049d3b5516af416ed2d27f2522ca9f4dd53503b4140084"
+    },
+    {
+      "relative_path": "observations/source-capture.json",
+      "path": "/tmp/aic-g2-gcc-pr116488-c11-semantics-2026-11-13/observations/source-capture.json",
+      "size_bytes": 2305,
+      "sha256": "61fa9c0e996fef5a63052d0156f8afac577e4c3f23f49cd5aa1172416972c485"
+    },
+    {
+      "relative_path": "source/reporter-small.c",
+      "path": "/tmp/aic-g2-gcc-pr116488-c11-semantics-2026-11-13/source/reporter-small.c",
+      "size_bytes": 236,
+      "sha256": "77a92761fadde9449f03271f6f186f59091f1a5c697a55f523b4388ab9f405c2"
+    },
+    {
+      "relative_path": "standards/n1570.pdf",
+      "path": "/tmp/aic-g2-gcc-pr116488-c11-semantics-2026-11-13/standards/n1570.pdf",
+      "size_bytes": 1692004,
+      "sha256": "208969fec021e4f4ce87a1873765298c73e7bbb5209b1c5868967c7adfc8492e"
+    },
+    {
+      "relative_path": "standards/n1570.txt",
+      "path": "/tmp/aic-g2-gcc-pr116488-c11-semantics-2026-11-13/standards/n1570.txt",
+      "size_bytes": 1628656,
+      "sha256": "32fe1395cc751b8f916c2aaf85a714b28fa7465912b34bf043df6ef1743b2318"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "record_id": "G2-HISTORY-2026-11-13-12",
+  "batch": "B64",
+  "analysis_type": "manual, read-only symbolic evaluation of the fixed source against N1570 clauses; no C program or semantic model was executed",
+  "captured_utc": "2026-11-13T10:58:50Z",
+  "source_sha256": "77a92761fadde9449f03271f6f186f59091f1a5c697a55f523b4388ab9f405c2",
+  "standard_sha256": "208969fec021e4f4ce87a1873765298c73e7bbb5209b1c5868967c7adfc8492e",
+  "question": "Does N1570 uniquely require the B62 reporter source to print one particular byte sequence?",
+  "result": "NO_UNIQUE_STANDARD_REQUIRED_STDOUT",
+  "clause_findings": [
+    {
+      "clause": "6.2.5p15",
+      "finding": "Plain char must have the range, representation, and behavior of either signed char or unsigned char; N1570 leaves which choice implementation-defined."
+    },
+    {
+      "clause": "6.3.1.1p2-p3",
+      "finding": "Integer promotions preserve value; whether plain char is treated as signed is implementation-defined. On the recorded x86-64 GCC target, short values used in the expression are promoted to int."
+    },
+    {
+      "clause": "6.3.1.3p3",
+      "finding": "When a value is not representable in a signed integer destination type, the result is implementation-defined or an implementation-defined signal is raised."
+    },
+    {
+      "clause": "6.5.7p5",
+      "finding": "Right shift of a negative signed value has an implementation-defined result."
+    },
+    {
+      "clause": "6.5.16p3",
+      "finding": "An assignment expression has the value of its left operand after assignment, so the converted value of c is then assigned to h in h = c = d % g."
+    },
+    {
+      "clause": "6.7.9p10",
+      "finding": "Uninitialized objects with static storage duration and arithmetic type start at zero; this initializes the global loop counter a to zero."
+    }
+  ],
+  "manual_trace_for_common_8_bit_char_32_bit_int_target": {
+    "initial_state": "a=0, g=129, h=128",
+    "first_iteration": "h is nonnegative, so h >> 16 is 0 on this target; the first printf therefore emits 0 followed by newline. d % g is 128. Assigning 128 to plain char c selects implementation-defined behavior if char is signed and 8-bit.",
+    "unsigned_plain_char_branch": "If plain char is unsigned 8-bit, c and then h become 128. The next h >> 16 is 0, yielding stdout 0\\n0\\n.",
+    "signed_plain_char_branch": "If plain char is signed 8-bit and N1570 implementation-defined conversion of 128 chooses -128, h becomes -128; the next negative h >> 16 is implementation-defined. An arithmetic result of -1 gives b=-1. Before the second printf, e=b*h converts 128 to plain char and also has implementation-defined result-or-signal behavior; if execution continues, printf emits -1. This branch is consistent with stdout 0\\n-1\\n under those implementation choices.",
+    "loop_count": "Absent an implementation-defined signal, the zero-initialized global a makes the loop body execute for a=0 and a=1, then exit when a reaches 2.",
+    "target_data_model": "CHAR_BIT=8, signed char range includes -128, short=16 bits, int=32 bits; conditional implementation choices are listed in the branch descriptions."
+  },
+  "oracle_assessment": {
+    "portable_C11_semantic_oracle": "NOT_AVAILABLE_FOR_THIS_UNCHANGED_SOURCE",
+    "independent_oracle_execution": "NOT_RUN",
+    "classification_of_B62_expected_stdout": "A reproduction expectation based on the reporter's observation, not a unique output required by N1570.",
+    "scope_note": "The examples above are conditional implementation choices, not claims that N1570 mandates either output. A compiler-specific oracle would need to fix and justify those implementation choices and the execution profile."
+  },
+  "compiler_invocations": 0,
+  "consumer_execution": "NOT_RUN",
+  "GCC_testsuite": "NOT_RUN",
+  "AICompiler_project_tests": "NOT_RUN",
+  "interpretation_limit": "One testcase and one C11 public Committee Draft; not a conclusion about all C programs, all implementations, GCC correctness, or G2 completion."
+}
