@@ -20,6 +20,10 @@ This is one bounded G2 maintenance-history observation. The testcase checks that
 4. Acceptance for the test observation is a complete selected-test run with no unexpected `FAIL` or `XPASS`; record every `PASS`, `FAIL`, `UNSUPPORTED`, `UNRESOLVED`, or `UNTESTED` result verbatim. Build/configuration/test-harness failure is `NOT_RUN` for the testcase, not a pass. Do not rerun altered source or change flags to turn a failure into success.
 5. Keep source, build, tool, and capture outputs under `/tmp/aic-gcc15-pr116488-2026-11-13/`. Save only provenance, hashes, commands, bounded result data, and necessary test log excerpts in the repository.
 
+## User-local test toolchain amendment
+
+The executor has `mawk` and Tcl 8.6.16 runtime but no GNU awk, Expect, or DejaGNU; Tcl development headers/config are also absent. Before retrieving auxiliary tool sources, freeze these upstream inputs for a user-owned prefix: GNU gawk 5.3.0 (`https://ftp.gnu.org/gnu/gawk/gawk-5.3.0.tar.xz`), Tcl 8.6.16 (`https://prdownloads.sourceforge.net/tcl/tcl8.6.16-src.tar.gz`), Expect 5.45.4 (`https://sourceforge.net/projects/expect/files/Expect/5.45.4/expect5.45.4.tar.gz/download`), and GNU DejaGnu 1.6.3 (`https://ftp.gnu.org/gnu/dejagnu/dejagnu-1.6.3.tar.gz`). Record published checksums and retrieved byte hashes before building. If a fixed source/checksum is unavailable or any tool cannot be built without system changes, stop the testsuite attempt and record the blocker; do not substitute versions after observing test results.
+
 ## Environment and boundaries
 
 Known before preregistration: Linux `x86_64`, kernel `6.18.57`; host GCC/G++ `14.2.0`; GNU Binutils `2.44`; 5 CPUs, 17 GiB RAM, 27 GiB free disk; no `rustc`/`cargo`. No system package installer or root access is available, so required build/test utilities must be built or unpacked in a user-owned temporary prefix from fixed public sources; if that is not feasible, stop and record the exact blocker. Repository code tests are outside this record and remain `NOT_RUN`.
