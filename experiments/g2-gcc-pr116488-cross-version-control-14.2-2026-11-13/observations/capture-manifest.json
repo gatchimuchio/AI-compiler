@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "record_id": "G2-HISTORY-2026-11-13-09",
+  "batch": "B61",
+  "external_root": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13",
+  "regular_file_count": 24,
+  "total_bytes": 23132,
+  "files": [
+    {
+      "relative_path": "captures/as-version.txt",
+      "bytes": 327,
+      "sha256": "30ed9a2bce280f226da81fee598554614751c91ba1697703ada386f16840b691"
+    },
+    {
+      "relative_path": "captures/debian-packages.txt",
+      "bytes": 96,
+      "sha256": "a45c3958e79467bfce1f22dd761b461f244e0f4ffd8d6c33b09e33bb972f7f62"
+    },
+    {
+      "relative_path": "captures/expect-version.txt",
+      "bytes": 22,
+      "sha256": "a5e12c638b94b8e468074ea42892d035b636c99fcb2509c94a4778f3c07fe938"
+    },
+    {
+      "relative_path": "captures/gawk-version.txt",
+      "bytes": 704,
+      "sha256": "72721d1beb54495eef2218c73ac800a0867191535f3cf217631e8b4dd6dd80ea"
+    },
+    {
+      "relative_path": "captures/gcc-14-runtime-path.txt",
+      "bytes": 73,
+      "sha256": "02d5d9ce1ec419a920ce6dc35f400d78e4ab0cd228f9e99b538972fb2231691f"
+    },
+    {
+      "relative_path": "captures/gcc-14-target.txt",
+      "bytes": 17,
+      "sha256": "08cababdf891ccbf96eb376f1e84f279f70302fb13d84e5f98637becdfc6d989"
+    },
+    {
+      "relative_path": "captures/gcc-14-version.txt",
+      "bytes": 1647,
+      "sha256": "0de1ffed5e5dc8df8de51b4f361fdd15ed4ddde61349b51768ababbd0c5ae5d5"
+    },
+    {
+      "relative_path": "captures/glibc-version.txt",
+      "bytes": 11,
+      "sha256": "0584cb92f3422fd95c4a1d03a2843f3e844cfe5466619885dafbc31ebed1e323"
+    },
+    {
+      "relative_path": "captures/ld-version.txt",
+      "bytes": 281,
+      "sha256": "cfff299abc32f737f1cb856667d31ff328f3755d06d98bc093a3ed8e98d4339e"
+    },
+    {
+      "relative_path": "captures/runtest-version.txt",
+      "bytes": 60,
+      "sha256": "f1ff80cd00936705de1874a0048541bdc069812275971ac58b1bde2e410ab681"
+    },
+    {
+      "relative_path": "captures/runtest.completed.utc",
+      "bytes": 31,
+      "sha256": "da457ea0e64101c69b3a3268f6128349e4b3efd7982ecdd6ff9c1aa9c9dc7d3f"
+    },
+    {
+      "relative_path": "captures/runtest.exit-status",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "relative_path": "captures/runtest.started.utc",
+      "bytes": 31,
+      "sha256": "a45c9509e17c5c8aef8c30749e82a4ad1827721c4ca0b2fe642975d5de8da7af"
+    },
+    {
+      "relative_path": "captures/runtest.stderr",
+      "bytes": 47,
+      "sha256": "72d955b06df83b7600639054bba0d74a4c0ae002b580a0e0b05fe5d4c2dceb7d"
+    },
+    {
+      "relative_path": "captures/runtest.stdout",
+      "bytes": 857,
+      "sha256": "cc4902d214e566ea387b1e4c227dc006b407a1b20eec74549a3fc39e9e15ddec"
+    },
+    {
+      "relative_path": "captures/tcl-version.txt",
+      "bytes": 7,
+      "sha256": "7c8702491905550822efa4986d94040bf06e1a080304f39a935df1006a891bb8"
+    },
+    {
+      "relative_path": "captures/uname.txt",
+      "bytes": 80,
+      "sha256": "355fc8d71f26ac56a7f52bda6931096188b14d72b7e3ffc8cc1d0e5cb2f12df6"
+    },
+    {
+      "relative_path": "gcc/gcc.log",
+      "bytes": 13382,
+      "sha256": "361803a133af16b899c85091394e35c2d37b0a192cd4c60215a6d69dba52d070"
+    },
+    {
+      "relative_path": "gcc/gcc.sum",
+      "bytes": 1677,
+      "sha256": "1aac3c41160da710445f85e88d0031863b52fee9e1b609eb81cf95a644004591"
+    },
+    {
+      "relative_path": "gcc/site.exp",
+      "bytes": 1206,
+      "sha256": "d81280c68ef8607476a66747ae31f1256de94c4d73b24b4e991e560b23adcac2"
+    },
+    {
+      "relative_path": "observations/environment.txt",
+      "bytes": 147,
+      "sha256": "0456709658536d0d8f26361c0cb6f25cf61b63411fd8ff553b26d450dc9b5d6a"
+    },
+    {
+      "relative_path": "observations/harness-identities.sha256",
+      "bytes": 1355,
+      "sha256": "927b49735c0afea53eb17731d27c5da3115ca997eb5b484368e8f7b6fd72ec4a"
+    },
+    {
+      "relative_path": "observations/pretest-identities.sha256",
+      "bytes": 1031,
+      "sha256": "0e63aa01a73423cded3fc73bd90c8092e9cead108de389a0abaabca2c435de84"
+    },
+    {
+      "relative_path": "observations/testcase-git-blob.txt",
+      "bytes": 41,
+      "sha256": "5b6abe8eacc4965965039e5afd6d7f5f327969991bd97bbf234af79cfc122379"
+    }
+  ]
+}

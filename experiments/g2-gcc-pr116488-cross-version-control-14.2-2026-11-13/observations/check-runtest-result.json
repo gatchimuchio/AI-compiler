@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "record_id": "G2-HISTORY-2026-11-13-09",
+  "batch": "B61",
+  "command": "env -u GCC_EXEC_PREFIX PATH=/tmp/aic-gcc15-pr116488-2026-11-13/tools/bin:/usr/bin:/bin LD_LIBRARY_PATH=/tmp/aic-gcc15-pr116488-2026-11-13/tools/lib /tmp/aic-gcc15-pr116488-2026-11-13/tools/bin/runtest --tool gcc --tool_exec=/usr/bin/gcc-14 --target_board=unix --srcdir=/tmp/aic-gcc15.2-pr116488-2026-11-13/source/gcc-15.2.0/gcc/testsuite --objdir=/tmp/aic-gcc14.2-pr116488-control-2026-11-13/gcc dg-torture.exp=pr116488.c",
+  "argv": [
+    "runtest",
+    "--tool",
+    "gcc",
+    "--tool_exec=/usr/bin/gcc-14",
+    "--target_board=unix",
+    "--srcdir=/tmp/aic-gcc15.2-pr116488-2026-11-13/source/gcc-15.2.0/gcc/testsuite",
+    "--objdir=/tmp/aic-gcc14.2-pr116488-control-2026-11-13/gcc",
+    "dg-torture.exp=pr116488.c"
+  ],
+  "cwd": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13/gcc",
+  "started_utc": "2026-11-13T09:58:26.119135332Z",
+  "completed_utc": "2026-11-13T09:58:27.165004081Z",
+  "elapsed_seconds": 1.045868749,
+  "environment": {
+    "GCC_EXEC_PREFIX": "UNSET",
+    "PATH": "/tmp/aic-gcc15-pr116488-2026-11-13/tools/bin:/usr/bin:/bin",
+    "LD_LIBRARY_PATH": "/tmp/aic-gcc15-pr116488-2026-11-13/tools/lib"
+  },
+  "exit_status": 0,
+  "test_source": "GCC 15.2.0 gcc/testsuite/gcc.dg/torture/pr116488.c",
+  "compiler_under_test": "/usr/bin/gcc-14 (GCC 14.2.0 Debian 14.2.0-19)",
+  "status_counts": {
+    "PASS": 16,
+    "FAIL": 0,
+    "XPASS": 0,
+    "XFAIL": 0,
+    "UNSUPPORTED": 0,
+    "UNRESOLVED": 0,
+    "UNTESTED": 0
+  },
+  "selected_test_status_line_count": 16,
+  "selected_test_names": [
+    "gcc.dg/torture/pr116488.c"
+  ],
+  "variants": [
+    "-O0",
+    "-O1",
+    "-O2",
+    "-O3 -fomit-frame-pointer -funroll-loops -fpeel-loops -ftracer -finline-functions",
+    "-O3 -g",
+    "-Os",
+    "-O2 -flto -fno-use-linker-plugin -flto-partition=none",
+    "-O2 -flto -fuse-linker-plugin -fno-fat-lto-objects"
+  ],
+  "per_variant_result": "Each of 8 variants produced one diagnostics PASS and one execution PASS.",
+  "additional_harness_probes": "gcc.log records testsuite effective-target probes (including LTO and offload checks); gcc.sum contains results only for the selected pr116488.c testcase.",
+  "stderr_note": "DejaGnu printed WARNING: Couldn't find the global config file. The GCC 15.2.0 test driver loaded its release-local support and the unix board.",
+  "raw_output_files": {
+    "stdout": {
+      "path": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13/captures/runtest.stdout",
+      "bytes": 857,
+      "sha256": "cc4902d214e566ea387b1e4c227dc006b407a1b20eec74549a3fc39e9e15ddec"
+    },
+    "stderr": {
+      "path": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13/captures/runtest.stderr",
+      "bytes": 47,
+      "sha256": "72d955b06df83b7600639054bba0d74a4c0ae002b580a0e0b05fe5d4c2dceb7d"
+    },
+    "exit_status": {
+      "path": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13/captures/runtest.exit-status",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "started_utc": {
+      "path": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13/captures/runtest.started.utc",
+      "bytes": 31,
+      "sha256": "a45c9509e17c5c8aef8c30749e82a4ad1827721c4ca0b2fe642975d5de8da7af"
+    },
+    "completed_utc": {
+      "path": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13/captures/runtest.completed.utc",
+      "bytes": 31,
+      "sha256": "da457ea0e64101c69b3a3268f6128349e4b3efd7982ecdd6ff9c1aa9c9dc7d3f"
+    },
+    "gcc.sum": {
+      "path": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13/gcc/gcc.sum",
+      "bytes": 1677,
+      "sha256": "1aac3c41160da710445f85e88d0031863b52fee9e1b609eb81cf95a644004591"
+    },
+    "gcc.log": {
+      "path": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13/gcc/gcc.log",
+      "bytes": 13382,
+      "sha256": "361803a133af16b899c85091394e35c2d37b0a192cd4c60215a6d69dba52d070"
+    }
+  },
+  "run_count": 1,
+  "acceptance": "PASS: one selected run exited 0 and recorded exactly 16 PASS results with no FAIL or XPASS."
+}

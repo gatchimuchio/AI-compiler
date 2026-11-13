@@ -48,3 +48,8 @@ The external run root is `/tmp/aic-gcc14.2-pr116488-control-2026-11-13/`. No sys
 ## Pretest identity amendment — 2026-11-13 09:56 UTC
 
 Before the selected run, the testcase bytes and Git blob were rechecked against B60. The GCC 14.2.0 Debian package, compiler components, runtime library, assembler/linker, host, GCC 15.2.0 testsuite sources, DejaGnu tools, and derived `site.exp` identities are recorded in [pretest-identity.json](observations/pretest-identity.json). The derived site file omits the GCC 15.2.0 `TEST_GCC_EXEC_PREFIX`, points its temporary directory at the B61 object directory, and leaves the B60 source/build tree unchanged. At this amendment, the selected testcase had not started and its result remains `NOT_RUN`.
+
+
+## Execution amendment — 2026-11-13 09:58 UTC
+
+The single frozen command completed at `2026-11-13T09:58:27.165004081Z` after starting at `2026-11-13T09:58:26.119135332Z`. It exited 0 and recorded 16 `PASS` statuses with all other selected-test statuses zero. The result and scope limits are recorded in [results.json](observations/results.json), [capture-manifest.json](observations/capture-manifest.json), and the [evidence report](../../docs/evidence/G2_gcc_pr116488_cross_version_control_14.2_2026-11-13.md). This amendment preserves the pre-execution identity snapshot above; the compiler/test harness version mismatch remains part of the result.

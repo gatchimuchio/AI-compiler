@@ -10,13 +10,13 @@
         },
         {
           "path": "docs/01_統合仕様書.md",
-          "sha256": "0c271426f6dd45baa1e5848bd31304bbcee71aea25433d70289d99e6c1cd9acc",
-          "size_bytes": 30346
+          "sha256": "5d4ba11e98df23d6d4e2f97d8a65668928d4c9a8251122499bf1a1cda1a1ccf0",
+          "size_bytes": 30686
         },
         {
           "path": "docs/02_工程表.md",
-          "sha256": "264a672451755220a851592add7b17cf2fc9894d9b1a71259f8cbf5dba6081c1",
-          "size_bytes": 68473
+          "sha256": "eb62355b98ad952b52a0f373a1698ff1fb9bbb2a657b5831383ab0ce26a0437e",
+          "size_bytes": 69378
         },
         {
           "path": "docs/03_Codex施工指示書.md",
@@ -37,6 +37,11 @@
           "path": "docs/evidence/G1_単一課題観測_追補_2026-11-13.md",
           "sha256": "cbed3179ce61795f7aae49547df48a25eb0455c5cf6a72aafa9513bb69537e0a",
           "size_bytes": 4551
+        },
+        {
+          "path": "docs/evidence/G2_gcc_pr116488_cross_version_control_14.2_2026-11-13.md",
+          "sha256": "58aa54001bb0db366dc27ff8a7230623d131d0619eb32bbc47e7636508a42857",
+          "size_bytes": 3659
         },
         {
           "path": "docs/evidence/G2_gcc_pr116488_testsuite_15.1_2026-11-13.md",
@@ -80,8 +85,8 @@
         },
         {
           "path": "docs/evidence/G2_既存compiler運用履歴_2026-11-13.md",
-          "sha256": "3587f55b0bf99ba44a3e34c95ae0a22f79c1ee43db5011886ee1a642306fda0b",
-          "size_bytes": 31258
+          "sha256": "506b6b22c4411f6228b594844cda2902c313a4fcc2f4f12287a72bd6b2677e9e",
+          "size_bytes": 33366
         },
         {
           "path": "docs/evidence/G3_Qwen3テンプレート補正追試_2026-11-13.md",
@@ -95,7 +100,7 @@
         },
         {
           "path": "docs/evidence/G3_資産棚卸_2026-11-13.json",
-          "size_bytes": 42815,
+          "size_bytes": 45352,
           "self_reference": "SHA-256 omitted to avoid a recursive manifest hash"
         },
         {
@@ -112,6 +117,36 @@
           "path": "docs/research/06_整数型・数値境界意味比較.md",
           "sha256": "101fb904675c4a73c60eecf78d3181fda99f9fb495673dc506f5a946cca1978c",
           "size_bytes": 51831
+        },
+        {
+          "path": "experiments/g2-gcc-pr116488-cross-version-control-14.2-2026-11-13/README.md",
+          "sha256": "52e7153f318908947316822f9e65a0b94aa8d17d71249de3fa4d94cfda697ff0",
+          "size_bytes": 1242
+        },
+        {
+          "path": "experiments/g2-gcc-pr116488-cross-version-control-14.2-2026-11-13/observations/capture-manifest.json",
+          "sha256": "9b22185be4c37e70941031f1db331d27ed1736290cd402e7d9bb154753dc933e",
+          "size_bytes": 4258
+        },
+        {
+          "path": "experiments/g2-gcc-pr116488-cross-version-control-14.2-2026-11-13/observations/check-runtest-result.json",
+          "sha256": "2a63d181f8a554b63730b7eeeecbe62a0596fc6f95e81adbc59228ac9ab855db",
+          "size_bytes": 4032
+        },
+        {
+          "path": "experiments/g2-gcc-pr116488-cross-version-control-14.2-2026-11-13/observations/pretest-identity.json",
+          "sha256": "639b3da2e81ec770e703c2b34139b5de01295718dcd55d9ddbc53b74e96c0d53",
+          "size_bytes": 13157
+        },
+        {
+          "path": "experiments/g2-gcc-pr116488-cross-version-control-14.2-2026-11-13/observations/results.json",
+          "sha256": "5763184dca3b8f010d7f2438dfc70012d9a6b13bc143c2c386ec180097b45701",
+          "size_bytes": 6279
+        },
+        {
+          "path": "experiments/g2-gcc-pr116488-cross-version-control-14.2-2026-11-13/preregistration.md",
+          "sha256": "b879fedaf6438f731c2674f1d048431bf0f450a6c45532ccb4762d492ca57c84",
+          "size_bytes": 6645
         },
         {
           "path": "experiments/g2-gcc-pr116488-release-followup-2026-11-13/README.md",
@@ -724,8 +759,8 @@
           "size_bytes": 1369
         }
       ],
-      "regular_file_count": 144,
-      "bytes": 3790512
+      "regular_file_count": 151,
+      "bytes": 3835674
     },
     {
       "state": "保管済み",
@@ -764,6 +799,11 @@
           "path": "/tmp/aic-g3-pilot-run02-2026-11-13",
           "regular_file_count": 430,
           "bytes": 3995957
+        },
+        {
+          "path": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13",
+          "regular_file_count": 24,
+          "bytes": 23132
         },
         {
           "path": "/tmp/aic-gcc15-pr116488-2026-11-13",
@@ -853,8 +893,8 @@
           ]
         }
       ],
-      "regular_file_count": 505280,
-      "bytes": 15095908762
+      "regular_file_count": 505304,
+      "bytes": 15095931894
     },
     {
       "state": "稼働中",
@@ -923,10 +963,10 @@
   ],
   "date": "2026-11-13",
   "platform": "Linux; no Windows filesystem assets or operations",
-  "scope": "Repository records and source inputs retained for the G3 pilot, the identified-model G1 addendum, the G2 addition and subtraction comparisons, the G2 subtraction transform audit, the uploaded three-document set and its extraction, and related G1/G2 evidence. This inventory also includes the B58 GCC 15.3.0, B59 GCC 15.1.0, and B60 GCC 15.2.0 PR 116488 testsuite runs. External storage includes model/build/runtime/object/consumer artifacts, frozen comparison logs, GCC/Rust transform diagnostics, LLVM release/source-history snapshots, the GCC PR 116488 stable-release/source-history follow-up, and the GCC 15.3.0, GCC 15.1.0, and GCC 15.2.0 source/build/tool/test outputs. Generated bytecode is excluded from preserved directory totals and counted in the separate external trash group. No active compiler/model/consumer process or unresolved asset is present. File symlinks to regular targets are counted as paths with target size; directory symlinks are not traversed. System runtime files, unrelated prior ABI workspaces, sockets, and Git internals are excluded. The inventory manifest counts itself by path and byte length; its own SHA-256 is omitted to avoid self-reference.",
+  "scope": "Repository records and source inputs retained for the G3 pilot, the identified-model G1 addendum, the G2 addition and subtraction comparisons, the G2 subtraction transform audit, the uploaded three-document set and its extraction, and related G1/G2 evidence. This inventory also includes the B58 GCC 15.3.0, B59 GCC 15.1.0, B60 GCC 15.2.0, and B61 Debian GCC 14.2.0 cross-version PR 116488 testsuite observations. External storage includes model/build/runtime/object/consumer artifacts, frozen comparison logs, GCC/Rust transform diagnostics, LLVM release/source-history snapshots, GCC PR 116488 stable-release/source-history follow-up, and GCC 15.3.0, GCC 15.1.0, GCC 15.2.0, and GCC 14.2.0 control source/build/tool/test outputs. Generated bytecode is excluded from preserved directory totals and counted in the separate external trash group. No active compiler/model/consumer process or unresolved asset is present. File symlinks to regular targets are counted as paths with target size; directory symlinks are not traversed. System runtime files, unrelated prior ABI workspaces, sockets, and Git internals are excluded. The inventory manifest counts itself by path and byte length; its own SHA-256 is omitted to avoid self-reference.",
   "title": "G1-G3 and G2 transform/release-history work-unit asset inventory",
-  "total_bytes": 15099931385,
-  "total_regular_files": 505433,
+  "total_bytes": 15099999679,
+  "total_regular_files": 505464,
   "unit": "regular-file paths (including symlinks to regular files, measured by target size); directories are grouping roots only; this manifest omits its own SHA-256 to avoid self-reference",
   "gcc15_pr116488_external_component_breakdown": {
     "root": "/tmp/aic-gcc15-pr116488-2026-11-13",
@@ -1010,6 +1050,26 @@
         "path": "/tmp/aic-gcc15.2-pr116488-2026-11-13/sources",
         "regular_file_count": 1,
         "bytes": 101056276
+      }
+    ]
+  },
+  "gcc14_2_pr116488_control_external_component_breakdown": {
+    "root": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13",
+    "components": [
+      {
+        "path": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13/captures",
+        "regular_file_count": 17,
+        "bytes": 4293
+      },
+      {
+        "path": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13/gcc",
+        "regular_file_count": 3,
+        "bytes": 16265
+      },
+      {
+        "path": "/tmp/aic-gcc14.2-pr116488-control-2026-11-13/observations",
+        "regular_file_count": 4,
+        "bytes": 2574
       }
     ]
   }
