@@ -1,9 +1,17 @@
 # GCC PR 116488 reporter source reproduction — B62
 
-- 記録ID：`G2-HISTORY-2026-11-13-10`
-- 状態：事前登録済み。4件のcompile/runはまだ未実施。
-- 対象：2024-08-26の元報告に含まれる`small.c`を、Debian GCC 14.2.0-19と既存GCC 15.2.0 buildで各2条件コンパイル・実行し、報告されたversion差と照合する。
-- 手順・固定条件：[preregistration.md](preregistration.md)
-- 元source captureのURL・hash・抽出法：[report-source-capture.json](observations/report-source-capture.json)
+- Record ID: `G2-HISTORY-2026-11-13-10`
+- Result: **PASS** for the preregistered expected output; the reported flag-dependent output difference was not reproduced in the two current compiler builds.
+- Four native Linux x86-64 compile/run cases completed once each: Debian GCC 14.2.0-19 and the B60 GCC 15.2.0 release build, with `-O3` and with `-fno-forward-propagate -O3`.
+- All four executables exited 0 and printed exactly `0\n-1\n` (5 bytes). Actual binaries and read-only disassemblies were hashed after execution.
 
-B61はGCC 15.2の固定regression testcaseをDebian GCC 14.2で実行した結果だった。B62は元reporter sourceの出力を扱う別の観測で、元報告時のGCC 15.0.0 experimental buildそのものを再構築するものではない。実験ファイル・raw outputは外部root `/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/` に保持し、結果とhash manifestを完了後に追加する。AICompiler sourceとadopted contractは変更対象外。
+## Records
+
+- Frozen source, question, commands, expectations, and stop rules: [preregistration](preregistration.md)
+- Compiler, host, runtime, source, and runner identities: [pretest identity](observations/pretest-identity.json)
+- Run stdout/stderr, exit statuses, times, arguments, and environments: [results](observations/results.json)
+- Executable hashes and `objdump` capture hashes: [post-run machine review](observations/postrun-machine-review.json)
+- Hash/size manifest for the 100 retained external files (146,989 bytes): [capture manifest](observations/capture-manifest.json)
+- Interpretation, exact outputs, transformation observations, and limits: [B62 evidence](../../docs/evidence/G2_gcc_pr116488_reporter_reproduction_2026-11-13.md)
+
+Raw source capture, four `a.out` files, runtime outputs, and complete disassemblies are retained under `/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/`. The reporter's plain-`char` source and the original GCC 15.0.0 experimental build have limitations described in the evidence. AICompiler project tests were **NOT_RUN**.

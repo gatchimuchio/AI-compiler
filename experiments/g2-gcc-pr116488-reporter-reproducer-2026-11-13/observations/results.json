@@ -1,0 +1,226 @@
+{
+  "schema_version": 1,
+  "record_id": "G2-HISTORY-2026-11-13-10",
+  "batch": "B62",
+  "source_sha256": "77a92761fadde9449f03271f6f186f59091f1a5c697a55f523b4388ab9f405c2",
+  "run_started_utc": "2026-11-13T10:22:29.617580Z",
+  "case_results": [
+    {
+      "case_id": "debian-gcc-14.2-baseline",
+      "compiler": "Debian GCC 14.2.0-19",
+      "source_copy_sha256": "77a92761fadde9449f03271f6f186f59091f1a5c697a55f523b4388ab9f405c2",
+      "compile": {
+        "argv": [
+          "/usr/bin/timeout",
+          "--signal=TERM",
+          "--kill-after=1s",
+          "60s",
+          "/usr/bin/gcc-14",
+          "-O3",
+          "small.c"
+        ],
+        "cwd": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-baseline",
+        "started_utc": "2026-11-13T10:22:29.617725Z",
+        "completed_utc": "2026-11-13T10:22:29.662930Z",
+        "timeout_seconds": 65,
+        "exit_status": 0,
+        "timed_out": false,
+        "stdout_bytes": 0,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution": {
+        "argv": [
+          "/usr/bin/timeout",
+          "--signal=TERM",
+          "--kill-after=1s",
+          "5s",
+          "./a.out"
+        ],
+        "cwd": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-baseline",
+        "started_utc": "2026-11-13T10:22:29.663157Z",
+        "completed_utc": "2026-11-13T10:22:29.666705Z",
+        "timeout_seconds": 8,
+        "exit_status": 0,
+        "timed_out": false,
+        "stdout_bytes": 5,
+        "stdout_sha256": "c7b4ea6821495a8eb0ebc912a385717bcbc0fde124e8f92195d96e25455db0af",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "expected_stdout": "0\n-1\n",
+      "status": "PASS",
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "LANG": "C"
+      }
+    },
+    {
+      "case_id": "debian-gcc-14.2-trigger-flag",
+      "compiler": "Debian GCC 14.2.0-19",
+      "source_copy_sha256": "77a92761fadde9449f03271f6f186f59091f1a5c697a55f523b4388ab9f405c2",
+      "compile": {
+        "argv": [
+          "/usr/bin/timeout",
+          "--signal=TERM",
+          "--kill-after=1s",
+          "60s",
+          "/usr/bin/gcc-14",
+          "-fno-forward-propagate",
+          "-O3",
+          "small.c"
+        ],
+        "cwd": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-trigger-flag",
+        "started_utc": "2026-11-13T10:22:29.667234Z",
+        "completed_utc": "2026-11-13T10:22:29.701699Z",
+        "timeout_seconds": 65,
+        "exit_status": 0,
+        "timed_out": false,
+        "stdout_bytes": 0,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution": {
+        "argv": [
+          "/usr/bin/timeout",
+          "--signal=TERM",
+          "--kill-after=1s",
+          "5s",
+          "./a.out"
+        ],
+        "cwd": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-trigger-flag",
+        "started_utc": "2026-11-13T10:22:29.702021Z",
+        "completed_utc": "2026-11-13T10:22:29.705589Z",
+        "timeout_seconds": 8,
+        "exit_status": 0,
+        "timed_out": false,
+        "stdout_bytes": 5,
+        "stdout_sha256": "c7b4ea6821495a8eb0ebc912a385717bcbc0fde124e8f92195d96e25455db0af",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "expected_stdout": "0\n-1\n",
+      "status": "PASS",
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "LANG": "C"
+      }
+    },
+    {
+      "case_id": "gcc-15.2-baseline",
+      "compiler": "GCC 15.2.0 xgcc build",
+      "source_copy_sha256": "77a92761fadde9449f03271f6f186f59091f1a5c697a55f523b4388ab9f405c2",
+      "compile": {
+        "argv": [
+          "/usr/bin/timeout",
+          "--signal=TERM",
+          "--kill-after=1s",
+          "60s",
+          "/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gcc/xgcc",
+          "-B/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gcc/",
+          "-O3",
+          "small.c"
+        ],
+        "cwd": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-baseline",
+        "started_utc": "2026-11-13T10:22:29.706093Z",
+        "completed_utc": "2026-11-13T10:22:29.768366Z",
+        "timeout_seconds": 65,
+        "exit_status": 0,
+        "timed_out": false,
+        "stdout_bytes": 0,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution": {
+        "argv": [
+          "/usr/bin/timeout",
+          "--signal=TERM",
+          "--kill-after=1s",
+          "5s",
+          "./a.out"
+        ],
+        "cwd": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-baseline",
+        "started_utc": "2026-11-13T10:22:29.768589Z",
+        "completed_utc": "2026-11-13T10:22:29.771306Z",
+        "timeout_seconds": 8,
+        "exit_status": 0,
+        "timed_out": false,
+        "stdout_bytes": 5,
+        "stdout_sha256": "c7b4ea6821495a8eb0ebc912a385717bcbc0fde124e8f92195d96e25455db0af",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "expected_stdout": "0\n-1\n",
+      "status": "PASS",
+      "environment": {
+        "PATH": "/tmp/aic-gcc15-pr116488-2026-11-13/tools/bin:/usr/bin:/bin",
+        "LC_ALL": "C",
+        "LANG": "C",
+        "LD_LIBRARY_PATH": ":/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gcc:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gmp/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/prev-gmp/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/mpfr/src/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/prev-mpfr/src/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/mpc/src/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/prev-mpc/src/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/isl/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/prev-isl/.libs:/tmp/aic-gcc15-pr116488-2026-11-13/tools/lib"
+      }
+    },
+    {
+      "case_id": "gcc-15.2-trigger-flag",
+      "compiler": "GCC 15.2.0 xgcc build",
+      "source_copy_sha256": "77a92761fadde9449f03271f6f186f59091f1a5c697a55f523b4388ab9f405c2",
+      "compile": {
+        "argv": [
+          "/usr/bin/timeout",
+          "--signal=TERM",
+          "--kill-after=1s",
+          "60s",
+          "/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gcc/xgcc",
+          "-B/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gcc/",
+          "-fno-forward-propagate",
+          "-O3",
+          "small.c"
+        ],
+        "cwd": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-trigger-flag",
+        "started_utc": "2026-11-13T10:22:29.772005Z",
+        "completed_utc": "2026-11-13T10:22:29.831677Z",
+        "timeout_seconds": 65,
+        "exit_status": 0,
+        "timed_out": false,
+        "stdout_bytes": 0,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution": {
+        "argv": [
+          "/usr/bin/timeout",
+          "--signal=TERM",
+          "--kill-after=1s",
+          "5s",
+          "./a.out"
+        ],
+        "cwd": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-trigger-flag",
+        "started_utc": "2026-11-13T10:22:29.831939Z",
+        "completed_utc": "2026-11-13T10:22:29.835481Z",
+        "timeout_seconds": 8,
+        "exit_status": 0,
+        "timed_out": false,
+        "stdout_bytes": 5,
+        "stdout_sha256": "c7b4ea6821495a8eb0ebc912a385717bcbc0fde124e8f92195d96e25455db0af",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "expected_stdout": "0\n-1\n",
+      "status": "PASS",
+      "environment": {
+        "PATH": "/tmp/aic-gcc15-pr116488-2026-11-13/tools/bin:/usr/bin:/bin",
+        "LC_ALL": "C",
+        "LANG": "C",
+        "LD_LIBRARY_PATH": ":/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gcc:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gmp/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/prev-gmp/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/mpfr/src/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/prev-mpfr/src/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/mpc/src/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/prev-mpc/src/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/isl/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/prev-isl/.libs:/tmp/aic-gcc15-pr116488-2026-11-13/tools/lib"
+      }
+    }
+  ],
+  "overall": "PASS",
+  "last_case_completed_utc": "2026-11-13T10:22:29.835748Z",
+  "run_completed_utc": "2026-11-13T10:22:29.836099Z"
+}

@@ -1,0 +1,630 @@
+{
+  "schema_version": 1,
+  "record_id": "G2-HISTORY-2026-11-13-10",
+  "batch": "B62",
+  "external_root": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13",
+  "captured_utc": "2026-11-13T10:23:36.768090Z",
+  "classification": "保管済み: preregistered compiler outputs, binaries, source capture, identity logs, and read-only disassembly are retained under this root",
+  "count_rule": "All regular files and symlinks to regular-file targets under external_root, with file bytes and SHA-256; no directory symlinks traversed. capture-manifest.json is stored in the repository and is not part of this external tree.",
+  "total_regular_file_paths": 100,
+  "total_bytes": 146989,
+  "components": [
+    {
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations",
+      "regular_file_count": 49,
+      "bytes": 75280
+    },
+    {
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs",
+      "regular_file_count": 48,
+      "bytes": 65316
+    },
+    {
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/source",
+      "regular_file_count": 3,
+      "bytes": 6393
+    }
+  ],
+  "files": [
+    {
+      "relative_path": "observations/identity-captures/as-version.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/identity-captures/as-version.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "observations/identity-captures/as-version.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/identity-captures/as-version.stdout",
+      "size_bytes": 327,
+      "sha256": "30ed9a2bce280f226da81fee598554614751c91ba1697703ada386f16840b691"
+    },
+    {
+      "relative_path": "observations/identity-captures/gcc14-cc1-path.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/identity-captures/gcc14-cc1-path.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "observations/identity-captures/gcc14-cc1-path.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/identity-captures/gcc14-cc1-path.stdout",
+      "size_bytes": 4,
+      "sha256": "6a9b62ed34f291a4eac3b0a5ae4e8c2329334ce6c94a74714d045b829809a34b"
+    },
+    {
+      "relative_path": "observations/identity-captures/gcc14-crtbegin-path.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/identity-captures/gcc14-crtbegin-path.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "observations/identity-captures/gcc14-crtbegin-path.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/identity-captures/gcc14-crtbegin-path.stdout",
+      "size_bytes": 44,
+      "sha256": "c62b07b2cb4cbf1b65586fec000d28e00a18d686bcdee07a524f0c306df0aa32"
+    },
+    {
+      "relative_path": "observations/identity-captures/gcc14-libgccs-path.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/identity-captures/gcc14-libgccs-path.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "observations/identity-captures/gcc14-libgccs-path.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/identity-captures/gcc14-libgccs-path.stdout",
+      "size_bytes": 73,
+      "sha256": "02d5d9ce1ec419a920ce6dc35f400d78e4ab0cd228f9e99b538972fb2231691f"
+    },
+    {
+      "relative_path": "observations/identity-captures/gcc14-target.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/identity-captures/gcc14-target.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "observations/identity-captures/gcc14-target.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/identity-captures/gcc14-target.stdout",
+      "size_bytes": 17,
+      "sha256": "08cababdf891ccbf96eb376f1e84f279f70302fb13d84e5f98637becdfc6d989"
+    },
+    {
+      "relative_path": "observations/identity-captures/gcc14-version.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/identity-captures/gcc14-version.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "observations/identity-captures/gcc14-version.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/identity-captures/gcc14-version.stdout",
+      "size_bytes": 235,
+      "sha256": "c499f40aab2cdb76f9fcf584a1ffdcf7a9c9a239656e83935c648f6b46095063"
+    },
+    {
+      "relative_path": "observations/identity-captures/gcc15-cc1-path.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/identity-captures/gcc15-cc1-path.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "observations/identity-captures/gcc15-cc1-path.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/identity-captures/gcc15-cc1-path.stdout",
+      "size_bytes": 62,
+      "sha256": "503cc1aebde3736c85fcf0a4b7a60dcef86b24b1e236652e3a3ff7de3bd527c8"
+    },
+    {
+      "relative_path": "observations/identity-captures/gcc15-crtbegin-path.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/identity-captures/gcc15-crtbegin-path.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "observations/identity-captures/gcc15-crtbegin-path.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/identity-captures/gcc15-crtbegin-path.stdout",
+      "size_bytes": 69,
+      "sha256": "4af3c281001fc81c91b56262763c5178e14e0b3e8ee930c7f83a870ced940749"
+    },
+    {
+      "relative_path": "observations/identity-captures/gcc15-libgccs-path.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/identity-captures/gcc15-libgccs-path.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "observations/identity-captures/gcc15-libgccs-path.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/identity-captures/gcc15-libgccs-path.stdout",
+      "size_bytes": 72,
+      "sha256": "110352a6f5d4fbf9eca6bd9a44d4c13fbe0b01513c95e8bc0621b21a441ba414"
+    },
+    {
+      "relative_path": "observations/identity-captures/gcc15-target.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/identity-captures/gcc15-target.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "observations/identity-captures/gcc15-target.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/identity-captures/gcc15-target.stdout",
+      "size_bytes": 17,
+      "sha256": "08cababdf891ccbf96eb376f1e84f279f70302fb13d84e5f98637becdfc6d989"
+    },
+    {
+      "relative_path": "observations/identity-captures/gcc15-version.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/identity-captures/gcc15-version.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "observations/identity-captures/gcc15-version.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/identity-captures/gcc15-version.stdout",
+      "size_bytes": 220,
+      "sha256": "72d11111957d32961270f7c9da07950d4509d3dbdf1f0a547c9d563cfb4650db"
+    },
+    {
+      "relative_path": "observations/identity-captures/glibc-version.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/identity-captures/glibc-version.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "observations/identity-captures/glibc-version.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/identity-captures/glibc-version.stdout",
+      "size_bytes": 287,
+      "sha256": "16b7fada8f18f99d8f366af44e090dddaf7d41e72d7a12eabc8a89781d6daa23"
+    },
+    {
+      "relative_path": "observations/identity-captures/ld-version.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/identity-captures/ld-version.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "observations/identity-captures/ld-version.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/identity-captures/ld-version.stdout",
+      "size_bytes": 281,
+      "sha256": "cfff299abc32f737f1cb856667d31ff328f3755d06d98bc093a3ed8e98d4339e"
+    },
+    {
+      "relative_path": "observations/identity-captures/packages.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/identity-captures/packages.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "observations/identity-captures/packages.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/identity-captures/packages.stdout",
+      "size_bytes": 134,
+      "sha256": "1e1e83fc640b0469bbe25803e466b2bfbfc53a7e07a35faef601f84facd4600b"
+    },
+    {
+      "relative_path": "observations/identity-captures/timeout-version.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/identity-captures/timeout-version.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "observations/identity-captures/timeout-version.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/identity-captures/timeout-version.stdout",
+      "size_bytes": 333,
+      "sha256": "d56340ebff9d742d138d1419c28b63f4e648cb0920d25e99a602e6ccd15f38d5"
+    },
+    {
+      "relative_path": "observations/identity-captures/uname.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/identity-captures/uname.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "observations/identity-captures/uname.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/identity-captures/uname.stdout",
+      "size_bytes": 80,
+      "sha256": "355fc8d71f26ac56a7f52bda6931096188b14d72b7e3ffc8cc1d0e5cb2f12df6"
+    },
+    {
+      "relative_path": "observations/postrun-machine-review/debian-gcc-14.2-baseline.objdump.status",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/postrun-machine-review/debian-gcc-14.2-baseline.objdump.status",
+      "size_bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "relative_path": "observations/postrun-machine-review/debian-gcc-14.2-baseline.objdump.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/postrun-machine-review/debian-gcc-14.2-baseline.objdump.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "observations/postrun-machine-review/debian-gcc-14.2-baseline.objdump.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/postrun-machine-review/debian-gcc-14.2-baseline.objdump.stdout",
+      "size_bytes": 7713,
+      "sha256": "a588d0f559d176f1cba27ad18706611b865cb96a50d31153534fe62280b76dc1"
+    },
+    {
+      "relative_path": "observations/postrun-machine-review/debian-gcc-14.2-trigger-flag.objdump.status",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/postrun-machine-review/debian-gcc-14.2-trigger-flag.objdump.status",
+      "size_bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "relative_path": "observations/postrun-machine-review/debian-gcc-14.2-trigger-flag.objdump.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/postrun-machine-review/debian-gcc-14.2-trigger-flag.objdump.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "observations/postrun-machine-review/debian-gcc-14.2-trigger-flag.objdump.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/postrun-machine-review/debian-gcc-14.2-trigger-flag.objdump.stdout",
+      "size_bytes": 7928,
+      "sha256": "fec1949ddb245b52bd60b55c22dfa2b4900676d6dffe222665904509a9f24525"
+    },
+    {
+      "relative_path": "observations/postrun-machine-review/gcc-15.2-baseline.objdump.status",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/postrun-machine-review/gcc-15.2-baseline.objdump.status",
+      "size_bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "relative_path": "observations/postrun-machine-review/gcc-15.2-baseline.objdump.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/postrun-machine-review/gcc-15.2-baseline.objdump.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "observations/postrun-machine-review/gcc-15.2-baseline.objdump.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/postrun-machine-review/gcc-15.2-baseline.objdump.stdout",
+      "size_bytes": 7329,
+      "sha256": "a59e72b8bfb766e7b113edc06c9b8a8518a8a141edd482e31d82e848129a522c"
+    },
+    {
+      "relative_path": "observations/postrun-machine-review/gcc-15.2-trigger-flag.objdump.status",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/postrun-machine-review/gcc-15.2-trigger-flag.objdump.status",
+      "size_bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "relative_path": "observations/postrun-machine-review/gcc-15.2-trigger-flag.objdump.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/postrun-machine-review/gcc-15.2-trigger-flag.objdump.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "observations/postrun-machine-review/gcc-15.2-trigger-flag.objdump.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/postrun-machine-review/gcc-15.2-trigger-flag.objdump.stdout",
+      "size_bytes": 7333,
+      "sha256": "b3b5e0f6fdd401bf4d0e12abb782add1e1f888a281a8e8fed9ed6f85f309ba29"
+    },
+    {
+      "relative_path": "observations/postrun-machine-review/objdump-version.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/postrun-machine-review/objdump-version.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "observations/postrun-machine-review/objdump-version.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/postrun-machine-review/objdump-version.stdout",
+      "size_bytes": 288,
+      "sha256": "aff897e4c6a85eef803f6dc0ed4a813e66726aa1ca6f3afc23280f1d655f32da"
+    },
+    {
+      "relative_path": "observations/postrun-machine-review/postrun-machine-review.json",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/postrun-machine-review/postrun-machine-review.json",
+      "size_bytes": 7559,
+      "sha256": "e476156aef748e5d122466ddefa3c76055e44a317a765958dd1d73422e668aab"
+    },
+    {
+      "relative_path": "observations/pretest-identity.json",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/pretest-identity.json",
+      "size_bytes": 25346,
+      "sha256": "54956ab898cf5a6a4724d7a324bea1c3f00d13a911102625413dfe947912f162"
+    },
+    {
+      "relative_path": "observations/results.json",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/results.json",
+      "size_bytes": 9521,
+      "sha256": "0193d86a532ead2080db1e7ba94dc79bf92566fd8f0488ea384c2f1b772d96c4"
+    },
+    {
+      "relative_path": "runs/debian-gcc-14.2-baseline/a.out",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-baseline/a.out",
+      "size_bytes": 16104,
+      "sha256": "5b7e14aecfb756cfd91066b5cc7458992a2cf3a3e16de31eb4291bdc2778fe90"
+    },
+    {
+      "relative_path": "runs/debian-gcc-14.2-baseline/compile.completed.utc",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-baseline/compile.completed.utc",
+      "size_bytes": 28,
+      "sha256": "dc1b70780c82cf6a55e7fc3bdfa31c7c28d4d89fba41fda2330df115a59f1c6d"
+    },
+    {
+      "relative_path": "runs/debian-gcc-14.2-baseline/compile.started.utc",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-baseline/compile.started.utc",
+      "size_bytes": 28,
+      "sha256": "a91884526e66fcc637e39da2227c336da1b9d72f39d0a262ef19d41a2250e769"
+    },
+    {
+      "relative_path": "runs/debian-gcc-14.2-baseline/compile.status",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-baseline/compile.status",
+      "size_bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "relative_path": "runs/debian-gcc-14.2-baseline/compile.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-baseline/compile.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "runs/debian-gcc-14.2-baseline/compile.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-baseline/compile.stdout",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "runs/debian-gcc-14.2-baseline/execution.completed.utc",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-baseline/execution.completed.utc",
+      "size_bytes": 28,
+      "sha256": "2ce6c67b191e938d5f8c2fcb157ab584754a31a1ce4dff353514652fe7604d85"
+    },
+    {
+      "relative_path": "runs/debian-gcc-14.2-baseline/execution.started.utc",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-baseline/execution.started.utc",
+      "size_bytes": 28,
+      "sha256": "8d9ead131a9d8c8253c977d2ed5d328c4c132ed0401aa366a53d0a836ae9f1b5"
+    },
+    {
+      "relative_path": "runs/debian-gcc-14.2-baseline/execution.status",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-baseline/execution.status",
+      "size_bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "relative_path": "runs/debian-gcc-14.2-baseline/execution.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-baseline/execution.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "runs/debian-gcc-14.2-baseline/execution.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-baseline/execution.stdout",
+      "size_bytes": 5,
+      "sha256": "c7b4ea6821495a8eb0ebc912a385717bcbc0fde124e8f92195d96e25455db0af"
+    },
+    {
+      "relative_path": "runs/debian-gcc-14.2-baseline/small.c",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-baseline/small.c",
+      "size_bytes": 236,
+      "sha256": "77a92761fadde9449f03271f6f186f59091f1a5c697a55f523b4388ab9f405c2"
+    },
+    {
+      "relative_path": "runs/debian-gcc-14.2-trigger-flag/a.out",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-trigger-flag/a.out",
+      "size_bytes": 16104,
+      "sha256": "4abf5c4c1d124ca014b3136ee168dde2cab27870e20b76dbffdb80fcbe56ea5a"
+    },
+    {
+      "relative_path": "runs/debian-gcc-14.2-trigger-flag/compile.completed.utc",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-trigger-flag/compile.completed.utc",
+      "size_bytes": 28,
+      "sha256": "b6bb9de2ffcb0434e22e1fb8fec1801539edd315be6b77d51819ebd606292d5d"
+    },
+    {
+      "relative_path": "runs/debian-gcc-14.2-trigger-flag/compile.started.utc",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-trigger-flag/compile.started.utc",
+      "size_bytes": 28,
+      "sha256": "c1aa8490f3c8f9aee3bcbe5d5175cf2e609eb92b6d4b74db75f1969f23fdc10d"
+    },
+    {
+      "relative_path": "runs/debian-gcc-14.2-trigger-flag/compile.status",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-trigger-flag/compile.status",
+      "size_bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "relative_path": "runs/debian-gcc-14.2-trigger-flag/compile.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-trigger-flag/compile.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "runs/debian-gcc-14.2-trigger-flag/compile.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-trigger-flag/compile.stdout",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "runs/debian-gcc-14.2-trigger-flag/execution.completed.utc",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-trigger-flag/execution.completed.utc",
+      "size_bytes": 28,
+      "sha256": "c65836e70adeac8e3ded9ca0a9f22341cff1b35edfe8b951a04d1d87b43f0003"
+    },
+    {
+      "relative_path": "runs/debian-gcc-14.2-trigger-flag/execution.started.utc",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-trigger-flag/execution.started.utc",
+      "size_bytes": 28,
+      "sha256": "8c27df0f579f2486c613a5415fc3691848fe1ae8c13c694ff5e031fe3fe4a3bb"
+    },
+    {
+      "relative_path": "runs/debian-gcc-14.2-trigger-flag/execution.status",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-trigger-flag/execution.status",
+      "size_bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "relative_path": "runs/debian-gcc-14.2-trigger-flag/execution.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-trigger-flag/execution.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "runs/debian-gcc-14.2-trigger-flag/execution.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-trigger-flag/execution.stdout",
+      "size_bytes": 5,
+      "sha256": "c7b4ea6821495a8eb0ebc912a385717bcbc0fde124e8f92195d96e25455db0af"
+    },
+    {
+      "relative_path": "runs/debian-gcc-14.2-trigger-flag/small.c",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-trigger-flag/small.c",
+      "size_bytes": 236,
+      "sha256": "77a92761fadde9449f03271f6f186f59091f1a5c697a55f523b4388ab9f405c2"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-baseline/a.out",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-baseline/a.out",
+      "size_bytes": 15840,
+      "sha256": "5ac0750840ad00abda0471fc9113fe4b5d87cbedfd95ddd7a64879cefa8ea61b"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-baseline/compile.completed.utc",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-baseline/compile.completed.utc",
+      "size_bytes": 28,
+      "sha256": "2efccf61e8a2b9c692e25e42c98233448c9c99feb9c31287a3695f6f04600819"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-baseline/compile.started.utc",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-baseline/compile.started.utc",
+      "size_bytes": 28,
+      "sha256": "13f2eddc7a5387a94803b4a9783ae80706b511f06dc8ee47376aec0385be111b"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-baseline/compile.status",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-baseline/compile.status",
+      "size_bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-baseline/compile.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-baseline/compile.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-baseline/compile.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-baseline/compile.stdout",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-baseline/execution.completed.utc",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-baseline/execution.completed.utc",
+      "size_bytes": 28,
+      "sha256": "3bf28559c8392f2bb9cef2d7de09f8669130d95de8cccf6990b0a3b86bf28a0a"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-baseline/execution.started.utc",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-baseline/execution.started.utc",
+      "size_bytes": 28,
+      "sha256": "c235d8d2ce8fb33a6cc43724ed4ac1bebc233cf8e0b97781a8a69d6cf8859505"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-baseline/execution.status",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-baseline/execution.status",
+      "size_bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-baseline/execution.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-baseline/execution.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-baseline/execution.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-baseline/execution.stdout",
+      "size_bytes": 5,
+      "sha256": "c7b4ea6821495a8eb0ebc912a385717bcbc0fde124e8f92195d96e25455db0af"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-baseline/small.c",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-baseline/small.c",
+      "size_bytes": 236,
+      "sha256": "77a92761fadde9449f03271f6f186f59091f1a5c697a55f523b4388ab9f405c2"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-trigger-flag/a.out",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-trigger-flag/a.out",
+      "size_bytes": 15840,
+      "sha256": "5ac0750840ad00abda0471fc9113fe4b5d87cbedfd95ddd7a64879cefa8ea61b"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-trigger-flag/compile.completed.utc",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-trigger-flag/compile.completed.utc",
+      "size_bytes": 28,
+      "sha256": "12d4f26253dfee0126a6f07b346fbd178bab326a9a7b0c2df566e2af1785f932"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-trigger-flag/compile.started.utc",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-trigger-flag/compile.started.utc",
+      "size_bytes": 28,
+      "sha256": "4661adde9a1702770ac886723b7f9e0a8425ba69f2114f3c19aebc1e4daae7af"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-trigger-flag/compile.status",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-trigger-flag/compile.status",
+      "size_bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-trigger-flag/compile.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-trigger-flag/compile.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-trigger-flag/compile.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-trigger-flag/compile.stdout",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-trigger-flag/execution.completed.utc",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-trigger-flag/execution.completed.utc",
+      "size_bytes": 28,
+      "sha256": "fe89bff3ed3f10765837f0b66f2c605d1f815dccfd7b3fe293009e38e21cedd5"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-trigger-flag/execution.started.utc",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-trigger-flag/execution.started.utc",
+      "size_bytes": 28,
+      "sha256": "ace35a50a4e54753ebeed9b0224fd419ef8a40b323b27c4ce6c0eac0fc5e0a2a"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-trigger-flag/execution.status",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-trigger-flag/execution.status",
+      "size_bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-trigger-flag/execution.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-trigger-flag/execution.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-trigger-flag/execution.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-trigger-flag/execution.stdout",
+      "size_bytes": 5,
+      "sha256": "c7b4ea6821495a8eb0ebc912a385717bcbc0fde124e8f92195d96e25455db0af"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-trigger-flag/small.c",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-trigger-flag/small.c",
+      "size_bytes": 236,
+      "sha256": "77a92761fadde9449f03271f6f186f59091f1a5c697a55f523b4388ab9f405c2"
+    },
+    {
+      "relative_path": "source/gcc-bug-116488-archive.html",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/source/gcc-bug-116488-archive.html",
+      "size_bytes": 5038,
+      "sha256": "7f9c95825ed37234ae4d7d877a278609909a131470e716fcaa4706fda56d6f0d"
+    },
+    {
+      "relative_path": "source/reporter-small.c",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/source/reporter-small.c",
+      "size_bytes": 236,
+      "sha256": "77a92761fadde9449f03271f6f186f59091f1a5c697a55f523b4388ab9f405c2"
+    },
+    {
+      "relative_path": "source/source-capture.json",
+      "path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/source/source-capture.json",
+      "size_bytes": 1119,
+      "sha256": "0dabb4cf56c493d81db8256de28e236845fcdeb2d176c95b7a7f68920216ccb6"
+    }
+  ]
+}

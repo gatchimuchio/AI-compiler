@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "record_id": "G2-HISTORY-2026-11-13-10",
+  "batch": "B62",
+  "capture_type": "read-only post-run machine artifact inspection; no compiler or program execution",
+  "captured_utc": "2026-11-13T10:23:36.768090Z",
+  "tool": {
+    "path": "/usr/bin/objdump",
+    "version_stdout": "GNU objdump (GNU Binutils for Debian) 2.44\nCopyright (C) 2025 Free Software Foundation, Inc.\nThis program is free software; you may redistribute it under the terms of\nthe GNU General Public License version 3 or (at your option) any later version.\nThis program has absolutely no warranty.\n",
+    "version_stdout_bytes": 288,
+    "version_stdout_sha256": "aff897e4c6a85eef803f6dc0ed4a813e66726aa1ca6f3afc23280f1d655f32da",
+    "version_stderr_bytes": 0,
+    "version_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "version_exit_status": 0
+  },
+  "command_template": [
+    "/usr/bin/objdump",
+    "-drwC",
+    "-Mintel",
+    "<binary>"
+  ],
+  "cases": [
+    {
+      "case_id": "debian-gcc-14.2-baseline",
+      "binary_path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-baseline/a.out",
+      "binary_bytes": 16104,
+      "binary_sha256": "5b7e14aecfb756cfd91066b5cc7458992a2cf3a3e16de31eb4291bdc2778fe90",
+      "command": [
+        "/usr/bin/objdump",
+        "-drwC",
+        "-Mintel",
+        "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-baseline/a.out"
+      ],
+      "cwd": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-baseline",
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "LANG": "C"
+      },
+      "started_utc": "2026-11-13T10:23:36.743722Z",
+      "completed_utc": "2026-11-13T10:23:36.749978Z",
+      "exit_status": 0,
+      "stdout_path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/postrun-machine-review/debian-gcc-14.2-baseline.objdump.stdout",
+      "stdout_bytes": 7713,
+      "stdout_sha256": "a588d0f559d176f1cba27ad18706611b865cb96a50d31153534fe62280b76dc1",
+      "stderr_path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/postrun-machine-review/debian-gcc-14.2-baseline.objdump.stderr",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "case_id": "debian-gcc-14.2-trigger-flag",
+      "binary_path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-trigger-flag/a.out",
+      "binary_bytes": 16104,
+      "binary_sha256": "4abf5c4c1d124ca014b3136ee168dde2cab27870e20b76dbffdb80fcbe56ea5a",
+      "command": [
+        "/usr/bin/objdump",
+        "-drwC",
+        "-Mintel",
+        "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-trigger-flag/a.out"
+      ],
+      "cwd": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/debian-gcc-14.2-trigger-flag",
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "LANG": "C"
+      },
+      "started_utc": "2026-11-13T10:23:36.750606Z",
+      "completed_utc": "2026-11-13T10:23:36.753540Z",
+      "exit_status": 0,
+      "stdout_path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/postrun-machine-review/debian-gcc-14.2-trigger-flag.objdump.stdout",
+      "stdout_bytes": 7928,
+      "stdout_sha256": "fec1949ddb245b52bd60b55c22dfa2b4900676d6dffe222665904509a9f24525",
+      "stderr_path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/postrun-machine-review/debian-gcc-14.2-trigger-flag.objdump.stderr",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "case_id": "gcc-15.2-baseline",
+      "binary_path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-baseline/a.out",
+      "binary_bytes": 15840,
+      "binary_sha256": "5ac0750840ad00abda0471fc9113fe4b5d87cbedfd95ddd7a64879cefa8ea61b",
+      "command": [
+        "/usr/bin/objdump",
+        "-drwC",
+        "-Mintel",
+        "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-baseline/a.out"
+      ],
+      "cwd": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-baseline",
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "LANG": "C"
+      },
+      "started_utc": "2026-11-13T10:23:36.753853Z",
+      "completed_utc": "2026-11-13T10:23:36.758745Z",
+      "exit_status": 0,
+      "stdout_path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/postrun-machine-review/gcc-15.2-baseline.objdump.stdout",
+      "stdout_bytes": 7329,
+      "stdout_sha256": "a59e72b8bfb766e7b113edc06c9b8a8518a8a141edd482e31d82e848129a522c",
+      "stderr_path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/postrun-machine-review/gcc-15.2-baseline.objdump.stderr",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "case_id": "gcc-15.2-trigger-flag",
+      "binary_path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-trigger-flag/a.out",
+      "binary_bytes": 15840,
+      "binary_sha256": "5ac0750840ad00abda0471fc9113fe4b5d87cbedfd95ddd7a64879cefa8ea61b",
+      "command": [
+        "/usr/bin/objdump",
+        "-drwC",
+        "-Mintel",
+        "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-trigger-flag/a.out"
+      ],
+      "cwd": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/gcc-15.2-trigger-flag",
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "LANG": "C"
+      },
+      "started_utc": "2026-11-13T10:23:36.759138Z",
+      "completed_utc": "2026-11-13T10:23:36.762117Z",
+      "exit_status": 0,
+      "stdout_path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/postrun-machine-review/gcc-15.2-trigger-flag.objdump.stdout",
+      "stdout_bytes": 7333,
+      "stdout_sha256": "b3b5e0f6fdd401bf4d0e12abb782add1e1f888a281a8e8fed9ed6f85f309ba29",
+      "stderr_path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/observations/postrun-machine-review/gcc-15.2-trigger-flag.objdump.stderr",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "pairwise_analysis": {
+    "analysis_utc": "2026-11-13T10:27:52.543195Z",
+    "all_four_consumer_stdout_hashes_identical": true,
+    "all_four_consumer_stdout_sha256": "c7b4ea6821495a8eb0ebc912a385717bcbc0fde124e8f92195d96e25455db0af",
+    "gcc_15_2_flag_pair": {
+      "binary_hashes_identical": true,
+      "normalized_disassembly_method": "Replace each absolute a.out path in the objdump file header with <BINARY>; no instructions or addresses are altered.",
+      "normalized_disassembly_bytes": 7253,
+      "normalized_disassembly_sha256_baseline": "389e787fd8a4b20f73880ad627a56569343df85430a2e0d56dad9265d5b7bb81",
+      "normalized_disassembly_sha256_trigger_flag": "389e787fd8a4b20f73880ad627a56569343df85430a2e0d56dad9265d5b7bb81",
+      "normalized_disassembly_identical": true
+    },
+    "debian_gcc_14_2_flag_pair": {
+      "binary_hashes_identical": false,
+      "consumer_stdout_hashes_identical": true,
+      "interpretation": "Different full executable bytes; the captured f disassemblies show register-allocation/prologue changes with the same observed output."
+    }
+  }
+}
