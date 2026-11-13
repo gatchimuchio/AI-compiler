@@ -14,7 +14,8 @@
   "source_identity": {
     "release": "GCC 15.3.0",
     "release_tag": "releases/gcc-15.3.0",
-    "release_tag_commit": "6d02d02c0b733e4934b8e1e497d90612116de9af",
+    "release_tag_object_id": "6d02d02c0b733e4934b8e1e497d90612116de9af",
+    "release_tag_peeled_commit_id": "4db0e8df15bef836558857c291c323add11d035c",
     "configured_target": "x86_64-linux-gnu",
     "gcc_base_ver": "15.3.0",
     "testcase": "gcc/testsuite/gcc.dg/torture/pr116488.c",
@@ -34,7 +35,8 @@
     "published_checksum_sha256": "b48d22b46c69a6786d008c94c31efef2bde52ff51df79dec4847035961febded",
     "published_sha512": "0de9e296153b52c021b1c7e63c9c62151d7a0ac03f23ce6e9f772c1b0eb783f6acdd81cc4567bfe4128a6f64968c2cfc8eff40b36229cba7425349f7d637c654",
     "published_sha512_matches_archive": true,
-    "provenance_deviation": "The preregistration named ftp.gnu.org as the archive URL. The identical official GCC 15.3.0 release archive was retrieved from gcc.gnu.org instead. The published checksum list from that official GCC release directory matches the archive SHA-512; BASE-VER, fixed release tag commit, and preregistered testcase SHA-256 also match. The host change is retained as a deviation, not represented as exact URL adherence."
+    "provenance_deviation": "The preregistration named ftp.gnu.org as the archive URL. The identical official GCC 15.3.0 release archive was retrieved from gcc.gnu.org instead. The published checksum list from that official GCC release directory matches the archive SHA-512; BASE-VER, fixed release tag object and peeled commit, and preregistered testcase SHA-256 also match. The host change is retained as a deviation, not represented as exact URL adherence.",
+    "identity_label_correction": "The preregistration and original result label 6d02d02c0b733e4934b8e1e497d90612116de9af as a commit. B59's follow-up ls-remote capture shows it is the annotated tag object; the peeled commit is 4db0e8df15bef836558857c291c323add11d035c. The source archive checksum, BASE-VER, testcase hash, and observed test result are unchanged."
   },
   "build": {
     "configure_command": "/tmp/aic-gcc15-pr116488-2026-11-13/source/gcc-15.3.0/configure --target=x86_64-linux-gnu --prefix=/tmp/aic-gcc15-pr116488-2026-11-13/tools/gcc-15.3.0 --enable-languages=c --disable-bootstrap --disable-multilib --disable-nls --disable-werror",

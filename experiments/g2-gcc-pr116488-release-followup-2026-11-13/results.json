@@ -12,6 +12,12 @@
     "official_sourceware_refs_stdout_sha256": "4f40d4532615c15ed63fe42a5404c3fcb16f7d6d16d284a758bcc2d62d3301e3",
     "github_mirror_refs_stdout_sha256": "4f40d4532615c15ed63fe42a5404c3fcb16f7d6d16d284a758bcc2d62d3301e3",
     "refs_match_byte_for_byte": true,
+    "initial_ref_values_are_annotated_tag_object_ids_not_peeled_commits": true,
+    "peeled_commits_verified_in_b59": {
+      "15.1.0": "1b306039ac49f8ad91ca71d3de3150a3c9fa792a",
+      "15.2.0": "5115c7e447fc07457443df874bf57840e8316d5f",
+      "15.3.0": "4db0e8df15bef836558857c291c323add11d035c"
+    },
     "refs": {
       "15.1.0": "f33bb98ad1669db947ef9351939d242e4a88542b",
       "15.2.0": "dcd428f94ffb464418f996ffb70dfa398f5caa3f",
@@ -73,7 +79,8 @@
   "release_source_observations": {
     "15.1.0": {
       "tag": "releases/gcc-15.1.0",
-      "tag_commit": "f33bb98ad1669db947ef9351939d242e4a88542b",
+      "tag_object_id": "f33bb98ad1669db947ef9351939d242e4a88542b",
+      "peeled_commit_id": "1b306039ac49f8ad91ca71d3de3150a3c9fa792a",
       "official_release_date": "2025-04-25",
       "announcement": {
         "url": "https://gcc.gnu.org/pipermail/gcc-announce/2025/000185.html",
@@ -127,7 +134,8 @@
     },
     "15.2.0": {
       "tag": "releases/gcc-15.2.0",
-      "tag_commit": "dcd428f94ffb464418f996ffb70dfa398f5caa3f",
+      "tag_object_id": "dcd428f94ffb464418f996ffb70dfa398f5caa3f",
+      "peeled_commit_id": "5115c7e447fc07457443df874bf57840e8316d5f",
       "official_release_date": "2025-08-08",
       "announcement": {
         "url": "https://gcc.gnu.org/pipermail/gcc-announce/2025/000189.html",
@@ -181,7 +189,8 @@
     },
     "15.3.0": {
       "tag": "releases/gcc-15.3.0",
-      "tag_commit": "6d02d02c0b733e4934b8e1e497d90612116de9af",
+      "tag_object_id": "6d02d02c0b733e4934b8e1e497d90612116de9af",
+      "peeled_commit_id": "4db0e8df15bef836558857c291c323add11d035c",
       "official_release_date": "2026-06-12",
       "announcement": {
         "url": "https://gcc.gnu.org/pipermail/gcc-announce/2026/000191.html",
