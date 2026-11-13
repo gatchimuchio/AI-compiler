@@ -4,14 +4,54 @@
       "state": "保持",
       "assets": [
         {
+          "path": "AGENTS.md",
+          "sha256": "65c08f0059d72d781b353bc55987aa26a2b903b6958c6daec3daac355e8882e6",
+          "size_bytes": 38715
+        },
+        {
           "path": "docs/01_統合仕様書.md",
-          "sha256": "5b6e6c14b824b1f52986f9762f223d79f5c9538d5dd78c0b478286586c3e8a12",
-          "size_bytes": 29399
+          "sha256": "85c468c6c3d564db2a56955ff4741c1a98d1efb4b2d97b891eba37644a4d5ba6",
+          "size_bytes": 29680
         },
         {
           "path": "docs/02_工程表.md",
-          "sha256": "8257ca1a46a07009818d252f8593eea42348514527de9603834c8eb5e4b9ec53",
-          "size_bytes": 61564
+          "sha256": "92ca9f06269560b0e864df564bfd07d3ac668e4d54aa341707a5329909663300",
+          "size_bytes": 63334
+        },
+        {
+          "path": "docs/03_Codex施工指示書.md",
+          "sha256": "711f5eafe68e82bc5e5bc5ed227c346e0603f083c31d285f80eebaea42d3a417",
+          "size_bytes": 30880
+        },
+        {
+          "path": "docs/evidence/3点セット版照合_2026-11-13.md",
+          "sha256": "612b9a7fa3c3d154b059ef939f3d3c26ff6613e5cceb062d01fa7a04d03e5c16",
+          "size_bytes": 4135
+        },
+        {
+          "path": "docs/evidence/G1_単一課題観測_2026-11-13.md",
+          "sha256": "988d8260ae5e4028fff4fcb07be2dd8bfb6bf8621984a0ceff33111450254b14",
+          "size_bytes": 5721
+        },
+        {
+          "path": "docs/evidence/G1_単一課題観測_追補_2026-11-13.md",
+          "sha256": "cbed3179ce61795f7aae49547df48a25eb0455c5cf6a72aafa9513bb69537e0a",
+          "size_bytes": 4551
+        },
+        {
+          "path": "docs/evidence/G2_u64加算compiler比較_2026-11-13.md",
+          "sha256": "231cf45cad88e90ad0f3c25b52ca0437bb7ea35279171e1581547039884482d4",
+          "size_bytes": 9493
+        },
+        {
+          "path": "docs/evidence/G2_u64減算compiler比較_2026-11-13.md",
+          "sha256": "99d8ed405bb2f4d46f07247c463835559edd8173fd50f5e28805c025ad79b7f6",
+          "size_bytes": 5624
+        },
+        {
+          "path": "docs/evidence/G2_既存compiler運用履歴_2026-11-13.md",
+          "sha256": "12d2811c1c058dbf7655fb550286475d327aa9f4b4e1ee255ff5898a128aef8c",
+          "size_bytes": 21566
         },
         {
           "path": "docs/evidence/G3_Qwen3テンプレート補正追試_2026-11-13.md",
@@ -26,12 +66,107 @@
         {
           "path": "docs/evidence/G3_資産棚卸_2026-11-13.json",
           "sha256": "self-reference-omitted",
-          "size_bytes": 21134
+          "size_bytes": 27758
+        },
+        {
+          "path": "docs/proposals/01_初期変換契約案.md",
+          "sha256": "090ffde02eda902147ab456703315a23833d86d3c1c64b88763ee8ed7c345f5a",
+          "size_bytes": 53688
         },
         {
           "path": "docs/proposals/G3_単一block局所編集比較プロトコル案.md",
           "sha256": "3772a0ec1c5c4dcb33765a34d9cca743117098d5d444ffe315687e3ed2ad66ab",
           "size_bytes": 19733
+        },
+        {
+          "path": "docs/research/06_整数型・数値境界意味比較.md",
+          "sha256": "101fb904675c4a73c60eecf78d3181fda99f9fb495673dc506f5a946cca1978c",
+          "size_bytes": 51831
+        },
+        {
+          "path": "experiments/g2-subwrap-compiler-compare-2026-11-13/README.md",
+          "sha256": "0a46a4961c83e7603b1d26fab1d0e9a45dde669b7badce4ff9f96b11ca441b99",
+          "size_bytes": 1228
+        },
+        {
+          "path": "experiments/g2-subwrap-compiler-compare-2026-11-13/inputs/aic_input.aic",
+          "sha256": "6d6fce7ca6934c258c412e626a05d126a140455dd4cc1f24e4c0e9a1934fe363",
+          "size_bytes": 114
+        },
+        {
+          "path": "experiments/g2-subwrap-compiler-compare-2026-11-13/inputs/expected_values.txt",
+          "sha256": "fe76535a732e948c734c895e4f829e7686b7e86f88a85f64d75e32f5f7fddb34",
+          "size_bytes": 396
+        },
+        {
+          "path": "experiments/g2-subwrap-compiler-compare-2026-11-13/inputs/frozen_case.json",
+          "sha256": "1e3637dfce88a9a783d1865db10d66a914f869a864b36d4670b60a952d79b0f6",
+          "size_bytes": 6932
+        },
+        {
+          "path": "experiments/g2-subwrap-compiler-compare-2026-11-13/inputs/gcc.c",
+          "sha256": "2a584d4ae06726e72ad0176c9c61a3fac24ae173cbda07d12fffeb8f840199bc",
+          "size_bytes": 83
+        },
+        {
+          "path": "experiments/g2-subwrap-compiler-compare-2026-11-13/inputs/input_values.txt",
+          "sha256": "02f6db081768900b2a5463dc7b7c474f287bc1d1969edf51d57eed452911c018",
+          "size_bytes": 377
+        },
+        {
+          "path": "experiments/g2-subwrap-compiler-compare-2026-11-13/inputs/request.txt",
+          "sha256": "8b9eaa2a80e172b27e93ca7ffa8862844f6105ea822e802ace1304ac422f3048",
+          "size_bytes": 1509
+        },
+        {
+          "path": "experiments/g2-subwrap-compiler-compare-2026-11-13/inputs/rust.rs",
+          "sha256": "f11d49996563363f2fecb47c5cf8c9a904a7e85679cfd4555ebf401be3b22842",
+          "size_bytes": 101
+        },
+        {
+          "path": "experiments/g2-subwrap-compiler-compare-2026-11-13/observations/commands.json",
+          "sha256": "bc6e999d44ba5d5d8f740247ded5d7e4fe40bd25687ec13fd52257974ca30b1d",
+          "size_bytes": 5903
+        },
+        {
+          "path": "experiments/g2-subwrap-compiler-compare-2026-11-13/observations/objdump_aic.txt",
+          "sha256": "9ce3634537cb3779d59f7e028faffe0930b531a18230bbe35c3734b14eca266f",
+          "size_bytes": 775
+        },
+        {
+          "path": "experiments/g2-subwrap-compiler-compare-2026-11-13/observations/objdump_gcc.txt",
+          "sha256": "b7bf27b1fb8875e52c5bdef571e86ed176d6ecef214750979136ee023b3366bf",
+          "size_bytes": 238
+        },
+        {
+          "path": "experiments/g2-subwrap-compiler-compare-2026-11-13/observations/objdump_rust.txt",
+          "sha256": "5129c0b3d2413ed11aa958e5eb23357e1674cc4e1d5e8a7b450a8009ae7a28dc",
+          "size_bytes": 248
+        },
+        {
+          "path": "experiments/g2-subwrap-compiler-compare-2026-11-13/observations/readelf_aic.txt",
+          "sha256": "931e07f8a14c116104b685423f75d542b3f9ce7a3b29ef9acea0ea6e0c877521",
+          "size_bytes": 2682
+        },
+        {
+          "path": "experiments/g2-subwrap-compiler-compare-2026-11-13/observations/readelf_gcc.txt",
+          "sha256": "1e9d8c850e799aa0f9546c64de7309075e9864dd175ca9f81e3865a56246298e",
+          "size_bytes": 3220
+        },
+        {
+          "path": "experiments/g2-subwrap-compiler-compare-2026-11-13/observations/readelf_rust.txt",
+          "sha256": "f0fc001b3f724edae6dbd2bb29842a6ded9f28867d8dcbf48acc1e4e8a23b391",
+          "size_bytes": 2972
+        },
+        {
+          "path": "experiments/g2-subwrap-compiler-compare-2026-11-13/preregistration.md",
+          "sha256": "adbfff87666234f71a5aae031d52016ceed4c06d1a0987bc2e138abab11e340c",
+          "size_bytes": 2814
+        },
+        {
+          "path": "experiments/g2-subwrap-compiler-compare-2026-11-13/results.json",
+          "sha256": "9bb5115d74e1e756ff645b7cab8857dc8d055092d028df22b224cfc752e7df4e",
+          "size_bytes": 7982
         },
         {
           "path": "experiments/g3-edit-pilot-2026-11-13/README.md",
@@ -332,19 +467,24 @@
           "path": "experiments/g3-edit-pilot-2026-11-13/trials.jsonl",
           "sha256": "17291e60d77e36ffd605eadc324cf2a35d455b53129ba0aff76516939c0074fa",
           "size_bytes": 1222475
+        },
+        {
+          "path": "tests/abi_probe.S",
+          "sha256": "aaf1c4cbb0263134e63c6abdbbb1d8b1136f700a257fd469c44acd76af93ef97",
+          "size_bytes": 1960
+        },
+        {
+          "path": "tests/harness.cpp",
+          "sha256": "1c3db341e12e63fa2d6a57007bbea13945b57d822013d3bf7f21c3e6ce876097",
+          "size_bytes": 1369
         }
       ],
-      "regular_file_count": 66,
-      "bytes": 3238875
+      "regular_file_count": 95,
+      "bytes": 3514656
     },
     {
       "state": "保管済み",
       "assets": [
-        {
-          "path": "/tmp/codex-remote-attachments/6af3be48-658c-8191-9bac-a4d6a6b1d086/17951520-18ce-4417-9fef-dcc2dcedfd6b/1-AICompiler_3point_set_2026-11-13.zip",
-          "regular_file_count": 1,
-          "bytes": 46980
-        },
         {
           "path": "/tmp/aic-3point-20261113-incoming",
           "regular_file_count": 3,
@@ -366,9 +506,9 @@
           "bytes": 35311
         },
         {
-          "path": "/tmp/llvm-api-error.json",
-          "regular_file_count": 1,
-          "bytes": 190
+          "path": "/tmp/aic-g2-subwrap-compiler-compare-2026-11-13",
+          "regular_file_count": 39,
+          "bytes": 63684
         },
         {
           "path": "/tmp/aic-g3-pilot-2026-11-13",
@@ -379,6 +519,16 @@
           "path": "/tmp/aic-g3-pilot-run02-2026-11-13",
           "regular_file_count": 430,
           "bytes": 3995957
+        },
+        {
+          "path": "/tmp/codex-remote-attachments/6af3be48-658c-8191-9bac-a4d6a6b1d086/17951520-18ce-4417-9fef-dcc2dcedfd6b/1-AICompiler_3point_set_2026-11-13.zip",
+          "regular_file_count": 1,
+          "bytes": 46980
+        },
+        {
+          "path": "/tmp/llvm-api-error.json",
+          "regular_file_count": 1,
+          "bytes": 190
         }
       ],
       "g3_external_component_breakdown": [
@@ -443,8 +593,8 @@
           ]
         }
       ],
-      "regular_file_count": 12989,
-      "bytes": 3027743965
+      "regular_file_count": 13028,
+      "bytes": 3027807649
     },
     {
       "state": "稼働中",
@@ -513,9 +663,9 @@
   ],
   "date": "2026-11-13",
   "platform": "Linux; no Windows filesystem assets or operations",
-  "scope": "Repository files retained for the G3 pilot, the uploaded 3-point-set ZIP and its retained extraction, related G1/G2 evidence bundles, the public GitHub 422 diagnostic, original run01 model/build/runtime/artifacts, and the separate run02 build/object/consumer artifacts. Generated scorer bytecode is preserved in an external trash grouping. File symlinks to regular targets are counted as paths with target size; directory symlinks are not traversed. System runtime files, unrelated earlier ABI workspaces, logs, sockets, and Git internals are excluded.",
-  "title": "G3 pilot work-unit asset inventory",
-  "total_bytes": 3031214951,
-  "total_regular_files": 13064,
+  "scope": "Repository records and source inputs retained for the G3 pilot, the identified-model G1 addendum, the follow-up G2 subtraction comparison, the uploaded three-document set and its extraction, and related G1/G2 evidence. External storage includes model/build/runtime/object/consumer artifacts and frozen comparison logs; generated bytecode remains in the recorded external trash group. No active compiler/model/consumer process or unresolved asset is present. File symlinks to regular targets are counted as paths with target size; directory symlinks are not traversed. System runtime files, unrelated prior ABI workspaces, sockets, and Git internals are excluded.",
+  "title": "G1-G3 work-unit asset inventory",
+  "total_bytes": 3031554416,
+  "total_regular_files": 13132,
   "unit": "regular-file paths (including symlinks to regular files, measured by target size); directories are grouping roots only"
 }

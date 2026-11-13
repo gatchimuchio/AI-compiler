@@ -1,0 +1,222 @@
+{
+  "record_id": "G2-COMPARE-2026-11-13-02",
+  "selected_prior_trial": {
+    "run": "G3 run02",
+    "task_id": "E2",
+    "format": "aic",
+    "replicate": 0,
+    "call_index": 21,
+    "pair_seed": 4067340202,
+    "started_utc": "2026-11-13T05:27:07.877869+00:00",
+    "prompt_sha256": "8b9eaa2a80e172b27e93ca7ffa8862844f6105ea822e802ace1304ac422f3048",
+    "formatted_prompt_sha256": "853735afc1a18f96d4908d22d8e26720336b11e6324621a3a94ad6d34b6cfa80",
+    "prompt_bytes": 1509,
+    "response_sha256": "6d6fce7ca6934c258c412e626a05d126a140455dd4cc1f24e4c0e9a1934fe363",
+    "selection": "post-hoc, selected after the G3 run outcome was known"
+  },
+  "task_request": "sumの演算をwrap減算に変えてください。operandと定数は変更しないでください。",
+  "initial_program": "AIC 0.2\nfn aic_main(%x: u64) -> u64 {\n^entry:\n  %one = const.u64 1\n  %sum = add.wrap.u64 %x, %one\n  ret.u64 %sum\n}",
+  "ai_model": {
+    "context_tokens": 4096,
+    "download_bytes_this_run": 0,
+    "filename": "Qwen3-4B-Q4_K_M.gguf",
+    "frequency_penalty": 0.0,
+    "license": "Apache-2.0 (pinned repository model card)",
+    "max_output_tokens": 1024,
+    "min_p": 0.0,
+    "mirostat_mode": 0,
+    "path": "/tmp/aic-g3-pilot-2026-11-13/Qwen3-4B-Q4_K_M.gguf",
+    "presence_penalty": 1.5,
+    "provider": "local CPU; no remote inference or token billing",
+    "repeat_penalty": 1.0,
+    "repository": "Qwen/Qwen3-4B-GGUF",
+    "revision": "bc640142c66e1fdd12af0bd68f40445458f3869b",
+    "runner": "llama-cpp-python==0.3.16",
+    "runner_version": "0.3.16",
+    "sha256": "7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5",
+    "size_bytes": 2497280256,
+    "stream": false,
+    "system_message": "/no_think",
+    "temperature": 0.7,
+    "threads": 5,
+    "tools": false,
+    "top_k": 20,
+    "top_p": 0.8,
+    "web_access": false
+  },
+  "inputs_u64": [
+    0,
+    1,
+    2,
+    17,
+    18446744073709551614,
+    18446744073709551615,
+    14253831089030876361,
+    5646163162488951229,
+    12327925625382432980,
+    11748639520755304211,
+    5945998361351557946,
+    5900619967885688956,
+    6600816889488832991,
+    7420236926082689126,
+    5325556416041821713,
+    2813191804641563032,
+    3799242872128446916,
+    11193136238549347570,
+    2336440604729884966,
+    3978964976522755813,
+    17428384435769948665,
+    11100927527179845476
+  ],
+  "oracle": {
+    "expression": "(x - 1) mod 2^64",
+    "expected_u64": [
+      18446744073709551615,
+      0,
+      1,
+      16,
+      18446744073709551613,
+      18446744073709551614,
+      14253831089030876360,
+      5646163162488951228,
+      12327925625382432979,
+      11748639520755304210,
+      5945998361351557945,
+      5900619967885688955,
+      6600816889488832990,
+      7420236926082689125,
+      5325556416041821712,
+      2813191804641563031,
+      3799242872128446915,
+      11193136238549347569,
+      2336440604729884965,
+      3978964976522755812,
+      17428384435769948664,
+      11100927527179845475
+    ],
+    "expected_stdout_sha256": "fe76535a732e948c734c895e4f829e7686b7e86f88a85f64d75e32f5f7fddb34",
+    "input_text_sha256": "02f6db081768900b2a5463dc7b7c474f287bc1d1969edf51d57eed452911c018"
+  },
+  "frozen_sources": {
+    "inputs/request.txt": {
+      "bytes": 1509,
+      "sha256": "8b9eaa2a80e172b27e93ca7ffa8862844f6105ea822e802ace1304ac422f3048"
+    },
+    "inputs/aic_input.aic": {
+      "bytes": 114,
+      "sha256": "6d6fce7ca6934c258c412e626a05d126a140455dd4cc1f24e4c0e9a1934fe363"
+    },
+    "inputs/gcc.c": {
+      "bytes": 83,
+      "sha256": "2a584d4ae06726e72ad0176c9c61a3fac24ae173cbda07d12fffeb8f840199bc"
+    },
+    "inputs/rust.rs": {
+      "bytes": 101,
+      "sha256": "f11d49996563363f2fecb47c5cf8c9a904a7e85679cfd4555ebf401be3b22842"
+    },
+    "inputs/input_values.txt": {
+      "bytes": 377,
+      "sha256": "02f6db081768900b2a5463dc7b7c474f287bc1d1969edf51d57eed452911c018"
+    },
+    "inputs/expected_values.txt": {
+      "bytes": 396,
+      "sha256": "fe76535a732e948c734c895e4f829e7686b7e86f88a85f64d75e32f5f7fddb34"
+    }
+  },
+  "tool_paths": {
+    "gcc": "/usr/bin/gcc",
+    "rustc": "/home/agent/.cargo/bin/rustup",
+    "g++": "/usr/bin/g++",
+    "as": "/usr/bin/as",
+    "objdump": "/usr/bin/objdump",
+    "readelf": "/usr/bin/readelf",
+    "aic": "/tmp/aic-g3-pilot-2026-11-13/cargo-target/release/aic"
+  },
+  "tool_sha256": {
+    "gcc": "a23ecab8ff08f09ad8c80602c2c5df7f49e09c25905cb8975902e101bf72635f",
+    "rustc": "b1c8cb14e30889e7e2999e6b69e62d9e9b9ffc0f4df8180564d306d9680e6c55",
+    "g++": "6b3696e4dcb85e1c949c732a02befa50e3983ecf94ce7e8e58d9d503b954b79d",
+    "as": "07dd8551ea0aa065975e4dddb8e1bb7dc308d12d54eca22c3858db79467c7cb9",
+    "objdump": "96afb8521834982d0e711b5d6e9785252bf82129fb0106b93a6bd54d83fae11f",
+    "readelf": "4a387d80a70e6e97ef940a666fab59d5c38e7cf19ff907192fa983cb8505a7de",
+    "aic": "13f0185a04b5a2ed89f0fa55c0d158ccfb6ca8ebc71bff57270a3b538e2f3f9e"
+  },
+  "versions": {
+    "gcc": "gcc (Debian 14.2.0-19) 14.2.0",
+    "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13)\nbinary: rustc\ncommit-hash: 58cf8f9c35b355199727627d07ae34a4e2846d67\ncommit-date: 2026-10-13\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.1\nLLVM version: 23.1.1",
+    "g++": "g++ (Debian 14.2.0-19) 14.2.0",
+    "as": "GNU assembler (GNU Binutils for Debian) 2.44",
+    "objdump": "GNU objdump (GNU Binutils for Debian) 2.44",
+    "readelf": "GNU readelf (GNU Binutils for Debian) 2.44"
+  },
+  "environment": {
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "machine": "x86_64",
+    "system": "Linux",
+    "release": "6.18.57",
+    "python": "3.12.14"
+  },
+  "consumer_sources": {
+    "tests/harness.cpp": "1c3db341e12e63fa2d6a57007bbea13945b57d822013d3bf7f21c3e6ce876097",
+    "tests/abi_probe.S": "aaf1c4cbb0263134e63c6abdbbb1d8b1136f700a257fd469c44acd76af93ef97"
+  },
+  "commands": {
+    "aic": [
+      "/tmp/aic-g3-pilot-2026-11-13/cargo-target/release/aic",
+      "compile",
+      "--target",
+      "x86_64-linux-gnu",
+      "<AIC source>",
+      "-o",
+      "<object>"
+    ],
+    "gcc": [
+      "gcc",
+      "-std=c11",
+      "-O2",
+      "-march=x86-64",
+      "-mtune=generic",
+      "-fno-pic",
+      "-fno-pie",
+      "-fno-stack-protector",
+      "-c",
+      "<C source>",
+      "-o",
+      "<object>"
+    ],
+    "rustc": [
+      "/home/agent/.cargo/bin/rustc",
+      "--edition=2024",
+      "--target",
+      "x86_64-unknown-linux-gnu",
+      "--crate-type=lib",
+      "--crate-name=g2_subwrap",
+      "--emit=obj",
+      "-C",
+      "opt-level=2",
+      "-C",
+      "target-cpu=x86-64",
+      "-C",
+      "relocation-model=static",
+      "-C",
+      "panic=abort",
+      "<Rust source>",
+      "-o",
+      "<object>"
+    ],
+    "consumer": [
+      "g++",
+      "-std=c++20",
+      "-O2",
+      "-mno-red-zone",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "tests/harness.cpp",
+      "tests/abi_probe.S",
+      "<object>",
+      "-o",
+      "<consumer>"
+    ]
+  }
+}

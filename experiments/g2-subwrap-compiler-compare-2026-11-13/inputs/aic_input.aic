@@ -1,0 +1,7 @@
+AIC 0.2
+fn aic_main(%x: u64) -> u64 {
+^entry:
+  %one = const.u64 1
+  %sum = sub.wrap.u64 %x, %one
+  ret.u64 %sum
+}

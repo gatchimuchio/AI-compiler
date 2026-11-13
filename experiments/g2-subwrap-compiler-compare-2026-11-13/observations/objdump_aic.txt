@@ -1,0 +1,21 @@
+
+/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/objects/aic.o:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000000000 <aic_main>:
+   0:	55                   	push   %rbp
+   1:	48 89 e5             	mov    %rsp,%rbp
+   4:	48 83 ec 20          	sub    $0x20,%rsp
+   8:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+   c:	eb 00                	jmp    e <aic_main+0xe>
+   e:	48 b8 01 00 00 00 00 	movabs $0x1,%rax
+  15:	00 00 00 
+  18:	48 89 45 f0          	mov    %rax,-0x10(%rbp)
+  1c:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+  20:	48 2b 45 f0          	sub    -0x10(%rbp),%rax
+  24:	48 89 45 e8          	mov    %rax,-0x18(%rbp)
+  28:	48 8b 45 e8          	mov    -0x18(%rbp),%rax
+  2c:	c9                   	leave
+  2d:	c3                   	ret

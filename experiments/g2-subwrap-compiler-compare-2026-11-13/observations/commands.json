@@ -1,0 +1,165 @@
+{
+  "record_id": "G2-COMPARE-2026-11-13-02",
+  "routes": {
+    "aic": {
+      "object_compile": {
+        "argv": [
+          "/tmp/aic-g3-pilot-2026-11-13/cargo-target/release/aic",
+          "compile",
+          "--target",
+          "x86_64-linux-gnu",
+          "/workspace/AI-compiler/experiments/g2-subwrap-compiler-compare-2026-11-13/inputs/aic_input.aic",
+          "-o",
+          "/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/objects/aic.o"
+        ],
+        "exit_code": 0,
+        "stdout": "wrote ELF64 ET_REL object for x86_64-linux-gnu\n",
+        "stderr": ""
+      },
+      "consumer_build": {
+        "argv": [
+          "g++",
+          "-std=c++20",
+          "-O2",
+          "-mno-red-zone",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "tests/harness.cpp",
+          "tests/abi_probe.S",
+          "/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/objects/aic.o",
+          "-o",
+          "/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/consumers/aic.consumer"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "consumer_run": {
+        "argv": [
+          "timeout",
+          "--signal=TERM",
+          "--kill-after=5",
+          "30s",
+          "/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/consumers/aic.consumer"
+        ],
+        "stdin_path": "experiments/g2-subwrap-compiler-compare-2026-11-13/inputs/input_values.txt",
+        "exit_code": 0,
+        "stdout": "18446744073709551615\n0\n1\n16\n18446744073709551613\n18446744073709551614\n14253831089030876360\n5646163162488951228\n12327925625382432979\n11748639520755304210\n5945998361351557945\n5900619967885688955\n6600816889488832990\n7420236926082689125\n5325556416041821712\n2813191804641563031\n3799242872128446915\n11193136238549347569\n2336440604729884965\n3978964976522755812\n17428384435769948664\n11100927527179845475\n",
+        "stderr": ""
+      }
+    },
+    "gcc": {
+      "object_compile": {
+        "argv": [
+          "gcc",
+          "-std=c11",
+          "-O2",
+          "-march=x86-64",
+          "-mtune=generic",
+          "-fno-pic",
+          "-fno-pie",
+          "-fno-stack-protector",
+          "-c",
+          "/workspace/AI-compiler/experiments/g2-subwrap-compiler-compare-2026-11-13/inputs/gcc.c",
+          "-o",
+          "/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/objects/gcc.o"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "consumer_build": {
+        "argv": [
+          "g++",
+          "-std=c++20",
+          "-O2",
+          "-mno-red-zone",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "tests/harness.cpp",
+          "tests/abi_probe.S",
+          "/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/objects/gcc.o",
+          "-o",
+          "/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/consumers/gcc.consumer"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "consumer_run": {
+        "argv": [
+          "timeout",
+          "--signal=TERM",
+          "--kill-after=5",
+          "30s",
+          "/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/consumers/gcc.consumer"
+        ],
+        "stdin_path": "experiments/g2-subwrap-compiler-compare-2026-11-13/inputs/input_values.txt",
+        "exit_code": 0,
+        "stdout": "18446744073709551615\n0\n1\n16\n18446744073709551613\n18446744073709551614\n14253831089030876360\n5646163162488951228\n12327925625382432979\n11748639520755304210\n5945998361351557945\n5900619967885688955\n6600816889488832990\n7420236926082689125\n5325556416041821712\n2813191804641563031\n3799242872128446915\n11193136238549347569\n2336440604729884965\n3978964976522755812\n17428384435769948664\n11100927527179845475\n",
+        "stderr": ""
+      }
+    },
+    "rust": {
+      "object_compile": {
+        "argv": [
+          "/home/agent/.cargo/bin/rustc",
+          "--edition=2024",
+          "--target",
+          "x86_64-unknown-linux-gnu",
+          "--crate-type=lib",
+          "--crate-name=g2_subwrap",
+          "--emit=obj",
+          "-C",
+          "opt-level=2",
+          "-C",
+          "target-cpu=x86-64",
+          "-C",
+          "relocation-model=static",
+          "-C",
+          "panic=abort",
+          "/workspace/AI-compiler/experiments/g2-subwrap-compiler-compare-2026-11-13/inputs/rust.rs",
+          "-o",
+          "/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/objects/rust.o"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "consumer_build": {
+        "argv": [
+          "g++",
+          "-std=c++20",
+          "-O2",
+          "-mno-red-zone",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "tests/harness.cpp",
+          "tests/abi_probe.S",
+          "/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/objects/rust.o",
+          "-o",
+          "/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/consumers/rust.consumer"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "consumer_run": {
+        "argv": [
+          "timeout",
+          "--signal=TERM",
+          "--kill-after=5",
+          "30s",
+          "/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/consumers/rust.consumer"
+        ],
+        "stdin_path": "experiments/g2-subwrap-compiler-compare-2026-11-13/inputs/input_values.txt",
+        "exit_code": 0,
+        "stdout": "18446744073709551615\n0\n1\n16\n18446744073709551613\n18446744073709551614\n14253831089030876360\n5646163162488951228\n12327925625382432979\n11748639520755304210\n5945998361351557945\n5900619967885688955\n6600816889488832990\n7420236926082689125\n5325556416041821712\n2813191804641563031\n3799242872128446915\n11193136238549347569\n2336440604729884965\n3978964976522755812\n17428384435769948664\n11100927527179845475\n",
+        "stderr": ""
+      }
+    }
+  }
+}
