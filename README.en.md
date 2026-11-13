@@ -2,7 +2,7 @@
 
 **AICompiler: a project for auditing existing languages' and compilers' machine-code transformation rules against actual compiled artifacts and real-world results, then designing and validating the most efficient AI-operable symbolic format and access/translation infrastructure for existing machine code.**
 
-> **Status (2026-11-13): the owner adopted the initial R2 scope and the target profile's CPU floor and ELF reference edition; the R3 vertical slice is wired and local R4 QC has been observed.** The Linux x86-64 floor is AMD64 psABI 1.0 `baseline`, and the gABI-common object reference is stable ELF Object File Format 4.2. The CLI target `x86_64-linux-gnu` is a project-specific alias for that profile. The broader R1 survey, target QA, and beta publication remain incomplete; beta publication is unapproved.
+> **Status (2026-11-13): the owner adopted the initial R2 scope and the target profile's CPU floor and ELF reference edition; the R3 vertical slice is wired and local R4 QC has been observed.** The Linux x86-64 floor is AMD64 psABI 1.0 `baseline`, and the gABI-common object reference is stable ELF Object File Format 4.2. The CLI target `x86_64-linux-gnu` is a project-specific alias for that profile. The 2026-11-13 revised three-document set, including G0–G6, is recorded as a proposal pending formal adoption. The broader R1 survey, target QA, and beta publication remain incomplete; beta publication is unapproved.
 
 [日本語正本](README.md) · [Specification (Japanese)](docs/01_統合仕様書.md) · [Roadmap (Japanese)](docs/02_工程表.md) · [Codex instructions (Japanese)](docs/03_Codex施工指示書.md) · [Agent rules](AGENTS.md)
 
@@ -10,7 +10,7 @@
 
 **Subject: AICompiler.** Its purpose is to establish an optimal approach and access/translation infrastructure for **existing** machine code using current knowledge, tooling, ISA, ABI, OS interfaces, and object formats. First compare existing compilers' transformation rules and conventions with their actual artifacts, execution results, constraints, and counterexamples. Then evaluate and design an efficient symbolic format that AI can generate, modify, and verify from natural-language requirements and translate into machine instructions and executable artifacts without losing declared semantics. **Optimizing or redesigning machine language itself is outside the project.**
 
-The current AIC/0.2 implementation is an initial end-to-end translation baseline, **not evidence that an optimal AI-native symbolic format has been selected or validated**. The new G0–G6 project gates are distinct from the historical R0–R5 implementation and local-QC record.
+The current AIC/0.2 implementation is an initial end-to-end translation baseline, **not evidence that an optimal AI-native symbolic format has been selected or validated**. The proposed G0–G6 gates in the revised three-document set are pending formal adoption and are distinct from the historical R0–R5 implementation and local-QC record.
 
 **Human readability is not a mandatory property of the AI-native input representation.** The semantics must nevertheless remain unambiguous and mechanically checkable.
 

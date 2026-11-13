@@ -2,6 +2,13 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-13 — 3点セット改訂案の記録（文書のみ）
+
+- Owner提供の`1-AICompiler_3point_set_2026-11-13.zip`を基に、統合仕様書・工程表・Codex施工指示書を更新した。ZIP記載どおり、新G0–G6の正式採用待ちを維持し、G1の自然言語要求→AI記号→実物consumer→計測、G2の蓄積運用実績、未採用候補の隔離実験を明記した。
+- 採用済みAIC/0.2契約、R0–R5/B1–B49の履歴、G0–G6の正式採用・施工状態を混同しないようAGENTSと日英READMEも整合させた。code/toolchain/runtimeは変更していない。
+- 入力ZIP SHA-256: `ecef9178c845d7dccc0eed25b16cc7c3ff1e3ab3b943e04e8405b98196ce134e`。ZIP内3文書SHA-256: 01 `c86f17c7aab5bebfe1f7e5e0edd006eefff93262292f8307f3ffac79277d483e`、02 `8a124a7a55deeb1ed1ad87131c2a6c0d313e572e00cce1296a63d4832552c263`、03 `711f5eafe68e82bc5e5bc5ed227c346e0603f083c31d285f80eebaea42d3a417`。
+- 文書変更のみ。実装テストはNOT_RUN（非該当）。
+
 ## 2026-11-13 — AICompiler主語・目的・3点セット再構成（文書のみ）
 
 - Owner訂正を反映し、主語をAICompiler、目的を現行規格・知見の範囲での既存機械語への最適アクセス・操作・変換基盤の確立とした。機械語・ISA・CPU自体の最適化・再設計は非対象。
