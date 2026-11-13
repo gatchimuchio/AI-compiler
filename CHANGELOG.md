@@ -2,6 +2,12 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-13 — G2 compiler運用履歴の限定調査
+
+- GCC 14.1–14.4のrelease timelineと各保守announcementの報告修正件数、およびGCC trunk PR 116488とRust 1.98 vtable miscompilationのreport/fix記録を一次資料で照合した。[履歴記録](docs/evidence/G2_既存compiler運用履歴_2026-11-13.md)に条件・source hash・取得時点・不確実性を保存。
+- 事例のversion/target/機能は前回のu64課題比較と異なり、GCC修正件数は品質率・発生率を示さない。GCC ticket状態は`RESOLVED FIXED`/target milestone 15.0を確認したが、独立再現、backport全体、利用者母集団は未確認。G2全体は未成立。
+- 文書のみの変更。compiler build/run、製品コード変更、repository testsは未実施。
+
 ## 2026-11-13 — G2 u64加算の限定compiler比較
 
 - 同一の合成u64 wrap-add課題についてAIC/0.2、GCC 14.2.0 C11、rustc 1.99.1 RustのELF64 ET_REL objectを生成し、同一C++20 consumerから実行した。3入力の出力はいずれも`1, 42, 0`。GCC/Rustの関数は5-byte `lea; ret`、AICは46 bytesだったが最適化条件は異なるため、性能・最適性比較とは扱わない。
