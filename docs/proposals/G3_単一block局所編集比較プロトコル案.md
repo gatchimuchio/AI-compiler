@@ -53,6 +53,8 @@ fn aic_main(%x: u64) -> u64 {
 回答は指定形式の完全なprogramを1つだけ返し、説明文やMarkdown fenceを付けないでください。
 ```
 
+pilotのuser-message bytesは、UTF-8/no BOMで`COMMON_PROMPT + "\n\n" + SCHEMA_CARD + "\n\n" + TASK_REQUEST + "\n\n" + INITIAL_PROGRAM`と連結し、末尾newlineを加えない。SCHEMA_CARD/TASK_REQUEST/INITIAL_PROGRAMの内部bytesは以下の固定block/tableから取得する。system messageは両形式で`/no_think`の1件、developer messageなしとし、同一のQwen3 chat templateで送る。
+
 形式別schema card本文は次の固定文だけを使い、試行時に説明を足したり削ったりしない。両cardは関数意味、operation subset、ID規則、完全program出力条件を伝える。comment fidelityはこのpilotでは測らないため、両形式の入力と出力にcommentを含めない。
 
 **AIC/0.2 card:**
