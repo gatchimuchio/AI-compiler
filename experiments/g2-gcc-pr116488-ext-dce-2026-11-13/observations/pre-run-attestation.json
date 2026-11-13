@@ -1,0 +1,37 @@
+{
+  "record_id": "G2-HISTORY-2026-11-13-11",
+  "batch": "B63",
+  "captured_utc": "2026-11-13T10:46:48.320690Z",
+  "testcase_started": false,
+  "repository_state": {
+    "head": "16a4e6632865d3b4f51b63ba8219943a92a502f8",
+    "origin_main": "16a4e6632865d3b4f51b63ba8219943a92a502f8",
+    "backup_main": "16a4e6632865d3b4f51b63ba8219943a92a502f8",
+    "backup_main_prev": "cb25b634685f4852914821afd597aeaa016664de"
+  },
+  "worktree_status_before_attestation": [
+    " M experiments/g2-gcc-pr116488-ext-dce-2026-11-13/README.md",
+    " M experiments/g2-gcc-pr116488-ext-dce-2026-11-13/observations/setup-capture-errors.json"
+  ],
+  "pre_run_checks": [
+    "HEAD equals remote registration commit",
+    "recovery refs point to latest/prior main",
+    "worktree changes are only setup-note updates",
+    "runner hash frozen",
+    "source and compiler identities match",
+    "pass source identities match",
+    "LD_LIBRARY_PATH exactly matches B62 runner",
+    "option query confirms correct gates",
+    "setup corrections recorded and mirrored",
+    "run outputs still absent",
+    "no previous pre-run attestation",
+    "at least 1 GiB free",
+    "no compiler/consumer process active"
+  ],
+  "compiler_driver_sha256": "d11bd49769c79c84969134620c9c7607fb8cf53d0be074e8e012b9cc47c4b297",
+  "cc1_sha256": "987e7a1b2eb0b3103fa427bc5d7d4b05f9beeae4c2176d794216bbbc28648118",
+  "source_sha256": "77a92761fadde9449f03271f6f186f59091f1a5c697a55f523b4388ab9f405c2",
+  "runner_sha256": "4b3f498bc0fc45c5bf506499bcca3603bc824841ddfa4895297a5ba0f21eafd8",
+  "runs_directory_absent": true,
+  "AICompiler_project_tests": "NOT_RUN"
+}

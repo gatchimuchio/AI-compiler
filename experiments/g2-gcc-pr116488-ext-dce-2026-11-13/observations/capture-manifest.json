@@ -1,0 +1,192 @@
+{
+  "schema_version": 1,
+  "record_id": "G2-HISTORY-2026-11-13-11",
+  "batch": "B63",
+  "external_root": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13",
+  "captured_utc": "2026-11-13T10:49:15Z",
+  "classification": "保管済み: preregistered RTL pass dumps, assembly, compile logs, option-query captures, and source are retained under this root",
+  "count_rule": "All regular files and symlinks to regular-file targets under external_root, with file bytes and SHA-256; no directory symlinks traversed. capture-manifest.json is stored in the repository and is not part of this external tree.",
+  "total_regular_file_paths": 27,
+  "total_bytes": 99189,
+  "components": [
+    {
+      "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/observations",
+      "regular_file_count": 14,
+      "bytes": 68763
+    },
+    {
+      "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/runs",
+      "regular_file_count": 12,
+      "bytes": 30190
+    },
+    {
+      "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/source",
+      "regular_file_count": 1,
+      "bytes": 236
+    }
+  ],
+  "files": [
+    {
+      "relative_path": "observations/option-queries/GCC15-O3.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/observations/option-queries/GCC15-O3.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "observations/option-queries/GCC15-O3.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/observations/option-queries/GCC15-O3.stdout",
+      "size_bytes": 12366,
+      "sha256": "ddc532b12bff8a53d1c5d786eae6de500eb73841d80ae07461b21c3f03328715"
+    },
+    {
+      "relative_path": "observations/option-queries/GCC15-no-forward-propagate-O3.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/observations/option-queries/GCC15-no-forward-propagate-O3.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "observations/option-queries/GCC15-no-forward-propagate-O3.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/observations/option-queries/GCC15-no-forward-propagate-O3.stdout",
+      "size_bytes": 12367,
+      "sha256": "cbea6dba467705950045c42a8d0fca0a98c4b48b07b4a428c5f97ff73016c70d"
+    },
+    {
+      "relative_path": "observations/option-query-verification/baseline.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/observations/option-query-verification/baseline.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "observations/option-query-verification/baseline.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/observations/option-query-verification/baseline.stdout",
+      "size_bytes": 12366,
+      "sha256": "ddc532b12bff8a53d1c5d786eae6de500eb73841d80ae07461b21c3f03328715"
+    },
+    {
+      "relative_path": "observations/option-query-verification/option-query-verification.json",
+      "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/observations/option-query-verification/option-query-verification.json",
+      "size_bytes": 4036,
+      "sha256": "e189d0ef2ba79be97ece4bbbaf7f6db42a9e296eb52e2a508842928259a91583"
+    },
+    {
+      "relative_path": "observations/option-query-verification/reporter-order.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/observations/option-query-verification/reporter-order.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "observations/option-query-verification/reporter-order.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/observations/option-query-verification/reporter-order.stdout",
+      "size_bytes": 12367,
+      "sha256": "cbea6dba467705950045c42a8d0fca0a98c4b48b07b4a428c5f97ff73016c70d"
+    },
+    {
+      "relative_path": "observations/pre-run-attestation.json",
+      "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/observations/pre-run-attestation.json",
+      "size_bytes": 1616,
+      "sha256": "205798720f0ee36a61676846eb31ca7a89e13ec9fc2913086a6f9fa5cc8bfec5"
+    },
+    {
+      "relative_path": "observations/pretest-identity.json",
+      "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/observations/pretest-identity.json",
+      "size_bytes": 5140,
+      "sha256": "cb1861c96a5c2f33f0942346d725fe840efdc5eb55f9bf142b8ff3fa2487a201"
+    },
+    {
+      "relative_path": "observations/results.json",
+      "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/observations/results.json",
+      "size_bytes": 5607,
+      "sha256": "aef25347eee14efe53b9920fddc8bad0b680d566ab977b33268eff91f33b030d"
+    },
+    {
+      "relative_path": "observations/setup-capture-error.json",
+      "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/observations/setup-capture-error.json",
+      "size_bytes": 617,
+      "sha256": "73f3536b1d3bc08de42e5e7d14df3d721b574689eddef618e0caa42d5170c733"
+    },
+    {
+      "relative_path": "observations/setup-capture-errors.json",
+      "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/observations/setup-capture-errors.json",
+      "size_bytes": 2281,
+      "sha256": "ebe49cee28bd55eb2cf853b8aea04fd035658a241fa869f1fdd7ce1e7aa2564c"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-baseline/compile.status",
+      "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/runs/gcc-15.2-baseline/compile.status",
+      "size_bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-baseline/compile.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/runs/gcc-15.2-baseline/compile.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-baseline/compile.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/runs/gcc-15.2-baseline/compile.stdout",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-baseline/small.c",
+      "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/runs/gcc-15.2-baseline/small.c",
+      "size_bytes": 236,
+      "sha256": "77a92761fadde9449f03271f6f186f59091f1a5c697a55f523b4388ab9f405c2"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-baseline/small.c.305r.ext_dce",
+      "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/runs/gcc-15.2-baseline/small.c.305r.ext_dce",
+      "size_bytes": 13075,
+      "sha256": "38c44965d93074e7de3cc97e264070fdb7a484f288d3921f6e8b08c9df19ad14"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-baseline/small.s",
+      "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/runs/gcc-15.2-baseline/small.s",
+      "size_bytes": 1599,
+      "sha256": "5c53de8d8b27e26d7ac9ed8ad746fbf49cec3ca279a1faa528ee7a2f1d6f7f97"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-reporter-order/compile.status",
+      "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/runs/gcc-15.2-reporter-order/compile.status",
+      "size_bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-reporter-order/compile.stderr",
+      "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/runs/gcc-15.2-reporter-order/compile.stderr",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-reporter-order/compile.stdout",
+      "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/runs/gcc-15.2-reporter-order/compile.stdout",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-reporter-order/small.c",
+      "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/runs/gcc-15.2-reporter-order/small.c",
+      "size_bytes": 236,
+      "sha256": "77a92761fadde9449f03271f6f186f59091f1a5c697a55f523b4388ab9f405c2"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-reporter-order/small.c.305r.ext_dce",
+      "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/runs/gcc-15.2-reporter-order/small.c.305r.ext_dce",
+      "size_bytes": 13441,
+      "sha256": "0119636e2ad8c263351aa7c579a829447c22f64131704121bb0e993a81133323"
+    },
+    {
+      "relative_path": "runs/gcc-15.2-reporter-order/small.s",
+      "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/runs/gcc-15.2-reporter-order/small.s",
+      "size_bytes": 1599,
+      "sha256": "5c53de8d8b27e26d7ac9ed8ad746fbf49cec3ca279a1faa528ee7a2f1d6f7f97"
+    },
+    {
+      "relative_path": "source/reporter-small.c",
+      "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/source/reporter-small.c",
+      "size_bytes": 236,
+      "sha256": "77a92761fadde9449f03271f6f186f59091f1a5c697a55f523b4388ab9f405c2"
+    }
+  ]
+}

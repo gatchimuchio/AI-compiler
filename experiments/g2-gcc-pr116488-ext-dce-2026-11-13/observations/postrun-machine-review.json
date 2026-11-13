@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "record_id": "G2-HISTORY-2026-11-13-11",
+  "batch": "B63",
+  "capture_type": "read-only post-run artifact inspection; no compiler, program, testsuite, or AICompiler test execution",
+  "captured_utc": "2026-11-13T10:49:15Z",
+  "method": [
+    "verified results.json hashes and per-case compile exit states",
+    "compared assembly files by byte length and SHA-256",
+    "read the ext_dce RTL dump headers, function f summaries, and a unified diff"
+  ],
+  "cases": [
+    {
+      "case_id": "gcc-15.2-baseline",
+      "assembly": {
+        "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/runs/gcc-15.2-baseline/small.s",
+        "size_bytes": 1599,
+        "sha256": "5c53de8d8b27e26d7ac9ed8ad746fbf49cec3ca279a1faa528ee7a2f1d6f7f97"
+      },
+      "rtl_dump": {
+        "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/runs/gcc-15.2-baseline/small.c.305r.ext_dce",
+        "size_bytes": 13075,
+        "sha256": "38c44965d93074e7de3cc97e264070fdb7a484f288d3921f6e8b08c9df19ad14"
+      },
+      "function_f_instruction_count_from_rtl_summary": 25,
+      "function_f_symbolic_pointer_ids_are_process_specific": true
+    },
+    {
+      "case_id": "gcc-15.2-reporter-order",
+      "assembly": {
+        "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/runs/gcc-15.2-reporter-order/small.s",
+        "size_bytes": 1599,
+        "sha256": "5c53de8d8b27e26d7ac9ed8ad746fbf49cec3ca279a1faa528ee7a2f1d6f7f97"
+      },
+      "rtl_dump": {
+        "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/runs/gcc-15.2-reporter-order/small.c.305r.ext_dce",
+        "size_bytes": 13441,
+        "sha256": "0119636e2ad8c263351aa7c579a829447c22f64131704121bb0e993a81133323"
+      },
+      "function_f_instruction_count_from_rtl_summary": 27,
+      "function_f_symbolic_pointer_ids_are_process_specific": true
+    }
+  ],
+  "pairwise_analysis": {
+    "compile_cases_completed": 2,
+    "both_compile_exit_status_zero": true,
+    "both_compile_stdout_stderr_empty": true,
+    "assembly_byte_identical": true,
+    "assembly_sha256": "5c53de8d8b27e26d7ac9ed8ad746fbf49cec3ca279a1faa528ee7a2f1d6f7f97",
+    "rtl_dump_byte_identical": false,
+    "baseline_function_f_instruction_count_from_rtl_summary": 25,
+    "reporter_order_function_f_instruction_count_from_rtl_summary": 27,
+    "observed_structural_difference": [
+      "With -fno-forward-propagate, the ext_dce snapshot contains an explicit QI subreg extraction to a temporary before the byte multiply.",
+      "With -fno-forward-propagate, the ext_dce snapshot also contains an explicit QI temporary used for the subsequent sign extension; the baseline consumes the subreg directly."
+    ],
+    "interpretation_limit": "This is a compiler-internal snapshot after the named RTL pass. The comparison does not isolate which earlier/later pass caused the representation difference and does not establish semantic correctness. The final assembly was byte-identical; no consumer or independent oracle ran."
+  },
+  "AICompiler_project_tests": "NOT_RUN"
+}

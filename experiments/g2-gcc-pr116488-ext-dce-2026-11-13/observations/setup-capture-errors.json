@@ -2,7 +2,7 @@
   "schema_version": 1,
   "record_id": "G2-HISTORY-2026-11-13-11",
   "batch": "B63",
-  "recorded_utc": "2026-11-13T10:41:36.534276Z",
+  "recorded_utc": "2026-11-13T10:46:23.126120Z",
   "testcase_started": false,
   "events": [
     {
@@ -18,6 +18,13 @@
       "result": "CORRECTED_BEFORE_RUN",
       "error": "The first draft omitted the prev-mpfr and prev-mpc search directories from LD_LIBRARY_PATH.",
       "correction": "Added both directories and compared the runner path byte-for-byte with the B62 frozen runner. The final normalized string is 653 bytes and has the same ordered search paths; no testcase compile or consumer execution had started."
+    },
+    {
+      "step": 3,
+      "stage": "final pre-run ref check",
+      "result": "CHECK_EXPRESSION_ERROR",
+      "error": "The first preflight validator incorrectly required refs/codex/backup-main-prev to equal HEAD.",
+      "correction": "The current recovery state is correct: backup-main equals HEAD 16a4e6632865d3b4f51b63ba8219943a92a502f8, while backup-main-prev equals prior main cb25b634685f4852914821afd597aeaa016664de. The validator was corrected to check those two distinct expected values. No pre-run attestation was written and no testcase compile/run had begun."
     }
   ],
   "preserved_initial_query_outputs": [
