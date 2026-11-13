@@ -2,6 +2,12 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-13 — 添付3点セットの版・同一性照合
+
+- Owner添付ZIPのarchive SHA-256、3 entryの文書版/hash、main上の文書hash/blobを固定し、01/02のG1/G2 status行のみ異なることと03のbyte一致を記録した。[照合記録](docs/evidence/3点セット版照合_2026-11-13.md)
+- 既存mainの観測記録を保ち、ZIP内容による上書きは行っていない。G0–G6案の技術採用、AIC/0.2範囲、QA・公開状態は変更していない。
+- 文書のみの変更。`git diff --check`を実施し、compiler/repository testsはNOT_RUN（文書照合のため非該当）。
+
 ## 2026-11-13 — G2 Rust vtable修正経路の限定追跡
 
 - Rust #161441のreportから、#158993のsolver変更、#161555のstable backport、issue専用run-pass試験、1.98.1 release noteまでを固定commit付き一次資料で接続した。元PRのnext-solver check-pass試験とstable向けissue回帰試験を区別し、試験を実行したとは記載していない。[履歴記録](docs/evidence/G2_既存compiler運用履歴_2026-11-13.md)
