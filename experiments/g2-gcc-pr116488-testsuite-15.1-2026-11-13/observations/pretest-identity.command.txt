@@ -1,0 +1,12 @@
+date -u +%Y-%m-%dT%H:%M:%SZ
+env PATH=/tmp/aic-gcc15-pr116488-2026-11-13/tools/bin:/usr/bin:/bin LD_LIBRARY_PATH=/tmp/aic-gcc15-pr116488-2026-11-13/tools/lib /tmp/aic-gcc15-pr116488-2026-11-13/tools/bin/gawk --version | head -n 1
+env PATH=/tmp/aic-gcc15-pr116488-2026-11-13/tools/bin:/usr/bin:/bin LD_LIBRARY_PATH=/tmp/aic-gcc15-pr116488-2026-11-13/tools/lib /tmp/aic-gcc15-pr116488-2026-11-13/tools/bin/expect -v
+env PATH=/tmp/aic-gcc15-pr116488-2026-11-13/tools/bin:/usr/bin:/bin LD_LIBRARY_PATH=/tmp/aic-gcc15-pr116488-2026-11-13/tools/lib /tmp/aic-gcc15-pr116488-2026-11-13/tools/bin/runtest --version
+printf '%s\n' 'puts [info patchlevel]' | env PATH=/tmp/aic-gcc15-pr116488-2026-11-13/tools/bin:/usr/bin:/bin LD_LIBRARY_PATH=/tmp/aic-gcc15-pr116488-2026-11-13/tools/lib /tmp/aic-gcc15-pr116488-2026-11-13/tools/bin/tclsh8.6
+sha256sum /tmp/aic-gcc15-pr116488-2026-11-13/tools/bin/gawk /tmp/aic-gcc15-pr116488-2026-11-13/tools/bin/expect /tmp/aic-gcc15-pr116488-2026-11-13/tools/bin/runtest /tmp/aic-gcc15-pr116488-2026-11-13/tools/bin/tclsh8.6 /tmp/aic-gcc15-pr116488-2026-11-13/tools/lib/libtcl8.6.so
+printf 'xgcc_version='; /tmp/aic-gcc15.1-pr116488-2026-11-13/build/gcc-15.1.0/gcc/xgcc -B /tmp/aic-gcc15.1-pr116488-2026-11-13/build/gcc-15.1.0/gcc -dumpversion
+printf 'xgcc_target='; /tmp/aic-gcc15.1-pr116488-2026-11-13/build/gcc-15.1.0/gcc/xgcc -B /tmp/aic-gcc15.1-pr116488-2026-11-13/build/gcc-15.1.0/gcc -dumpmachine
+printf 'xgcc_libgcc_s='; /tmp/aic-gcc15.1-pr116488-2026-11-13/build/gcc-15.1.0/gcc/xgcc -B /tmp/aic-gcc15.1-pr116488-2026-11-13/build/gcc-15.1.0/gcc -print-file-name=libgcc_s.so.1
+sha256sum /tmp/aic-gcc15.1-pr116488-2026-11-13/build/gcc-15.1.0/gcc/xgcc /tmp/aic-gcc15.1-pr116488-2026-11-13/build/gcc-15.1.0/gcc/cc1 /tmp/aic-gcc15.1-pr116488-2026-11-13/build/gcc-15.1.0/gcc/libgcc.a /tmp/aic-gcc15.1-pr116488-2026-11-13/build/gcc-15.1.0/gcc/libgcc_s.so.1 /tmp/aic-gcc15.1-pr116488-2026-11-13/build/gcc-15.1.0/gcc/crtbegin.o
+sha256sum /tmp/aic-gcc15.1-pr116488-2026-11-13/captures/configure.log /tmp/aic-gcc15.1-pr116488-2026-11-13/captures/gcc-build.log /tmp/aic-gcc15.1-pr116488-2026-11-13/captures/libgcc-build.log /tmp/aic-gcc15.1-pr116488-2026-11-13/captures/gcc-prerequisites.log
+wc -c /tmp/aic-gcc15.1-pr116488-2026-11-13/captures/configure.log /tmp/aic-gcc15.1-pr116488-2026-11-13/captures/gcc-build.log /tmp/aic-gcc15.1-pr116488-2026-11-13/captures/libgcc-build.log /tmp/aic-gcc15.1-pr116488-2026-11-13/captures/gcc-prerequisites.log

@@ -1,0 +1,29 @@
+2026-11-13T08:56:49Z
+GNU Awk 5.3.0, API 4.0, PMA Avon 8-g1
+expect version 5.45.4
+DejaGnu version	1.6.3
+Expect version	5.45.4
+Tcl version	8.6
+8.6.16
+77e760857c3a20406de344d40ab5cd3ba4aadcd72e41149bb1177250d5c276f8  /tmp/aic-gcc15-pr116488-2026-11-13/tools/bin/gawk
+90c8f027f2b0810d93d7fc7666de9cc4f676285c6a021ce9094cf266c1d6f6a0  /tmp/aic-gcc15-pr116488-2026-11-13/tools/bin/expect
+c285da648b5514e9e06a506f6b6b229657a8001c8c8506d0e35a2bf0f754ab08  /tmp/aic-gcc15-pr116488-2026-11-13/tools/bin/runtest
+fa80133bf2193a88a101cf38d2f23f84dae701ce1f28e2627d38dbde9742ab48  /tmp/aic-gcc15-pr116488-2026-11-13/tools/bin/tclsh8.6
+650f10c37841f1ddd3301d89e93d492d75ff2eef38b74a32262417b150108e86  /tmp/aic-gcc15-pr116488-2026-11-13/tools/lib/libtcl8.6.so
+xgcc_version=15.1.0
+xgcc_target=x86_64-linux-gnu
+xgcc_libgcc_s=/tmp/aic-gcc15.1-pr116488-2026-11-13/build/gcc-15.1.0/gcc/libgcc_s.so.1
+0cde098ca3ae647e0fbd22b3a8c0553b753db4723331b2ce918a202991e80b85  /tmp/aic-gcc15.1-pr116488-2026-11-13/build/gcc-15.1.0/gcc/xgcc
+ab7f77baf0fe575871fd69ba46e125c69d53132abca24be090300179f2f89311  /tmp/aic-gcc15.1-pr116488-2026-11-13/build/gcc-15.1.0/gcc/cc1
+b43d3045061718a9de3f1dce2529ab8c7b77bafba8ef307891f46ce93a4ee20e  /tmp/aic-gcc15.1-pr116488-2026-11-13/build/gcc-15.1.0/gcc/libgcc.a
+01424c13248f0d58e7c534ad020596ed82c844dad0f30d856225118c684b0312  /tmp/aic-gcc15.1-pr116488-2026-11-13/build/gcc-15.1.0/gcc/libgcc_s.so.1
+f2e69f19a6361f998b5224ca06832af7e16f845bafd3c77da37fbbbf43933ed6  /tmp/aic-gcc15.1-pr116488-2026-11-13/build/gcc-15.1.0/gcc/crtbegin.o
+a3e4ae93225e0a2ba2e9254a42e71b76fe04ec98fd21cfbaad5a6f7860135abe  /tmp/aic-gcc15.1-pr116488-2026-11-13/captures/configure.log
+9c337718ef72f7d882411a6ac1e59095d000c65ea93828a28b895d434b8c66e1  /tmp/aic-gcc15.1-pr116488-2026-11-13/captures/gcc-build.log
+130b47187a28b13f7a4cb5eb7ef5f5d89b4cdf3884cbd055b290536403572bfc  /tmp/aic-gcc15.1-pr116488-2026-11-13/captures/libgcc-build.log
+9c4977b08646b51a12793a7f0c1167d31dda42165c8265ad34c2fff0349b389c  /tmp/aic-gcc15.1-pr116488-2026-11-13/captures/gcc-prerequisites.log
+   6447 /tmp/aic-gcc15.1-pr116488-2026-11-13/captures/configure.log
+2765135 /tmp/aic-gcc15.1-pr116488-2026-11-13/captures/gcc-build.log
+ 699247 /tmp/aic-gcc15.1-pr116488-2026-11-13/captures/libgcc-build.log
+    801 /tmp/aic-gcc15.1-pr116488-2026-11-13/captures/gcc-prerequisites.log
+3471630 total
