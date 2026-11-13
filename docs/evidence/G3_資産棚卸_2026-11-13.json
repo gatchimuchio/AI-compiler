@@ -10,13 +10,13 @@
         },
         {
           "path": "docs/01_統合仕様書.md",
-          "sha256": "2c0130bfdfe0c4ac01d78ab786bbc9645a9eebc1d784cb7b31e2906208a230d4",
-          "size_bytes": 30303
+          "sha256": "0c271426f6dd45baa1e5848bd31304bbcee71aea25433d70289d99e6c1cd9acc",
+          "size_bytes": 30346
         },
         {
           "path": "docs/02_工程表.md",
-          "sha256": "986dfdb764dc70d2a410594d533361ee74f9c6de1f16f8706f400fa8ecdf9a77",
-          "size_bytes": 67515
+          "sha256": "264a672451755220a851592add7b17cf2fc9894d9b1a71259f8cbf5dba6081c1",
+          "size_bytes": 68473
         },
         {
           "path": "docs/03_Codex施工指示書.md",
@@ -39,14 +39,24 @@
           "size_bytes": 4551
         },
         {
+          "path": "docs/evidence/G2_gcc_pr116488_testsuite_15.1_2026-11-13.md",
+          "sha256": "992da609a62f0c90b6c99185759dbaead99de40cf7a5d7d4cf103390511ab380",
+          "size_bytes": 4329
+        },
+        {
+          "path": "docs/evidence/G2_gcc_pr116488_testsuite_15.2_2026-11-13.md",
+          "sha256": "d48891bdec35078c3b0de8041741e89d7b0378c84ead32cd8d6d9396bca888a5",
+          "size_bytes": 5135
+        },
+        {
           "path": "docs/evidence/G2_gcc_pr116488_testsuite_2026-11-13.md",
           "sha256": "4aadd07bbc7576573f491ed9e4c47535825a29686e2d79bdc2b92611be560cc6",
           "size_bytes": 5721
         },
         {
           "path": "docs/evidence/G2_gcc_release_followup_2026-11-13.md",
-          "sha256": "425e0d998034fdce62d2d4ad8d60bc38f6c2e392b80cbb689cf5d9de6164d204",
-          "size_bytes": 10023
+          "sha256": "d770f5b9e603cda731e065ddf8c514c5547dda4b9669ff1940bf9c6c40bea3da",
+          "size_bytes": 10555
         },
         {
           "path": "docs/evidence/G2_llvm_release_followup_2026-11-13.md",
@@ -70,8 +80,8 @@
         },
         {
           "path": "docs/evidence/G2_既存compiler運用履歴_2026-11-13.md",
-          "sha256": "f11b1dbf94185d063f87ee3f6a376e9480fa02ebf8232b1546fdf39fc54b733b",
-          "size_bytes": 30102
+          "sha256": "3587f55b0bf99ba44a3e34c95ae0a22f79c1ee43db5011886ee1a642306fda0b",
+          "size_bytes": 31258
         },
         {
           "path": "docs/evidence/G3_Qwen3テンプレート補正追試_2026-11-13.md",
@@ -85,8 +95,8 @@
         },
         {
           "path": "docs/evidence/G3_資産棚卸_2026-11-13.json",
-          "sha256": "self-reference-omitted",
-          "size_bytes": 38413
+          "size_bytes": 42815,
+          "self_reference": "SHA-256 omitted to avoid a recursive manifest hash"
         },
         {
           "path": "docs/proposals/01_初期変換契約案.md",
@@ -122,6 +132,116 @@
           "path": "experiments/g2-gcc-pr116488-release-followup-2026-11-13/results.json",
           "sha256": "444974e70c00d2b8bc5861333644877383bc5eb17363b81145004a4e7e72ffc2",
           "size_bytes": 14617
+        },
+        {
+          "path": "experiments/g2-gcc-pr116488-testsuite-15.1-2026-11-13/README.md",
+          "sha256": "bfc813957fe224fd2385b4cab199d051e9f9bad110c693d9b54bd5876ab61742",
+          "size_bytes": 1104
+        },
+        {
+          "path": "experiments/g2-gcc-pr116488-testsuite-15.1-2026-11-13/observations/gcc-15.1.0-sha512.sum",
+          "sha256": "55430da81d652702c896bccf4be1813072fdaed4c62f600db2e6ac3cef6eeb73",
+          "size_bytes": 600
+        },
+        {
+          "path": "experiments/g2-gcc-pr116488-testsuite-15.1-2026-11-13/observations/gcc-mirror-15-series-tag-objects-and-peeled-commits.txt",
+          "sha256": "aa81ab322d59adc34908312aeaf0fb6604a9aa2a7907bb4fa86465e2346ee4cd",
+          "size_bytes": 435
+        },
+        {
+          "path": "experiments/g2-gcc-pr116488-testsuite-15.1-2026-11-13/observations/gcc-official-15-series-tag-objects-and-peeled-commits.txt",
+          "sha256": "aa81ab322d59adc34908312aeaf0fb6604a9aa2a7907bb4fa86465e2346ee4cd",
+          "size_bytes": 435
+        },
+        {
+          "path": "experiments/g2-gcc-pr116488-testsuite-15.1-2026-11-13/observations/pretest-identity.command.txt",
+          "sha256": "daa22b520ccc79d790acb566d761875d7be5f22e7bfd156d277234e9c096ae58",
+          "size_bytes": 2468
+        },
+        {
+          "path": "experiments/g2-gcc-pr116488-testsuite-15.1-2026-11-13/observations/pretest-identity.txt",
+          "sha256": "dbe15cdfc141931e1ec0a5c6a4d4dc6929cd8eb6d7022c57c878c426111ef28a",
+          "size_bytes": 2355
+        },
+        {
+          "path": "experiments/g2-gcc-pr116488-testsuite-15.1-2026-11-13/observations/tag-identity-command.txt",
+          "sha256": "5df4b4f8ca0eee3a3ca2601c909595909a161ca806f522eeda24de57b089d0e7",
+          "size_bytes": 320
+        },
+        {
+          "path": "experiments/g2-gcc-pr116488-testsuite-15.1-2026-11-13/observations/tag-identity-query-started.utc",
+          "sha256": "6a89aea1943515eb1e82b6d76d8763c86bb7c32ae2e4cbdab082a6b358d00df8",
+          "size_bytes": 21
+        },
+        {
+          "path": "experiments/g2-gcc-pr116488-testsuite-15.1-2026-11-13/preregistration.md",
+          "sha256": "ab0b85e6477d9973b13b91627351ed9cf6635373290870c7021a66c2add0d68f",
+          "size_bytes": 8626
+        },
+        {
+          "path": "experiments/g2-gcc-pr116488-testsuite-15.1-2026-11-13/results.json",
+          "sha256": "6a8b1b896acae49cc55c99c7fc5d5e65469dc13f8203228a25e78921ec7817b7",
+          "size_bytes": 11795
+        },
+        {
+          "path": "experiments/g2-gcc-pr116488-testsuite-15.2-2026-11-13/README.md",
+          "sha256": "daa8304641f918bacd5d18663e317576d1942412910bd968029ca979c90a4ef4",
+          "size_bytes": 1067
+        },
+        {
+          "path": "experiments/g2-gcc-pr116488-testsuite-15.2-2026-11-13/observations/archive-download.json",
+          "sha256": "6d723b4165c300d41cfdd7c0e53ba824acef4e1af6f99a35f87c6d5b13fe2825",
+          "size_bytes": 757
+        },
+        {
+          "path": "experiments/g2-gcc-pr116488-testsuite-15.2-2026-11-13/observations/build-and-pretest.json",
+          "sha256": "6217d04bfac8fb864161c215c6e5b28d9a582487171e0eeff353a74fe146960a",
+          "size_bytes": 16184
+        },
+        {
+          "path": "experiments/g2-gcc-pr116488-testsuite-15.2-2026-11-13/observations/check-gcc-result.json",
+          "sha256": "7a5a9cdb3bd92a81c81a2ebf6e9ce20999fd47436d9ffc92e4bbdd1ef9bbabe9",
+          "size_bytes": 1605
+        },
+        {
+          "path": "experiments/g2-gcc-pr116488-testsuite-15.2-2026-11-13/observations/gcc-15.2.0-sha512.sum",
+          "sha256": "ca8146c37d6770f0b358db5c1e31951ed4018b7f21e92fca55cbd5431123dc19",
+          "size_bytes": 600
+        },
+        {
+          "path": "experiments/g2-gcc-pr116488-testsuite-15.2-2026-11-13/observations/gcc-mirror-15.2-tag-identity.txt",
+          "sha256": "7e633ea387a82160c86de5c990706670aee531c1c974c81e17662a34db286c3d",
+          "size_bytes": 145
+        },
+        {
+          "path": "experiments/g2-gcc-pr116488-testsuite-15.2-2026-11-13/observations/gcc-official-15.2-tag-identity.txt",
+          "sha256": "7e633ea387a82160c86de5c990706670aee531c1c974c81e17662a34db286c3d",
+          "size_bytes": 145
+        },
+        {
+          "path": "experiments/g2-gcc-pr116488-testsuite-15.2-2026-11-13/observations/preregistration-capture.json",
+          "sha256": "4f28391b23eba558d7d34b07d0d42a24765dfa89918f18712fff098970c4b47c",
+          "size_bytes": 1676
+        },
+        {
+          "path": "experiments/g2-gcc-pr116488-testsuite-15.2-2026-11-13/observations/pretest-identity.json",
+          "sha256": "5281b2342957e6c86439bee6fc1644df5bbe570d25d1537c74518d35376ba147",
+          "size_bytes": 6218
+        },
+        {
+          "path": "experiments/g2-gcc-pr116488-testsuite-15.2-2026-11-13/observations/results.json",
+          "sha256": "e5cf7d5af50fb1a75fa9d4848d2c6de12a43998a7c8fe3aeda075bb1229977b9",
+          "size_bytes": 10068
+        },
+        {
+          "path": "experiments/g2-gcc-pr116488-testsuite-15.2-2026-11-13/observations/source-validation.json",
+          "sha256": "780c3983ebfdf963466f790c9ff08f4f6c2fbccab867a0ee95cb80a223c8ed3f",
+          "size_bytes": 3189
+        },
+        {
+          "path": "experiments/g2-gcc-pr116488-testsuite-15.2-2026-11-13/preregistration.md",
+          "sha256": "bc684da3a0a3f8188642b06eb86db49f669bd0aca974d7803fa95c6d638745e3",
+          "size_bytes": 9829
         },
         {
           "path": "experiments/g2-gcc-pr116488-testsuite-2026-11-13/README.md",
@@ -602,65 +722,10 @@
           "path": "tests/harness.cpp",
           "sha256": "1c3db341e12e63fa2d6a57007bbea13945b57d822013d3bf7f21c3e6ce876097",
           "size_bytes": 1369
-        },
-        {
-          "path": "docs/evidence/G2_gcc_pr116488_testsuite_15.1_2026-11-13.md",
-          "sha256": "992da609a62f0c90b6c99185759dbaead99de40cf7a5d7d4cf103390511ab380",
-          "size_bytes": 4329
-        },
-        {
-          "path": "experiments/g2-gcc-pr116488-testsuite-15.1-2026-11-13/README.md",
-          "sha256": "bfc813957fe224fd2385b4cab199d051e9f9bad110c693d9b54bd5876ab61742",
-          "size_bytes": 1104
-        },
-        {
-          "path": "experiments/g2-gcc-pr116488-testsuite-15.1-2026-11-13/preregistration.md",
-          "sha256": "ab0b85e6477d9973b13b91627351ed9cf6635373290870c7021a66c2add0d68f",
-          "size_bytes": 8626
-        },
-        {
-          "path": "experiments/g2-gcc-pr116488-testsuite-15.1-2026-11-13/results.json",
-          "sha256": "6a8b1b896acae49cc55c99c7fc5d5e65469dc13f8203228a25e78921ec7817b7",
-          "size_bytes": 11795
-        },
-        {
-          "path": "experiments/g2-gcc-pr116488-testsuite-15.1-2026-11-13/observations/gcc-15.1.0-sha512.sum",
-          "sha256": "55430da81d652702c896bccf4be1813072fdaed4c62f600db2e6ac3cef6eeb73",
-          "size_bytes": 600
-        },
-        {
-          "path": "experiments/g2-gcc-pr116488-testsuite-15.1-2026-11-13/observations/gcc-official-15-series-tag-objects-and-peeled-commits.txt",
-          "sha256": "aa81ab322d59adc34908312aeaf0fb6604a9aa2a7907bb4fa86465e2346ee4cd",
-          "size_bytes": 435
-        },
-        {
-          "path": "experiments/g2-gcc-pr116488-testsuite-15.1-2026-11-13/observations/gcc-mirror-15-series-tag-objects-and-peeled-commits.txt",
-          "sha256": "aa81ab322d59adc34908312aeaf0fb6604a9aa2a7907bb4fa86465e2346ee4cd",
-          "size_bytes": 435
-        },
-        {
-          "path": "experiments/g2-gcc-pr116488-testsuite-15.1-2026-11-13/observations/tag-identity-command.txt",
-          "sha256": "5df4b4f8ca0eee3a3ca2601c909595909a161ca806f522eeda24de57b089d0e7",
-          "size_bytes": 320
-        },
-        {
-          "path": "experiments/g2-gcc-pr116488-testsuite-15.1-2026-11-13/observations/tag-identity-query-started.utc",
-          "sha256": "6a89aea1943515eb1e82b6d76d8763c86bb7c32ae2e4cbdab082a6b358d00df8",
-          "size_bytes": 21
-        },
-        {
-          "path": "experiments/g2-gcc-pr116488-testsuite-15.1-2026-11-13/observations/pretest-identity.command.txt",
-          "sha256": "daa22b520ccc79d790acb566d761875d7be5f22e7bfd156d277234e9c096ae58",
-          "size_bytes": 2468
-        },
-        {
-          "path": "experiments/g2-gcc-pr116488-testsuite-15.1-2026-11-13/observations/pretest-identity.txt",
-          "sha256": "dbe15cdfc141931e1ec0a5c6a4d4dc6929cd8eb6d7022c57c878c426111ef28a",
-          "size_bytes": 2355
         }
       ],
-      "regular_file_count": 131,
-      "bytes": 3726803
+      "regular_file_count": 144,
+      "bytes": 3790512
     },
     {
       "state": "保管済み",
@@ -706,6 +771,16 @@
           "bytes": 4118727488
         },
         {
+          "path": "/tmp/aic-gcc15.1-pr116488-2026-11-13",
+          "regular_file_count": 161306,
+          "bytes": 3965402963
+        },
+        {
+          "path": "/tmp/aic-gcc15.2-pr116488-2026-11-13",
+          "regular_file_count": 161999,
+          "bytes": 3982755243
+        },
+        {
           "path": "/tmp/codex-remote-attachments/6af3be48-658c-8191-9bac-a4d6a6b1d086/17951520-18ce-4417-9fef-dcc2dcedfd6b/1-AICompiler_3point_set_2026-11-13.zip",
           "regular_file_count": 1,
           "bytes": 46980
@@ -714,11 +789,6 @@
           "path": "/tmp/llvm-api-error.json",
           "regular_file_count": 1,
           "bytes": 190
-        },
-        {
-          "path": "/tmp/aic-gcc15.1-pr116488-2026-11-13",
-          "regular_file_count": 161306,
-          "bytes": 3965402963
         }
       ],
       "g3_external_component_breakdown": [
@@ -783,8 +853,8 @@
           ]
         }
       ],
-      "regular_file_count": 343281,
-      "bytes": 11113153519
+      "regular_file_count": 505280,
+      "bytes": 15095908762
     },
     {
       "state": "稼働中",
@@ -853,11 +923,11 @@
   ],
   "date": "2026-11-13",
   "platform": "Linux; no Windows filesystem assets or operations",
-  "scope": "Repository records and source inputs retained for the G3 pilot, the identified-model G1 addendum, the G2 addition and subtraction comparisons, the G2 subtraction transform audit, the uploaded three-document set and its extraction, and related G1/G2 evidence. This inventory also includes the B58 GCC 15.3.0 and B59 GCC 15.1.0 PR 116488 testsuite runs. External storage includes model/build/runtime/object/consumer artifacts, frozen comparison logs, GCC/Rust transform diagnostics, LLVM release/source-history snapshots, the GCC PR 116488 stable-release/source-history follow-up, and the GCC 15.3.0 and GCC 15.1.0 source/build/tool/test outputs. Generated bytecode is excluded from preserved directory totals and counted in the separate external trash group. No active compiler/model/consumer process or unresolved asset is present. File symlinks to regular targets are counted as paths with target size; directory symlinks are not traversed. System runtime files, unrelated prior ABI workspaces, sockets, and Git internals are excluded.",
+  "scope": "Repository records and source inputs retained for the G3 pilot, the identified-model G1 addendum, the G2 addition and subtraction comparisons, the G2 subtraction transform audit, the uploaded three-document set and its extraction, and related G1/G2 evidence. This inventory also includes the B58 GCC 15.3.0, B59 GCC 15.1.0, and B60 GCC 15.2.0 PR 116488 testsuite runs. External storage includes model/build/runtime/object/consumer artifacts, frozen comparison logs, GCC/Rust transform diagnostics, LLVM release/source-history snapshots, the GCC PR 116488 stable-release/source-history follow-up, and the GCC 15.3.0, GCC 15.1.0, and GCC 15.2.0 source/build/tool/test outputs. Generated bytecode is excluded from preserved directory totals and counted in the separate external trash group. No active compiler/model/consumer process or unresolved asset is present. File symlinks to regular targets are counted as paths with target size; directory symlinks are not traversed. System runtime files, unrelated prior ABI workspaces, sockets, and Git internals are excluded. The inventory manifest counts itself by path and byte length; its own SHA-256 is omitted to avoid self-reference.",
   "title": "G1-G3 and G2 transform/release-history work-unit asset inventory",
-  "total_bytes": 11117112433,
-  "total_regular_files": 343421,
-  "unit": "regular-file paths (including symlinks to regular files, measured by target size); directories are grouping roots only",
+  "total_bytes": 15099931385,
+  "total_regular_files": 505433,
+  "unit": "regular-file paths (including symlinks to regular files, measured by target size); directories are grouping roots only; this manifest omits its own SHA-256 to avoid self-reference",
   "gcc15_pr116488_external_component_breakdown": {
     "root": "/tmp/aic-gcc15-pr116488-2026-11-13",
     "components": [
@@ -910,6 +980,36 @@
         "path": "/tmp/aic-gcc15.1-pr116488-2026-11-13/sources",
         "regular_file_count": 2,
         "bytes": 98268944
+      }
+    ]
+  },
+  "gcc15_2_pr116488_external_component_breakdown": {
+    "root": "/tmp/aic-gcc15.2-pr116488-2026-11-13",
+    "components": [
+      {
+        "path": "/tmp/aic-gcc15.2-pr116488-2026-11-13/source",
+        "regular_file_count": 155276,
+        "bytes": 1019198819
+      },
+      {
+        "path": "/tmp/aic-gcc15.2-pr116488-2026-11-13/build",
+        "regular_file_count": 6688,
+        "bytes": 2858546034
+      },
+      {
+        "path": "/tmp/aic-gcc15.2-pr116488-2026-11-13/tools",
+        "regular_file_count": 0,
+        "bytes": 0
+      },
+      {
+        "path": "/tmp/aic-gcc15.2-pr116488-2026-11-13/captures",
+        "regular_file_count": 34,
+        "bytes": 3954114
+      },
+      {
+        "path": "/tmp/aic-gcc15.2-pr116488-2026-11-13/sources",
+        "regular_file_count": 1,
+        "bytes": 101056276
       }
     ]
   }

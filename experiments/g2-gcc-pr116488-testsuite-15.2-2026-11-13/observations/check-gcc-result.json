@@ -1,0 +1,40 @@
+{
+  "argv": [
+    "make",
+    "check-gcc",
+    "RUNTESTFLAGS=dg-torture.exp=pr116488.c"
+  ],
+  "rendered_command": "env PATH=/tmp/aic-gcc15-pr116488-2026-11-13/tools/bin:/usr/bin:/bin LD_LIBRARY_PATH=/tmp/aic-gcc15-pr116488-2026-11-13/tools/lib make check-gcc RUNTESTFLAGS='dg-torture.exp=pr116488.c'",
+  "cwd": "/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0",
+  "started_utc": "2026-11-13T09:31:21.874101+00:00",
+  "completed_utc": "2026-11-13T09:31:24.292593+00:00",
+  "elapsed_seconds": 2.418492,
+  "environment": {
+    "PATH": "/tmp/aic-gcc15-pr116488-2026-11-13/tools/bin:/usr/bin:/bin",
+    "LD_LIBRARY_PATH": "/tmp/aic-gcc15-pr116488-2026-11-13/tools/lib"
+  },
+  "exit_status": 0,
+  "stdout": {
+    "bytes": 2356,
+    "sha256": "d6e50379be6f859528e39364a98837b719bd791b7e09d803cbf4c2328a600659"
+  },
+  "stderr": {
+    "bytes": 47,
+    "sha256": "72d955b06df83b7600639054bba0d74a4c0ae002b580a0e0b05fe5d4c2dceb7d"
+  },
+  "raw_testsuite_files": {
+    "gcc.sum": {
+      "source_path": "/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gcc/testsuite/gcc/gcc.sum",
+      "capture_path": "/tmp/aic-gcc15.2-pr116488-2026-11-13/captures/gcc.sum",
+      "bytes": 1711,
+      "sha256": "33db78c7975780d58bfdda158f40ef76ce8918a6eb9b7af314b99b596eae7fba"
+    },
+    "gcc.log": {
+      "source_path": "/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gcc/testsuite/gcc/gcc.log",
+      "capture_path": "/tmp/aic-gcc15.2-pr116488-2026-11-13/captures/gcc.log",
+      "bytes": 21301,
+      "sha256": "5ad163aca5d75934ecefe1e38c4830a77847f886301c44896f384812bb5e8fa9"
+    }
+  },
+  "run_count": 1
+}

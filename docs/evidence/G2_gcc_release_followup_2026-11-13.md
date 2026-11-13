@@ -63,6 +63,8 @@ B58 recorded 16 expected passes for GCC 15.3.0's `pr116488.c` test on native Lin
 
 B59 separately built GCC 15.1.0 and recorded 16 expected passes for the same selected test on native Linux x86-64, with no archive URL deviation. This adds an execution observation for the first stable GCC 15 release; it does not cover GCC 15.2.0 or the full series. See [B59 execution evidence](G2_gcc_pr116488_testsuite_15.1_2026-11-13.md) and [the B59 experiment](../../experiments/g2-gcc-pr116488-testsuite-15.1-2026-11-13/).
 
+B60 separately built GCC 15.2.0 and recorded 16 expected passes for the same selected test on native Linux x86-64, with no archive URL deviation. Together, the B58, B59, and B60 observations cover only this one regression in GCC 15.3.0, 15.1.0, and 15.2.0. They do not establish the full series, full GCC testsuite, other targets, reliability rates, or G2 completion. See [B60 execution evidence](G2_gcc_pr116488_testsuite_15.2_2026-11-13.md) and [the B60 experiment](../../experiments/g2-gcc-pr116488-testsuite-15.2-2026-11-13/).
+
 ## Release-tag identity correction
 
 B57's `ls-remote` outputs contained annotated tag-object IDs and were initially labeled as commit IDs. B59 queried each tag ref together with its peeled `^{}` commit on both remotes. Both outputs matched exactly; the corrected object/commit pairs are shown in the table above. This correction does not alter the source-file hashes/blob IDs or the source-presence finding. B58's GCC 15.3.0 result is likewise relabeled as tag object `6d02d02c0b733e4934b8e1e497d90612116de9af`, peeled commit `4db0e8df15bef836558857c291c323add11d035c`; its archive checksum, `BASE-VER`, testcase hash and test statuses are unchanged.
