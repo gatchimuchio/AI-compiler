@@ -1,0 +1,65 @@
+{
+  "kind": "non_task_template_feasibility_probe",
+  "scoring_experiment": false,
+  "started_utc": "2026-11-13T05:09:58.378809+00:00",
+  "finished_utc": "2026-11-13T05:09:59.637872+00:00",
+  "elapsed_seconds": 1.259124410993536,
+  "model": {
+    "repo_id": "Qwen/Qwen3-4B-GGUF",
+    "revision": "bc640142c66e1fdd12af0bd68f40445458f3869b",
+    "path": "/tmp/aic-g3-pilot-2026-11-13/Qwen3-4B-Q4_K_M.gguf",
+    "size_bytes": 2497280256,
+    "sha256": "7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5",
+    "llama_cpp_python": "0.3.16"
+  },
+  "chat_template": {
+    "source": "GGUF tokenizer.chat_template",
+    "sha256": "57f1fd00f0013a2be96aa79b857391f27e23df5b5f847072b524c897e24d0361",
+    "enable_thinking": false,
+    "prompt_sha256": "f593553de069cd32c7fd497c52e5754c47f99e6440eb135392ceee70dc208eb1",
+    "prompt_utf8_hex": "3c7c696d5f73746172747c3e73797374656d0a2f6e6f5f7468696e6b3c7c696d5f656e647c3e0a3c7c696d5f73746172747c3e757365720a5265706c792077697468207468652065786163742074657874204f4b20616e64206e6f7468696e6720656c73652e3c7c696d5f656e647c3e0a3c7c696d5f73746172747c3e617373697374616e740a3c7468696e6b3e0a0a3c2f7468696e6b3e0a0a"
+  },
+  "system_message": "/no_think",
+  "user_prompt": "Reply with the exact text OK and nothing else.",
+  "sampling": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "top_k": 1,
+    "min_p": 0.0,
+    "max_tokens": 16,
+    "seed": 131113
+  },
+  "environment": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "machine": "x86_64",
+    "threads": 5
+  },
+  "status": "completed",
+  "response": {
+    "id": "chatcmpl-02325848-3220-43a2-8cf2-cf38b0b3adb7",
+    "object": "chat.completion",
+    "created": 1794546598,
+    "model": "/tmp/aic-g3-pilot-2026-11-13/Qwen3-4B-Q4_K_M.gguf",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "OK"
+        },
+        "logprobs": null,
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 30,
+      "completion_tokens": 1,
+      "total_tokens": 31
+    }
+  },
+  "content": "OK",
+  "content_utf8_hex": "4f4b",
+  "content_is_exact_ok": true,
+  "empty_think_wrapper_in_generated_content": false
+}

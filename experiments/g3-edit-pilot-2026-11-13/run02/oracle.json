@@ -1,0 +1,179 @@
+{
+  "oracle_version": "g3-modular-u64-v1",
+  "tasks": {
+    "E1": {
+      "allowed_target_fields": [
+        "i0.value"
+      ],
+      "expected_operations": [
+        {
+          "id": "one",
+          "op": "const.u64",
+          "value": "17"
+        },
+        {
+          "args": [
+            "x",
+            "one"
+          ],
+          "id": "sum",
+          "op": "add.wrap.u64"
+        },
+        {
+          "op": "ret.u64",
+          "value": "sum"
+        }
+      ],
+      "request": "identifier oneで定義されている定数を1から17に変更してください。ほかの操作は変更しないでください。"
+    },
+    "E2": {
+      "allowed_target_fields": [
+        "i1.op"
+      ],
+      "expected_operations": [
+        {
+          "id": "one",
+          "op": "const.u64",
+          "value": "1"
+        },
+        {
+          "args": [
+            "x",
+            "one"
+          ],
+          "id": "sum",
+          "op": "sub.wrap.u64"
+        },
+        {
+          "op": "ret.u64",
+          "value": "sum"
+        }
+      ],
+      "request": "sumの演算をwrap減算に変えてください。operandと定数は変更しないでください。"
+    },
+    "E3": {
+      "allowed_target_fields": [
+        "i2.*",
+        "i3.*",
+        "term.value"
+      ],
+      "expected_operations": [
+        {
+          "id": "one",
+          "op": "const.u64",
+          "value": "1"
+        },
+        {
+          "args": [
+            "x",
+            "one"
+          ],
+          "id": "sum",
+          "op": "add.wrap.u64"
+        },
+        {
+          "id": "two",
+          "op": "const.u64",
+          "value": "2"
+        },
+        {
+          "args": [
+            "sum",
+            "two"
+          ],
+          "id": "result",
+          "op": "sub.wrap.u64"
+        },
+        {
+          "op": "ret.u64",
+          "value": "result"
+        }
+      ],
+      "request": "現在のsumの値から2を引いた値を返してください。定数をidentifier two、結果をidentifier resultで追加してください。"
+    },
+    "E4": {
+      "allowed_target_fields": [
+        "i1.id",
+        "term.value"
+      ],
+      "expected_operations": [
+        {
+          "id": "one",
+          "op": "const.u64",
+          "value": "1"
+        },
+        {
+          "args": [
+            "x",
+            "one"
+          ],
+          "id": "answer",
+          "op": "add.wrap.u64"
+        },
+        {
+          "op": "ret.u64",
+          "value": "answer"
+        }
+      ],
+      "request": "sumという値identifierをanswerへ変更し、その定義とすべての参照を更新してください。演算と定数は変えないでください。"
+    },
+    "E5": {
+      "allowed_target_fields": [
+        "*"
+      ],
+      "expected_operations": [
+        {
+          "id": "seven",
+          "op": "const.u64",
+          "value": "7"
+        },
+        {
+          "op": "ret.u64",
+          "value": "seven"
+        }
+      ],
+      "request": "入力値に関係なく7を返すprogramに変更し、計算に不要になった操作を削除してください。定数identifierはsevenにしてください。"
+    },
+    "E6": {
+      "allowed_target_fields": [
+        "i0.value",
+        "i2.*",
+        "i3.*",
+        "term.value"
+      ],
+      "expected_operations": [
+        {
+          "id": "one",
+          "op": "const.u64",
+          "value": "4"
+        },
+        {
+          "args": [
+            "x",
+            "one"
+          ],
+          "id": "sum",
+          "op": "add.wrap.u64"
+        },
+        {
+          "id": "two",
+          "op": "const.u64",
+          "value": "2"
+        },
+        {
+          "args": [
+            "sum",
+            "two"
+          ],
+          "id": "result",
+          "op": "add.wrap.u64"
+        },
+        {
+          "op": "ret.u64",
+          "value": "result"
+        }
+      ],
+      "request": "定数oneを4に変え、現在のsumに2を足した値を返してください。追加する定数と結果のidentifierはtwoとresultにしてください。"
+    }
+  }
+}

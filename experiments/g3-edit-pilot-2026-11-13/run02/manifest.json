@@ -1,0 +1,182 @@
+{
+  "base_head": "a07cd3176853eee598d0c5a46400a318a7e9c4ae",
+  "budget": {
+    "additional_model_download_bytes": 0,
+    "cpu_threads": 5,
+    "generation_calls_max": 120,
+    "inference_charge": 0,
+    "wall_clock_hours_max": 4
+  },
+  "candidate": "unadopted AIC-J/0.1 pilot-only profile",
+  "control": "adopted AIC/0.2",
+  "created_utc": "2026-11-13T05:14:29.003072+00:00",
+  "experiment": "G3 single-block local-edit pilot run 02",
+  "generation_path": {
+    "chat_handler": "llama_chat_format.chat_formatter_to_chat_completion_handler(Jinja2ChatFormatter); formatter environment global set before calls",
+    "chat_template_sha256": "57f1fd00f0013a2be96aa79b857391f27e23df5b5f847072b524c897e24d0361",
+    "chat_template_source": "pinned GGUF tokenizer.chat_template",
+    "empty_think_prefix_in_input": true,
+    "response_postprocessing": "none",
+    "system_message": "/no_think",
+    "template_variable": "enable_thinking=false"
+  },
+  "model": {
+    "context_tokens": 4096,
+    "download_bytes_this_run": 0,
+    "filename": "Qwen3-4B-Q4_K_M.gguf",
+    "frequency_penalty": 0.0,
+    "license": "Apache-2.0 (pinned repository model card)",
+    "max_output_tokens": 1024,
+    "min_p": 0.0,
+    "mirostat_mode": 0,
+    "path": "/tmp/aic-g3-pilot-2026-11-13/Qwen3-4B-Q4_K_M.gguf",
+    "presence_penalty": 1.5,
+    "provider": "local CPU; no remote inference or token billing",
+    "repeat_penalty": 1.0,
+    "repository": "Qwen/Qwen3-4B-GGUF",
+    "revision": "bc640142c66e1fdd12af0bd68f40445458f3869b",
+    "runner": "llama-cpp-python==0.3.16",
+    "runner_version": "0.3.16",
+    "sha256": "7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5",
+    "size_bytes": 2497280256,
+    "stream": false,
+    "system_message": "/no_think",
+    "temperature": 0.7,
+    "threads": 5,
+    "tools": false,
+    "top_k": 20,
+    "top_p": 0.8,
+    "web_access": false
+  },
+  "pre_task_setup_artifact": {
+    "all_fit": true,
+    "no_task_generation": true,
+    "path": "preflight_setup-attempt-02.json",
+    "sha256": "05a981ef2a6997829617e463db031ba07355f5d2372c510fcf6d832b1f009132"
+  },
+  "pre_task_setup_attempts": [
+    {
+      "attempt": 1,
+      "exception": "KeyError(prompt_packets_sha256)",
+      "prior_manifest_sha256": "a8ebce72600be2e3ad16b6101f7f15881b691520794942f69be520cb75d695f9",
+      "status": "blocked_before_model_load",
+      "task_calls": 0
+    },
+    {
+      "attempt": 2,
+      "exception": "KeyError(runner_version)",
+      "ready_preflight_sha256": "05a981ef2a6997829617e463db031ba07355f5d2372c510fcf6d832b1f009132",
+      "status": "blocked_before_task_generation",
+      "task_calls": 0
+    }
+  ],
+  "preregistration_sha256": "97d73dcaec84b26629dfa7687031a41219cc6b964986175ef8cb699e1cbe9c0a",
+  "question": "Does the pinned Qwen3 model produce strict parseable AIC/0.2 and pilot-only AIC-J/0.1 outputs when the same non-thinking mode is actually bound in the embedded GGUF chat template?",
+  "randomization": {
+    "order_bit": "SHA256(ASCII(AIC-G3-run02-order-v1)||0x00||task_id||0x00||uint32_be(replicate))[0] & 1; 0=AIC first, 1=JSON first",
+    "pair_seed": "uint32_be(SHA256(ASCII(AIC-G3-run02-seed-v1)||0x00||task_id||0x00||uint32_be(replicate))[:4])"
+  },
+  "repository_files_sha256": {
+    "Cargo.lock": "b32df078c11fe4d7ff64d028c751f7417070d5b8be347198007dc78aa7beaf2d",
+    "Cargo.toml": "ff99f05baeafcd5cc5a8d7fb4045ad15e2cbef47f2f3939cd34b0214b50910c1",
+    "experiments/g3-edit-pilot-2026-11-13/diagnostics/no_think_template_probe.py": "f5fb6e79d3d4cf056b28032179dd5243a908a84f3faac932a2ba92454533d460",
+    "experiments/g3-edit-pilot-2026-11-13/diagnostics/template_probe.json": "29a7040219f9eb582ac4fbfad9fc5ba95d0ce341e0539ab1907ec8bab4815a19",
+    "experiments/g3-edit-pilot-2026-11-13/manifest.json": "af2cf6307753ba44a29f664b3958552146ec9058ae10263c9e1747796bdabdfd",
+    "experiments/g3-edit-pilot-2026-11-13/run02/fixed_inputs.json": "8ae65c4bc7fcadd748804f4b0b4bd2dcffbee5c3b18c98971df106f83eb32545",
+    "experiments/g3-edit-pilot-2026-11-13/run02/oracle.json": "d854a1ca4663c839bb0410290419378be0f598cf684938d42c9b2fa78b96f4b0",
+    "experiments/g3-edit-pilot-2026-11-13/run02/preregistration.md": "97d73dcaec84b26629dfa7687031a41219cc6b964986175ef8cb699e1cbe9c0a",
+    "experiments/g3-edit-pilot-2026-11-13/run02/run01_manifest.json": "af2cf6307753ba44a29f664b3958552146ec9058ae10263c9e1747796bdabdfd",
+    "experiments/g3-edit-pilot-2026-11-13/run02/run_pilot.py": "cfa14b691eebe4335f3976142afaef1f7c4f15f330f7685515483bdf1d3c9876",
+    "experiments/g3-edit-pilot-2026-11-13/run02/score_run02.py": "ba9366dc51737231e511c85a259373683e6abd6a3475f379338853b37a41d3a9",
+    "experiments/g3-edit-pilot-2026-11-13/run02/setup_attempts.jsonl": "cfb04cff21569f9e7f6e7701217eea509894ca7796f3d97a0f0cc1d1ca580f32",
+    "experiments/g3-edit-pilot-2026-11-13/rust-helper/Cargo.lock": "5f7d23401454151988b421e97450121fd601902905acd1afa7e72c7e03604331",
+    "experiments/g3-edit-pilot-2026-11-13/rust-helper/Cargo.toml": "c6fcc684adc915f95d64be33400779a00d05bf5132fec1470e44838e59a11ad9",
+    "experiments/g3-edit-pilot-2026-11-13/rust-helper/src/main.rs": "29e981e199c507bbfa4f6ddd7dc281cae16f34786beab62832d951816347386d",
+    "experiments/g3-edit-pilot-2026-11-13/score_pilot.py": "eb26dd2af068498fd640752b8ee8e907bedf04d90d77d0c07347400109f201c6",
+    "src/driver.rs": "c5ee542ce1c1cdffac8857570771f7e2786acffd3e89fa26a161da9db824c8fc",
+    "src/ir.rs": "8c8a8c4f4f08c4bc7669f4b0d32f9240227ad0c6983bbe215fa4de0c13c71202",
+    "src/parser.rs": "564d804e922e50d440560279cb85a69b9ad94f848b6c6d97e469a9f853ea448b",
+    "src/validate.rs": "b83107205e353e0917ac71a6a795b911e4ff0fc295f695857d26cc40f78be3ec",
+    "src/x86_64.rs": "e2e8242632424a9290d2c450e0a64cc50df0254c2bae4f28b2e44eef4068156e",
+    "tests/abi_probe.S": "aaf1c4cbb0263134e63c6abdbbb1d8b1136f700a257fd469c44acd76af93ef97",
+    "tests/harness.cpp": "1c3db341e12e63fa2d6a57007bbea13945b57d822013d3bf7f21c3e6ce876097"
+  },
+  "runner_sha256": "cfa14b691eebe4335f3976142afaef1f7c4f15f330f7685515483bdf1d3c9876",
+  "sampling": {
+    "context_tokens": 4096,
+    "frequency_penalty": 0.0,
+    "max_tokens": 1024,
+    "min_p": 0.0,
+    "mirostat_mode": 0,
+    "presence_penalty": 1.5,
+    "repeat_penalty": 1.0,
+    "same_seed_within_pair": true,
+    "stream": false,
+    "temperature": 0.7,
+    "threads": 5,
+    "tools": false,
+    "top_k": 20,
+    "top_p": 0.8,
+    "web_access": false
+  },
+  "scoring": {
+    "compiler_binary_path": "/tmp/aic-g3-pilot-2026-11-13/cargo-target/release/aic",
+    "compiler_binary_sha256": "13f0185a04b5a2ed89f0fa55c0d158ccfb6ca8ebc71bff57270a3b538e2f3f9e",
+    "compiler_source_sha256": {
+      "Cargo.lock": "b32df078c11fe4d7ff64d028c751f7417070d5b8be347198007dc78aa7beaf2d",
+      "Cargo.toml": "ff99f05baeafcd5cc5a8d7fb4045ad15e2cbef47f2f3939cd34b0214b50910c1",
+      "src/driver.rs": "c5ee542ce1c1cdffac8857570771f7e2786acffd3e89fa26a161da9db824c8fc",
+      "src/ir.rs": "8c8a8c4f4f08c4bc7669f4b0d32f9240227ad0c6983bbe215fa4de0c13c71202",
+      "src/parser.rs": "564d804e922e50d440560279cb85a69b9ad94f848b6c6d97e469a9f853ea448b",
+      "src/validate.rs": "b83107205e353e0917ac71a6a795b911e4ff0fc295f695857d26cc40f78be3ec",
+      "src/x86_64.rs": "e2e8242632424a9290d2c450e0a64cc50df0254c2bae4f28b2e44eef4068156e",
+      "tests/abi_probe.S": "aaf1c4cbb0263134e63c6abdbbb1d8b1136f700a257fd469c44acd76af93ef97",
+      "tests/harness.cpp": "1c3db341e12e63fa2d6a57007bbea13945b57d822013d3bf7f21c3e6ce876097"
+    },
+    "fixed_inputs_sha256": "8ae65c4bc7fcadd748804f4b0b4bd2dcffbee5c3b18c98971df106f83eb32545",
+    "helper_binary_path": "/tmp/aic-g3-pilot-run02-2026-11-13/helper-target/release/g3-parser-adapter",
+    "helper_binary_sha256": "1621accb924aa4706df688e3c9fbea24d7430f8a67dd5e50e72ca77adbd6851e",
+    "helper_target": "/tmp/aic-g3-pilot-run02-2026-11-13/helper-target",
+    "logic_sha256": "eb26dd2af068498fd640752b8ee8e907bedf04d90d77d0c07347400109f201c6",
+    "oracle_sha256": "d854a1ca4663c839bb0410290419378be0f598cf684938d42c9b2fa78b96f4b0",
+    "production_parser_and_validator": true
+  },
+  "separation": "Run 02 is independent exploratory evidence. Never pool it with run 01 or use it to claim adoption/QA/overall optimality.",
+  "setup_attempts_sha256": "cfb04cff21569f9e7f6e7701217eea509894ca7796f3d97a0f0cc1d1ca580f32",
+  "status": "preregistered before any run-02 E1-E6 generation call",
+  "storage": {
+    "interrupted_inflight_call": "unknown; no retry; runner refuses resume",
+    "model_weights": "external existing file /tmp/aic-g3-pilot-2026-11-13/Qwen3-4B-Q4_K_M.gguf; no Git upload",
+    "objects_builds_consumers": "external isolated root /tmp/aic-g3-pilot-run02-2026-11-13/",
+    "raw_prompts_responses_and_scoring": "repository: experiments/g3-edit-pilot-2026-11-13/run02/"
+  },
+  "task_bank": {
+    "first_response_calls_max": 120,
+    "input_set_sha256": "8ae65c4bc7fcadd748804f4b0b4bd2dcffbee5c3b18c98971df106f83eb32545",
+    "paired_runs": 60,
+    "parent_manifest_sha256": "af2cf6307753ba44a29f664b3958552146ec9058ae10263c9e1747796bdabdfd",
+    "prompt_packets_sha256": {
+      "prompt_packets/E1/aic.txt": "ee3ac41410d44cc33c1c7e03bd85091cca3958d0150f77dcff263b796ea0d3a0",
+      "prompt_packets/E1/json.txt": "6dd7ea61c7ecb6aabeb7581a080325a4abdc5d4b6244c41ec9882a8b7d644e0f",
+      "prompt_packets/E2/aic.txt": "8b9eaa2a80e172b27e93ca7ffa8862844f6105ea822e802ace1304ac422f3048",
+      "prompt_packets/E2/json.txt": "7fcefd8f5d05ce4340960cb19ebb85bf75b951681061127585c2ece468cf5299",
+      "prompt_packets/E3/aic.txt": "22c8df548d59d499588d19e0667847f8bce923e53bcd065e284fd0331e0d1704",
+      "prompt_packets/E3/json.txt": "21a1a35b571a6e3a4d4ae7adde2ac7fb59a6eac5f38c46433dc965e8b47fd137",
+      "prompt_packets/E4/aic.txt": "d7fbe266cf6a91c9e0edb73c82f5d26a134cbcb907e95429b5f15d5829557a2b",
+      "prompt_packets/E4/json.txt": "26a314f68c8414aa97814804bbc119494183c41bfe53eba2a3af3245af028a1b",
+      "prompt_packets/E5/aic.txt": "22c337da9e990786238646d1eb6ee1d5ed07e8703e94c841af4a2fcde45106a9",
+      "prompt_packets/E5/json.txt": "72cd745032b966e412960974fe33c1cfccf80cf67168a66eda4a43041da127da",
+      "prompt_packets/E6/aic.txt": "8bb1d0110759c7d3fc907dbeec1c92aa0fc72ebed2427b626dd6d8b385dec6f7",
+      "prompt_packets/E6/json.txt": "07f9ecb330d67815dcee0042fffb97831e8224192767e501d87a95b78dc47dde"
+    },
+    "replicates_per_task": 10,
+    "tasks": [
+      "E1",
+      "E2",
+      "E3",
+      "E4",
+      "E5",
+      "E6"
+    ]
+  }
+}

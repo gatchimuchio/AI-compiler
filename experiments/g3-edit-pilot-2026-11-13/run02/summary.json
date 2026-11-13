@@ -1,0 +1,232 @@
+{
+  "by_format": {
+    "aic": {
+      "binary_matches_candidate_oracle": 50,
+      "calls_scored": 60,
+      "compiler_success": 50,
+      "consumer_success": 50,
+      "edit_pass": 20,
+      "inference_errors": 0,
+      "parse_accepted": 50,
+      "pilot_success": 20,
+      "validator_accepted": 50
+    },
+    "json": {
+      "binary_matches_candidate_oracle": 50,
+      "calls_scored": 60,
+      "compiler_success": 50,
+      "consumer_success": 50,
+      "edit_pass": 19,
+      "inference_errors": 0,
+      "parse_accepted": 50,
+      "pilot_success": 19,
+      "validator_accepted": 50
+    }
+  },
+  "by_task": {
+    "E1": {
+      "aic": {
+        "denominator": 10,
+        "edit_pass": 0,
+        "parse_accepted": 10,
+        "pilot_success": 0,
+        "validator_accepted": 10
+      },
+      "json": {
+        "denominator": 10,
+        "edit_pass": 0,
+        "parse_accepted": 10,
+        "pilot_success": 0,
+        "validator_accepted": 10
+      }
+    },
+    "E2": {
+      "aic": {
+        "denominator": 10,
+        "edit_pass": 10,
+        "parse_accepted": 10,
+        "pilot_success": 10,
+        "validator_accepted": 10
+      },
+      "json": {
+        "denominator": 10,
+        "edit_pass": 10,
+        "parse_accepted": 10,
+        "pilot_success": 10,
+        "validator_accepted": 10
+      }
+    },
+    "E3": {
+      "aic": {
+        "denominator": 10,
+        "edit_pass": 0,
+        "parse_accepted": 10,
+        "pilot_success": 0,
+        "validator_accepted": 10
+      },
+      "json": {
+        "denominator": 10,
+        "edit_pass": 0,
+        "parse_accepted": 10,
+        "pilot_success": 0,
+        "validator_accepted": 10
+      }
+    },
+    "E4": {
+      "aic": {
+        "denominator": 10,
+        "edit_pass": 0,
+        "parse_accepted": 10,
+        "pilot_success": 0,
+        "validator_accepted": 10
+      },
+      "json": {
+        "denominator": 10,
+        "edit_pass": 9,
+        "parse_accepted": 10,
+        "pilot_success": 9,
+        "validator_accepted": 10
+      }
+    },
+    "E5": {
+      "aic": {
+        "denominator": 10,
+        "edit_pass": 10,
+        "parse_accepted": 10,
+        "pilot_success": 10,
+        "validator_accepted": 10
+      },
+      "json": {
+        "denominator": 10,
+        "edit_pass": 0,
+        "parse_accepted": 0,
+        "pilot_success": 0,
+        "validator_accepted": 0
+      }
+    },
+    "E6": {
+      "aic": {
+        "denominator": 10,
+        "edit_pass": 0,
+        "parse_accepted": 0,
+        "pilot_success": 0,
+        "validator_accepted": 0
+      },
+      "json": {
+        "denominator": 10,
+        "edit_pass": 0,
+        "parse_accepted": 10,
+        "pilot_success": 0,
+        "validator_accepted": 10
+      }
+    }
+  },
+  "compiler_sha256": "13f0185a04b5a2ed89f0fa55c0d158ccfb6ca8ebc71bff57270a3b538e2f3f9e",
+  "g++_version": "g++ (Debian 14.2.0-19) 14.2.0",
+  "helper_sha256": "1621accb924aa4706df688e3c9fbea24d7430f8a67dd5e50e72ca77adbd6851e",
+  "interpretation": "Exploratory pilot only; no winner, candidate adoption, QA threshold, product path, or general performance claim is determined.",
+  "missing_or_unrecorded_calls": 0,
+  "paired_descriptive_difference": {
+    "E1": {
+      "aic_minus_json_pilot_success": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paired_rows": 10,
+      "sum": 0
+    },
+    "E2": {
+      "aic_minus_json_pilot_success": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paired_rows": 10,
+      "sum": 0
+    },
+    "E3": {
+      "aic_minus_json_pilot_success": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paired_rows": 10,
+      "sum": 0
+    },
+    "E4": {
+      "aic_minus_json_pilot_success": [
+        -1,
+        -1,
+        -1,
+        0,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1
+      ],
+      "paired_rows": 10,
+      "sum": -9
+    },
+    "E5": {
+      "aic_minus_json_pilot_success": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "paired_rows": 10,
+      "sum": 10
+    },
+    "E6": {
+      "aic_minus_json_pilot_success": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paired_rows": 10,
+      "sum": 0
+    }
+  },
+  "scored_rows": 120,
+  "scored_sha256": "f4016d8db64b6c7ed3825cb716e070a5dae21d8ab1bcfab366ecb96e64b1500b",
+  "status": "scored",
+  "trials_read": 120,
+  "trials_sha256": "3edaf626ea66f3c494d2818b05a4b71bcae5de73428f67322b6e3ac5e384bb70"
+}

@@ -16,6 +16,10 @@ The first one-shot process was externally interrupted after 24 completed records
 
 All 120 scheduled slots are accounted for: 119 completed responses and one unknown JSON response. Strict-format parse accepted 0/60 AIC responses and 0/59 completed JSON responses. Every completed response began with an empty `<think>...</think>` wrapper, so no model output reached the validator or candidate object/consumer checks. The candidate remains unadopted; see [the evidence report](../../docs/evidence/G3_単一block局所編集pilot_2026-11-13.md), `summary.json`, and `scored.jsonl`.
 
+## Separate follow-up (run 02)
+
+After identifying that `llama-cpp-python==0.3.16` did not bind Qwen3's `enable_thinking` template variable, a separately preregistered run set it to `false` for both formats. Run 02 completed 120/120 responses; strict parse/validator/object/consumer passed for 50/60 per format, and all 100 objects matched the independent oracle for their actual candidate operation. Exact requested-edit plus task-oracle pilot success was AIC 20/60 and JSON 19/60, with opposing task-specific differences. Run 02 is not pooled with this historical run; it does not select a winner or adopt AIC-J/0.1. See [run 02 README](run02/README.md), [follow-up evidence](../../docs/evidence/G3_Qwen3テンプレート補正追試_2026-11-13.md), and [run 02 artifacts](run02/).
+
 Reproduce the preflight/build/scoring commands from the repository root:
 
 ```sh

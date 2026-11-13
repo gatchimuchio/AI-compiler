@@ -1,0 +1,61 @@
+{
+  "checks": {
+    "all_compiled_outputs_match_candidate_oracle": true,
+    "all_responses_completed": true,
+    "compiler_binary_hash": true,
+    "contiguous_call_indices": true,
+    "format_counts_reconcile": true,
+    "frozen_repository_file_hashes": true,
+    "helper_binary_hash": true,
+    "model_file_hash": true,
+    "no_inflight_call": true,
+    "no_think_wrapper_in_generated_content": true,
+    "preflight_context_fit": true,
+    "preregistration_hash": true,
+    "production_source_hashes": true,
+    "prompt_packet_bytes_match": true,
+    "response_utf8_bytes_match": true,
+    "run_complete_120_calls": true,
+    "runner_hash": true,
+    "schedule_and_pair_randomization": true,
+    "scoring_raw_hash": true,
+    "scoring_reads_all_calls": true,
+    "scoring_row_identity_matches_raw": true,
+    "scoring_rows_hash": true,
+    "summary_compiler_hash": true,
+    "summary_helper_hash": true,
+    "template_fixed": true
+  },
+  "compiler_binary_sha256": "13f0185a04b5a2ed89f0fa55c0d158ccfb6ca8ebc71bff57270a3b538e2f3f9e",
+  "format_summary": {
+    "aic": {
+      "binary_matches_candidate_oracle": 50,
+      "binary_matches_task_oracle": 30,
+      "calls": 60,
+      "edit_pass": 20,
+      "object_checks": 50,
+      "parse_accepted": 50,
+      "pilot_success": 20,
+      "validator_accepted": 50
+    },
+    "json": {
+      "binary_matches_candidate_oracle": 50,
+      "binary_matches_task_oracle": 20,
+      "calls": 60,
+      "edit_pass": 19,
+      "object_checks": 50,
+      "parse_accepted": 50,
+      "pilot_success": 19,
+      "validator_accepted": 50
+    }
+  },
+  "helper_binary_sha256": "1621accb924aa4706df688e3c9fbea24d7430f8a67dd5e50e72ca77adbd6851e",
+  "known_scope_limit": "Six synthetic single-block edit tasks under one local pinned model; exploratory evidence only.",
+  "manifest_sha256": "f7cd9f7c0f5ed945e750f00eed8bd836e855014ff55d6f43aa7f8faef8828cf5",
+  "model_sha256": "7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5",
+  "preregistration_sha256": "97d73dcaec84b26629dfa7687031a41219cc6b964986175ef8cb699e1cbe9c0a",
+  "raw_trials_sha256": "3edaf626ea66f3c494d2818b05a4b71bcae5de73428f67322b6e3ac5e384bb70",
+  "run_metadata_sha256": "a4471caf6398250daedad8a130b4216383daa0d7492b34320582fcfdb8ca8a60",
+  "scored_rows_sha256": "f4016d8db64b6c7ed3825cb716e070a5dae21d8ab1bcfab366ecb96e64b1500b",
+  "status": "PASS"
+}

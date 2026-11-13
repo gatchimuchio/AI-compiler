@@ -1,0 +1,42 @@
+{
+  "status": "ready",
+  "created_utc": "2026-11-13T05:16:15.184224+00:00",
+  "base_head": "a07cd3176853eee598d0c5a46400a318a7e9c4ae",
+  "manifest_sha256": "7cdc2026b514b03cfdd3ed151c476c3bc5bbe9f9e6e3811537d49798881aea49",
+  "runner_sha256": "cfa14b691eebe4335f3976142afaef1f7c4f15f330f7685515483bdf1d3c9876",
+  "model_sha256": "7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5",
+  "chat_template_sha256": "57f1fd00f0013a2be96aa79b857391f27e23df5b5f847072b524c897e24d0361",
+  "enable_thinking": false,
+  "system_message": "/no_think",
+  "context_tokens": 4096,
+  "max_output_tokens": 1024,
+  "formatted_prompt_tokens": {
+    "E1/aic": 486,
+    "E1/json": 663,
+    "E2/aic": 482,
+    "E2/json": 659,
+    "E3/aic": 490,
+    "E3/json": 667,
+    "E4/aic": 492,
+    "E4/json": 669,
+    "E5/aic": 493,
+    "E5/json": 670,
+    "E6/aic": 496,
+    "E6/json": 673
+  },
+  "formatted_prompt_sha256": {
+    "E1/aic": "a3b99c8067f7b97286392ba686fffcebd9be69a6814da591dc169cd5a998f851",
+    "E1/json": "c762f10b8f35be36db83acffde4f9bfadf0d9af4f2fcb2e056795e1372ba0ae3",
+    "E2/aic": "853735afc1a18f96d4908d22d8e26720336b11e6324621a3a94ad6d34b6cfa80",
+    "E2/json": "53b5afca8e1e1249277c86a56fa89b24dfa14c00eb97b2bfaf071000c573f9ac",
+    "E3/aic": "a6e6c96cf4697e4323b8ef1411f0ff7982a1f260104749464cbaad442e3ca533",
+    "E3/json": "992f3d01de93cf130b30e6789b48927daf1483a80dcab8fa38beeeef15cf8b5b",
+    "E4/aic": "fa1ad887349cedbf41aab2d6ca53345b771a144d94aac71551639adc88b7dcd5",
+    "E4/json": "c2c05d25a8cc92179e0fb4102c17ef4adfa0e3bb37d146cbddd549f9850c95dd",
+    "E5/aic": "ecd6224026bc5f1433de317f8f706ce0619deb6519ec886921bb8b41c54df1d4",
+    "E5/json": "17df80840eaa47fdc338e5c1df75e3412256320e82725a0eeb0f06089dda6b24",
+    "E6/aic": "8f5b9e1154e54d15ae1867994057a1fc95da62a801dca28146eb29b3bfa1eecd",
+    "E6/json": "95e9ae73979fbaae26d2196b00bbba11865fcea4c9e1f220b7b5cf0fdeeabb49"
+  },
+  "all_fit": true
+}
