@@ -1,0 +1,16 @@
+{
+  "requested_url": "https://gcc.gnu.org/pub/gcc/releases/gcc-15.2.0/gcc-15.2.0.tar.xz",
+  "request_started_utc": "2026-11-13T09:14:19.294991+00:00",
+  "final_url": "https://gcc.gnu.org/pub/gcc/releases/gcc-15.2.0/gcc-15.2.0.tar.xz",
+  "http_status": 200,
+  "response_headers": {
+    "content-length": "101056276",
+    "last-modified": "Fri, 08 Aug 2025 07:19:09 GMT",
+    "content-type": "application/x-xz"
+  },
+  "bytes": 101056276,
+  "sha256": "438fd996826b0c82485a29da03a72d71d6e3541a83ec702df4271f6fe025d24e",
+  "sha512": "89047a2e07bd9da265b507b516ed3635adb17491c7f4f67cf090f0bd5b3fc7f2ee6e4cc4008beef7ca884b6b71dffe2bb652b21f01a702e17b468cca2d10b2de",
+  "request_completed_utc": "2026-11-13T09:14:28.002431+00:00",
+  "archive_file_promoted": true
+}

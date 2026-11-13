@@ -1,0 +1,366 @@
+{
+  "record_id": "G2-HISTORY-2026-11-13-08",
+  "batch": "B60",
+  "baseline_repository_commit": "74b95195df6aa7fe2116039e5dfd5d4e3c5424a2",
+  "pretest_amendment_utc": "2026-11-13T09:29:30.954603+00:00",
+  "source_archive": {
+    "requested_url": "https://gcc.gnu.org/pub/gcc/releases/gcc-15.2.0/gcc-15.2.0.tar.xz",
+    "request_started_utc": "2026-11-13T09:14:19.294991+00:00",
+    "final_url": "https://gcc.gnu.org/pub/gcc/releases/gcc-15.2.0/gcc-15.2.0.tar.xz",
+    "http_status": 200,
+    "response_headers": {
+      "content-length": "101056276",
+      "last-modified": "Fri, 08 Aug 2025 07:19:09 GMT",
+      "content-type": "application/x-xz"
+    },
+    "bytes": 101056276,
+    "sha256": "438fd996826b0c82485a29da03a72d71d6e3541a83ec702df4271f6fe025d24e",
+    "sha512": "89047a2e07bd9da265b507b516ed3635adb17491c7f4f67cf090f0bd5b3fc7f2ee6e4cc4008beef7ca884b6b71dffe2bb652b21f01a702e17b468cca2d10b2de",
+    "request_completed_utc": "2026-11-13T09:14:28.002431+00:00",
+    "archive_file_promoted": true
+  },
+  "source_validation": {
+    "validated_utc": "2026-11-13T09:14:57.432629+00:00",
+    "archive_bytes": 101056276,
+    "archive_sha256": "438fd996826b0c82485a29da03a72d71d6e3541a83ec702df4271f6fe025d24e",
+    "archive_sha512": "89047a2e07bd9da265b507b516ed3635adb17491c7f4f67cf090f0bd5b3fc7f2ee6e4cc4008beef7ca884b6b71dffe2bb652b21f01a702e17b468cca2d10b2de",
+    "published_sha512_expected": "89047a2e07bd9da265b507b516ed3635adb17491c7f4f67cf090f0bd5b3fc7f2ee6e4cc4008beef7ca884b6b71dffe2bb652b21f01a702e17b468cca2d10b2de",
+    "archive_sha512_matches_published": true,
+    "release_tag_object_id": "dcd428f94ffb464418f996ffb70dfa398f5caa3f",
+    "release_tag_peeled_commit_id": "5115c7e447fc07457443df874bf57840e8316d5f",
+    "tag_identity_rechecks": [
+      {
+        "source": "official",
+        "argv": [
+          "git",
+          "ls-remote",
+          "https://gcc.gnu.org/git/gcc.git",
+          "refs/tags/releases/gcc-15.2.0",
+          "refs/tags/releases/gcc-15.2.0^{}"
+        ],
+        "exit_status": 0,
+        "stdout_bytes": 145,
+        "stdout_sha256": "7e633ea387a82160c86de5c990706670aee531c1c974c81e17662a34db286c3d",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "dcd428f94ffb464418f996ffb70dfa398f5caa3f\trefs/tags/releases/gcc-15.2.0\n5115c7e447fc07457443df874bf57840e8316d5f\trefs/tags/releases/gcc-15.2.0^{}\n"
+      },
+      {
+        "source": "mirror",
+        "argv": [
+          "git",
+          "ls-remote",
+          "https://github.com/gcc-mirror/gcc.git",
+          "refs/tags/releases/gcc-15.2.0",
+          "refs/tags/releases/gcc-15.2.0^{}"
+        ],
+        "exit_status": 0,
+        "stdout_bytes": 145,
+        "stdout_sha256": "7e633ea387a82160c86de5c990706670aee531c1c974c81e17662a34db286c3d",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "dcd428f94ffb464418f996ffb70dfa398f5caa3f\trefs/tags/releases/gcc-15.2.0\n5115c7e447fc07457443df874bf57840e8316d5f\trefs/tags/releases/gcc-15.2.0^{}\n"
+      }
+    ],
+    "archive_source_files": {
+      "gcc-15.2.0/gcc/testsuite/gcc.dg/torture/pr116488.c": {
+        "bytes": 399,
+        "sha256": "10182dfccf8dec109189e28ef12484371c6b6c594dcdb76ebc468c7d1d0a6aa1",
+        "git_blob_sha1": "b2af84fef43040e7d9651386f52930b97a70d469",
+        "expected_bytes": 399,
+        "expected_sha256": "10182dfccf8dec109189e28ef12484371c6b6c594dcdb76ebc468c7d1d0a6aa1",
+        "expected_git_blob_sha1": "b2af84fef43040e7d9651386f52930b97a70d469",
+        "matches_fixed_source_identity": true
+      },
+      "gcc-15.2.0/gcc/ext-dce.cc": {
+        "bytes": 40217,
+        "sha256": "f6b40d2ec541e522d98d9c9801c7427c6a1c0fc6f74dddbdc976b0036a07d76f",
+        "git_blob_sha1": "67ec92a42878ac1ef1e133cd57a163f1ad4a3159",
+        "expected_bytes": 40217,
+        "expected_sha256": "f6b40d2ec541e522d98d9c9801c7427c6a1c0fc6f74dddbdc976b0036a07d76f",
+        "expected_git_blob_sha1": "67ec92a42878ac1ef1e133cd57a163f1ad4a3159",
+        "matches_fixed_source_identity": true
+      }
+    },
+    "tag_identity_matches_preregistration": true,
+    "tag_rechecks_byte_identical": true,
+    "gcc_base_ver": "15.2.0",
+    "gcc_base_ver_matches": true,
+    "source_identity_checks_match": true
+  },
+  "extraction_validation": {
+    "extracted_utc": "2026-11-13T09:16:09.934501+00:00",
+    "tar_command": [
+      "tar",
+      "--no-same-owner",
+      "--no-same-permissions",
+      "-xJf",
+      "/tmp/aic-gcc15.2-pr116488-2026-11-13/sources/gcc-15.2.0.tar.xz",
+      "-C",
+      "/tmp/aic-gcc15.2-pr116488-2026-11-13/source"
+    ],
+    "archive_verified_before_extract": true,
+    "gcc_base_ver": "15.2.0",
+    "testcase": {
+      "path": "gcc/testsuite/gcc.dg/torture/pr116488.c",
+      "bytes": 399,
+      "sha256": "10182dfccf8dec109189e28ef12484371c6b6c594dcdb76ebc468c7d1d0a6aa1"
+    },
+    "ext_dce": {
+      "path": "gcc/ext-dce.cc",
+      "bytes": 40217,
+      "sha256": "f6b40d2ec541e522d98d9c9801c7427c6a1c0fc6f74dddbdc976b0036a07d76f"
+    }
+  },
+  "build": {
+    "prerequisites": {
+      "argv": [
+        "./contrib/download_prerequisites",
+        "--sha512"
+      ],
+      "cwd": "/tmp/aic-gcc15.2-pr116488-2026-11-13/source/gcc-15.2.0",
+      "started_utc": "2026-11-13T09:16:18.267718+00:00",
+      "completed_utc": "2026-11-13T09:16:25.061686+00:00",
+      "exit_status": 0,
+      "log_bytes": 801,
+      "log_sha256": "b7a39e85778dea60a0bbad287781acfdac7454267c27a6e40710517ff0c3ce54",
+      "log_tail": [
+        "2026-11-13 09:16:20 URL:http://gcc.gnu.org/pub/gcc/infrastructure/gettext-0.22.tar.gz [26105696/26105696] -> \"gettext-0.22.tar.gz\" [1]",
+        "2026-11-13 09:16:21 URL:http://gcc.gnu.org/pub/gcc/infrastructure/gmp-6.2.1.tar.bz2 [2493916/2493916] -> \"gmp-6.2.1.tar.bz2\" [1]",
+        "2026-11-13 09:16:21 URL:http://gcc.gnu.org/pub/gcc/infrastructure/mpfr-4.1.0.tar.bz2 [1747243/1747243] -> \"mpfr-4.1.0.tar.bz2\" [1]",
+        "2026-11-13 09:16:22 URL:http://gcc.gnu.org/pub/gcc/infrastructure/mpc-1.2.1.tar.gz [838731/838731] -> \"mpc-1.2.1.tar.gz\" [1]",
+        "2026-11-13 09:16:22 URL:http://gcc.gnu.org/pub/gcc/infrastructure/isl-0.24.tar.bz2 [2261594/2261594] -> \"isl-0.24.tar.bz2\" [1]",
+        "gettext-0.22.tar.gz: OK",
+        "gmp-6.2.1.tar.bz2: OK",
+        "mpfr-4.1.0.tar.bz2: OK",
+        "mpc-1.2.1.tar.gz: OK",
+        "isl-0.24.tar.bz2: OK",
+        "All prerequisites downloaded successfully."
+      ]
+    },
+    "configure": {
+      "argv": [
+        "/tmp/aic-gcc15.2-pr116488-2026-11-13/source/gcc-15.2.0/configure",
+        "--target=x86_64-linux-gnu",
+        "--prefix=/tmp/aic-gcc15.2-pr116488-2026-11-13/tools/gcc-15.2.0",
+        "--enable-languages=c",
+        "--disable-bootstrap",
+        "--disable-multilib",
+        "--disable-nls",
+        "--disable-werror"
+      ],
+      "cwd": "/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0",
+      "started_utc": "2026-11-13T09:16:57.312207+00:00",
+      "completed_utc": "2026-11-13T09:17:00.028913+00:00",
+      "exit_status": 0,
+      "log_bytes": 6447,
+      "log_sha256": "5d550a7befd91fb2a552b88a4b771c48fb9eda5a74a44f7a9ed33c2ff8b94a3c"
+    },
+    "all_gcc": {
+      "argv": [
+        "make",
+        "-j4",
+        "all-gcc"
+      ],
+      "cwd": "/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0",
+      "started_utc": "2026-11-13T09:17:09.644950+00:00",
+      "completed_utc": "2026-11-13T09:28:31.463830+00:00",
+      "exit_status": 0,
+      "log_bytes": 3113590,
+      "log_sha256": "1612912ac3679e577db36b09bcbb90f6f92fd017464175fb5b156ad71ccb6c65"
+    },
+    "all_target_libgcc": {
+      "argv": [
+        "make",
+        "-j4",
+        "all-target-libgcc"
+      ],
+      "cwd": "/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0",
+      "started_utc": "2026-11-13T09:28:38.928460+00:00",
+      "completed_utc": "2026-11-13T09:29:02.240293+00:00",
+      "exit_status": 0,
+      "log_bytes": 776356,
+      "log_sha256": "38cddd573996197569f8eaf4d637ffd9567781c1ae5facd1c14da9aa708c7749"
+    },
+    "gcc_prerequisites_log_path": "/tmp/aic-gcc15.2-pr116488-2026-11-13/captures/gcc-prerequisites.log",
+    "configure_log_path": "/tmp/aic-gcc15.2-pr116488-2026-11-13/captures/configure.log",
+    "all_gcc_log_path": "/tmp/aic-gcc15.2-pr116488-2026-11-13/captures/gcc-build.log",
+    "all_target_libgcc_log_path": "/tmp/aic-gcc15.2-pr116488-2026-11-13/captures/libgcc-build.log",
+    "host_environment": {
+      "kernel": "Linux 6.18.57 x86_64",
+      "glibc": "2.41",
+      "host_compiler": "Debian GCC 14.2.0-19",
+      "binutils": "GNU Binutils 2.44",
+      "make": "GNU Make 4.4.1",
+      "cpu_count": 5
+    }
+  },
+  "pretest_identity": {
+    "captured_utc": "2026-11-13T09:29:30.954603+00:00",
+    "testcase_started": false,
+    "source": {
+      "gcc_base_ver": "15.2.0",
+      "testcase_sha256": "10182dfccf8dec109189e28ef12484371c6b6c594dcdb76ebc468c7d1d0a6aa1",
+      "ext_dce_sha256": "f6b40d2ec541e522d98d9c9801c7427c6a1c0fc6f74dddbdc976b0036a07d76f"
+    },
+    "commands": {
+      "xgcc_version": {
+        "argv": [
+          "/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gcc/xgcc",
+          "-B",
+          "/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gcc/",
+          "--version"
+        ],
+        "exit_status": 0,
+        "output": "xgcc (GCC) 15.2.0\nCopyright (C) 2025 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+        "output_sha256": "72d11111957d32961270f7c9da07950d4509d3dbdf1f0a547c9d563cfb4650db"
+      },
+      "xgcc_target": {
+        "argv": [
+          "/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gcc/xgcc",
+          "-B",
+          "/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gcc/",
+          "-dumpmachine"
+        ],
+        "exit_status": 0,
+        "output": "x86_64-linux-gnu\n",
+        "output_sha256": "08cababdf891ccbf96eb376f1e84f279f70302fb13d84e5f98637becdfc6d989"
+      },
+      "xgcc_runtime_path": {
+        "argv": [
+          "/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gcc/xgcc",
+          "-B",
+          "/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gcc/",
+          "-print-file-name=libgcc_s.so.1"
+        ],
+        "exit_status": 0,
+        "output": "/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gcc/libgcc_s.so.1\n",
+        "output_sha256": "110352a6f5d4fbf9eca6bd9a44d4c13fbe0b01513c95e8bc0621b21a441ba414"
+      },
+      "gawk_version": {
+        "argv": [
+          "/tmp/aic-gcc15-pr116488-2026-11-13/tools/bin/gawk",
+          "--version"
+        ],
+        "exit_status": 0,
+        "output": "GNU Awk 5.3.0, API 4.0, PMA Avon 8-g1\nCopyright (C) 1989, 1991-2023 Free Software Foundation.\n\nThis program is free software; you can redistribute it and/or modify\nit under the terms of the GNU General Public License as published by\nthe Free Software Foundation; either version 3 of the License, or\n(at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program. If not, see http://www.gnu.org/licenses/.\n",
+        "output_sha256": "72721d1beb54495eef2218c73ac800a0867191535f3cf217631e8b4dd6dd80ea"
+      },
+      "expect_version": {
+        "argv": [
+          "/tmp/aic-gcc15-pr116488-2026-11-13/tools/bin/expect",
+          "-v"
+        ],
+        "exit_status": 0,
+        "output": "expect version 5.45.4\n",
+        "output_sha256": "a5e12c638b94b8e468074ea42892d035b636c99fcb2509c94a4778f3c07fe938"
+      },
+      "runtest_version": {
+        "argv": [
+          "/tmp/aic-gcc15-pr116488-2026-11-13/tools/bin/runtest",
+          "--version"
+        ],
+        "exit_status": 0,
+        "output": "DejaGnu version\t1.6.3\nExpect version\t5.45.4\nTcl version\t8.6\n",
+        "output_sha256": "f1ff80cd00936705de1874a0048541bdc069812275971ac58b1bde2e410ab681"
+      },
+      "tcl_version": {
+        "argv": [
+          "/tmp/aic-gcc15-pr116488-2026-11-13/tools/bin/tclsh8.6"
+        ],
+        "exit_status": 0,
+        "output": "8.6.16\n",
+        "output_sha256": "7c8702491905550822efa4986d94040bf06e1a080304f39a935df1006a891bb8"
+      }
+    },
+    "artifacts": {
+      "xgcc": {
+        "path": "/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gcc/xgcc",
+        "bytes": 11262176,
+        "sha256": "d11bd49769c79c84969134620c9c7607fb8cf53d0be074e8e012b9cc47c4b297"
+      },
+      "cc1": {
+        "path": "/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gcc/cc1",
+        "bytes": 386418544,
+        "sha256": "987e7a1b2eb0b3103fa427bc5d7d4b05f9beeae4c2176d794216bbbc28648118"
+      },
+      "libgcc.a": {
+        "path": "/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gcc/libgcc.a",
+        "bytes": 8293772,
+        "sha256": "bbf8424b0984ebfeaa70152755410c2833398a43f337558c46de0f2bea291f52"
+      },
+      "libgcc_s.so.1": {
+        "path": "/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gcc/libgcc_s.so.1",
+        "bytes": 904360,
+        "sha256": "74daa769a3eff9eb1e135850dc7db70a11315f40f66f7c1e46f27e212ed7f204"
+      },
+      "crtbegin.o": {
+        "path": "/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gcc/crtbegin.o",
+        "bytes": 2424,
+        "sha256": "dda9c8c3d8b0229fda562fcd54c998952f09465d8a56009d285e97169fc7c984"
+      },
+      "gawk": {
+        "path": "/tmp/aic-gcc15-pr116488-2026-11-13/tools/bin/gawk",
+        "bytes": 2671992,
+        "sha256": "77e760857c3a20406de344d40ab5cd3ba4aadcd72e41149bb1177250d5c276f8"
+      },
+      "expect": {
+        "path": "/tmp/aic-gcc15-pr116488-2026-11-13/tools/bin/expect",
+        "bytes": 16704,
+        "sha256": "90c8f027f2b0810d93d7fc7666de9cc4f676285c6a021ce9094cf266c1d6f6a0"
+      },
+      "runtest": {
+        "path": "/tmp/aic-gcc15-pr116488-2026-11-13/tools/bin/runtest",
+        "bytes": 4631,
+        "sha256": "c285da648b5514e9e06a506f6b6b229657a8001c8c8506d0e35a2bf0f754ab08"
+      },
+      "tclsh8.6": {
+        "path": "/tmp/aic-gcc15-pr116488-2026-11-13/tools/bin/tclsh8.6",
+        "bytes": 16176,
+        "sha256": "fa80133bf2193a88a101cf38d2f23f84dae701ce1f28e2627d38dbde9742ab48"
+      },
+      "libtcl8.6.so": {
+        "path": "/tmp/aic-gcc15-pr116488-2026-11-13/tools/lib/libtcl8.6.so",
+        "bytes": 1940312,
+        "sha256": "650f10c37841f1ddd3301d89e93d492d75ff2eef38b74a32262417b150108e86"
+      }
+    },
+    "test_environment": {
+      "PATH": "/tmp/aic-gcc15-pr116488-2026-11-13/tools/bin:/usr/bin:/bin",
+      "LD_LIBRARY_PATH": "/tmp/aic-gcc15-pr116488-2026-11-13/tools/lib",
+      "cwd": "/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0",
+      "host_gcc": "Debian GCC 14.2.0-19",
+      "target": "x86_64-linux-gnu",
+      "native_testsuite_configuration": "x86_64-pc-linux-gnu",
+      "as": "GNU Binutils 2.44",
+      "kernel": "Linux 6.18.57 x86_64",
+      "glibc": "2.41"
+    }
+  },
+  "test_execution": {
+    "status": "NOT_RUN",
+    "test_started": false,
+    "command": "make check-gcc RUNTESTFLAGS='dg-torture.exp=pr116488.c'",
+    "working_directory": "/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0",
+    "environment": {
+      "PATH": "/tmp/aic-gcc15-pr116488-2026-11-13/tools/bin:/usr/bin:/bin",
+      "LD_LIBRARY_PATH": "/tmp/aic-gcc15-pr116488-2026-11-13/tools/lib",
+      "cwd": "/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0",
+      "host_gcc": "Debian GCC 14.2.0-19",
+      "target": "x86_64-linux-gnu",
+      "native_testsuite_configuration": "x86_64-pc-linux-gnu",
+      "as": "GNU Binutils 2.44",
+      "kernel": "Linux 6.18.57 x86_64",
+      "glibc": "2.41"
+    },
+    "expected_statuses": {
+      "PASS": 16,
+      "FAIL": 0,
+      "XPASS": 0
+    }
+  },
+  "project_tests": {
+    "status": "NOT_RUN",
+    "reason": "AICompiler Rust/C++ tests are outside this bounded GCC testsuite run."
+  }
+}

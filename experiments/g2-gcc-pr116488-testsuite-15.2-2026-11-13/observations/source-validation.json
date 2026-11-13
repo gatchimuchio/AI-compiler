@@ -1,0 +1,69 @@
+{
+  "validated_utc": "2026-11-13T09:14:57.432629+00:00",
+  "archive_bytes": 101056276,
+  "archive_sha256": "438fd996826b0c82485a29da03a72d71d6e3541a83ec702df4271f6fe025d24e",
+  "archive_sha512": "89047a2e07bd9da265b507b516ed3635adb17491c7f4f67cf090f0bd5b3fc7f2ee6e4cc4008beef7ca884b6b71dffe2bb652b21f01a702e17b468cca2d10b2de",
+  "published_sha512_expected": "89047a2e07bd9da265b507b516ed3635adb17491c7f4f67cf090f0bd5b3fc7f2ee6e4cc4008beef7ca884b6b71dffe2bb652b21f01a702e17b468cca2d10b2de",
+  "archive_sha512_matches_published": true,
+  "release_tag_object_id": "dcd428f94ffb464418f996ffb70dfa398f5caa3f",
+  "release_tag_peeled_commit_id": "5115c7e447fc07457443df874bf57840e8316d5f",
+  "tag_identity_rechecks": [
+    {
+      "source": "official",
+      "argv": [
+        "git",
+        "ls-remote",
+        "https://gcc.gnu.org/git/gcc.git",
+        "refs/tags/releases/gcc-15.2.0",
+        "refs/tags/releases/gcc-15.2.0^{}"
+      ],
+      "exit_status": 0,
+      "stdout_bytes": 145,
+      "stdout_sha256": "7e633ea387a82160c86de5c990706670aee531c1c974c81e17662a34db286c3d",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "dcd428f94ffb464418f996ffb70dfa398f5caa3f\trefs/tags/releases/gcc-15.2.0\n5115c7e447fc07457443df874bf57840e8316d5f\trefs/tags/releases/gcc-15.2.0^{}\n"
+    },
+    {
+      "source": "mirror",
+      "argv": [
+        "git",
+        "ls-remote",
+        "https://github.com/gcc-mirror/gcc.git",
+        "refs/tags/releases/gcc-15.2.0",
+        "refs/tags/releases/gcc-15.2.0^{}"
+      ],
+      "exit_status": 0,
+      "stdout_bytes": 145,
+      "stdout_sha256": "7e633ea387a82160c86de5c990706670aee531c1c974c81e17662a34db286c3d",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "dcd428f94ffb464418f996ffb70dfa398f5caa3f\trefs/tags/releases/gcc-15.2.0\n5115c7e447fc07457443df874bf57840e8316d5f\trefs/tags/releases/gcc-15.2.0^{}\n"
+    }
+  ],
+  "archive_source_files": {
+    "gcc-15.2.0/gcc/testsuite/gcc.dg/torture/pr116488.c": {
+      "bytes": 399,
+      "sha256": "10182dfccf8dec109189e28ef12484371c6b6c594dcdb76ebc468c7d1d0a6aa1",
+      "git_blob_sha1": "b2af84fef43040e7d9651386f52930b97a70d469",
+      "expected_bytes": 399,
+      "expected_sha256": "10182dfccf8dec109189e28ef12484371c6b6c594dcdb76ebc468c7d1d0a6aa1",
+      "expected_git_blob_sha1": "b2af84fef43040e7d9651386f52930b97a70d469",
+      "matches_fixed_source_identity": true
+    },
+    "gcc-15.2.0/gcc/ext-dce.cc": {
+      "bytes": 40217,
+      "sha256": "f6b40d2ec541e522d98d9c9801c7427c6a1c0fc6f74dddbdc976b0036a07d76f",
+      "git_blob_sha1": "67ec92a42878ac1ef1e133cd57a163f1ad4a3159",
+      "expected_bytes": 40217,
+      "expected_sha256": "f6b40d2ec541e522d98d9c9801c7427c6a1c0fc6f74dddbdc976b0036a07d76f",
+      "expected_git_blob_sha1": "67ec92a42878ac1ef1e133cd57a163f1ad4a3159",
+      "matches_fixed_source_identity": true
+    }
+  },
+  "tag_identity_matches_preregistration": true,
+  "tag_rechecks_byte_identical": true,
+  "gcc_base_ver": "15.2.0",
+  "gcc_base_ver_matches": true,
+  "source_identity_checks_match": true
+}
