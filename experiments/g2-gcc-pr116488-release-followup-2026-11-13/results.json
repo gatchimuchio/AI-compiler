@@ -1,0 +1,284 @@
+{
+  "record_id": "G2-HISTORY-2026-11-13-05",
+  "baseline_repository_commit": "d61fc4f7145c45aef6edab99bc221d1f12c281bb",
+  "preregistration_commit": "85c64f5814cb16f5b4a6fe6675f8ada9d01dba88",
+  "capture_window_utc": [
+    "2026-11-13T07:24:24.494144+00:00",
+    "2026-11-13T07:27:08.483527+00:00"
+  ],
+  "question": "Whether the GCC PR 116488 fix behavior and corrected signed-char regression testcase are present in the GCC 15.1.0, 15.2.0, and 15.3.0 stable source tags.",
+  "answer": "SOURCE_CONTENT_PRESENT_IN_ALL_THREE_TAGS",
+  "tag_identity": {
+    "official_sourceware_refs_stdout_sha256": "4f40d4532615c15ed63fe42a5404c3fcb16f7d6d16d284a758bcc2d62d3301e3",
+    "github_mirror_refs_stdout_sha256": "4f40d4532615c15ed63fe42a5404c3fcb16f7d6d16d284a758bcc2d62d3301e3",
+    "refs_match_byte_for_byte": true,
+    "refs": {
+      "15.1.0": "f33bb98ad1669db947ef9351939d242e4a88542b",
+      "15.2.0": "dcd428f94ffb464418f996ffb70dfa398f5caa3f",
+      "15.3.0": "6d02d02c0b733e4934b8e1e497d90612116de9af"
+    }
+  },
+  "official_release_page": {
+    "url": "https://gcc.gnu.org/gcc-15/",
+    "final_url": "https://gcc.gnu.org/gcc-15/",
+    "status": 200,
+    "retrieved_utc": "2026-11-13T07:24:24.891977+00:00",
+    "path": "http/gcc-15-series.html",
+    "bytes": 3025,
+    "sha256": "0df3bd64e458f2c503be2955a618747524de3b1067326b47b3a48b16fd4c0113",
+    "content_type": null
+  },
+  "official_changes_page": {
+    "url": "https://gcc.gnu.org/gcc-15/changes.html",
+    "final_url": "https://gcc.gnu.org/gcc-15/changes.html",
+    "status": 200,
+    "retrieved_utc": "2026-11-13T07:24:25.160351+00:00",
+    "path": "http/gcc-15-changes.html",
+    "bytes": 78698,
+    "sha256": "e5949fc3a7a2e8a2f99297964195b61baec2b8e59642e5f1e258a7ac28b93963",
+    "content_type": null
+  },
+  "release_announcements": {
+    "15.1.0": {
+      "url": "https://gcc.gnu.org/pipermail/gcc-announce/2025/000185.html",
+      "final_url": "https://gcc.gnu.org/pipermail/gcc-announce/2025/000185.html",
+      "status": 200,
+      "retrieved_utc": "2026-11-13T07:25:08.829698+00:00",
+      "path": "http/gcc-15.1-release-announcement.html",
+      "bytes": 4538,
+      "sha256": "4c66d6b3b85af5d27eb2a719e04a3373593119666c74f7b6747192a0b3a7aeb1",
+      "content_type": null
+    },
+    "15.2.0": {
+      "url": "https://gcc.gnu.org/pipermail/gcc-announce/2025/000189.html",
+      "final_url": "https://gcc.gnu.org/pipermail/gcc-announce/2025/000189.html",
+      "status": 200,
+      "retrieved_utc": "2026-11-13T07:25:09.006102+00:00",
+      "path": "http/gcc-15.2-release-announcement.html",
+      "bytes": 2819,
+      "sha256": "9efa8b72ed58e6a432852c53baa3bc445e9c552961e58bda38bf156f9dd80892",
+      "content_type": null
+    },
+    "15.3.0": {
+      "url": "https://gcc.gnu.org/pipermail/gcc-announce/2026/000191.html",
+      "final_url": "https://gcc.gnu.org/pipermail/gcc-announce/2026/000191.html",
+      "status": 200,
+      "retrieved_utc": "2026-11-13T07:25:09.219099+00:00",
+      "path": "http/gcc-15.3-release-announcement.html",
+      "bytes": 3015,
+      "sha256": "c53fa488f53dd7feb4d7659087e48d3c83768ea3592cdb9f624a063fa2e32fd7",
+      "content_type": null
+    }
+  },
+  "release_source_observations": {
+    "15.1.0": {
+      "tag": "releases/gcc-15.1.0",
+      "tag_commit": "f33bb98ad1669db947ef9351939d242e4a88542b",
+      "official_release_date": "2025-04-25",
+      "announcement": {
+        "url": "https://gcc.gnu.org/pipermail/gcc-announce/2025/000185.html",
+        "final_url": "https://gcc.gnu.org/pipermail/gcc-announce/2025/000185.html",
+        "status": 200,
+        "retrieved_utc": "2026-11-13T07:25:08.829698+00:00",
+        "path": "http/gcc-15.1-release-announcement.html",
+        "bytes": 4538,
+        "sha256": "4c66d6b3b85af5d27eb2a719e04a3373593119666c74f7b6747192a0b3a7aeb1",
+        "content_type": null
+      },
+      "files": {
+        "gcc/ext-dce.cc": {
+          "tag": "releases/gcc-15.1.0",
+          "path": "gcc/ext-dce.cc",
+          "raw_path": "source/15.1.0/gcc__ext-dce.cc",
+          "raw_bytes": 37425,
+          "raw_sha256": "56ad15e68cce43c7f6f9ad4db81d464ffea44076c20eb7a202820ae0230cdd1e",
+          "computed_git_blob_sha1": "a03439501419df9fccf712383040b2b2ea556c9f",
+          "api_url": "https://api.github.com/repos/gcc-mirror/gcc/contents/gcc/ext-dce.cc?ref=releases/gcc-15.1.0",
+          "api_blob_sha1": "a03439501419df9fccf712383040b2b2ea556c9f",
+          "api_size": 37425,
+          "api_status": 200
+        },
+        "gcc/testsuite/gcc.dg/torture/pr116488.c": {
+          "tag": "releases/gcc-15.1.0",
+          "path": "gcc/testsuite/gcc.dg/torture/pr116488.c",
+          "raw_path": "source/15.1.0/gcc__testsuite__gcc.dg__torture__pr116488.c",
+          "raw_bytes": 399,
+          "raw_sha256": "10182dfccf8dec109189e28ef12484371c6b6c594dcdb76ebc468c7d1d0a6aa1",
+          "computed_git_blob_sha1": "b2af84fef43040e7d9651386f52930b97a70d469",
+          "api_url": "https://api.github.com/repos/gcc-mirror/gcc/contents/gcc/testsuite/gcc.dg/torture/pr116488.c?ref=releases/gcc-15.1.0",
+          "api_blob_sha1": "b2af84fef43040e7d9651386f52930b97a70d469",
+          "api_size": 399,
+          "api_status": 200
+        }
+      },
+      "fix_behavior_observed": {
+        "sign_extend_sets_live_sign_bit_and_recurses": true,
+        "zero_extend_recurses": true,
+        "backpropagation_before_extension_strip_and_optimization": true,
+        "source_line_reference": "gcc/ext-dce.cc#L564-L585 and #L697-L723"
+      },
+      "corrected_test_observed": {
+        "signed_char_c_and_e": true,
+        "run_directive": true,
+        "registered_flag": true,
+        "later_target_guard": true,
+        "test_line_reference": "gcc/testsuite/gcc.dg/torture/pr116488.c#L1-L22"
+      }
+    },
+    "15.2.0": {
+      "tag": "releases/gcc-15.2.0",
+      "tag_commit": "dcd428f94ffb464418f996ffb70dfa398f5caa3f",
+      "official_release_date": "2025-08-08",
+      "announcement": {
+        "url": "https://gcc.gnu.org/pipermail/gcc-announce/2025/000189.html",
+        "final_url": "https://gcc.gnu.org/pipermail/gcc-announce/2025/000189.html",
+        "status": 200,
+        "retrieved_utc": "2026-11-13T07:25:09.006102+00:00",
+        "path": "http/gcc-15.2-release-announcement.html",
+        "bytes": 2819,
+        "sha256": "9efa8b72ed58e6a432852c53baa3bc445e9c552961e58bda38bf156f9dd80892",
+        "content_type": null
+      },
+      "files": {
+        "gcc/ext-dce.cc": {
+          "tag": "releases/gcc-15.2.0",
+          "path": "gcc/ext-dce.cc",
+          "raw_path": "source/15.2.0/gcc__ext-dce.cc",
+          "raw_bytes": 40217,
+          "raw_sha256": "f6b40d2ec541e522d98d9c9801c7427c6a1c0fc6f74dddbdc976b0036a07d76f",
+          "computed_git_blob_sha1": "67ec92a42878ac1ef1e133cd57a163f1ad4a3159",
+          "api_url": "https://api.github.com/repos/gcc-mirror/gcc/contents/gcc/ext-dce.cc?ref=releases/gcc-15.2.0",
+          "api_blob_sha1": "67ec92a42878ac1ef1e133cd57a163f1ad4a3159",
+          "api_size": 40217,
+          "api_status": 200
+        },
+        "gcc/testsuite/gcc.dg/torture/pr116488.c": {
+          "tag": "releases/gcc-15.2.0",
+          "path": "gcc/testsuite/gcc.dg/torture/pr116488.c",
+          "raw_path": "source/15.2.0/gcc__testsuite__gcc.dg__torture__pr116488.c",
+          "raw_bytes": 399,
+          "raw_sha256": "10182dfccf8dec109189e28ef12484371c6b6c594dcdb76ebc468c7d1d0a6aa1",
+          "computed_git_blob_sha1": "b2af84fef43040e7d9651386f52930b97a70d469",
+          "api_url": "https://api.github.com/repos/gcc-mirror/gcc/contents/gcc/testsuite/gcc.dg/torture/pr116488.c?ref=releases/gcc-15.2.0",
+          "api_blob_sha1": "b2af84fef43040e7d9651386f52930b97a70d469",
+          "api_size": 399,
+          "api_status": 200
+        }
+      },
+      "fix_behavior_observed": {
+        "sign_extend_sets_live_sign_bit_and_recurses": true,
+        "zero_extend_recurses": true,
+        "backpropagation_before_extension_strip_and_optimization": true,
+        "source_line_reference": "gcc/ext-dce.cc#L570-L591 and #L702-L728"
+      },
+      "corrected_test_observed": {
+        "signed_char_c_and_e": true,
+        "run_directive": true,
+        "registered_flag": true,
+        "later_target_guard": true,
+        "test_line_reference": "gcc/testsuite/gcc.dg/torture/pr116488.c#L1-L22"
+      }
+    },
+    "15.3.0": {
+      "tag": "releases/gcc-15.3.0",
+      "tag_commit": "6d02d02c0b733e4934b8e1e497d90612116de9af",
+      "official_release_date": "2026-06-12",
+      "announcement": {
+        "url": "https://gcc.gnu.org/pipermail/gcc-announce/2026/000191.html",
+        "final_url": "https://gcc.gnu.org/pipermail/gcc-announce/2026/000191.html",
+        "status": 200,
+        "retrieved_utc": "2026-11-13T07:25:09.219099+00:00",
+        "path": "http/gcc-15.3-release-announcement.html",
+        "bytes": 3015,
+        "sha256": "c53fa488f53dd7feb4d7659087e48d3c83768ea3592cdb9f624a063fa2e32fd7",
+        "content_type": null
+      },
+      "files": {
+        "gcc/ext-dce.cc": {
+          "tag": "releases/gcc-15.3.0",
+          "path": "gcc/ext-dce.cc",
+          "raw_path": "source/15.3.0/gcc__ext-dce.cc",
+          "raw_bytes": 40217,
+          "raw_sha256": "f6b40d2ec541e522d98d9c9801c7427c6a1c0fc6f74dddbdc976b0036a07d76f",
+          "computed_git_blob_sha1": "67ec92a42878ac1ef1e133cd57a163f1ad4a3159",
+          "api_url": "https://api.github.com/repos/gcc-mirror/gcc/contents/gcc/ext-dce.cc?ref=releases/gcc-15.3.0",
+          "api_blob_sha1": "67ec92a42878ac1ef1e133cd57a163f1ad4a3159",
+          "api_size": 40217,
+          "api_status": 200
+        },
+        "gcc/testsuite/gcc.dg/torture/pr116488.c": {
+          "tag": "releases/gcc-15.3.0",
+          "path": "gcc/testsuite/gcc.dg/torture/pr116488.c",
+          "raw_path": "source/15.3.0/gcc__testsuite__gcc.dg__torture__pr116488.c",
+          "raw_bytes": 399,
+          "raw_sha256": "10182dfccf8dec109189e28ef12484371c6b6c594dcdb76ebc468c7d1d0a6aa1",
+          "computed_git_blob_sha1": "b2af84fef43040e7d9651386f52930b97a70d469",
+          "api_url": "https://api.github.com/repos/gcc-mirror/gcc/contents/gcc/testsuite/gcc.dg/torture/pr116488.c?ref=releases/gcc-15.3.0",
+          "api_blob_sha1": "b2af84fef43040e7d9651386f52930b97a70d469",
+          "api_size": 399,
+          "api_status": 200
+        }
+      },
+      "fix_behavior_observed": {
+        "sign_extend_sets_live_sign_bit_and_recurses": true,
+        "zero_extend_recurses": true,
+        "backpropagation_before_extension_strip_and_optimization": true,
+        "source_line_reference": "same file bytes and line positions as 15.2.0"
+      },
+      "corrected_test_observed": {
+        "signed_char_c_and_e": true,
+        "run_directive": true,
+        "registered_flag": true,
+        "later_target_guard": true,
+        "test_line_reference": "gcc/testsuite/gcc.dg/torture/pr116488.c#L1-L22"
+      }
+    }
+  },
+  "between_release_comparison": {
+    "15.2_and_15.3_ext_dce_raw_sha256_identical": true,
+    "15_1_15_2_15_3_corrected_test_raw_sha256_identical": true,
+    "release_test_diff_from_portability_commit": "Each release keeps `signed char c, e;`; release source additionally has `dg-require-effective-target int32plus` and a separating blank line compared with the portability commit snapshot."
+  },
+  "fixed_change_records": {
+    "fix_commit": "36e91df7716d34aa5694533837551593ec28f22b",
+    "fix_patch": {
+      "url": "https://github.com/gcc-mirror/gcc/commit/36e91df7716d34aa5694533837551593ec28f22b.patch",
+      "final_url": "https://github.com/gcc-mirror/gcc/commit/36e91df7716d34aa5694533837551593ec28f22b.patch",
+      "status": 200,
+      "retrieved_utc": "2026-11-13T07:25:55.215120+00:00",
+      "path": "http/fix-commit.patch",
+      "bytes": 7605,
+      "sha256": "1888cf3ea41ba8d392d18bab82cdbf6773fc1e899feb1fd9c776c38d4c29b877",
+      "content_type": null
+    },
+    "portability_commit": "8df549fc2c0297970cb3bcadba7929088af96522",
+    "portability_patch": {
+      "url": "https://github.com/gcc-mirror/gcc/commit/8df549fc2c0297970cb3bcadba7929088af96522.patch",
+      "final_url": "https://github.com/gcc-mirror/gcc/commit/8df549fc2c0297970cb3bcadba7929088af96522.patch",
+      "status": 200,
+      "retrieved_utc": "2026-11-13T07:27:08.483282+00:00",
+      "path": "http/testcase-portability-commit.patch",
+      "bytes": 1896,
+      "sha256": "96f4082bfaf3e4903f1bc29019aff27ceb62a157c7e67a7384ed786b094b3c76",
+      "content_type": null
+    },
+    "commit_patch_evidence": "The fix commit diff identifies SIGN_EXTEND/ZERO_EXTEND backpropagation and moves the call before the optimization step; the portability commit diff changes `char c, e` to `signed char c, e`."
+  },
+  "official_changes_pr116488_marker_found": false,
+  "interpretation": "The first stable GCC 15 release (15.1.0) and the later 15.2.0/15.3.0 tag snapshots contain the fix behavior in gcc/ext-dce.cc and the corrected signed-char testcase. The release test includes a later int32plus effective-target guard. This is a source-level release inclusion observation; no compiler or testcase was built or run here.",
+  "limits": [
+    "This project did not independently reproduce the original wrong-code report or run any GCC build/testsuite/testcase.",
+    "Source presence does not establish the original issue is fixed on every target/configuration, that the release tests passed, or that later downstream packages are identical.",
+    "The record does not measure compiler quality, incident rate, or represent the full GCC maintenance history.",
+    "The GCC 15 changes page did not contain literal PR116488 in this response; omission from the page is not used as evidence because release PR lists can be incomplete."
+  ],
+  "tests": {
+    "gcc_build": false,
+    "gcc_testsuite": false,
+    "pr116488_test_execution": false,
+    "repository_code_tests": false,
+    "reason": "Read-only upstream source/release-history follow-up; documentation and evidence artifacts only."
+  },
+  "external_capture_root": "/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/gcc-pr116488-release-followup-2026-11-13",
+  "capture_manifest": "observations/capture-manifest.json"
+}

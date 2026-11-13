@@ -1,0 +1,406 @@
+{
+  "record_id": "G2-HISTORY-2026-11-13-05",
+  "capture_start_utc": "2026-11-13T07:24:24.494144+00:00",
+  "http": [
+    {
+      "url": "https://gcc.gnu.org/gcc-15/",
+      "final_url": "https://gcc.gnu.org/gcc-15/",
+      "status": 200,
+      "retrieved_utc": "2026-11-13T07:24:24.891977+00:00",
+      "path": "http/gcc-15-series.html",
+      "bytes": 3025,
+      "sha256": "0df3bd64e458f2c503be2955a618747524de3b1067326b47b3a48b16fd4c0113",
+      "content_type": null
+    },
+    {
+      "url": "https://gcc.gnu.org/gcc-15/changes.html",
+      "final_url": "https://gcc.gnu.org/gcc-15/changes.html",
+      "status": 200,
+      "retrieved_utc": "2026-11-13T07:24:25.160351+00:00",
+      "path": "http/gcc-15-changes.html",
+      "bytes": 78698,
+      "sha256": "e5949fc3a7a2e8a2f99297964195b61baec2b8e59642e5f1e258a7ac28b93963",
+      "content_type": null
+    },
+    {
+      "url": "https://gcc.gnu.org/pipermail/gcc-announce/2025/date.html",
+      "final_url": "https://gcc.gnu.org/pipermail/gcc-announce/2025/date.html",
+      "status": 200,
+      "retrieved_utc": "2026-11-13T07:24:25.246327+00:00",
+      "path": "http/gcc-announce-2025-index.html",
+      "bytes": 2009,
+      "sha256": "3e6abb2e32f6a82e9475f97152614678edd321054f4de1970aea8b69476c6600",
+      "content_type": null
+    },
+    {
+      "url": "https://gcc.gnu.org/pipermail/gcc-announce/2026/date.html",
+      "final_url": "https://gcc.gnu.org/pipermail/gcc-announce/2026/date.html",
+      "status": 200,
+      "retrieved_utc": "2026-11-13T07:24:25.450200+00:00",
+      "path": "http/gcc-announce-2026-index.html",
+      "bytes": 2010,
+      "sha256": "b100c4c4a3702719a4780c43bad445357e08d18307b062c13e3db9b1ff8dacab",
+      "content_type": null
+    },
+    {
+      "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/releases/gcc-15.1.0/gcc/ext-dce.cc",
+      "final_url": "https://raw.githubusercontent.com/gcc-mirror/gcc/releases/gcc-15.1.0/gcc/ext-dce.cc",
+      "status": 200,
+      "retrieved_utc": "2026-11-13T07:24:26.845772+00:00",
+      "path": "source/15.1.0/gcc__ext-dce.cc",
+      "bytes": 37425,
+      "sha256": "56ad15e68cce43c7f6f9ad4db81d464ffea44076c20eb7a202820ae0230cdd1e",
+      "content_type": null
+    },
+    {
+      "url": "https://api.github.com/repos/gcc-mirror/gcc/contents/gcc/ext-dce.cc?ref=releases/gcc-15.1.0",
+      "final_url": "https://api.github.com/repos/gcc-mirror/gcc/contents/gcc/ext-dce.cc?ref=releases/gcc-15.1.0",
+      "status": 200,
+      "retrieved_utc": "2026-11-13T07:24:27.319625+00:00",
+      "path": "http/api-15.1.0__gcc__ext-dce.cc.json",
+      "bytes": 52411,
+      "sha256": "143361dd8d754764219ec5b38b2927b26199dd14df53846f9fc4aa0dd1658816",
+      "content_type": null
+    },
+    {
+      "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/releases/gcc-15.1.0/gcc/testsuite/gcc.dg/torture/pr116488.c",
+      "final_url": "https://raw.githubusercontent.com/gcc-mirror/gcc/releases/gcc-15.1.0/gcc/testsuite/gcc.dg/torture/pr116488.c",
+      "status": 200,
+      "retrieved_utc": "2026-11-13T07:24:27.617730+00:00",
+      "path": "source/15.1.0/gcc__testsuite__gcc.dg__torture__pr116488.c",
+      "bytes": 399,
+      "sha256": "10182dfccf8dec109189e28ef12484371c6b6c594dcdb76ebc468c7d1d0a6aa1",
+      "content_type": null
+    },
+    {
+      "url": "https://api.github.com/repos/gcc-mirror/gcc/contents/gcc/testsuite/gcc.dg/torture/pr116488.c?ref=releases/gcc-15.1.0",
+      "final_url": "https://api.github.com/repos/gcc-mirror/gcc/contents/gcc/testsuite/gcc.dg/torture/pr116488.c?ref=releases/gcc-15.1.0",
+      "status": 200,
+      "retrieved_utc": "2026-11-13T07:24:28.009140+00:00",
+      "path": "http/api-15.1.0__gcc__testsuite__gcc.dg__torture__pr116488.c.json",
+      "bytes": 1545,
+      "sha256": "41109419f1e7bc60e8709159ef3f02a59f07c7c8fa0c5c6874c3ad0b18c8689f",
+      "content_type": null
+    },
+    {
+      "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/releases/gcc-15.2.0/gcc/ext-dce.cc",
+      "final_url": "https://raw.githubusercontent.com/gcc-mirror/gcc/releases/gcc-15.2.0/gcc/ext-dce.cc",
+      "status": 200,
+      "retrieved_utc": "2026-11-13T07:24:28.367672+00:00",
+      "path": "source/15.2.0/gcc__ext-dce.cc",
+      "bytes": 40217,
+      "sha256": "f6b40d2ec541e522d98d9c9801c7427c6a1c0fc6f74dddbdc976b0036a07d76f",
+      "content_type": null
+    },
+    {
+      "url": "https://api.github.com/repos/gcc-mirror/gcc/contents/gcc/ext-dce.cc?ref=releases/gcc-15.2.0",
+      "final_url": "https://api.github.com/repos/gcc-mirror/gcc/contents/gcc/ext-dce.cc?ref=releases/gcc-15.2.0",
+      "status": 200,
+      "retrieved_utc": "2026-11-13T07:24:28.651025+00:00",
+      "path": "http/api-15.2.0__gcc__ext-dce.cc.json",
+      "bytes": 56259,
+      "sha256": "c03cafa00071a48ee89223019fdb666937092ed841f9212bfc1c2394e2f52407",
+      "content_type": null
+    },
+    {
+      "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/releases/gcc-15.2.0/gcc/testsuite/gcc.dg/torture/pr116488.c",
+      "final_url": "https://raw.githubusercontent.com/gcc-mirror/gcc/releases/gcc-15.2.0/gcc/testsuite/gcc.dg/torture/pr116488.c",
+      "status": 200,
+      "retrieved_utc": "2026-11-13T07:24:28.955163+00:00",
+      "path": "source/15.2.0/gcc__testsuite__gcc.dg__torture__pr116488.c",
+      "bytes": 399,
+      "sha256": "10182dfccf8dec109189e28ef12484371c6b6c594dcdb76ebc468c7d1d0a6aa1",
+      "content_type": null
+    },
+    {
+      "url": "https://api.github.com/repos/gcc-mirror/gcc/contents/gcc/testsuite/gcc.dg/torture/pr116488.c?ref=releases/gcc-15.2.0",
+      "final_url": "https://api.github.com/repos/gcc-mirror/gcc/contents/gcc/testsuite/gcc.dg/torture/pr116488.c?ref=releases/gcc-15.2.0",
+      "status": 200,
+      "retrieved_utc": "2026-11-13T07:24:29.404218+00:00",
+      "path": "http/api-15.2.0__gcc__testsuite__gcc.dg__torture__pr116488.c.json",
+      "bytes": 1545,
+      "sha256": "f79315af742bd4f8e0154d6cbad77e9e70bdad391f0448453e218708f198d5ed",
+      "content_type": null
+    },
+    {
+      "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/releases/gcc-15.3.0/gcc/ext-dce.cc",
+      "final_url": "https://raw.githubusercontent.com/gcc-mirror/gcc/releases/gcc-15.3.0/gcc/ext-dce.cc",
+      "status": 200,
+      "retrieved_utc": "2026-11-13T07:24:29.719498+00:00",
+      "path": "source/15.3.0/gcc__ext-dce.cc",
+      "bytes": 40217,
+      "sha256": "f6b40d2ec541e522d98d9c9801c7427c6a1c0fc6f74dddbdc976b0036a07d76f",
+      "content_type": null
+    },
+    {
+      "url": "https://api.github.com/repos/gcc-mirror/gcc/contents/gcc/ext-dce.cc?ref=releases/gcc-15.3.0",
+      "final_url": "https://api.github.com/repos/gcc-mirror/gcc/contents/gcc/ext-dce.cc?ref=releases/gcc-15.3.0",
+      "status": 200,
+      "retrieved_utc": "2026-11-13T07:24:30.191145+00:00",
+      "path": "http/api-15.3.0__gcc__ext-dce.cc.json",
+      "bytes": 56259,
+      "sha256": "f9ecb4ce60d2d72995b0edfb4a8658ce7c306cd32529d751c7b88bc649ad8abc",
+      "content_type": null
+    },
+    {
+      "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/releases/gcc-15.3.0/gcc/testsuite/gcc.dg/torture/pr116488.c",
+      "final_url": "https://raw.githubusercontent.com/gcc-mirror/gcc/releases/gcc-15.3.0/gcc/testsuite/gcc.dg/torture/pr116488.c",
+      "status": 200,
+      "retrieved_utc": "2026-11-13T07:24:30.501660+00:00",
+      "path": "source/15.3.0/gcc__testsuite__gcc.dg__torture__pr116488.c",
+      "bytes": 399,
+      "sha256": "10182dfccf8dec109189e28ef12484371c6b6c594dcdb76ebc468c7d1d0a6aa1",
+      "content_type": null
+    },
+    {
+      "url": "https://api.github.com/repos/gcc-mirror/gcc/contents/gcc/testsuite/gcc.dg/torture/pr116488.c?ref=releases/gcc-15.3.0",
+      "final_url": "https://api.github.com/repos/gcc-mirror/gcc/contents/gcc/testsuite/gcc.dg/torture/pr116488.c?ref=releases/gcc-15.3.0",
+      "status": 200,
+      "retrieved_utc": "2026-11-13T07:24:30.874276+00:00",
+      "path": "http/api-15.3.0__gcc__testsuite__gcc.dg__torture__pr116488.c.json",
+      "bytes": 1545,
+      "sha256": "f8b2976ea19f2bdad88ca0cff75e30eec35447d05034d757ff40c42af7aafcdf",
+      "content_type": null
+    },
+    {
+      "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/36e91df7716d34aa5694533837551593ec28f22b/gcc/ext-dce.cc",
+      "final_url": "https://raw.githubusercontent.com/gcc-mirror/gcc/36e91df7716d34aa5694533837551593ec28f22b/gcc/ext-dce.cc",
+      "status": 200,
+      "retrieved_utc": "2026-11-13T07:24:31.213386+00:00",
+      "path": "source/commit-36e91df771-gcc__ext-dce.cc",
+      "bytes": 35654,
+      "sha256": "62ecafa35832ee50b3590fb106a4cb7fef5fdfe8d55bb9f99e80ec2c9f06ec88",
+      "content_type": null
+    },
+    {
+      "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/36e91df7716d34aa5694533837551593ec28f22b/gcc/testsuite/gcc.dg/torture/pr116488.c",
+      "final_url": "https://raw.githubusercontent.com/gcc-mirror/gcc/36e91df7716d34aa5694533837551593ec28f22b/gcc/testsuite/gcc.dg/torture/pr116488.c",
+      "status": 200,
+      "retrieved_utc": "2026-11-13T07:24:31.444348+00:00",
+      "path": "source/commit-36e91df771-gcc__testsuite__gcc.dg__torture__pr116488.c",
+      "bytes": 343,
+      "sha256": "b12127ccc6577b2bd3fcf4ff20bf353bd2c301283419b80320da96781c386167",
+      "content_type": null
+    },
+    {
+      "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/8df549fc2c0297970cb3bcadba7929088af96522/gcc/testsuite/gcc.dg/torture/pr116488.c",
+      "final_url": "https://raw.githubusercontent.com/gcc-mirror/gcc/8df549fc2c0297970cb3bcadba7929088af96522/gcc/testsuite/gcc.dg/torture/pr116488.c",
+      "status": 200,
+      "retrieved_utc": "2026-11-13T07:24:31.779487+00:00",
+      "path": "source/commit-8df549fc2c-gcc__testsuite__gcc.dg__torture__pr116488.c",
+      "bytes": 350,
+      "sha256": "b862e3e0dbe2fdc4ad0ad9dcc3ccd8dd45686428c07329a3f2f0c95623f30de5",
+      "content_type": null
+    },
+    {
+      "url": "https://gcc.gnu.org/pipermail/gcc-announce/2025/000185.html",
+      "final_url": "https://gcc.gnu.org/pipermail/gcc-announce/2025/000185.html",
+      "status": 200,
+      "retrieved_utc": "2026-11-13T07:25:08.829698+00:00",
+      "path": "http/gcc-15.1-release-announcement.html",
+      "bytes": 4538,
+      "sha256": "4c66d6b3b85af5d27eb2a719e04a3373593119666c74f7b6747192a0b3a7aeb1",
+      "content_type": null
+    },
+    {
+      "url": "https://gcc.gnu.org/pipermail/gcc-announce/2025/000189.html",
+      "final_url": "https://gcc.gnu.org/pipermail/gcc-announce/2025/000189.html",
+      "status": 200,
+      "retrieved_utc": "2026-11-13T07:25:09.006102+00:00",
+      "path": "http/gcc-15.2-release-announcement.html",
+      "bytes": 2819,
+      "sha256": "9efa8b72ed58e6a432852c53baa3bc445e9c552961e58bda38bf156f9dd80892",
+      "content_type": null
+    },
+    {
+      "url": "https://gcc.gnu.org/pipermail/gcc-announce/2026/000191.html",
+      "final_url": "https://gcc.gnu.org/pipermail/gcc-announce/2026/000191.html",
+      "status": 200,
+      "retrieved_utc": "2026-11-13T07:25:09.219099+00:00",
+      "path": "http/gcc-15.3-release-announcement.html",
+      "bytes": 3015,
+      "sha256": "c53fa488f53dd7feb4d7659087e48d3c83768ea3592cdb9f624a063fa2e32fd7",
+      "content_type": null
+    },
+    {
+      "url": "https://github.com/gcc-mirror/gcc/commit/36e91df7716d34aa5694533837551593ec28f22b.patch",
+      "final_url": "https://github.com/gcc-mirror/gcc/commit/36e91df7716d34aa5694533837551593ec28f22b.patch",
+      "status": 200,
+      "retrieved_utc": "2026-11-13T07:25:55.215120+00:00",
+      "path": "http/fix-commit.patch",
+      "bytes": 7605,
+      "sha256": "1888cf3ea41ba8d392d18bab82cdbf6773fc1e899feb1fd9c776c38d4c29b877",
+      "content_type": null
+    },
+    {
+      "url": "https://github.com/gcc-mirror/gcc/commit/8df549fc2c0297970cb3bcadba7929088af96522.patch",
+      "final_url": "https://github.com/gcc-mirror/gcc/commit/8df549fc2c0297970cb3bcadba7929088af96522.patch",
+      "status": 200,
+      "retrieved_utc": "2026-11-13T07:27:08.483282+00:00",
+      "path": "http/testcase-portability-commit.patch",
+      "bytes": 1896,
+      "sha256": "96f4082bfaf3e4903f1bc29019aff27ceb62a157c7e67a7384ed786b094b3c76",
+      "content_type": null
+    }
+  ],
+  "commands": [
+    {
+      "argv": [
+        "git",
+        "ls-remote",
+        "https://gcc.gnu.org/git/gcc.git",
+        "refs/tags/releases/gcc-15.1.0",
+        "refs/tags/releases/gcc-15.2.0",
+        "refs/tags/releases/gcc-15.3.0"
+      ],
+      "exit_code": 0,
+      "retrieved_utc": "2026-11-13T07:24:25.904110+00:00",
+      "stdout_path": "git/sourceware.stdout",
+      "stdout_bytes": 213,
+      "stdout_sha256": "4f40d4532615c15ed63fe42a5404c3fcb16f7d6d16d284a758bcc2d62d3301e3",
+      "stderr_path": "git/sourceware.stderr",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "git",
+        "ls-remote",
+        "https://github.com/gcc-mirror/gcc.git",
+        "refs/tags/releases/gcc-15.1.0",
+        "refs/tags/releases/gcc-15.2.0",
+        "refs/tags/releases/gcc-15.3.0"
+      ],
+      "exit_code": 0,
+      "retrieved_utc": "2026-11-13T07:24:26.533154+00:00",
+      "stdout_path": "git/github-mirror.stdout",
+      "stdout_bytes": 213,
+      "stdout_sha256": "4f40d4532615c15ed63fe42a5404c3fcb16f7d6d16d284a758bcc2d62d3301e3",
+      "stderr_path": "git/github-mirror.stderr",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "announcement_candidates": {
+    "2025": [
+      {
+        "href": "000185.html",
+        "label": "GCC 15.1 Released"
+      },
+      {
+        "href": "000189.html",
+        "label": "GCC 15.2 Released"
+      }
+    ],
+    "2026": [
+      {
+        "href": "000191.html",
+        "label": "GCC 15.3 Released"
+      }
+    ]
+  },
+  "files": [
+    {
+      "tag": "releases/gcc-15.1.0",
+      "path": "gcc/ext-dce.cc",
+      "raw_path": "source/15.1.0/gcc__ext-dce.cc",
+      "raw_bytes": 37425,
+      "raw_sha256": "56ad15e68cce43c7f6f9ad4db81d464ffea44076c20eb7a202820ae0230cdd1e",
+      "computed_git_blob_sha1": "a03439501419df9fccf712383040b2b2ea556c9f",
+      "api_url": "https://api.github.com/repos/gcc-mirror/gcc/contents/gcc/ext-dce.cc?ref=releases/gcc-15.1.0",
+      "api_blob_sha1": "a03439501419df9fccf712383040b2b2ea556c9f",
+      "api_size": 37425,
+      "api_status": 200
+    },
+    {
+      "tag": "releases/gcc-15.1.0",
+      "path": "gcc/testsuite/gcc.dg/torture/pr116488.c",
+      "raw_path": "source/15.1.0/gcc__testsuite__gcc.dg__torture__pr116488.c",
+      "raw_bytes": 399,
+      "raw_sha256": "10182dfccf8dec109189e28ef12484371c6b6c594dcdb76ebc468c7d1d0a6aa1",
+      "computed_git_blob_sha1": "b2af84fef43040e7d9651386f52930b97a70d469",
+      "api_url": "https://api.github.com/repos/gcc-mirror/gcc/contents/gcc/testsuite/gcc.dg/torture/pr116488.c?ref=releases/gcc-15.1.0",
+      "api_blob_sha1": "b2af84fef43040e7d9651386f52930b97a70d469",
+      "api_size": 399,
+      "api_status": 200
+    },
+    {
+      "tag": "releases/gcc-15.2.0",
+      "path": "gcc/ext-dce.cc",
+      "raw_path": "source/15.2.0/gcc__ext-dce.cc",
+      "raw_bytes": 40217,
+      "raw_sha256": "f6b40d2ec541e522d98d9c9801c7427c6a1c0fc6f74dddbdc976b0036a07d76f",
+      "computed_git_blob_sha1": "67ec92a42878ac1ef1e133cd57a163f1ad4a3159",
+      "api_url": "https://api.github.com/repos/gcc-mirror/gcc/contents/gcc/ext-dce.cc?ref=releases/gcc-15.2.0",
+      "api_blob_sha1": "67ec92a42878ac1ef1e133cd57a163f1ad4a3159",
+      "api_size": 40217,
+      "api_status": 200
+    },
+    {
+      "tag": "releases/gcc-15.2.0",
+      "path": "gcc/testsuite/gcc.dg/torture/pr116488.c",
+      "raw_path": "source/15.2.0/gcc__testsuite__gcc.dg__torture__pr116488.c",
+      "raw_bytes": 399,
+      "raw_sha256": "10182dfccf8dec109189e28ef12484371c6b6c594dcdb76ebc468c7d1d0a6aa1",
+      "computed_git_blob_sha1": "b2af84fef43040e7d9651386f52930b97a70d469",
+      "api_url": "https://api.github.com/repos/gcc-mirror/gcc/contents/gcc/testsuite/gcc.dg/torture/pr116488.c?ref=releases/gcc-15.2.0",
+      "api_blob_sha1": "b2af84fef43040e7d9651386f52930b97a70d469",
+      "api_size": 399,
+      "api_status": 200
+    },
+    {
+      "tag": "releases/gcc-15.3.0",
+      "path": "gcc/ext-dce.cc",
+      "raw_path": "source/15.3.0/gcc__ext-dce.cc",
+      "raw_bytes": 40217,
+      "raw_sha256": "f6b40d2ec541e522d98d9c9801c7427c6a1c0fc6f74dddbdc976b0036a07d76f",
+      "computed_git_blob_sha1": "67ec92a42878ac1ef1e133cd57a163f1ad4a3159",
+      "api_url": "https://api.github.com/repos/gcc-mirror/gcc/contents/gcc/ext-dce.cc?ref=releases/gcc-15.3.0",
+      "api_blob_sha1": "67ec92a42878ac1ef1e133cd57a163f1ad4a3159",
+      "api_size": 40217,
+      "api_status": 200
+    },
+    {
+      "tag": "releases/gcc-15.3.0",
+      "path": "gcc/testsuite/gcc.dg/torture/pr116488.c",
+      "raw_path": "source/15.3.0/gcc__testsuite__gcc.dg__torture__pr116488.c",
+      "raw_bytes": 399,
+      "raw_sha256": "10182dfccf8dec109189e28ef12484371c6b6c594dcdb76ebc468c7d1d0a6aa1",
+      "computed_git_blob_sha1": "b2af84fef43040e7d9651386f52930b97a70d469",
+      "api_url": "https://api.github.com/repos/gcc-mirror/gcc/contents/gcc/testsuite/gcc.dg/torture/pr116488.c?ref=releases/gcc-15.3.0",
+      "api_blob_sha1": "b2af84fef43040e7d9651386f52930b97a70d469",
+      "api_size": 399,
+      "api_status": 200
+    }
+  ],
+  "fixed_commit_files": [
+    {
+      "commit": "36e91df7716d34aa5694533837551593ec28f22b",
+      "path": "gcc/ext-dce.cc",
+      "local_path": "source/commit-36e91df771-gcc__ext-dce.cc",
+      "bytes": 35654,
+      "sha256": "62ecafa35832ee50b3590fb106a4cb7fef5fdfe8d55bb9f99e80ec2c9f06ec88",
+      "computed_git_blob_sha1": "a449b9f6b49ce2d1246b5cd419f39d510ed3b4ed",
+      "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/36e91df7716d34aa5694533837551593ec28f22b/gcc/ext-dce.cc"
+    },
+    {
+      "commit": "36e91df7716d34aa5694533837551593ec28f22b",
+      "path": "gcc/testsuite/gcc.dg/torture/pr116488.c",
+      "local_path": "source/commit-36e91df771-gcc__testsuite__gcc.dg__torture__pr116488.c",
+      "bytes": 343,
+      "sha256": "b12127ccc6577b2bd3fcf4ff20bf353bd2c301283419b80320da96781c386167",
+      "computed_git_blob_sha1": "9ead1298eb14c4379d20e88733346b10c6d96176",
+      "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/36e91df7716d34aa5694533837551593ec28f22b/gcc/testsuite/gcc.dg/torture/pr116488.c"
+    },
+    {
+      "commit": "8df549fc2c0297970cb3bcadba7929088af96522",
+      "path": "gcc/testsuite/gcc.dg/torture/pr116488.c",
+      "local_path": "source/commit-8df549fc2c-gcc__testsuite__gcc.dg__torture__pr116488.c",
+      "bytes": 350,
+      "sha256": "b862e3e0dbe2fdc4ad0ad9dcc3ccd8dd45686428c07329a3f2f0c95623f30de5",
+      "computed_git_blob_sha1": "90457bb9315825c8e9f693ac9e7af153e983ac1a",
+      "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/8df549fc2c0297970cb3bcadba7929088af96522/gcc/testsuite/gcc.dg/torture/pr116488.c"
+    }
+  ],
+  "capture_end_utc": "2026-11-13T07:27:08.483527+00:00"
+}
