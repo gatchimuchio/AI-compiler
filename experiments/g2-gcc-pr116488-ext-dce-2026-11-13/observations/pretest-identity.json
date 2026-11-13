@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "record_id": "G2-HISTORY-2026-11-13-11",
+  "batch": "B63",
+  "pretest_identity_recorded_utc": "2026-11-13T10:38:38.598843Z",
+  "selected_test_started": false,
+  "selected_test_outcome": "NOT_RUN",
+  "repository_state": {
+    "head": "cb25b634685f4852914821afd597aeaa016664de",
+    "origin_main": "cb25b634685f4852914821afd597aeaa016664de",
+    "backup_main": "cb25b634685f4852914821afd597aeaa016664de",
+    "backup_main_prev": "fd978e2228490ec6a9ffee6a18ffd752c662eb75",
+    "worktree_clean": true
+  },
+  "source": {
+    "primary_url": "https://gcc.gnu.org/pipermail/gcc-bugs/2024-August/878977.html",
+    "path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/source/reporter-small.c",
+    "bytes": 236,
+    "sha256": "77a92761fadde9449f03271f6f186f59091f1a5c697a55f523b4388ab9f405c2",
+    "source_sha256_expected_from_B62": "77a92761fadde9449f03271f6f186f59091f1a5c697a55f523b4388ab9f405c2"
+  },
+  "compiler": {
+    "driver_path": "/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gcc/xgcc",
+    "driver_sha256": "d11bd49769c79c84969134620c9c7607fb8cf53d0be074e8e012b9cc47c4b297",
+    "cc1_path": "/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gcc/cc1",
+    "cc1_sha256": "987e7a1b2eb0b3103fa427bc5d7d4b05f9beeae4c2176d794216bbbc28648118",
+    "version": "GCC 15.2.0",
+    "source_archive_sha256": "438fd996826b0c82485a29da03a72d71d6e3541a83ec702df4271f6fe025d24e",
+    "source_commit": "5115c7e447fc07457443df874bf57840e8316d5f",
+    "target": "x86_64-linux-gnu",
+    "environment": {
+      "PATH": "/tmp/aic-gcc15-pr116488-2026-11-13/tools/bin:/usr/bin:/bin",
+      "LC_ALL": "C",
+      "LANG": "C",
+      "LD_LIBRARY_PATH": ":/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gcc:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gmp/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/prev-gmp/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/mpfr/src/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/prev-mpfr/src/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/mpc/src/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/prev-mpc/src/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/isl/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/prev-isl/.libs:/tmp/aic-gcc15-pr116488-2026-11-13/tools/lib"
+    },
+    "PATH": "/tmp/aic-gcc15-pr116488-2026-11-13/tools/bin:/usr/bin:/bin",
+    "GCC_EXEC_PREFIX": "UNSET",
+    "LD_LIBRARY_PATH_bytes": 653
+  },
+  "gcc_source_files": {
+    "ext-dce.cc": {
+      "path": "/tmp/aic-gcc15.2-pr116488-2026-11-13/source/gcc-15.2.0/gcc/ext-dce.cc",
+      "bytes": 40217,
+      "sha256": "f6b40d2ec541e522d98d9c9801c7427c6a1c0fc6f74dddbdc976b0036a07d76f"
+    },
+    "passes.def": {
+      "path": "/tmp/aic-gcc15.2-pr116488-2026-11-13/source/gcc-15.2.0/gcc/passes.def",
+      "bytes": 23745,
+      "sha256": "1f1b546ebf20092c126a5c681fa20d2a66e7ed97d1f621bc0cc3764edceecbe5"
+    },
+    "common.opt": {
+      "path": "/tmp/aic-gcc15.2-pr116488-2026-11-13/source/gcc-15.2.0/gcc/common.opt",
+      "bytes": 118533,
+      "sha256": "e9b54a8ae36c17201dd708fe238613df1acdc1ae7c9a6daed801514d3be1a989"
+    }
+  },
+  "pass_identity": {
+    "name": "ext_dce",
+    "dump_option": "-fdump-rtl-ext_dce",
+    "pass_source": "gcc/ext-dce.cc:1233-1260",
+    "registration_source": "gcc/passes.def:493",
+    "common_option_source": "gcc/common.opt:3984-3985",
+    "pass_order_neighbors": [
+      "pass_ud_rtl_dce",
+      "pass_ext_dce",
+      "pass_combine"
+    ],
+    "gate": "flag_ext_dce && optimize > 0",
+    "query_record_path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/observations/option-query-verification/option-query-verification.json",
+    "observed_effective_options": {
+      "baseline": [
+        "-fext-dce                   \t\t[enabled]",
+        "-fforward-propagate         \t\t[enabled]"
+      ],
+      "reporter-order": [
+        "-fext-dce                   \t\t[enabled]",
+        "-fforward-propagate         \t\t[disabled]"
+      ]
+    }
+  },
+  "planned_run": {
+    "case_count": 2,
+    "each_case_compile_count": 1,
+    "baseline_options": [
+      "-O3"
+    ],
+    "reporter_order_options": [
+      "-fno-forward-propagate",
+      "-O3"
+    ],
+    "additional_option": "-fdump-rtl-ext_dce",
+    "output_mode": "-S",
+    "consumer_execution": "NOT_RUN",
+    "AICompiler_project_tests": "NOT_RUN",
+    "run_directory_exists": false
+  },
+  "runner": {
+    "path": "/workspace/AI-compiler/experiments/g2-gcc-pr116488-ext-dce-2026-11-13/run_rtl_dump.py",
+    "bytes": 7865,
+    "sha256": "4b3f498bc0fc45c5bf506499bcca3603bc824841ddfa4895297a5ba0f21eafd8",
+    "frozen_utc": "2026-11-13T10:43:06.908123Z"
+  },
+  "pretest_review_corrections": [
+    {
+      "observed_utc": "2026-11-13T10:41:09.689610Z",
+      "correction": "The first draft of run_rtl_dump.py omitted the prev-mpfr and prev-mpc search directories. Preflight comparison against the B62 frozen runner found the omission; the B63 runner and recorded environment now contain the complete same ordered directories with normalized /./ spelling (653 bytes). No testcase compile or consumer run had started."
+    }
+  ]
+}

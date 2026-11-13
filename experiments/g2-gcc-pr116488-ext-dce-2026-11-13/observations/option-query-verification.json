@@ -1,0 +1,68 @@
+{
+  "record_id": "G2-HISTORY-2026-11-13-11",
+  "type": "read-only compiler option identity queries; no C source compilation",
+  "captured_utc": "2026-11-13T10:38:07.579726Z",
+  "queries": [
+    {
+      "case": "baseline",
+      "argv": [
+        "/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gcc/xgcc",
+        "-B/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gcc/",
+        "-Q",
+        "--help=optimizers",
+        "-O3"
+      ],
+      "cwd": "/workspace/AI-compiler",
+      "environment": {
+        "PATH": "/tmp/aic-gcc15-pr116488-2026-11-13/tools/bin:/usr/bin:/bin",
+        "LC_ALL": "C",
+        "LANG": "C",
+        "LD_LIBRARY_PATH": ":/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gcc:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gmp/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/prev-gmp/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/mpfr/src/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/prev-mpfr/src/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/mpc/src/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/prev-mpc/src/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/isl/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/prev-isl/.libs:/tmp/aic-gcc15-pr116488-2026-11-13/tools/lib"
+      },
+      "started_utc": "2026-11-13T10:38:07.542207Z",
+      "completed_utc": "2026-11-13T10:38:07.567057Z",
+      "exit_status": 0,
+      "stdout_path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/observations/option-query-verification/baseline.stdout",
+      "stdout_bytes": 12366,
+      "stdout_sha256": "ddc532b12bff8a53d1c5d786eae6de500eb73841d80ae07461b21c3f03328715",
+      "stderr_path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/observations/option-query-verification/baseline.stderr",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "relevant_lines": [
+        "-fext-dce                   \t\t[enabled]",
+        "-fforward-propagate         \t\t[enabled]"
+      ]
+    },
+    {
+      "case": "reporter-order",
+      "argv": [
+        "/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gcc/xgcc",
+        "-B/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gcc/",
+        "-Q",
+        "--help=optimizers",
+        "-fno-forward-propagate",
+        "-O3"
+      ],
+      "cwd": "/workspace/AI-compiler",
+      "environment": {
+        "PATH": "/tmp/aic-gcc15-pr116488-2026-11-13/tools/bin:/usr/bin:/bin",
+        "LC_ALL": "C",
+        "LANG": "C",
+        "LD_LIBRARY_PATH": ":/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gcc:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/gmp/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/prev-gmp/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/mpfr/src/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/prev-mpfr/src/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/mpc/src/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/prev-mpc/src/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/isl/.libs:/tmp/aic-gcc15.2-pr116488-2026-11-13/build/gcc-15.2.0/prev-isl/.libs:/tmp/aic-gcc15-pr116488-2026-11-13/tools/lib"
+      },
+      "started_utc": "2026-11-13T10:38:07.567404Z",
+      "completed_utc": "2026-11-13T10:38:07.579472Z",
+      "exit_status": 0,
+      "stdout_path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/observations/option-query-verification/reporter-order.stdout",
+      "stdout_bytes": 12367,
+      "stdout_sha256": "cbea6dba467705950045c42a8d0fca0a98c4b48b07b4a428c5f97ff73016c70d",
+      "stderr_path": "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/observations/option-query-verification/reporter-order.stderr",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "relevant_lines": [
+        "-fext-dce                   \t\t[enabled]",
+        "-fforward-propagate         \t\t[disabled]"
+      ]
+    }
+  ]
+}

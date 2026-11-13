@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "record_id": "G2-HISTORY-2026-11-13-11",
+  "batch": "B63",
+  "recorded_utc": "2026-11-13T10:41:36.534276Z",
+  "testcase_started": false,
+  "events": [
+    {
+      "step": 1,
+      "stage": "initial pretest identity capture",
+      "result": "SETUP_ERROR",
+      "error": "TypeError: object supporting the buffer API required",
+      "effect": "The first identity JSON builder stopped after preserving the source copy and two read-only GCC -Q option-query stdout/stderr captures. It created no runs directory and did not compile or execute the testcase. The queries were recaptured into option-query-verification with argv, environment, timestamps, statuses, and hashes."
+    },
+    {
+      "step": 2,
+      "stage": "B63 runner environment preflight",
+      "result": "CORRECTED_BEFORE_RUN",
+      "error": "The first draft omitted the prev-mpfr and prev-mpc search directories from LD_LIBRARY_PATH.",
+      "correction": "Added both directories and compared the runner path byte-for-byte with the B62 frozen runner. The final normalized string is 653 bytes and has the same ordered search paths; no testcase compile or consumer execution had started."
+    }
+  ],
+  "preserved_initial_query_outputs": [
+    "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/observations/option-queries/GCC15-O3.stdout",
+    "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/observations/option-queries/GCC15-O3.stderr",
+    "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/observations/option-queries/GCC15-no-forward-propagate-O3.stdout",
+    "/tmp/aic-g2-gcc-pr116488-ext-dce-2026-11-13/observations/option-queries/GCC15-no-forward-propagate-O3.stderr"
+  ],
+  "AICompiler_project_tests": "NOT_RUN"
+}
