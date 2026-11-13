@@ -1,0 +1,23 @@
+{
+  "url": "https://gcc.gnu.org/pipermail/gcc-bugs/2024-August/878977.html",
+  "final_url": "https://gcc.gnu.org/pipermail/gcc-bugs/2024-August/878977.html",
+  "http_status": 200,
+  "content_type": "text/html",
+  "retrieved_started_utc": "2026-11-13T10:12:07.211928Z",
+  "retrieved_completed_utc": "2026-11-13T10:12:07.667484Z",
+  "response_bytes": 5038,
+  "response_sha256": "7f9c95825ed37234ae4d7d877a278609909a131470e716fcaa4706fda56d6f0d",
+  "response_path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/source/gcc-bug-116488-archive.html",
+  "report_metadata": {
+    "bug_id": "116488",
+    "report_date": "2024-08-26",
+    "reporter": "zhendong.su at inf dot ethz.ch"
+  },
+  "extraction": {
+    "method": "HTML preformatted archive text; exact source block bounded by the unique printf declaration and main definition shown in the reporter session.",
+    "source_path": "/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/source/reporter-small.c",
+    "source_bytes": 236,
+    "source_sha256": "77a92761fadde9449f03271f6f186f59091f1a5c697a55f523b4388ab9f405c2",
+    "source_line_count": 14
+  }
+}
