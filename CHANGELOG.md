@@ -8,6 +8,12 @@
 - 今回もRama reproduction、rustc版間の再実行、Rust試験suiteはNOT_RUN。症状はreporter観測、修正関係はmaintainer/Release Teamの記録として扱い、G2全体の完了・修正の独立QAへ一般化しない。
 - 文書のみの変更。製品コード・toolchain・runtimeは変更していない。実装テストはNOT_RUN（非該当）。
 
+## 2026-11-13 — G2 GCC PR 116488修正とtestcase追跡
+
+- GCC 15 trunkのPR 116488を、Bugzilla参照のr15-4532修正commit、同commitのext-dce変更と新規run test、unsigned-char既定targetで失敗したtestcaseをsigned charへ直す後続commitまで追跡した。maintainerのmulti-target test報告と将来のRTL再検討 caveatをsource記録として分けた。[履歴記録](docs/evidence/G2_既存compiler運用履歴_2026-11-13.md)
+- Sourceware Gitwebのcommit取得はHTTP 429。差分とblobは同一完全hashのGCC source mirrorで照合し、official pipermail ChangeLogをSHA-256付きで記録した。今回のGCC build/tests、Rama reproduction、本repo testsはNOT_RUN。
+- 文書のみの変更。製品コード・toolchain・実行動作は変更していない。実装テストはNOT_RUN（非該当）。
+
 ## 2026-11-13 — G2 compiler運用履歴の限定調査
 
 - GCC 14.1–14.4のrelease timelineと各保守announcementの報告修正件数、およびGCC trunk PR 116488とRust 1.98 vtable miscompilationのreport/fix記録を一次資料で照合した。[履歴記録](docs/evidence/G2_既存compiler運用履歴_2026-11-13.md)に条件・source hash・取得時点・不確実性を保存。
