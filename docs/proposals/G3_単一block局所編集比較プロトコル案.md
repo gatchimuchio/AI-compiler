@@ -46,16 +46,73 @@ fn aic_main(%x: u64) -> u64 {
 }
 ```
 
-| ID | 要求する局所編集 | 正規化後に満たす条件 |
-|---|---|---|
-| E1 | 加算定数を1から17へ変更する | `x + 17`を返す |
-| E2 | 加算を減算へ変更し、定数1は保つ | `x - 1`を返す |
-| E3 | 現在の結果からさらに2を減算する | `(x + 1) - 2`を返す |
-| E4 | `%sum`を`%answer`へ改名する | definitionと全referenceを更新し、意味は`x + 1`のまま |
-| E5 | 常に7を返すよう変更する | 不要になった命令を除き、定数7を返す |
-| E6 | 1を4へ変更し、既存結果に2を加える | `(x + 4) + 2`を返す |
+全trialの共通promptは次の固定文とする。形式別schema card、課題文、初期programの順で渡し、同じ課題/replicate内で形式以外の入力を変えない。
 
-各カードは試行前にformat別の初期source、同一要求文、期待する正規化条件、対象node集合を固定する。要求と期待条件は結果を見てから変更しない。この6カードは実験手順を試す小標本であり、実用課題bankの代表性や網羅性を示さない。
+```text
+提示されたprogramに指定taskを適用してください。要求された変更を実施し、要求に含まれない意味、操作、識別子は保ってください。
+回答は指定形式の完全なprogramを1つだけ返し、説明文やMarkdown fenceを付けないでください。
+```
+
+形式別schema card本文は次の固定文だけを使い、試行時に説明を足したり削ったりしない。両cardは関数意味、operation subset、ID規則、完全program出力条件を伝える。comment fidelityはこのpilotでは測らないため、両形式の入力と出力にcommentを含めない。
+
+**AIC/0.2 card:**
+
+```text
+AIC/0.2の完全なmoduleを一つ返してください。出力形は次のとおりです。
+AIC 0.2
+fn aic_main(%x: u64) -> u64 {
+^entry:
+  %id = const.u64 DECIMAL
+  %id = add.wrap.u64 %lhs, %rhs
+  %id = sub.wrap.u64 %lhs, %rhs
+  ret.u64 %id
+}
+const.u64行、add.wrap.u64行、sub.wrap.u64行は必要な数だけ使い、各instruction/terminatorは1物理行に一つ置いてください。add.wrap.u64とsub.wrap.u64はmodulo 2^64です。value IDは[a-z][a-z0-9_]{0,62}、parameterとinstruction definitionは互いに異なる一意なID、参照では%を付け、definitionより前のuseを作らないでください。id/lhs/rhs/DECIMALは説明用placeholderなので実際のID/数値へ置き換え、placeholderそのものは出力しないでください。DECIMALは`0`、または1〜20桁で1〜9から始まり、値が18446744073709551615以下の符号なし10進数です。追加のfunction、block、operation、commentは出力しないでください。
+```
+
+**AIC-J/0.1 card:**
+
+```text
+AIC-J/0.1の完全なJSON objectを一つ返してください。top-levelはformat="AIC-J/0.1"とfunctionだけです。function keyはname、params、result、blocksだけで、name="aic_main"、paramsは[{"id":"x","type":"u64"}]、result="u64"、blocksはid="entry"の一要素です。block keyはid、ops、termだけです。opsは以下のshapeを使います：const `{ "id": ID, "op": "const.u64", "value": DECIMAL_STRING }`、add `{ "id": ID, "op": "add.wrap.u64", "args": [ID, ID] }`、sub `{ "id": ID, "op": "sub.wrap.u64", "args": [ID, ID] }`。add.wrap.u64とsub.wrap.u64はmodulo 2^64です。termは`{ "op": "ret.u64", "value": ID }`だけです。IDは[a-z][a-z0-9_]{0,62}、parameterとinstruction definitionは互いに異なる一意なID、JSONでは%や^を付けません。IDとDECIMAL_STRINGは説明用placeholderなので実際の値に置き換え、placeholderそのものは出力しないでください。DECIMAL_STRINGは`0`、または1〜20桁で1〜9から始まり、値が18446744073709551615以下の符号なし10進数です。array順を保ち、definitionより前のuseを作らないでください。duplicate key、unknown key/operation、型やarityの誤り、重複ID、未解決参照、範囲外定数は不正です。
+```
+
+初期programはAIC/0.2では上記のsource、AIC-J/0.1では次のbytesとする。object key順とindentationは入力hash/token数を固定するためのserial formであり、候補profile上の意味順ではない。
+
+```json
+{
+  "format": "AIC-J/0.1",
+  "function": {
+    "name": "aic_main",
+    "params": [{"id": "x", "type": "u64"}],
+    "result": "u64",
+    "blocks": [
+      {
+        "id": "entry",
+        "ops": [
+          {"id": "one", "op": "const.u64", "value": "1"},
+          {"id": "sum", "op": "add.wrap.u64", "args": ["x", "one"]}
+        ],
+        "term": {"op": "ret.u64", "value": "sum"}
+      }
+    ]
+  }
+}
+```
+
+task requestと期待するordered operation listを以下に固定する。`const(id,value)`、`add(id,lhs,rhs)`、`sub(id,lhs,rhs)`、`ret(id)`は正規化表記で、AICでは`%`を含む参照へ、JSONでは文字列IDへ対応する。task target欄にないnode/fieldの変更は依頼外変更として数える。operation listの順序は意味を持つ。
+
+| ID | 固定するtask request | task target | 期待するordered operation list |
+|---|---|---|---|
+| E1 | `identifier oneで定義されている定数を1から17に変更してください。ほかの操作は変更しないでください。` | `const(one).value` | `const(one,17); add(sum,x,one); ret(sum)` |
+| E2 | `sumの演算をwrap減算に変えてください。operandと定数は変更しないでください。` | `sum.kind` | `const(one,1); sub(sum,x,one); ret(sum)` |
+| E3 | `現在のsumの値から2を引いた値を返してください。定数をidentifier two、結果をidentifier resultで追加してください。` | `const(two)`, `sub(result,sum,two)`, return reference | `const(one,1); add(sum,x,one); const(two,2); sub(result,sum,two); ret(result)` |
+| E4 | `sumという値identifierをanswerへ変更し、その定義とすべての参照を更新してください。演算と定数は変えないでください。` | `sum` definition/reference IDs | `const(one,1); add(answer,x,one); ret(answer)` |
+| E5 | `入力値に関係なく7を返すprogramに変更し、計算に不要になった操作を削除してください。定数identifierはsevenにしてください。` | all operations and return | `const(seven,7); ret(seven)` |
+| E6 | `定数oneを4に変え、現在のsumに2を足した値を返してください。追加する定数と結果のidentifierはtwoとresultにしてください。` | `const(one).value`, new `const(two)`/`add(result)` and return reference | `const(one,4); add(sum,x,one); const(two,2); add(result,sum,two); ret(result)` |
+
+形式別schema card、各taskのUTF-8 bytes、format別初期program bytes、task bank順、parser/validator/oracle versionとSHA-256を最初のmodel call前に保存し、試行中は変更しない。system/developer message、model/provider/revision、sampling設定、context/output上限、tool無効条件を全callで固定する。
+
+この6カードは実験手順を試す小標本であり、実用課題bankの代表性や網羅性を示さない。期待operation listや固定promptはmodelへ渡さず、scorerにのみ保持する。
 
 ## 4. 判定指標とoracle
 
