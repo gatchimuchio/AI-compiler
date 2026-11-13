@@ -2,6 +2,12 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-13 — G2 u64加算の限定compiler比較
+
+- 同一の合成u64 wrap-add課題についてAIC/0.2、GCC 14.2.0 C11、rustc 1.99.1 RustのELF64 ET_REL objectを生成し、同一C++20 consumerから実行した。3入力の出力はいずれも`1, 42, 0`。GCC/Rustの関数は5-byte `lea; ret`、AICは46 bytesだったが最適化条件は異なるため、性能・最適性比較とは扱わない。
+- flags、toolchain、hash、disassembly、一次資料、再実行手順、限界を[証拠記録](docs/evidence/G2_u64加算compiler比較_2026-11-13.md)に保存。Clang未導入。長期運用・互換・障害是正実績、独立した意味評価、広い課題/target母集団は未調査で、G2全体は未成立。
+- 文書のみの変更。製品コード・toolchain・実行動作は変更していない。全suiteはNOT_RUN（今回の文書改訂では非該当）。
+
 ## 2026-11-13 — G1単一課題の限定観測
 
 - Codex作成の合成要求「u64入力へ1を加算し、2^64でwrapして返す」を同じCodexセッションでAIC/0.2へ記号化し、既存compilerでELF64 ET_RELを生成、C++20 consumerから実行した。入力`0, 41, u64::MAX`の実出力`1, 42, 0`はcompiler経路とは別のPython modulo計算と一致した（要求とoracleの作成主体は同じCodexセッション）。
