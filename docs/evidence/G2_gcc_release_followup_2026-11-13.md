@@ -53,6 +53,10 @@ The complete response manifest records URLs, HTTP statuses, retrieval times, byt
 ## Limits and work not run
 
 - The original wrong-code symptoms remain the reporter's report; this project did not reproduce them.
-- GCC 15.1.0, 15.2.0, and 15.3.0 were not built here. The GCC testsuite and `pr116488.c` were not executed; no claim is made that this work observed a passing test.
+- At the time of B57, GCC 15.1.0, 15.2.0, and 15.3.0 had not been built here, and the GCC testsuite and `pr116488.c` had not been executed. A later B58 run built GCC 15.3.0 and executed the selected test; see [the separate execution evidence](G2_gcc_pr116488_testsuite_2026-11-13.md).
 - Source inclusion does not establish that every target/configuration is correct, that every distribution uses identical sources, or that no later recurrence exists.
 - This one incident and the previously recorded release examples do not represent GCC's complete maintenance history or quantify compiler reliability. G2 remains incomplete.
+
+## Later execution record
+
+B58 recorded 16 expected passes for GCC 15.3.0's `pr116488.c` test on native Linux x86-64. The source URL deviation, test command, hashes, and limits are in [the execution evidence](G2_gcc_pr116488_testsuite_2026-11-13.md) and [the B58 experiment](../../experiments/g2-gcc-pr116488-testsuite-2026-11-13/).

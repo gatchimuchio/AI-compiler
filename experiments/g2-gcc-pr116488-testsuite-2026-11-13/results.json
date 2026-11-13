@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "record_id": "G2-HISTORY-2026-11-13-06",
+  "batch": "B58",
+  "baseline_repository_commit": "282c0cc4421d7ac738887722ccb40fe3724c2f8a",
+  "pre_execution_amendment_commit": "ee5b53f0276b2c6eeae001bee1e53197a04b9882",
+  "question": "Whether the unmodified GCC 15.3.0 release C frontend passes its own PR 116488 gcc.dg/torture regression test on the executor's native Linux x86-64 target.",
+  "result": "PASS_WITH_DOCUMENTED_SOURCE_URL_DEVIATION",
+  "test_window_utc": {
+    "started": "2026-11-13T08:16:26Z",
+    "completed": "2026-11-13T08:16:27Z",
+    "testcase_elapsed_seconds": 1
+  },
+  "source_identity": {
+    "release": "GCC 15.3.0",
+    "release_tag": "releases/gcc-15.3.0",
+    "release_tag_commit": "6d02d02c0b733e4934b8e1e497d90612116de9af",
+    "configured_target": "x86_64-linux-gnu",
+    "gcc_base_ver": "15.3.0",
+    "testcase": "gcc/testsuite/gcc.dg/torture/pr116488.c",
+    "testcase_bytes": 399,
+    "testcase_sha256": "10182dfccf8dec109189e28ef12484371c6b6c594dcdb76ebc468c7d1d0a6aa1",
+    "testcase_sha256_matches_preregistration": true
+  },
+  "source_archive": {
+    "planned_url": "https://ftp.gnu.org/gnu/gcc/gcc-15.3.0/gcc-15.3.0.tar.xz",
+    "retrieved_url": "https://gcc.gnu.org/pub/gcc/releases/gcc-15.3.0/gcc-15.3.0.tar.xz",
+    "http_status": 200,
+    "bytes": 101253696,
+    "sha256": "fa59c1beef8995f27c4d71c1df227587189315d3e6faff1bb4306e61b0c530eb",
+    "published_checksum_url": "https://gcc.gnu.org/pub/gcc/releases/gcc-15.3.0/sha512.sum",
+    "published_checksum_http_status": 200,
+    "published_checksum_bytes": 600,
+    "published_checksum_sha256": "b48d22b46c69a6786d008c94c31efef2bde52ff51df79dec4847035961febded",
+    "published_sha512": "0de9e296153b52c021b1c7e63c9c62151d7a0ac03f23ce6e9f772c1b0eb783f6acdd81cc4567bfe4128a6f64968c2cfc8eff40b36229cba7425349f7d637c654",
+    "published_sha512_matches_archive": true,
+    "provenance_deviation": "The preregistration named ftp.gnu.org as the archive URL. The identical official GCC 15.3.0 release archive was retrieved from gcc.gnu.org instead. The published checksum list from that official GCC release directory matches the archive SHA-512; BASE-VER, fixed release tag commit, and preregistered testcase SHA-256 also match. The host change is retained as a deviation, not represented as exact URL adherence."
+  },
+  "build": {
+    "configure_command": "/tmp/aic-gcc15-pr116488-2026-11-13/source/gcc-15.3.0/configure --target=x86_64-linux-gnu --prefix=/tmp/aic-gcc15-pr116488-2026-11-13/tools/gcc-15.3.0 --enable-languages=c --disable-bootstrap --disable-multilib --disable-nls --disable-werror",
+    "host_compiler": "Debian GCC 14.2.0-19",
+    "configure_exit_status": 0,
+    "frontend_command": "make -j4 all-gcc",
+    "frontend_exit_status": 0,
+    "target_runtime_command": "make -j4 all-target-libgcc",
+    "target_runtime_exit_status": 0,
+    "xgcc_version": "15.3.0",
+    "xgcc_target": "x86_64-linux-gnu",
+    "target_runtime_artifacts": {
+      "gcc/libgcc.a": {
+        "sha256": "3779c1e031385af31bb793b9e014aa5935763b3ea00f924a86ad06c18b3a66e9"
+      },
+      "gcc/libgcc_s.so.1": {
+        "sha256": "31a141364b5eb162e34b02fe011b17b1b4191825ffb6d3f7f4cec067581e2bab"
+      },
+      "gcc/crtbegin.o": {
+        "sha256": "3815cf8966697f6787eb8e77d12177f5d029e465267da2a0de2c4cd830f961e0"
+      }
+    }
+  },
+  "test_execution": {
+    "command": "make check-gcc RUNTESTFLAGS='dg-torture.exp=pr116488.c'",
+    "working_directory": "/tmp/aic-gcc15-pr116488-2026-11-13/build/gcc-15.3.0",
+    "environment": {
+      "PATH_prefix": "/tmp/aic-gcc15-pr116488-2026-11-13/tools/bin",
+      "LD_LIBRARY_PATH_prefix": "/tmp/aic-gcc15-pr116488-2026-11-13/tools/lib",
+      "testsuite_runtime_library_path": "/tmp/aic-gcc15-pr116488-2026-11-13/build/gcc-15.3.0/gcc"
+    },
+    "make_exit_status": 0,
+    "dejagnu": "1.6.3",
+    "expect": "5.45.4",
+    "tcl": "8.6.16",
+    "gawk": "5.3.0",
+    "native_configuration": "x86_64-pc-linux-gnu",
+    "host_environment": {
+      "kernel": "Linux 6.18.57 x86_64",
+      "glibc": "2.41",
+      "host_gcc": "Debian GCC 14.2.0-19",
+      "binutils_as": "GNU Binutils 2.44"
+    },
+    "status_counts": {
+      "PASS": 16,
+      "FAIL": 0,
+      "XPASS": 0,
+      "XFAIL": 0,
+      "UNSUPPORTED": 0,
+      "UNRESOLVED": 0,
+      "UNTESTED": 0
+    },
+    "expected_passes": 16,
+    "variants": [
+      "-O0",
+      "-O1",
+      "-O2",
+      "-O3 -fomit-frame-pointer -funroll-loops -fpeel-loops -ftracer -finline-functions",
+      "-O3 -g",
+      "-Os",
+      "-O2 -flto -fno-use-linker-plugin -flto-partition=none",
+      "-O2 -flto -fuse-linker-plugin -fno-fat-lto-objects"
+    ],
+    "per_variant_results": "Each of the 8 variants produced one PASS for the excess-errors check and one PASS for the execution test. The testcase's -fno-forward-propagate option applies in every variant.",
+    "acceptance": "PASS: the selected testsuite run completed with no unexpected FAIL or XPASS.",
+    "harness_warning": "DejaGnu printed 'WARNING: Couldn't find the global config file.' It then loaded GCC 15.3.0's local gcc.exp and the local unix board; the selected test completed and produced the recorded summary."
+  },
+  "tool_source_provenance": {
+    "gawk_5_3_0": "GNU detached signature verified against the retrieved official GNU keyring; signer primary fingerprint D1967C63788713177D861ED7DF597815937EC0D2.",
+    "tcl_8_6_16": "tcltk/tcl Git tag core-8-6-16 resolved to commit 874e4fe4264a40c00c4db5115afba9600f9f368d.",
+    "expect_5_45_4": "Published SHA-256 49a7da83b0bdd9f46d04a04deec19c7767bb9a323e40c4781f89caf760b92c34 matched the downloaded source archive.",
+    "dejagnu_1_6_3": "GNU detached signature verified against the retrieved official GNU keyring; signer fingerprint D231B45ECB0B7BD8F6E7A682CE9D6843AABACC90. The signing key was expired at verification time; the signature itself verified.",
+    "gcc_bundled_prerequisites": "GCC contrib/download_prerequisites --sha512 completed for the release's bundled dependencies.",
+    "installation_boundary": "All added test tools and GCC outputs were built under /tmp/aic-gcc15-pr116488-2026-11-13; no system packages or global configuration were changed."
+  },
+  "captured_outputs": {
+    "external_root": "/tmp/aic-gcc15-pr116488-2026-11-13",
+    "files": {
+      "captures/gcc.sum": {
+        "bytes": 1707,
+        "sha256": "ed04aad5831b1fdc4b60e6c7e377f98131c243c303ea246940e5d5a18b9894b8"
+      },
+      "captures/gcc.log": {
+        "bytes": 20903,
+        "sha256": "bf38bb638bda6befa2d45938a151944fa2bdfc926b9c6d09020bc10d47ab3d76"
+      },
+      "captures/check-gcc.log": {
+        "bytes": 2383,
+        "sha256": "30b28520add2b6cf6b019c4e90400ade87729f6c8aca34ceff848fecbb0919fb"
+      },
+      "captures/check-gcc.command.txt": {
+        "bytes": 265,
+        "sha256": "1552117404c8568bb6d36a16d1976fc7c9b86e60410cf1e4368d267d7ec85124"
+      },
+      "captures/libgcc-build.log": {
+        "bytes": 763674,
+        "sha256": "968ae100e2ad03e779ca5577974db1f07dcfda20cae77647ea2784450943b08a"
+      },
+      "captures/gcc-build.log": {
+        "bytes": 3074171,
+        "sha256": "714b6d654100a1fe17c5eca8c47faca3edad631a258a557bdd49d31955b3fdb4"
+      },
+      "captures/gcc-configure.log": {
+        "bytes": 6430,
+        "sha256": "87f6126c6b0f83af258aec6de18ad173f71734c367c684e03e1fd2e1a992d473"
+      }
+    },
+    "gcc_sum_has_only_the_selected_test": true,
+    "raw_gcc_sum_and_log_are_outside_repository": true
+  },
+  "project_tests": {
+    "status": "NOT_RUN",
+    "scope": "AICompiler repository source-code test suite",
+    "reason": "This work unit changed evidence/documentation only and ran the preregistered GCC regression. rustc and cargo were unavailable in the executor's initial environment."
+  },
+  "interpretation": "GCC 15.3.0's native Linux x86-64 build passed this one release testsuite regression across the 8 configured torture variants. This confirms the selected test for the exact source/build/target/environment recorded here; it does not establish the entire GCC testsuite, all targets, current or historical GCC quality, AIC compatibility, or completion of G2. B57 remains the earlier source-only observation; this B58 run supersedes its NOT_RUN status only for GCC 15.3.0 and this selected testcase.",
+  "preregistration": "preregistration.md"
+}
