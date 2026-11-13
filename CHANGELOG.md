@@ -2,6 +2,12 @@
 
 変更履歴は、事実・作業結果・公開判断を混同せず記録する。
 
+## 2026-11-13 — G1単一課題の限定観測
+
+- Codex作成の合成要求「u64入力へ1を加算し、2^64でwrapして返す」を同じCodexセッションでAIC/0.2へ記号化し、既存compilerでELF64 ET_RELを生成、C++20 consumerから実行した。入力`0, 41, u64::MAX`の実出力`1, 42, 0`はcompiler経路とは別のPython modulo計算と一致した（要求とoracleの作成主体は同じCodexセッション）。
+- 実object・consumer・prompt・source・outputのhash、disassembly、実行環境と再実行手順を[証拠記録](docs/evidence/G1_単一課題観測_2026-11-13.md)に保存。実装・toolchain・Cargo.lockは変更せず、全suite・性能計測・既存compilerとの比較は未実施。
+- 要求自体をCodexが作成した合成例であり、Owner由来要求の変換や独立した自然言語意味評価を示さない。G1正式受入や新3点セットの正式採用には昇格しない。
+
 ## 2026-11-13 — 3点セット改訂案の記録（文書のみ）
 
 - Owner提供の`1-AICompiler_3point_set_2026-11-13.zip`を基に、統合仕様書・工程表・Codex施工指示書を更新した。ZIP記載どおり、新G0–G6の正式採用待ちを維持し、G1の自然言語要求→AI記号→実物consumer→計測、G2の蓄積運用実績、未採用候補の隔離実験を明記した。
