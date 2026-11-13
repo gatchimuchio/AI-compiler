@@ -42,7 +42,12 @@ GCC PR 116488のreporterが2024-08-26に投稿した`small.c`を、Debian GCC 14
   ```
 
 - 各compileは`/usr/bin/timeout --signal=TERM --kill-after=1s 60s`で実行し、外側Python controllerにも65秒timeoutを持たせる。compileがexit 0の場合にだけ、`/usr/bin/timeout --signal=TERM --kill-after=1s 5s ./a.out`で1回実行する。標準出力・標準エラー・両exit status・UTC時刻・argv・environmentを保存する。各caseは独立directoryで、既存outputを上書きしない。
-- GCC 15.2.0 build invocationにはB60 testsuite logと同一の`PATH`/`LD_LIBRARY_PATH`を設定し、`GCC_EXEC_PREFIX`はunset。Debian GCC 14 caseではGCC 15 build prefixを使わない。全environmentはpretest identitiesとrun manifestに保持する。
+- GCC 15.2.0 build invocationにはB60 testsuite logと同じ`PATH`を設定する。`LD_LIBRARY_PATH`はB60 `captures/gcc.log`に記録されたeffective search pathと同じ順序・解決先で指定する。runnerは冗長な`/./`表記を正規化するため、文字列長はB60 logの669 bytesに対して653 bytesとなる。空要素を含む先頭と各directoryは保持する。`GCC_EXEC_PREFIX`はunset。Debian GCC 14 caseではGCC 15 build prefixを使わない。全environmentはpretest identitiesとrun manifestに保持する。
+
+### 実行前の記載補足
+
+2026-11-13 10:18:30 UTCの実行前identity freeze時に、B60 `captures/gcc.log`の実値とrunnerの`LD_LIBRARY_PATH`を比較した。directoryの順序と正規化後の解決先は一致し、差は上記の冗長な`/./`表記のみだった。compile/runはこの補足時点で未開始である。
+
 - runnerは`/tmp/aic-g2-gcc-pr116488-reporter-reproducer-2026-11-13/runs/`が既に存在する場合に停止し、再実行・上書きを拒否する。
 
 ## 判定、境界、停止条件
