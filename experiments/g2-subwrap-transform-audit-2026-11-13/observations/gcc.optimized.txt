@@ -1,0 +1,14 @@
+
+;; Function aic_main (aic_main, funcdef_no=0, decl_uid=2265, cgraph_uid=1, symbol_order=0)
+
+uint64_t aic_main (uint64_t x)
+{
+  uint64_t _2;
+
+  <bb 2> [local count: 1073741824]:
+  _2 = x_1(D) + 18446744073709551615;
+  return _2;
+
+}
+
+

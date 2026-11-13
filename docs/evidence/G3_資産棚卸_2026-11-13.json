@@ -15,8 +15,8 @@
         },
         {
           "path": "docs/02_工程表.md",
-          "sha256": "92ca9f06269560b0e864df564bfd07d3ac668e4d54aa341707a5329909663300",
-          "size_bytes": 63334
+          "sha256": "9b5e169a0787cbf784987475091d9cb605e908d55128569ce22b52316082ae7a",
+          "size_bytes": 63492
         },
         {
           "path": "docs/03_Codex施工指示書.md",
@@ -44,9 +44,14 @@
           "size_bytes": 9493
         },
         {
+          "path": "docs/evidence/G2_u64減算compiler変換経路_2026-11-13.md",
+          "sha256": "690e7f73c60cd9229b8ce580eea153c855e32686908d3068842586e2f74931c1",
+          "size_bytes": 3734
+        },
+        {
           "path": "docs/evidence/G2_u64減算compiler比較_2026-11-13.md",
-          "sha256": "99d8ed405bb2f4d46f07247c463835559edd8173fd50f5e28805c025ad79b7f6",
-          "size_bytes": 5624
+          "sha256": "d2952d5af739f094710971928900fd7072dad684d2bc5a6a1901b8e0f61d1dd3",
+          "size_bytes": 5795
         },
         {
           "path": "docs/evidence/G2_既存compiler運用履歴_2026-11-13.md",
@@ -66,7 +71,7 @@
         {
           "path": "docs/evidence/G3_資産棚卸_2026-11-13.json",
           "sha256": "self-reference-omitted",
-          "size_bytes": 27758
+          "size_bytes": 30174
         },
         {
           "path": "docs/proposals/01_初期変換契約案.md",
@@ -167,6 +172,51 @@
           "path": "experiments/g2-subwrap-compiler-compare-2026-11-13/results.json",
           "sha256": "9bb5115d74e1e756ff645b7cab8857dc8d055092d028df22b224cfc752e7df4e",
           "size_bytes": 7982
+        },
+        {
+          "path": "experiments/g2-subwrap-transform-audit-2026-11-13/README.md",
+          "sha256": "702d159c9a69b17a6f03e2d8b4a58e604bcb0568f8c65f78d1effbb17b84926f",
+          "size_bytes": 826
+        },
+        {
+          "path": "experiments/g2-subwrap-transform-audit-2026-11-13/observations/commands.json",
+          "sha256": "5847af584b68c40f4f2ba99631ea25ad4231a9ba24a43902a00633aa03183c4c",
+          "size_bytes": 4671
+        },
+        {
+          "path": "experiments/g2-subwrap-transform-audit-2026-11-13/observations/gcc.expand.rtl",
+          "sha256": "1ae9c8c6cc0e84f148b97a30bffb5ae967023a77f68295441cb99db3db831e63",
+          "size_bytes": 1573
+        },
+        {
+          "path": "experiments/g2-subwrap-transform-audit-2026-11-13/observations/gcc.final.rtl",
+          "sha256": "8f6c4e29285ff4b9961be99da5dfe6cf8caefd1ca8351678ad0bce799d3eee9d",
+          "size_bytes": 2481
+        },
+        {
+          "path": "experiments/g2-subwrap-transform-audit-2026-11-13/observations/gcc.optimized.txt",
+          "sha256": "df97b60d4ea27c54e1223bc6789dd26d37ca49f82654802937122e1e50673da3",
+          "size_bytes": 234
+        },
+        {
+          "path": "experiments/g2-subwrap-transform-audit-2026-11-13/observations/gcc.original.txt",
+          "sha256": "75476040bb428696b8562f1550cde746058f0ca5cd1723de6f17f61bdd9bc69e",
+          "size_bytes": 133
+        },
+        {
+          "path": "experiments/g2-subwrap-transform-audit-2026-11-13/observations/rust.llvm-ir.ll",
+          "sha256": "fe1fbb7dcfe0fcfff3f6ccb5e8f877f982394c596b178975490797cc5c4ff7f5",
+          "size_bytes": 856
+        },
+        {
+          "path": "experiments/g2-subwrap-transform-audit-2026-11-13/preregistration.md",
+          "sha256": "d97ba44017978206538795c980e73b6446bfe13b6479b4afd84cc173666679bc",
+          "size_bytes": 4561
+        },
+        {
+          "path": "experiments/g2-subwrap-transform-audit-2026-11-13/results.json",
+          "sha256": "72c52de25909b1a9ec5be3ad692c8bc6999ad0d35e04a310f3b561dbd9c55779",
+          "size_bytes": 5780
         },
         {
           "path": "experiments/g3-edit-pilot-2026-11-13/README.md",
@@ -479,8 +529,8 @@
           "size_bytes": 1369
         }
       ],
-      "regular_file_count": 95,
-      "bytes": 3514656
+      "regular_file_count": 105,
+      "bytes": 3542251
     },
     {
       "state": "保管済み",
@@ -507,8 +557,8 @@
         },
         {
           "path": "/tmp/aic-g2-subwrap-compiler-compare-2026-11-13",
-          "regular_file_count": 39,
-          "bytes": 63684
+          "regular_file_count": 47,
+          "bytes": 75688
         },
         {
           "path": "/tmp/aic-g3-pilot-2026-11-13",
@@ -593,8 +643,8 @@
           ]
         }
       ],
-      "regular_file_count": 13028,
-      "bytes": 3027807649
+      "regular_file_count": 13036,
+      "bytes": 3027819653
     },
     {
       "state": "稼働中",
@@ -663,9 +713,9 @@
   ],
   "date": "2026-11-13",
   "platform": "Linux; no Windows filesystem assets or operations",
-  "scope": "Repository records and source inputs retained for the G3 pilot, the identified-model G1 addendum, the follow-up G2 subtraction comparison, the uploaded three-document set and its extraction, and related G1/G2 evidence. External storage includes model/build/runtime/object/consumer artifacts and frozen comparison logs; generated bytecode remains in the recorded external trash group. No active compiler/model/consumer process or unresolved asset is present. File symlinks to regular targets are counted as paths with target size; directory symlinks are not traversed. System runtime files, unrelated prior ABI workspaces, sockets, and Git internals are excluded.",
-  "title": "G1-G3 work-unit asset inventory",
-  "total_bytes": 3031554416,
-  "total_regular_files": 13132,
+  "scope": "Repository records and source inputs retained for the G3 pilot, the identified-model G1 addendum, the G2 addition and subtraction comparisons, the G2 subtraction transform audit, the uploaded three-document set and its extraction, and related G1/G2 evidence. External storage includes model/build/runtime/object/consumer artifacts, frozen comparison logs, and the new GCC/Rust transform diagnostics; generated bytecode remains in the recorded external trash group. No active compiler/model/consumer process or unresolved asset is present. File symlinks to regular targets are counted as paths with target size; directory symlinks are not traversed. System runtime files, unrelated prior ABI workspaces, sockets, and Git internals are excluded.",
+  "title": "G1-G3 and G2 transform-audit work-unit asset inventory",
+  "total_bytes": 3031594015,
+  "total_regular_files": 13150,
   "unit": "regular-file paths (including symlinks to regular files, measured by target size); directories are grouping roots only"
 }

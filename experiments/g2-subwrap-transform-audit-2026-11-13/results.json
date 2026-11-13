@@ -1,0 +1,141 @@
+{
+  "record_id": "G2-TRANSFORM-2026-11-13-01",
+  "baseline_repository_commit": "e34e18dc7d7b024a37da71c96a069af9d7bfa912",
+  "aic_binary_source_commit": "12234aab847992d12e8a974ed2d1dd1777aa7bfa",
+  "aic_binary_sha256": "13f0185a04b5a2ed89f0fa55c0d158ccfb6ca8ebc71bff57270a3b538e2f3f9e",
+  "aic_backend_sources": {
+    "src/ir.rs": {
+      "git_blob": "2692fec1c8206e8b9a9280bc2b76987a27dafed0",
+      "sha256": "8c8a8c4f4f08c4bc7669f4b0d32f9240227ad0c6983bbe215fa4de0c13c71202"
+    },
+    "src/parser.rs": {
+      "git_blob": "85a3177ec406b1f46a5d2c29443f5c60cbdcf6ed",
+      "sha256": "564d804e922e50d440560279cb85a69b9ad94f848b6c6d97e469a9f853ea448b"
+    },
+    "src/interpreter.rs": {
+      "git_blob": "b9f69e68642de8d1b0b320c793bad61fc5e50b33",
+      "sha256": "e87267cc99dd8d9a82226ef1eded4387fd2e3403079987cffaf405fd5d148206"
+    },
+    "src/x86_64.rs": {
+      "git_blob": "92c0f78d7d815a4e0807e7f50fd143891f6d1ed3",
+      "sha256": "e2e8242632424a9290d2c450e0a64cc50df0254c2bae4f28b2e44eef4068156e"
+    },
+    "src/validate.rs": {
+      "git_blob": "e2e08ea138123b0af88d3dc87257b14bbaa6e4f5",
+      "sha256": "b83107205e353e0917ac71a6a795b911e4ff0fc295f695857d26cc40f78be3ec"
+    },
+    "Cargo.toml": {
+      "git_blob": "107342e9b94a374c23d22276f2caf44335faa2cb",
+      "sha256": "ff99f05baeafcd5cc5a8d7fb4045ad15e2cbef47f2f3939cd34b0214b50910c1"
+    },
+    "Cargo.lock": {
+      "git_blob": "64c9d68d771d17024935fd2a5ad19bdc2a5d09f0",
+      "sha256": "b32df078c11fe4d7ff64d028c751f7417070d5b8be347198007dc78aa7beaf2d"
+    }
+  },
+  "toolchains": {
+    "gcc": {
+      "path": "/usr/bin/gcc",
+      "version": "gcc (Debian 14.2.0-19) 14.2.0",
+      "sha256": "a23ecab8ff08f09ad8c80602c2c5df7f49e09c25905cb8975902e101bf72635f"
+    },
+    "rustc": {
+      "path": "/home/agent/.cargo/bin/rustc",
+      "version": "rustc 1.99.1 (58cf8f9c3 2026-10-13); LLVM 23.1.1",
+      "sha256": "b1c8cb14e30889e7e2999e6b69e62d9e9b9ffc0f4df8180564d306d9680e6c55"
+    }
+  },
+  "fixed_sources": {
+    "aic": {
+      "path": "experiments/g2-subwrap-compiler-compare-2026-11-13/inputs/aic_input.aic",
+      "sha256": "6d6fce7ca6934c258c412e626a05d126a140455dd4cc1f24e4c0e9a1934fe363"
+    },
+    "c": {
+      "path": "experiments/g2-subwrap-compiler-compare-2026-11-13/inputs/gcc.c",
+      "sha256": "2a584d4ae06726e72ad0176c9c61a3fac24ae173cbda07d12fffeb8f840199bc"
+    },
+    "rust": {
+      "path": "experiments/g2-subwrap-compiler-compare-2026-11-13/inputs/rust.rs",
+      "sha256": "f11d49996563363f2fecb47c5cf8c9a904a7e85679cfd4555ebf401be3b22842"
+    }
+  },
+  "routes": {
+    "aic": {
+      "source_trace": [
+        {
+          "path": "src/parser.rs",
+          "lines": "361-384",
+          "effect": "sub.wrap.u64 becomes InstructionKind::Sub"
+        },
+        {
+          "path": "src/interpreter.rs",
+          "lines": "111-117",
+          "effect": "interpreter computes u64::wrapping_sub"
+        },
+        {
+          "path": "src/x86_64.rs",
+          "lines": "135-139",
+          "effect": "load lhs stack slot; emit subq rhs stack slot,%rax; store result stack slot"
+        }
+      ],
+      "existing_object_sha256": "f0e84af5e0053e3c4800cce2b2013525475df78cd439390cb169efc45e2f84e3",
+      "function_size_bytes": 46,
+      "existing_disassembly": "experiments/g2-subwrap-compiler-compare-2026-11-13/observations/objdump_aic.txt",
+      "existing_disassembly_sha256": "9ce3634537cb3779d59f7e028faffe0930b531a18230bbe35c3734b14eca266f",
+      "diagnostic_rebuild": "not_run"
+    },
+    "gcc": {
+      "source_sha256": "2a584d4ae06726e72ad0176c9c61a3fac24ae173cbda07d12fffeb8f840199bc",
+      "baseline_object_sha256": "1de6c84f1801ed6a8faf99d2a01078d29807a4792b453dce390075f9924c4429",
+      "diagnostic_object_sha256": "1de6c84f1801ed6a8faf99d2a01078d29807a4792b453dce390075f9924c4429",
+      "object_hash_matches": true,
+      "observed_final_rtl_pattern": "plus:DI (reg:DI 5 di) (const_int -1), selected as *leadi; simple_return",
+      "dump_files": [
+        "gcc.original.txt",
+        "gcc.optimized.txt",
+        "gcc.expand.rtl",
+        "gcc.final.rtl"
+      ]
+    },
+    "rust": {
+      "source_sha256": "f11d49996563363f2fecb47c5cf8c9a904a7e85679cfd4555ebf401be3b22842",
+      "baseline_object_sha256": "24d446b6223a22095261039aece4cd0abe6ef330188df36e61ec478efb4e5666",
+      "diagnostic_object_sha256": "24d446b6223a22095261039aece4cd0abe6ef330188df36e61ec478efb4e5666",
+      "object_hash_matches": true,
+      "llvm_ir_sha256": "fe1fbb7dcfe0fcfff3f6ccb5e8f877f982394c596b178975490797cc5c4ff7f5",
+      "observed_llvm_ir": "%_0 = add i64 %x, -1; ret i64 %_0"
+    }
+  },
+  "common_object_instruction_bytes": "48 8d 47 ff c3",
+  "common_object_disassembly": "lea -0x1(%rdi),%rax; ret",
+  "diagnostic_artifact_manifest": {
+    "commands.json": {
+      "size_bytes": 4671,
+      "sha256": "5847af584b68c40f4f2ba99631ea25ad4231a9ba24a43902a00633aa03183c4c"
+    },
+    "gcc.expand.rtl": {
+      "size_bytes": 1573,
+      "sha256": "1ae9c8c6cc0e84f148b97a30bffb5ae967023a77f68295441cb99db3db831e63"
+    },
+    "gcc.final.rtl": {
+      "size_bytes": 2481,
+      "sha256": "8f6c4e29285ff4b9961be99da5dfe6cf8caefd1ca8351678ad0bce799d3eee9d"
+    },
+    "gcc.optimized.txt": {
+      "size_bytes": 234,
+      "sha256": "df97b60d4ea27c54e1223bc6789dd26d37ca49f82654802937122e1e50673da3"
+    },
+    "gcc.original.txt": {
+      "size_bytes": 133,
+      "sha256": "75476040bb428696b8562f1550cde746058f0ca5cd1723de6f17f61bdd9bc69e"
+    },
+    "rust.llvm-ir.ll": {
+      "size_bytes": 856,
+      "sha256": "fe1fbb7dcfe0fcfff3f6ccb5e8f877f982394c596b178975490797cc5c4ff7f5"
+    }
+  },
+  "external_artifacts_root": "/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/transform-audit",
+  "consumer_reexecuted": false,
+  "test_suite_run": false,
+  "performance_measured": false
+}

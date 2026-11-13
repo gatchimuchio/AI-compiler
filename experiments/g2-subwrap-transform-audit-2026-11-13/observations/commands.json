@@ -1,0 +1,105 @@
+{
+  "record_id": "G2-TRANSFORM-2026-11-13-01",
+  "routes": {
+    "gcc": {
+      "argv": [
+        "/usr/bin/gcc",
+        "-std=c11",
+        "-O2",
+        "-march=x86-64",
+        "-mtune=generic",
+        "-fno-pic",
+        "-fno-pie",
+        "-fno-stack-protector",
+        "-fdump-tree-original=/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/transform-audit/reports/gcc.original.txt",
+        "-fdump-tree-optimized=/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/transform-audit/reports/gcc.optimized.txt",
+        "-fdump-rtl-expand=/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/transform-audit/reports/gcc.expand.rtl",
+        "-fdump-rtl-final=/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/transform-audit/reports/gcc.final.rtl",
+        "-c",
+        "/workspace/AI-compiler/experiments/g2-subwrap-compiler-compare-2026-11-13/inputs/gcc.c",
+        "-o",
+        "/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/transform-audit/objects/gcc.diag.o"
+      ],
+      "cwd": "/workspace/AI-compiler",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "artifacts": {
+        "/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/transform-audit/objects/gcc.diag.o": {
+          "size_bytes": 1080,
+          "sha256": "1de6c84f1801ed6a8faf99d2a01078d29807a4792b453dce390075f9924c4429"
+        },
+        "/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/transform-audit/reports/gcc.original.txt": {
+          "size_bytes": 133,
+          "sha256": "75476040bb428696b8562f1550cde746058f0ca5cd1723de6f17f61bdd9bc69e"
+        },
+        "/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/transform-audit/reports/gcc.optimized.txt": {
+          "size_bytes": 234,
+          "sha256": "df97b60d4ea27c54e1223bc6789dd26d37ca49f82654802937122e1e50673da3"
+        },
+        "/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/transform-audit/reports/gcc.expand.rtl": {
+          "size_bytes": 1573,
+          "sha256": "1ae9c8c6cc0e84f148b97a30bffb5ae967023a77f68295441cb99db3db831e63"
+        },
+        "/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/transform-audit/reports/gcc.final.rtl": {
+          "size_bytes": 2481,
+          "sha256": "8f6c4e29285ff4b9961be99da5dfe6cf8caefd1ca8351678ad0bce799d3eee9d"
+        }
+      }
+    },
+    "rustc": {
+      "argv": [
+        "/home/agent/.cargo/bin/rustc",
+        "--edition=2024",
+        "--target",
+        "x86_64-unknown-linux-gnu",
+        "--crate-type=lib",
+        "--crate-name=g2_subwrap",
+        "-C",
+        "opt-level=2",
+        "-C",
+        "target-cpu=x86-64",
+        "-C",
+        "relocation-model=static",
+        "-C",
+        "panic=abort",
+        "--emit=obj=/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/transform-audit/objects/rust.diag.o,llvm-ir=/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/transform-audit/reports/rust.llvm-ir.ll",
+        "/workspace/AI-compiler/experiments/g2-subwrap-compiler-compare-2026-11-13/inputs/rust.rs"
+      ],
+      "cwd": "/workspace/AI-compiler",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "artifacts": {
+        "/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/transform-audit/objects/gcc.diag.o": {
+          "size_bytes": 1080,
+          "sha256": "1de6c84f1801ed6a8faf99d2a01078d29807a4792b453dce390075f9924c4429"
+        },
+        "/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/transform-audit/objects/rust.diag.o": {
+          "size_bytes": 976,
+          "sha256": "24d446b6223a22095261039aece4cd0abe6ef330188df36e61ec478efb4e5666"
+        },
+        "/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/transform-audit/reports/gcc.original.txt": {
+          "size_bytes": 133,
+          "sha256": "75476040bb428696b8562f1550cde746058f0ca5cd1723de6f17f61bdd9bc69e"
+        },
+        "/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/transform-audit/reports/gcc.optimized.txt": {
+          "size_bytes": 234,
+          "sha256": "df97b60d4ea27c54e1223bc6789dd26d37ca49f82654802937122e1e50673da3"
+        },
+        "/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/transform-audit/reports/gcc.expand.rtl": {
+          "size_bytes": 1573,
+          "sha256": "1ae9c8c6cc0e84f148b97a30bffb5ae967023a77f68295441cb99db3db831e63"
+        },
+        "/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/transform-audit/reports/gcc.final.rtl": {
+          "size_bytes": 2481,
+          "sha256": "8f6c4e29285ff4b9961be99da5dfe6cf8caefd1ca8351678ad0bce799d3eee9d"
+        },
+        "/tmp/aic-g2-subwrap-compiler-compare-2026-11-13/transform-audit/reports/rust.llvm-ir.ll": {
+          "size_bytes": 856,
+          "sha256": "fe1fbb7dcfe0fcfff3f6ccb5e8f877f982394c596b178975490797cc5c4ff7f5"
+        }
+      }
+    }
+  }
+}

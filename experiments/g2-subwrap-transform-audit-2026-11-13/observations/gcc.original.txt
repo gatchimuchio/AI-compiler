@@ -1,0 +1,9 @@
+
+;; Function aic_main (null)
+;; enabled by -tree-original
+
+
+{
+  return (uint64_t) ((long unsigned int) x + 18446744073709551615);
+}
+
